@@ -1,20 +1,64 @@
 <script lang="ts">
-	type NavItem = { label: string; href: string };
-	type FooterData = { text?: string; nav?: NavItem[] };
+	type Link = { label?: string; url?: string; newTab?: boolean };
+	type LinkedItem = { id?: string; link?: Link };
+	type FooterData = {
+		copyright?: string;
+		navItems?: Array<{ id?: string; title?: string; subNavItems?: LinkedItem[] }>;
+		legalLinks?: LinkedItem[];
+	};
 
 	let { data = {}, injectedHtml = '' }: { data?: FooterData; injectedHtml?: string } = $props();
+
+	const href = (link?: Link) => link?.url || '#';
 </script>
 
 <footer class="site-footer">
 	<div class="container footer-inner">
-		<p>{data.text || ''}</p>
-		{#if data.nav?.length}
-			<nav aria-label="Footer navigation">
-				{#each data.nav as item}
-					<a href={item.href}>{item.label}</a>
+		<div class="footer-brand">
+			<a class="site-logo" href="/" aria-label="Lumotive home">
+				<img
+					src="/lumotive/logos/lumotive-wordmark-light.png"
+					alt="Lumotive"
+					width="1080"
+					height="176"
+				/>
+			</a>
+			<p>Software-defined optical beamforming for the next generation of 3D sensing.</p>
+		</div>
+
+		{#each data.navItems || [] as group (group.id || group.title)}
+			<section class="footer-group">
+				{#if group.title}<h2>{group.title}</h2>{/if}
+				<nav aria-label={group.title || 'Footer'}>
+					{#each group.subNavItems || [] as item (item.id || item.link?.label)}
+						{#if item.link?.label}
+							<a
+								href={href(item.link)}
+								target={item.link.newTab ? '_blank' : undefined}
+								rel={item.link.newTab ? 'noreferrer' : undefined}>{item.link.label}</a
+							>
+						{/if}
+					{/each}
+				</nav>
+			</section>
+		{/each}
+	</div>
+
+	<div class="container footer-legal">
+		<p>© {new Date().getFullYear()} {data.copyright || 'Lumotive · Redmond, WA'}</p>
+		{#if data.legalLinks?.length}
+			<nav aria-label="Legal">
+				{#each data.legalLinks as item (item.id || item.link?.label)}
+					{#if item.link?.label}
+						<a
+							href={href(item.link)}
+							target={item.link.newTab ? '_blank' : undefined}
+							rel={item.link.newTab ? 'noreferrer' : undefined}>{item.link.label}</a
+						>
+					{/if}
 				{/each}
 			</nav>
 		{/if}
-		{@html injectedHtml}
 	</div>
+	{@html injectedHtml}
 </footer>

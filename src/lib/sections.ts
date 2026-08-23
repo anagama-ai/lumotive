@@ -3,6 +3,10 @@
 // Add a section: add an entry here, then add the matching component in
 // src/lib/components/sections/ and register it in Sections.svelte.
 
+import { cardsSpecs } from '$lib/sections.cards';
+import { heroSplitSpecs } from '$lib/sections.herosplit';
+import { statsCtaSpecs } from '$lib/sections.statscta';
+
 export type FieldKind = 'text' | 'textarea' | 'richtext' | 'url' | 'media' | 'form';
 
 export type FieldSpec =
@@ -12,6 +16,9 @@ export type FieldSpec =
 export type SectionSpec = { label: string; fields: FieldSpec[] };
 
 export const sectionSpecs: Record<string, SectionSpec> = {
+	...cardsSpecs,
+	...heroSplitSpecs,
+	...statsCtaSpecs,
 	hero: {
 		label: 'Hero',
 		fields: [
