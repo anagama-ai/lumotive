@@ -1,0 +1,32 @@
+FROM debian:bookworm-slim
+
+ARG POCKETBASE_VERSION=0.39.11
+# Follows the requested platform. Hardcoding amd64 silently produces an emulated
+# binary when the image is built on an arm64 machine without --platform.
+ARG TARGETARCH
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates curl unzip \
+    && curl -fsSL "https://github.com/pocketbase/pocketbase/releases/download/v${POCKETBASE_VERSION}/pocketbase_${POCKETBASE_VERSION}_linux_${TARGETARCH:-amd64}.zip" -o /tmp/pocketbase.zip \
+    && unzip -t /tmp/pocketbase.zip \
+    && unzip -q /tmp/pocketbase.zip -d /tmp/pocketbase \
+    && test -f /tmp/pocketbase/pocketbase \
+    && install -m 0755 /tmp/pocketbase/pocketbase /usr/local/bin/pocketbase \
+    && rm -rf /tmp/pocketbase /tmp/pocketbase.zip /var/lib/apt/lists/*
+
+WORKDIR /app
+ENV PB_DATA_DIR=/app/pb_data
+
+COPY --chown=65534:65534 pb_migrations/ ./pb_migrations/
+COPY --chown=65534:65534 pb_hooks/ ./pb_hooks/
+RUN mkdir -p "$PB_DATA_DIR" && chown 65534:65534 "$PB_DATA_DIR"
+
+# Mount this path persistently: without it, every redeploy destroys the database.
+VOLUME ["/app/pb_data"]
+
+USER 65534:65534
+
+EXPOSE 8090
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD ["curl", "-fsS", "http://127.0.0.1:8090/api/health"]
+
+ENTRYPOINT ["sh", "-c", "exec pocketbase serve --http=0.0.0.0:8090 --dir=\"$PB_DATA_DIR\" --migrationsDir=/app/pb_migrations --hooksDir=/app/pb_hooks"]

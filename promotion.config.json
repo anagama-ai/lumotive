@@ -1,0 +1,20 @@
+{
+	"promote": {
+		"promoted": ["pages", "posts", "media", "globals", "redirects"],
+		"preserved": [
+			"editors",
+			"users",
+			"forms",
+			"form_recipients",
+			"form_submissions",
+			"promotion_state"
+		],
+		"derived": ["content_versions"]
+	},
+	"refresh": {
+		"scrubbed": {
+			"form_submissions": "delete",
+			"users": "delete"
+		}
+	}
+}
