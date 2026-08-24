@@ -7,7 +7,7 @@
 {#if breadcrumbs.length}
 	<nav class="container breadcrumbs" aria-label="Breadcrumb">
 		<ol>
-			{#each breadcrumbs as breadcrumb (breadcrumb.href)}
+			{#each breadcrumbs as breadcrumb, index (index)}
 				<li><a href={breadcrumb.href}>{breadcrumb.title}</a></li>
 			{/each}
 		</ol>

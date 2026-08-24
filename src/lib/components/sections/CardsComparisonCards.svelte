@@ -35,11 +35,11 @@
 
 			<div class="lg:col-span-3">
 				<Reveal><div class="relative grid gap-4 sm:grid-cols-2">
-				{#each columns as column, index (column.label || index)}
+				{#each columns as column, index (index)}
 					<div class={`rounded-card px-6 py-10 ${index === 0 ? 'bg-background' : 'bg-brand-blue/6'}`}>
 						<p class={`font-display text-subheading text-center ${index === 0 ? 'text-ink' : 'text-brand-blue'}`}>{column.label}</p>
 						<ul class="mt-8">
-							{#each column.rows as row, rowIndex (row.title || rowIndex)}
+							{#each column.rows as row, rowIndex (rowIndex)}
 								{@const image = resolveMedia(row.media, media, 320)}
 								<li class="text-center">
 									{#if rowIndex > 0}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" class="text-muted mx-auto my-2"><path d="m3 6 5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg>{/if}

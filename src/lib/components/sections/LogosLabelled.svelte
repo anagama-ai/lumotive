@@ -31,7 +31,7 @@
 
 {#snippet logoList()}
 	<ul>
-		{#each logos as logo (logo.name)}
+		{#each logos as logo, index (index)}
 			<li>
 				{#if logo.linkUrl}
 					<a

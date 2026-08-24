@@ -26,11 +26,11 @@
 			<p>Software-defined optical beamforming for the next generation of 3D sensing.</p>
 		</div>
 
-		{#each data.navItems || [] as group (group.id || group.title)}
+		{#each data.navItems || [] as group, index (index)}
 			<section class="footer-group">
 				{#if group.title}<h2>{group.title}</h2>{/if}
 				<nav aria-label={group.title || 'Footer'}>
-					{#each group.subNavItems || [] as item (item.id || item.link?.label)}
+					{#each group.subNavItems || [] as item, index (index)}
 						{#if item.link?.label}
 							<a
 								href={href(item.link)}
@@ -48,7 +48,7 @@
 		<p>© {new Date().getFullYear()} {data.copyright || 'Lumotive · Redmond, WA'}</p>
 		{#if data.legalLinks?.length}
 			<nav aria-label="Legal">
-				{#each data.legalLinks as item (item.id || item.link?.label)}
+				{#each data.legalLinks as item, index (index)}
 					{#if item.link?.label}
 						<a
 							href={href(item.link)}

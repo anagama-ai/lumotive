@@ -45,7 +45,7 @@
 		{/if}
 
 		<Reveal><div class={`grid gap-6 sm:grid-cols-2 ${String(section.anchor ?? '') === 'board' ? 'md:grid-cols-3 lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
-			{#each cards as member, index (member.name || index)}
+			{#each cards as member, index (index)}
 				{@const image = resolveMedia(member.headshot, media, 768)}
 				<article class="flex flex-col">
 					{#if image}<div class="rounded-card bg-surface relative aspect-4/5 overflow-hidden"><img class="absolute inset-0 size-full object-cover" src={image.src} srcset={image.srcset} alt={member.headshotAlt || image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}

@@ -65,7 +65,7 @@
 										aria-describedby={response?.fieldErrors?.[field.name] ? `error-${section.id}-${field.name}` : undefined}
 									>
 										<option value="">Choose an option</option>
-										{#each field.options ?? [] as option (option)}
+										{#each field.options ?? [] as option, index (index)}
 											<option value={option} selected={value(field.name) === option}>{option}</option>
 										{/each}
 									</select>

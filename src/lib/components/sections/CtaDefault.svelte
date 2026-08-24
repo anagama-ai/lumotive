@@ -87,7 +87,7 @@
 				</Reveal>
 				<Reveal delay={0.12}>
 					<ul class="self-center">
-						{#each links as item, index (item.href)}
+						{#each links as item, index (`${item.label}:${item.href}`)}
 							<li>
 								<a class="group flex items-center justify-between gap-6 border-b border-white/15 py-5 text-lg text-white no-underline transition-colors duration-200 hover:border-white/40" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>
 									<span>{item.label}</span><span aria-hidden="true" class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2}>→</span>
@@ -105,7 +105,7 @@
 					{#if body}<div class="prose mx-auto mt-6 text-lead text-white/75">{@html body}</div>{/if}
 					{#if links.length}
 						<div class="mt-9 flex flex-wrap items-center justify-center gap-4">
-							{#each links as item, index (item.href)}
+							{#each links as item, index (`${item.label}:${item.href}`)}
 								<a class={`rounded-full px-7 py-3 text-base font-medium no-underline transition duration-200 hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'bg-white text-ink' : 'border border-white/30 text-white'}`} href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
 							{/each}
 						</div>

@@ -18,7 +18,7 @@
 
 		{#if data.items?.length}
 			<nav class="desktop-nav" aria-label="Main navigation">
-				{#each data.items as item (item.id || item.label || item.link?.label)}
+				{#each data.items as item, index (index)}
 					{#if item.blockType === 'link' && item.link?.label}
 						<a
 							href={href(item.link)}
@@ -29,7 +29,7 @@
 						<details class="nav-group">
 							<summary>{item.label}</summary>
 							<div class="nav-popover">
-								{#each item.subitems || [] as subitem (subitem.id || subitem.link?.label)}
+								{#each item.subitems || [] as subitem, index (index)}
 									{#if subitem.link?.label}
 										<a
 											href={href(subitem.link)}
@@ -50,7 +50,7 @@
 
 		{#if data.buttons?.length}
 			<div class="header-actions">
-				{#each data.buttons as button (button.id || button.link?.label)}
+				{#each data.buttons as button, index (index)}
 					{#if button.link?.label}
 						<a
 							class="header-button"
@@ -67,7 +67,7 @@
 			<details class="mobile-nav">
 				<summary aria-label="Toggle navigation"></summary>
 				<nav class="mobile-panel" aria-label="Mobile navigation">
-					{#each data.items || [] as item (item.id || item.label || item.link?.label)}
+					{#each data.items || [] as item, index (index)}
 						{#if item.blockType === 'link' && item.link?.label}
 							<a
 								href={href(item.link)}
@@ -78,7 +78,7 @@
 							<details>
 								<summary>{item.label}</summary>
 								<div>
-									{#each item.subitems || [] as subitem (subitem.id || subitem.link?.label)}
+									{#each item.subitems || [] as subitem, index (index)}
 										{#if subitem.link?.label}
 											<a
 												href={href(subitem.link)}
@@ -92,7 +92,7 @@
 							</details>
 						{/if}
 					{/each}
-					{#each data.buttons || [] as button (button.id || button.link?.label)}
+					{#each data.buttons || [] as button, index (index)}
 						{#if button.link?.label}
 							<a
 								class="header-button"

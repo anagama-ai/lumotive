@@ -32,7 +32,7 @@
 					</tr>
 				</thead>
 				<tbody class="divide-border divide-y">
-					{#each cards as card, index (card.title || index)}
+					{#each cards as card, index (index)}
 						<tr>
 							<th class="text-ink px-6 py-5 align-top font-medium" scope="row"><span class="flex items-center gap-3"><span aria-hidden="true" class={`size-2.5 shrink-0 rounded-full ${bar(card.accent)}`}></span>{titleCase(card.title ?? '')}</span></th>
 							<td class="text-muted px-6 py-5 align-top">{card.eyebrow ?? ''}</td>

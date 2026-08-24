@@ -48,7 +48,7 @@
 			</Reveal>
 			<div class="marquee-window" aria-label={heading || 'Partner logos'}>
 				<div class="marquee-lane">
-					{#each lane as logo, index (`${logo.name}-${index}`)}
+					{#each lane as logo, index (index)}
 						<div class="logo-cell" class:duplicate={index >= logos.length} aria-hidden={index >= logos.length ? 'true' : undefined}>
 							{#if logo.linkUrl}
 								<a

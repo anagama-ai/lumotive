@@ -19,7 +19,7 @@
 			</div></Reveal>
 		{/if}
 		<Reveal><div class="grid gap-x-6 sm:grid-cols-2 lg:grid-cols-4">
-			{#each cards as card (card.title)}
+			{#each cards as card, index (`${card.title ?? ''}:${card.year ?? ''}:${card.linkUrl ?? ''}:${index}`)}
 				<article class="border-border flex flex-col border-t py-5">
 					<p class="text-eyebrow text-muted uppercase">{card.year ?? ''}</p>
 					<h3 class="font-display text-ink mt-2 text-base">{card.title ?? ''}</h3>
