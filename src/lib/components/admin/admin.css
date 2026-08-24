@@ -49,12 +49,16 @@
 	--font-heading: ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, sans-serif;
 	--font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
+	--topbar-h: 56px;
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
 	font-family: var(--font-body);
 	font-size: 15px;
 	line-height: 1.5;
 	color: var(--text);
 	background: var(--paper);
 	min-height: 100vh;
+	overflow-x: clip;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -69,6 +73,96 @@ body:has(.admin) {
 }
 
 /* ── Shell ───────────────────────────────────────────────────────────── */
+
+.admin-topbar,
+.admin .admin-scrim {
+	display: none;
+}
+
+.admin-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 70;
+	height: var(--topbar-h);
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: env(safe-area-inset-top) max(10px, env(safe-area-inset-right)) 0
+		max(16px, env(safe-area-inset-left));
+	background: var(--shell);
+	color: var(--shell-ink);
+}
+
+.admin-topbar-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	font-weight: 600;
+	font-size: 15px;
+	letter-spacing: -0.01em;
+}
+
+.admin-topbar-brand img {
+	width: auto;
+	height: 30px;
+	flex: none;
+	display: block;
+}
+
+.admin .admin-menu-btn {
+	flex: none;
+	width: 44px;
+	justify-content: center;
+	padding: 0;
+	background: transparent;
+	border-color: transparent;
+	color: var(--shell-ink);
+}
+
+.admin .admin-menu-btn:hover {
+	background: var(--shell-line);
+	border-color: transparent;
+}
+
+.admin-menu-btn:focus-visible {
+	outline-color: var(--brand);
+}
+
+.admin-menu-icon line {
+	transform-box: view-box;
+	transform-origin: center;
+	transition:
+		transform 220ms var(--ease-out),
+		opacity 160ms var(--ease-out);
+}
+
+.admin.nav-open .admin-menu-icon .bar-a {
+	transform: translateY(5px) rotate(45deg);
+}
+
+.admin.nav-open .admin-menu-icon .bar-b {
+	opacity: 0;
+}
+
+.admin.nav-open .admin-menu-icon .bar-c {
+	transform: translateY(-5px) rotate(-45deg);
+}
+
+.admin .admin-scrim {
+	position: fixed;
+	inset: var(--topbar-h) 0 0;
+	z-index: 55;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: color-mix(in srgb, var(--shell) 55%, transparent);
+	opacity: 0;
+	visibility: hidden;
+	transition:
+		opacity 220ms var(--ease-out),
+		visibility 220ms;
+}
 
 .admin-shell {
 	display: grid;
@@ -428,6 +522,11 @@ body:has(.admin) {
 
 /* ── Tables ──────────────────────────────────────────────────────────── */
 
+.admin .card:has(> table),
+.admin .table-wrap {
+	overflow-x: auto;
+}
+
 .admin table {
 	width: 100%;
 	border-collapse: collapse;
@@ -733,34 +832,313 @@ body:has(.admin) {
 	justify-content: center;
 }
 
-/* ── Narrow laptops ──────────────────────────────────────────────────── */
+/* ── Responsive admin shell ─────────────────────────────────────────── */
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
+	.admin-topbar {
+		display: flex;
+	}
+
+	.admin .admin-scrim {
+		display: block;
+	}
+
+	.admin.nav-open .admin-scrim {
+		opacity: 1;
+		visibility: visible;
+	}
+
 	.admin-shell {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
+		min-height: calc(100dvh - var(--topbar-h));
 	}
 
 	.admin-side {
-		flex-direction: row;
-		align-items: center;
-		gap: 16px;
-		padding: 12px 16px;
-		flex-wrap: wrap;
+		position: fixed;
+		inset: var(--topbar-h) auto 0 0;
+		z-index: 60;
+		width: min(84vw, 300px);
+		flex-direction: column;
+		flex-wrap: nowrap;
+		align-items: stretch;
+		gap: 24px;
+		padding: 20px max(14px, env(safe-area-inset-left));
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		transform: translateX(-100%);
+		visibility: hidden;
+		transition:
+			transform 220ms var(--ease-out),
+			visibility 220ms;
+	}
+
+	.admin.nav-open .admin-side {
+		transform: none;
+		visibility: visible;
+	}
+
+	.admin-side .admin-brand {
+		display: none;
+	}
+
+	body:has(.admin.nav-open) {
+		overflow: hidden;
 	}
 
 	.admin-nav {
-		flex-direction: row;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.admin-nav a {
+		display: flex;
+		align-items: center;
+		min-height: 44px;
+		padding: 8px 12px;
+		font-size: 15px;
 	}
 
 	.admin-side-foot {
-		margin: 0 0 0 auto;
-		border-top: 0;
-		padding-top: 0;
-		flex-direction: row;
-		align-items: center;
+		margin: auto 0 0;
+		border-top: 1px solid var(--shell-line);
+		padding-top: 16px;
+		padding-bottom: env(safe-area-inset-bottom);
+		flex-direction: column;
+		align-items: stretch;
 	}
 
 	.admin-main {
-		padding: 24px 20px 64px;
+		padding: 20px max(16px, env(safe-area-inset-right))
+			max(72px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+	}
+}
+
+@media (max-width: 767px) {
+	.admin :is(button, .btn) {
+		min-height: 44px;
+	}
+
+	.admin button:is(.tiny, .ghost, .danger),
+	.btn.tiny {
+		padding-inline: 12px;
+	}
+
+	.admin :is(input:not([type='checkbox']):not([type='radio']), select) {
+		min-height: 44px;
+	}
+
+	.admin :is(input, select, textarea) {
+		font-size: 16px;
+	}
+
+	.admin :is(input[type='checkbox'], input[type='radio']) {
+		width: auto;
+		min-width: 22px;
+		min-height: 22px;
+		position: relative;
+	}
+
+	.admin :is(input[type='checkbox'], input[type='radio'])::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 44px;
+		height: 44px;
+		transform: translate(-50%, -50%);
+	}
+
+	.admin select {
+		max-width: 100%;
+	}
+
+	.admin h1 {
+		font-size: clamp(21px, 6vw, 26px);
+	}
+
+	.head {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 14px;
+	}
+
+	.head-actions {
+		width: 100%;
+		flex-wrap: wrap;
+	}
+
+	.head-actions > * {
+		flex: 1 1 auto;
+		justify-content: center;
+	}
+
+	.card-head {
+		flex-wrap: wrap;
+		padding: 14px 16px;
+	}
+
+	.card-body {
+		padding: 16px;
+	}
+
+	.row {
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.grid-2 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.admin table {
+		display: block;
+	}
+
+	.admin .card > table {
+		padding: 12px;
+	}
+
+	.admin thead {
+		display: none;
+	}
+
+	.admin tbody {
+		display: block;
+	}
+
+	.admin tbody tr {
+		display: block;
+		border: 1px solid var(--line);
+		border-radius: var(--r-lg);
+		background: var(--surface);
+		box-shadow: var(--shadow);
+	}
+
+	.admin tbody tr + tr {
+		margin-top: 12px;
+	}
+
+	.admin td {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 4px 14px;
+		padding: 10px 14px;
+		text-align: left;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.admin tbody tr:last-child td {
+		border-bottom: 1px solid var(--line);
+	}
+
+	.admin tbody tr td:last-child {
+		border-bottom: 0;
+	}
+
+	.admin td[data-label]::before {
+		content: attr(data-label);
+		flex: none;
+		margin-inline-end: auto;
+		font-size: 12px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--muted);
+	}
+
+	.admin td[data-label='']::before {
+		content: none;
+	}
+
+	.admin td.actions {
+		justify-content: flex-start;
+		flex-wrap: wrap;
+		gap: 8px;
+		white-space: normal;
+		text-align: left;
+	}
+
+	.admin tbody tr:hover {
+		background: var(--surface);
+	}
+
+
+	.admin td.select-cell {
+		width: auto;
+		align-items: center;
+		justify-content: flex-start;
+	}
+	.admin tbody tr:active {
+		background: var(--brand-wash);
+	}
+
+	.stats {
+		grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+		gap: 12px;
+	}
+
+	.stat {
+		padding: 14px 16px;
+	}
+
+	.stat dd {
+		font-size: 24px;
+	}
+
+	.section-bar {
+		flex-wrap: wrap;
+		padding: 10px 12px;
+	}
+
+	.section-fields {
+		padding: 16px;
+	}
+
+	.list-field {
+		padding: 12px;
+	}
+
+	.list-field > header,
+	.list-row > header {
+		flex-wrap: wrap;
+	}
+
+	.sticky-save {
+		z-index: 20;
+		gap: 8px;
+		padding-bottom: max(14px, env(safe-area-inset-bottom));
+	}
+
+	.sticky-save :is(button, .btn) {
+		flex: 1 1 auto;
+		justify-content: center;
+	}
+
+	.notice {
+		padding: 10px 12px;
+	}
+
+	.empty {
+		padding: 32px 16px;
+	}
+
+	.login-wrap {
+		padding: 20px 16px;
+	}
+
+	.admin :is(pre, code) {
+		overflow-wrap: anywhere;
+	}
+
+	.admin img {
+		max-width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.admin :is(.admin-side, .admin-scrim, .admin-menu-icon line) {
+		transition: none;
 	}
 }

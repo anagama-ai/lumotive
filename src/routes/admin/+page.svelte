@@ -51,9 +51,9 @@
 			<tbody>
 				{#each data.recentPages as p (p.id)}
 					<tr>
-						<td><a class="title-cell" href="/admin/pages/{p.id}">{p.title || 'Untitled'}</a></td>
-						<td><span class="badge {p.status}">{p.status}</span></td>
-						<td class="when">{when(p.updated)}</td>
+						<td data-label="Title"><a class="title-cell" href="/admin/pages/{p.id}">{p.title || 'Untitled'}</a></td>
+						<td data-label="Status"><span class="badge {p.status}">{p.status}</span></td>
+						<td class="when" data-label="Last edited">{when(p.updated)}</td>
 					</tr>
 				{/each}
 			</tbody>
@@ -83,9 +83,9 @@
 			<tbody>
 				{#each data.recentPosts as p (p.id)}
 					<tr>
-						<td><a class="title-cell" href="/admin/posts/{p.id}">{p.title || 'Untitled'}</a></td>
-						<td><span class="badge {p.status}">{p.status}</span></td>
-						<td class="when">{when(p.updated)}</td>
+						<td data-label="Title"><a class="title-cell" href="/admin/posts/{p.id}">{p.title || 'Untitled'}</a></td>
+						<td data-label="Status"><span class="badge {p.status}">{p.status}</span></td>
+						<td class="when" data-label="Last edited">{when(p.updated)}</td>
 					</tr>
 				{/each}
 			</tbody>

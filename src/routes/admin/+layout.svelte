@@ -17,6 +17,16 @@
 		children: Snippet;
 	} = $props();
 
+	let navOpen = $state(false);
+	let lastPath = page.url.pathname;
+
+	$effect(() => {
+		const path = page.url.pathname;
+		if (path === lastPath) return;
+		lastPath = path;
+		navOpen = false;
+	});
+
 	const links = [
 		{ href: '/admin', label: 'Dashboard' },
 		{ href: '/admin/pages', label: 'Pages' },
@@ -34,10 +44,56 @@
 
 <svelte:head><title>Content manager</title></svelte:head>
 
-<div class="admin">
+<svelte:window
+	onkeydown={(event) => {
+		if (event.key === 'Escape' && navOpen) navOpen = false;
+	}}
+/>
+
+<div class="admin" class:nav-open={navOpen}>
 	{#if data.editor}
+		<header class="admin-topbar">
+			<div class="admin-topbar-brand">
+				<img src={data.brandLogo || fallbackLogo} alt="" />
+				Content manager
+			</div>
+
+			<button
+				type="button"
+				class="admin-menu-btn"
+				aria-controls="admin-nav"
+				aria-expanded={navOpen}
+				aria-label={navOpen ? 'Close menu' : 'Open menu'}
+				onclick={() => (navOpen = !navOpen)}
+			>
+				<svg
+					class="admin-menu-icon"
+					viewBox="0 0 24 24"
+					width="22"
+					height="22"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					aria-hidden="true"
+				>
+					<line class="bar-a" x1="4" y1="7" x2="20" y2="7" />
+					<line class="bar-b" x1="4" y1="12" x2="20" y2="12" />
+					<line class="bar-c" x1="4" y1="17" x2="20" y2="17" />
+				</svg>
+			</button>
+		</header>
+
+		<button
+			type="button"
+			class="admin-scrim"
+			tabindex={navOpen ? 0 : -1}
+			aria-label="Close menu"
+			onclick={() => (navOpen = false)}
+		></button>
+
 		<div class="admin-shell">
-			<aside class="admin-side">
+			<aside id="admin-nav" class="admin-side">
 				<div class="admin-brand">
 					<img src={data.brandLogo || fallbackLogo} alt="" />
 					Content manager

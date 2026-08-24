@@ -76,14 +76,14 @@
 				<tbody>
 					{#each data.editors as editor (editor.id)}
 						<tr>
-							<td>
+							<td data-label="User">
 								<strong>{editor.name || editor.email}</strong>
 								{#if editor.name}<small>{editor.email}</small>{/if}
 								{#if editor.id === data.currentEditorId}<small class="hint">You</small>{/if}
 							</td>
-							<td><span class="badge {editor.verified ? 'published' : 'draft'}">{editor.verified ? 'Verified' : 'Unverified'}</span></td>
-							<td class="when">{when(editor.created)}</td>
-							<td>
+							<td data-label="Status"><span class="badge {editor.verified ? 'published' : 'draft'}">{editor.verified ? 'Verified' : 'Unverified'}</span></td>
+							<td class="when" data-label="Created">{when(editor.created)}</td>
+							<td data-label="Role">
 								<form class="inline-form" method="POST" action="?/changeRole">
 									<input type="hidden" name="id" value={editor.id} />
 									<label class="field">
@@ -97,7 +97,7 @@
 									<button class="tiny">Save</button>
 								</form>
 							</td>
-							<td>
+							<td data-label="Set password">
 								{#if editor.id === data.currentEditorId}
 									<span class="hint">Another admin must send this</span>
 								{:else}
@@ -107,7 +107,7 @@
 									</form>
 								{/if}
 							</td>
-							<td class="actions">
+							<td class="actions" data-label="">
 								{#if editor.id !== data.currentEditorId}
 									<form method="POST" action="?/delete" onsubmit={(event) => !confirm(`Delete ${editor.email}?`) && event.preventDefault()}>
 										<input type="hidden" name="id" value={editor.id} />

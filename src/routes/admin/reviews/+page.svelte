@@ -194,10 +194,10 @@
 					<tbody>
 						{#each data.reviews as review (review.id)}
 							<tr>
-								<td><strong>{review.reviewerName || 'Anonymous reviewer'}</strong></td>
-								<td>{review.rating === null ? '—' : `${review.rating}/5`}</td>
-								<td class="when">{when(review.publishedAt)}</td>
-								<td class="review-text">{excerpt(review.reviewText)}</td>
+								<td data-label="Reviewer"><strong>{review.reviewerName || 'Anonymous reviewer'}</strong></td>
+								<td data-label="Rating">{review.rating === null ? '—' : `${review.rating}/5`}</td>
+								<td class="when" data-label="Published">{when(review.publishedAt)}</td>
+								<td class="review-text" data-label="Review">{excerpt(review.reviewText)}</td>
 							</tr>
 						{/each}
 					</tbody>

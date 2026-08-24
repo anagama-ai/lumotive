@@ -119,7 +119,7 @@
 			<tbody>
 				{#each data.posts as p (p.id)}
 					<tr>
-						<td class="select-cell">
+						<td class="select-cell" data-label="">
 							<input
 								type="checkbox"
 								name="id"
@@ -129,12 +129,12 @@
 								aria-label={`Select ${p.title || 'Untitled'}`}
 							/>
 						</td>
-						<td><a class="title-cell" href="/admin/posts/{p.id}">{p.title || 'Untitled'}</a></td>
-						<td class="slug"><code>/blog/{p.slug}</code></td>
-						<td class="when">{p.publishedAt ? when(p.publishedAt) : '—'}</td>
-						<td><span class="badge {p.status}">{p.status}</span></td>
-						<td class="when">{when(p.updated)}</td>
-						<td class="actions">
+						<td data-label="Title"><a class="title-cell" href="/admin/posts/{p.id}">{p.title || 'Untitled'}</a></td>
+						<td class="slug" data-label="Address"><code>/blog/{p.slug}</code></td>
+						<td class="when" data-label="Published">{p.publishedAt ? when(p.publishedAt) : '—'}</td>
+						<td data-label="Status"><span class="badge {p.status}">{p.status}</span></td>
+						<td class="when" data-label="Last edited">{when(p.updated)}</td>
+						<td class="actions" data-label="">
 							<a class="btn tiny" href="/admin/posts/{p.id}">Edit</a>
 							<form
 								method="POST"

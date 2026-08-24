@@ -44,10 +44,10 @@
 			<tbody>
 				{#each data.forms as item (item.id)}
 					<tr>
-						<td><a class="title-cell" href="/admin/forms/{item.id}">{item.name}</a></td>
-						<td>{item.fieldCount}</td>
-						<td class="when">{when(item.updated)}</td>
-						<td class="actions">
+						<td data-label="Name"><a class="title-cell" href="/admin/forms/{item.id}">{item.name}</a></td>
+						<td data-label="Fields">{item.fieldCount}</td>
+						<td class="when" data-label="Last edited">{when(item.updated)}</td>
+						<td class="actions" data-label="">
 							<a class="btn tiny" href="/admin/forms/{item.id}">Edit</a>
 							<a class="btn tiny" href="/admin/forms/{item.id}/submissions">Submissions</a>
 							<form
