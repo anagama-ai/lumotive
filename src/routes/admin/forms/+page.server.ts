@@ -59,6 +59,6 @@ export const actions: Actions = {
 			return fail(400, { error: 'That form could not be deleted.' });
 		}
 
-		return { deleted: true };
+		return { deleted: true, message: 'Form and its submissions deleted.' };
 	}
 };

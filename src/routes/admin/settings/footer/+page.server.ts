@@ -24,6 +24,6 @@ export const actions: Actions = {
 		} catch {
 			return fail(400, { error: 'Could not save the footer. Please try again.' });
 		}
-		return { saved: true };
+		return { saved: true, message: 'Saved. Your changes are live.' };
 	}
 };

@@ -327,7 +327,8 @@ export const actions: Actions = {
 		return {
 			bulk: true,
 			changed,
-			results
+			results,
+			message: `Deleted ${changed} ${changed === 1 ? 'image' : 'images'}.`
 		};
 	},
 

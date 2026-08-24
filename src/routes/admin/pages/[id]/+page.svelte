@@ -1,30 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { showToast } from '$lib/toast.svelte';
 	import SectionField from '$lib/components/admin/SectionField.svelte';
 	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
 	import VersionHistory from '$lib/components/admin/VersionHistory.svelte';
 	import { fill, move } from '$lib/components/admin/fields';
 	import { pageHref } from '$lib/components/admin/fmt';
 	import { blankSection, sectionSpecs, type MediaValue, type Section } from '$lib/sections';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
-	let { data, form }: { data: PageData; form: ActionData } = $props();
-	$effect(() => {
-		if (!form) return;
-		if ('restored' in form) {
-			showToast('Version restored. The content replaced by it is now in history.', 'ok');
-		} else if ('saved' in form) {
-			const message = `Saved. ${
-				data.page.status === 'published'
-					? 'Your changes are live.'
-					: data.editor?.role === 'admin'
-						? 'This page is still a draft — set it to Published when you are ready.'
-						: 'This page remains a draft.'
-			}`;
-			showToast(message, 'ok');
-		} else if ('error' in form) showToast(form.error);
-	});
+	let { data }: { data: PageData } = $props();
 
 	const types = Object.keys(sectionSpecs);
 

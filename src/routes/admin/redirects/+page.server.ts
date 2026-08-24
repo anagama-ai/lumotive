@@ -62,7 +62,7 @@ export const actions: Actions = {
 			return fail(400, { error: 'That source path is already in use.' });
 		}
 
-		return { created: true };
+		return { created: true, message: 'Redirect created.' };
 	},
 
 	save: async ({ request, locals }) => {
@@ -81,7 +81,7 @@ export const actions: Actions = {
 			return fail(400, { error: 'That redirect could not be saved. Its source path may already be in use.' });
 		}
 
-		return { saved: true };
+		return { saved: true, message: 'Redirect saved.' };
 	},
 
 	delete: async ({ request, locals }) => {
@@ -96,6 +96,6 @@ export const actions: Actions = {
 			return fail(400, { error: 'That redirect could not be deleted.' });
 		}
 
-		return { deleted: true };
+		return { deleted: true, message: 'Redirect deleted.' };
 	}
 };

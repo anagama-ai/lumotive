@@ -1,20 +1,9 @@
 <script lang="ts">
 	import { when } from '$lib/components/admin/fmt';
-	import { showToast } from '$lib/toast.svelte';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
-	let { data, form }: { data: PageData; form: ActionData } = $props();
+	let { data }: { data: PageData } = $props();
 
-	$effect(() => {
-		if (!form) return;
-		if ('saved' in form) showToast('Review configuration saved.', 'ok');
-		else if ('started' in form) {
-			showToast(
-				`${form.mode === 'full' ? 'Full' : 'Incremental'} import started. Collection will finish it in the background.`,
-				'ok'
-			);
-		} else if ('error' in form) showToast(form.error);
-	});
 
 	function configurationIssue() {
 		const selected =

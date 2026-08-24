@@ -103,7 +103,7 @@ export const actions: Actions = {
 			return fail(400, { error: 'Could not save the review configuration. Please try again.' });
 		}
 
-		return { saved: true };
+		return { saved: true, message: 'Review configuration saved.' };
 	},
 	start: async ({ request, locals }) => {
 		if (!locals.editor) return fail(403, { error: 'This action is only available to editors.' });
@@ -113,6 +113,10 @@ export const actions: Actions = {
 		const outcome = await startImport(locals.pb, { mode });
 		if (!outcome.started) return fail(400, { error: outcome.reason });
 
-		return { started: true, mode: outcome.mode };
+		return {
+			started: true,
+			mode: outcome.mode,
+			message: `${outcome.mode === 'full' ? 'Full' : 'Incremental'} import started. Collection will finish it in the background.`
+		};
 	}
 };

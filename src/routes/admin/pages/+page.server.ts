@@ -108,7 +108,7 @@ export const actions: Actions = {
 			return fail(400, { error: 'That page could not be deleted.' });
 		}
 
-		return { deleted: true };
+		return { deleted: true, message: 'Page deleted.' };
 	},
 
 	bulk: async ({ request, locals }) => {
@@ -215,7 +215,8 @@ export const actions: Actions = {
 		return {
 			bulk: true,
 			changed,
-			results
+			results,
+			message: `${status === 'published' ? 'Published' : 'Unpublished'} ${changed} ${changed === 1 ? 'page' : 'pages'}.`
 		};
 	}
 };

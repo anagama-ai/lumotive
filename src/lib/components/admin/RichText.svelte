@@ -9,6 +9,7 @@
 	import { RICH_TEXT_SCHEMES } from '$lib/richtext';
 	import { mediaValue, type MediaValue } from '$lib/sections';
 	import { mediaSrc, type MediaRecord } from '$lib/media';
+	import { showToast } from '$lib/toast.svelte';
 	import MediaPicker from './MediaPicker.svelte';
 
 	let { value = $bindable() }: { value: string } = $props();
@@ -163,6 +164,7 @@
 			showMedia = false;
 		} catch (cause) {
 			imageError = cause instanceof Error ? cause.message : 'Could not insert that image.';
+			showToast(imageError);
 		} finally {
 			insertingImage = false;
 		}

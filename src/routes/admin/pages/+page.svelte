@@ -1,24 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { showToast } from '$lib/toast.svelte';
 	import { pageHref, when } from '$lib/components/admin/fmt';
 	import type { ActionData, PageData } from './$types';
 
 	type SortField = 'title' | 'status' | 'updated';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
-	$effect(() => {
-		if (!form) return;
-		if ('bulk' in form) {
-			if ('error' in form && form.error) showToast(form.error);
-			else
-				showToast(
-					`Changed ${form.changed} ${form.changed === 1 ? 'page' : 'pages'}.`,
-					'ok'
-				);
-		} else if ('error' in form && form.error) showToast(form.error);
-		else if ('deleted' in form) showToast('Page deleted.', 'ok');
-	});
 	let selected = $state<string[]>([]);
 	let allSelected = $derived(
 		data.pages.length > 0 && data.pages.every((record) => selected.includes(record.id))

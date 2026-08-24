@@ -1,19 +1,13 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { move } from '$lib/components/admin/fields';
-	import { showToast } from '$lib/toast.svelte';
 	import type { FormField, FormFieldType } from '$lib/forms';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
 	type EditableField = Omit<FormField, 'options'> & { options: string[] };
 
-	let { data, form }: { data: PageData; form: ActionData } = $props();
+	let { data }: { data: PageData } = $props();
 
-	$effect(() => {
-		if (!form) return;
-		if ('saved' in form) showToast('Form saved.', 'ok');
-		else if ('error' in form) showToast(form.error);
-	});
 	const fieldTypes: { value: FormFieldType; label: string }[] = [
 		{ value: 'text', label: 'Single-line text' },
 		{ value: 'email', label: 'Email' },

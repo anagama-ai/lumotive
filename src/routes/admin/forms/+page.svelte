@@ -1,16 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { when } from '$lib/components/admin/fmt';
-	import { showToast } from '$lib/toast.svelte';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
-	let { data, form }: { data: PageData; form: ActionData } = $props();
+	let { data }: { data: PageData } = $props();
 
-	$effect(() => {
-		if (!form) return;
-		if ('error' in form && form.error) showToast(form.error);
-		else if ('deleted' in form) showToast('Form and its submissions deleted.', 'ok');
-	});
 </script>
 
 <svelte:head><title>Forms — Content manager</title></svelte:head>

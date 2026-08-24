@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { mediaSrc, type MediaRecord } from '$lib/media';
 	import { mediaValue, type MediaValue } from '$lib/sections';
+	import { showToast } from '$lib/toast.svelte';
 
 	// A bare string is legacy content stored before the media library existed; it is
 	// read as a URL, so the picker must accept it, not just the empty string.
@@ -28,6 +29,7 @@
 			loaded = true;
 		} catch {
 			loadError = 'Could not load the media library.';
+			showToast(loadError);
 		} finally {
 			loading = false;
 		}

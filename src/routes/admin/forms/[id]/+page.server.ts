@@ -100,6 +100,6 @@ export const actions: Actions = {
 			return fail(400, { error: 'The form could not be saved.' });
 		}
 
-		return { saved: true };
+		return { saved: true, message: 'Form saved.' };
 	}
 };

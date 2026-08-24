@@ -1,16 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import NavRows from '$lib/components/admin/NavRows.svelte';
-	import { showToast } from '$lib/toast.svelte';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
-	let { data, form }: { data: PageData; form: ActionData } = $props();
+	let { data }: { data: PageData } = $props();
 
-	$effect(() => {
-		if (!form) return;
-		if ('error' in form && form.error) showToast(form.error);
-		else if ('saved' in form) showToast('Saved. Your changes are live.', 'ok');
-	});
 
 	// Editable copy; the hidden input below carries it back on submit.
 	// svelte-ignore state_referenced_locally

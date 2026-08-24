@@ -5,18 +5,6 @@
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
-	$effect(() => {
-		if (!form) return;
-		if ('bulk' in form) {
-			if ('error' in form && form.error) showToast(form.error);
-			else
-				showToast(
-					`Changed ${form.changed} ${form.changed === 1 ? 'image' : 'images'}.`,
-					'ok'
-				);
-		} else if ('message' in form && form.message) showToast(form.message, 'ok');
-		else if ('error' in form && form.error) showToast(form.error);
-	});
 	let uploadForm: HTMLFormElement;
 	let fileInput: HTMLInputElement;
 	let dragging = $state(false);

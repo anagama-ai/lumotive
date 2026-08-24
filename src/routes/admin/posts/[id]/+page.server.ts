@@ -153,7 +153,15 @@ export const actions: Actions = {
 			});
 		}
 
-		return { saved: true };
+		return {
+			saved: true,
+			message:
+				form.get('status') === 'published'
+					? 'Saved. Your changes are live.'
+					: locals.editor?.role === 'admin'
+						? 'Saved. This post is still a draft — set it to Published when you are ready.'
+						: 'Saved. This post remains a draft.'
+		};
 	},
 
 	restore: async ({ request, params, locals }) => {
@@ -204,6 +212,9 @@ export const actions: Actions = {
 			return fail(400, { error: 'Could not restore that version.' });
 		}
 
-		return { restored: true };
+		return {
+			restored: true,
+			message: 'Version restored. The content replaced by it is now in history.'
+		};
 	}
 };

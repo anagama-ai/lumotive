@@ -1,20 +1,9 @@
 <script lang="ts">
 	import { when } from '$lib/components/admin/fmt';
-	import { showToast } from '$lib/toast.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
-	$effect(() => {
-		if (!form) return;
-		if ('inviteFailed' in form && form.inviteFailed) {
-			showToast(`Created ${form.created}, but the set-password email could not be sent. Use Resend below to try again.`);
-		} else if ('error' in form && form.error) showToast(form.error);
-		else if ('created' in form) showToast(`Created ${form.created} and sent a set-password email.`, 'ok');
-		else if ('roleChanged' in form) showToast(`Updated ${form.roleChanged}.`, 'ok');
-		else if ('inviteSent' in form) showToast(`Sent a set-password email to ${form.inviteSent}.`, 'ok');
-		else if ('deleted' in form) showToast(`Deleted ${form.deleted}.`, 'ok');
-	});
 	const fieldError = (field: string) => {
 		if (!form || !('fieldErrors' in form) || !form.fieldErrors) return '';
 		if (!('action' in form) || form.action !== 'create') return '';

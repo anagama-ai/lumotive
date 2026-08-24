@@ -1,16 +1,8 @@
 <script lang="ts">
-	import { showToast } from '$lib/toast.svelte';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
-	let { data, form }: { data: PageData; form: ActionData } = $props();
+	let { data }: { data: PageData } = $props();
 
-	$effect(() => {
-		if (!form) return;
-		if ('error' in form && form.error) showToast(form.error);
-		else if ('created' in form) showToast('Redirect created.', 'ok');
-		else if ('saved' in form) showToast('Redirect saved.', 'ok');
-		else if ('deleted' in form) showToast('Redirect deleted.', 'ok');
-	});
 </script>
 
 <div class="head">

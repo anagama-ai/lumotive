@@ -110,10 +110,18 @@ export const actions: Actions = {
 		try {
 			await locals.pb.collection('editors').requestPasswordReset(email);
 		} catch {
-			return { created: email, inviteFailed: true };
+			return {
+				created: email,
+				inviteFailed: true,
+				error: `Created ${email}, but the set-password email could not be sent. Use Resend below to try again.`
+			};
 		}
 
-		return { created: email, inviteSent: true };
+		return {
+			created: email,
+			inviteSent: true,
+			message: `Created ${email} and sent a set-password email.`
+		};
 	},
 
 	changeRole: async ({ request, locals }) => {
@@ -131,7 +139,8 @@ export const actions: Actions = {
 
 		try {
 			const editor = await locals.pb.collection('editors').update(id, { role });
-			return { roleChanged: String(editor.email ?? 'User') };
+			const email = String(editor.email ?? 'User');
+			return { roleChanged: email, message: `Updated ${email}.` };
 		} catch (cause) {
 			const errors = pbFieldErrors(cause);
 			return fail(400, {
@@ -154,7 +163,7 @@ export const actions: Actions = {
 			const editor = await locals.pb.collection('editors').getOne(id, { fields: 'id,email' });
 			const email = String(editor.email ?? '');
 			await locals.pb.collection('editors').requestPasswordReset(email);
-			return { inviteSent: email };
+			return { inviteSent: email, message: `Sent a set-password email to ${email}.` };
 		} catch {
 			return fail(400, { error: 'The set-password email could not be sent.' });
 		}
@@ -184,7 +193,8 @@ export const actions: Actions = {
 				}
 			}
 			await locals.pb.collection('editors').delete(id);
-			return { deleted: String(editor.email ?? 'User') };
+			const email = String(editor.email ?? 'User');
+			return { deleted: email, message: `Deleted ${email}.` };
 		} catch {
 			return fail(400, { error: 'That user could not be deleted.' });
 		}

@@ -19,6 +19,9 @@ export const actions: Actions = {
 			// Keep valid-address responses indistinguishable, including mail and backend failures.
 		}
 
-		return { requested: true };
+		return {
+			requested: true,
+			message: 'If an account exists for that email, a set-password link has been sent.'
+		};
 	}
 };

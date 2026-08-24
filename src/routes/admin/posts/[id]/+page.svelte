@@ -3,29 +3,11 @@
 	import RichText from '$lib/components/admin/RichText.svelte';
 	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
 	import VersionHistory from '$lib/components/admin/VersionHistory.svelte';
-	import { showToast } from '$lib/toast.svelte';
 	import type { MediaValue } from '$lib/sections';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
-	let { data, form }: { data: PageData; form: ActionData } = $props();
+	let { data }: { data: PageData } = $props();
 
-	$effect(() => {
-		if (!form) return;
-		if ('restored' in form)
-			showToast('Version restored. The content replaced by it is now in history.', 'ok');
-		else if ('saved' in form)
-			showToast(
-				`Saved. ${
-					data.post.status === 'published'
-						? 'Your changes are live.'
-						: isAdmin
-							? 'This post is still a draft — set it to Published when you are ready.'
-							: 'This post remains a draft.'
-				}`,
-				'ok'
-			);
-		else if ('error' in form) showToast(form.error);
-	});
 
 	// Deliberate snapshot: the form owns these once loaded, so a reload must not
 	// clobber unsaved edits.
