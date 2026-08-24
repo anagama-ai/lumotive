@@ -15,6 +15,9 @@
 
 	let element: HTMLDivElement;
 	let editor = $state<Editor | null>(null);
+	// Plain, not reactive: it records what the editor already holds, and must not
+	// itself retrigger the sync effect below.
+	let lastHtml = '';
 	let revision = $state(0);
 	let showMedia = $state(false);
 	let selectedMedia = $state<MediaValue | string>('');
@@ -62,9 +65,10 @@
 	});
 
 	onMount(() => {
+		lastHtml = value || '';
 		editor = new Editor({
 			element,
-			content: value || '',
+			content: lastHtml,
 			extensions: [
 				StarterKit.configure({
 					code: false,
@@ -90,7 +94,8 @@
 				}
 			},
 			onUpdate: ({ editor: current }) => {
-				value = current.isEmpty ? '' : current.getHTML();
+				lastHtml = current.isEmpty ? '' : current.getHTML();
+				value = lastHtml;
 			},
 			onTransaction: () => {
 				revision += 1;
@@ -100,9 +105,18 @@
 		return () => editor?.destroy();
 	});
 
+	/**
+	 * Tiptap reformats what it is given, so its own getHTML() never matches the
+	 * stored string byte for byte. Comparing against it made this effect set the
+	 * content on every run, and each set raises a transaction that re-renders the
+	 * toolbar, which is the loop that killed hydration. Track what the editor was
+	 * last given instead, so an external change applies exactly once.
+	 */
 	$effect(() => {
 		const html = value || '';
-		if (editor && editor.getHTML() !== html) editor.commands.setContent(html, { emitUpdate: false });
+		if (!editor || html === lastHtml) return;
+		lastHtml = html;
+		editor.commands.setContent(html, { emitUpdate: false });
 	});
 
 	const active = (name: string, attributes?: Record<string, unknown>) => {
