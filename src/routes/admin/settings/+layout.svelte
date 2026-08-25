@@ -9,8 +9,11 @@
 		{ href: '/admin/settings/header', label: 'Header' },
 		{ href: '/admin/settings/footer', label: 'Footer' },
 		{ href: '/admin/settings/sharing', label: 'Search and sharing' },
-		{ href: '/admin/settings/code', label: 'Custom code' }
+		{ href: '/admin/settings/code', label: 'Custom code', adminOnly: true }
 	];
+	let visibleTabs = $derived(
+		tabs.filter((tab) => !tab.adminOnly || page.data.editor?.role === 'admin')
+	);
 </script>
 
 <div class="head">
@@ -21,7 +24,7 @@
 </div>
 
 <nav class="settings-tabs" aria-label="Settings sections">
-	{#each tabs as tab (tab.href)}
+	{#each visibleTabs as tab (tab.href)}
 		<a href={tab.href} aria-current={page.url.pathname === tab.href ? 'page' : undefined}>
 			{tab.label}
 		</a>

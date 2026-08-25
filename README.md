@@ -40,12 +40,14 @@ Turn it off with `tailscale serve --https=5443 off` and `--https=5444 off`.
 
 ## Seeded credentials
 
-| Access | Email | Password |
-| --- | --- | --- |
-| Editor UI | `editor@example.com` | `changeme123` |
-| PocketBase superuser | `admin@example.com` | `changeme123` |
+The seed migration creates no account unless you set `PB_SEED_SUPERUSER_PASSWORD`
+and `PB_SEED_EDITOR_PASSWORD` first. There is no built-in default password. Set
+both in `.env` before the first `npm run pb`, then sign in with:
 
-Change both passwords before using this project outside local development.
+| Access | Email |
+| --- | --- |
+| Editor UI | `editor@example.com` |
+| PocketBase superuser | `admin@example.com` |
 
 ## Collections
 
@@ -227,7 +229,7 @@ Set a 32-character `PB_ENCRYPTION` value before saving sensitive settings. Pocke
 
 A migration enables PocketBase's built-in rate limiter for password authentication and form submissions. Keep a reverse proxy in front as a second layer.
 
-The seed migration creates the PocketBase superuser and editor. It uses `PB_SEED_SUPERUSER_PASSWORD` and `PB_SEED_EDITOR_PASSWORD` when provided; each otherwise falls back to `changeme123`. Leaving that development default on a public deployment is a live vulnerability.
+The seed migration creates the PocketBase superuser and editor only when `PB_SEED_SUPERUSER_PASSWORD` and `PB_SEED_EDITOR_PASSWORD` are set. There is no fallback password; either account is skipped when its variable is unset, so a fresh deployment never boots with a known credential.
 
 ### Backups
 

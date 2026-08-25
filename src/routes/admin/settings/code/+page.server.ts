@@ -1,8 +1,10 @@
-import { fail } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { putGlobal, readGlobal } from '$lib/settings.server';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.editor?.role !== 'admin') error(403, 'Only administrators can manage custom code.');
+
 	const code = await readGlobal(locals.pb, 'code_injection');
 	return {
 		code: {
@@ -17,6 +19,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	save: async ({ request, locals }) => {
+		if (locals.editor?.role !== 'admin') {
+			return fail(403, { error: 'Only administrators can manage custom code.' });
+		}
+
 		const form = await request.formData();
 		try {
 			await putGlobal(locals.pb, 'code_injection', String(form.get('code_injectionId') ?? ''), {

@@ -1,7 +1,7 @@
 migrate((app) => {
-	// These fallbacks keep first-run local setup simple, but public deployments must set unique passwords.
-	const superuserPassword = $os.getenv('PB_SEED_SUPERUSER_PASSWORD') || 'changeme123'
-	const editorPassword = $os.getenv('PB_SEED_EDITOR_PASSWORD') || 'changeme123'
+	// Never seed a privileged account with a password shared by every clone.
+	const superuserPassword = $os.getenv('PB_SEED_SUPERUSER_PASSWORD')
+	const editorPassword = $os.getenv('PB_SEED_EDITOR_PASSWORD')
 
 	const seedRecord = (collectionName, field, value, data) => {
 		try {
@@ -13,25 +13,33 @@ migrate((app) => {
 		}
 	}
 
-	try {
-		app.findAuthRecordByEmail("_superusers", "admin@example.com")
-	} catch {
-		const record = new Record(app.findCollectionByNameOrId("_superusers"))
-		record.set("email", "admin@example.com")
-		record.set("password", superuserPassword)
-		app.save(record)
+	if (!superuserPassword) {
+		console.log('[seed] PB_SEED_SUPERUSER_PASSWORD is not set; skipping the seeded superuser account.')
+	} else {
+		try {
+			app.findAuthRecordByEmail("_superusers", "admin@example.com")
+		} catch {
+			const record = new Record(app.findCollectionByNameOrId("_superusers"))
+			record.set("email", "admin@example.com")
+			record.set("password", superuserPassword)
+			app.save(record)
+		}
 	}
 
-	try {
-		app.findAuthRecordByEmail("editors", "editor@example.com")
-	} catch {
-		const record = new Record(app.findCollectionByNameOrId("editors"))
-		record.set("email", "editor@example.com")
-		record.set("password", editorPassword)
-		record.set("verified", true)
-		record.set("name", "Demo Editor")
-		record.set("role", "admin")
-		app.save(record)
+	if (!editorPassword) {
+		console.log('[seed] PB_SEED_EDITOR_PASSWORD is not set; skipping the seeded editor account.')
+	} else {
+		try {
+			app.findAuthRecordByEmail("editors", "editor@example.com")
+		} catch {
+			const record = new Record(app.findCollectionByNameOrId("editors"))
+			record.set("email", "editor@example.com")
+			record.set("password", editorPassword)
+			record.set("verified", true)
+			record.set("name", "Demo Editor")
+			record.set("role", "admin")
+			app.save(record)
+		}
 	}
 
 	seedRecord("globals", "key", "header", {
