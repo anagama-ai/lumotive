@@ -6,9 +6,7 @@ export async function load({ params, locals }: { params: { slug: string }; local
 	try {
 		const post = await locals.pb.collection('posts').getFirstListItem(
 			locals.pb.filter(
-				locals.editor
-					? 'slug = {:slug} && sourceUrl != ""'
-					: 'slug = {:slug} && sourceUrl != "" && status = "published"',
+				locals.editor ? 'slug = {:slug}' : 'slug = {:slug} && status = "published"',
 				{ slug: params.slug }
 			),
 			{ fields: 'title,slug,excerpt,body,publishedAt,coverImage,sourceUrl' }

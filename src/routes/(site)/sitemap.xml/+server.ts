@@ -40,7 +40,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 			return { location: new URL(pathname, url.origin).href, updated: lastModified(page.updated) };
 		}),
 		...posts.map((post) => ({
-			location: new URL(`/blog/${encodeURIComponent(String(post.slug ?? ''))}`, url.origin).href,
+			location: new URL(`/posts/${encodeURIComponent(String(post.slug ?? ''))}`, url.origin).href,
 			updated: lastModified(post.updated)
 		}))
 	];

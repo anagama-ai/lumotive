@@ -74,18 +74,18 @@
 	style:background-position={backdrop.position}
 	style:background-size="cover"
 >
-	<div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_65%_85%_at_50%_50%,rgba(10,18,38,0.96),rgba(10,18,38,0.62)_65%,rgba(10,18,38,0.2))]"></div>
+	<div
+		class={`pointer-events-none absolute inset-0 -z-10 ${split ? 'from-panel/70 via-panel/45 to-panel/20 bg-linear-75 from-25% via-60%' : 'bg-[radial-gradient(ellipse_55%_70%_at_50%_50%,rgba(10,18,38,0.94),rgba(10,18,38,0.55)_65%,rgba(10,18,38,0.15))]'}`}
+	></div>
 	<div class="lumo-inner relative z-10">
 		{#if split}
 			<div class="grid gap-10 md:grid-cols-2 md:gap-16">
-				<Reveal>
-					<div class="self-center">
-						{#if section.eyebrow}<p class="text-eyebrow mb-5 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-						{#if heading}<h2 class="text-heading text-white">{heading}</h2>{/if}
-						{#if body}<div class="prose mt-5 max-w-md text-lead text-white/70">{@html body}</div>{/if}
-					</div>
+				<Reveal stagger class="self-center">
+					{#if section.eyebrow}<p class="text-eyebrow mb-5 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
+					{#if heading}<h2 class="text-heading text-white">{heading}</h2>{/if}
+					{#if body}<div class="prose mt-5 max-w-md text-lead text-white/70">{@html body}</div>{/if}
 				</Reveal>
-				<Reveal delay={0.12}>
+				<Reveal stagger="li" delay={0.12} class="self-center">
 					<ul class="self-center">
 						{#each links as item, index (`${item.label}:${item.href}`)}
 							<li>
@@ -98,19 +98,17 @@
 				</Reveal>
 			</div>
 		{:else}
-			<Reveal>
-				<div class="mx-auto max-w-3xl text-center">
-					{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-					{#if heading}<h2 class="text-statement text-white">{heading}</h2>{/if}
-					{#if body}<div class="prose mx-auto mt-6 text-lead text-white/75">{@html body}</div>{/if}
-					{#if links.length}
-						<div class="mt-9 flex flex-wrap items-center justify-center gap-4">
-							{#each links as item, index (`${item.label}:${item.href}`)}
-								<a class={`rounded-full px-7 py-3 text-base font-medium no-underline transition duration-200 hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'bg-white text-ink' : 'border border-white/30 text-white'}`} href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
-							{/each}
-						</div>
-					{/if}
-				</div>
+			<Reveal stagger class="mx-auto max-w-3xl text-center">
+				{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
+				{#if heading}<h2 class="text-statement text-white">{heading}</h2>{/if}
+				{#if body}<div class="prose mx-auto mt-6 text-lead text-white/75">{@html body}</div>{/if}
+				{#if links.length}
+					<div class="mt-9 flex flex-wrap items-center justify-center gap-4">
+						{#each links as item, index (`${item.label}:${item.href}`)}
+							<a class={`rounded-full px-7 py-3 text-base font-medium no-underline transition duration-200 hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'bg-white text-ink' : 'border border-white/30 text-white'}`} href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
+						{/each}
+					</div>
+				{/if}
 			</Reveal>
 		{/if}
 	</div>

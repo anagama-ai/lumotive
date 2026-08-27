@@ -9,6 +9,7 @@ const targetRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const sourceRoot = resolve(process.argv[2] ?? resolve(targetRoot, '../lumotive/lumotive-website'));
 const sourceFile = resolve(sourceRoot, 'scripts/news-data.json');
 const migrationFile = resolve(targetRoot, 'pb_migrations/1700000310_seed_lumotive_news.js');
+const categoryMigrationFile = resolve(targetRoot, 'pb_migrations/1787700000_news_categories.js');
 const targetNewsRoot = resolve(targetRoot, 'static/lumotive/news');
 const sourceNewsRoot = resolve(sourceRoot, 'public/lumotive/news');
 const records = JSON.parse(await readFile(sourceFile, 'utf8'));
@@ -56,6 +57,7 @@ const posts = records.map((record) => {
 		title: record.title,
 		slug: record.slug,
 		status: 'published',
+		category: record.category,
 		excerpt: record.excerpt || '',
 		body,
 		publishedAt: record.publishedAt.replace('T', ' '),
@@ -88,8 +90,33 @@ const migration = `migrate(
 	}
 )
 `;
+const categoryMigration = `migrate(
+	(app) => {
+		const collection = app.findCollectionByNameOrId("posts")
+		if (!collection.fields.getByName("category")) {
+			collection.fields.add(new TextField({ name: "category" }))
+			app.save(collection)
+		}
+
+		const categories = ${JSON.stringify(posts.map(({ slug, category }) => ({ slug, category })), null, '\t')}
+		for (const data of categories) {
+			const records = app.findRecordsByFilter("posts", "slug = {:slug}", "", 1, 0, data)
+			if (!records.length) continue
+			records[0].set("category", data.category)
+			app.save(records[0])
+		}
+	},
+	(app) => {
+		const collection = app.findCollectionByNameOrId("posts")
+		if (!collection.fields.getByName("category")) return
+		collection.fields.removeByName("category")
+		app.save(collection)
+	}
+)
+`;
 
 await writeFile(migrationFile, migration);
+await writeFile(categoryMigrationFile, categoryMigration);
 await rm(targetNewsRoot, { recursive: true, force: true });
 await mkdir(targetNewsRoot, { recursive: true });
 
@@ -107,5 +134,6 @@ for (const image of images) {
 }
 
 console.log(`Built ${posts.length} posts in ${migrationFile}`);
+console.log(`Backfilled news categories in ${categoryMigrationFile}`);
 console.log(`Copied ${images.length} referenced images (${copiedBytes} bytes)`);
 console.log('Unsupported rich-text node types: none');

@@ -3,6 +3,15 @@
 
 	let { data } = $props();
 	const dateFormat = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
+
+	function newsHref(page = 1, category = String(data.category), query = String(data.query)) {
+		const params = new URLSearchParams();
+		if (query) params.set('q', query);
+		if (category) params.set('category', category);
+		if (page > 1) params.set('page', String(page));
+		const suffix = params.toString();
+		return suffix ? `/news?${suffix}` : '/news';
+	}
 </script>
 
 <Seo title="News | Lumotive" description="News, announcements and insights from Lumotive." />
@@ -21,25 +30,56 @@
 	</section>
 
 	<section class="max-w-shell mx-auto px-4 py-16 md:px-7 md:py-24">
-		<form class="news-search" action="/news" method="get" role="search">
-			<label for="news-query">Search news</label>
-			<div>
-				<input
-					id="news-query"
-					name="q"
-					type="search"
-					maxlength="100"
-					value={data.query}
-					placeholder="Search announcements and coverage"
-				/>
-				<button type="submit">Search</button>
-				{#if data.query}<a href="/news">Clear</a>{/if}
-			</div>
-		</form>
+		<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+			<nav aria-label="Filter by category" class="flex flex-wrap gap-3">
+				<a
+					class={[
+						'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+						!data.category
+							? 'border-brand-blue bg-brand-blue text-white'
+							: 'border-border bg-surface text-text hover:border-brand-blue hover:text-brand-blue'
+					]}
+					aria-current={!data.category ? 'page' : undefined}
+					href={newsHref(1, '')}
+				>
+					All
+				</a>
+				{#each data.categories as category (category)}
+					<a
+						class={[
+							'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+							category === data.category
+								? 'border-brand-blue bg-brand-blue text-white'
+								: 'border-border bg-surface text-text hover:border-brand-blue hover:text-brand-blue'
+						]}
+						aria-current={category === data.category ? 'page' : undefined}
+						href={newsHref(1, category)}
+					>
+						{category}
+					</a>
+				{/each}
+			</nav>
+			<form class="news-search" action="/news" method="get" role="search">
+				<label for="news-query">Search news</label>
+				<div>
+					<input
+						id="news-query"
+						name="q"
+						type="search"
+						maxlength="100"
+						value={data.query}
+						placeholder="Search announcements and coverage"
+					/>
+					{#if data.category}<input name="category" type="hidden" value={data.category} />{/if}
+					<button type="submit">Search</button>
+					{#if data.query}<a href={newsHref(1, data.category, '')}>Clear</a>{/if}
+				</div>
+			</form>
+		</div>
 
 		<div class="news-heading">
 			<div>
-				<p class="text-eyebrow text-brand-blue uppercase">Lumotive news</p>
+				<p class="text-eyebrow text-brand-blue uppercase">{data.category || 'All news'}</p>
 				<h2 class="font-display text-heading text-ink mt-2">
 					{data.query ? `Results for “${data.query}”` : 'Latest From Lumotive'}
 				</h2>
@@ -52,13 +92,16 @@
 		{#if data.posts.length}
 			<div class="news-grid">
 				{#each data.posts as post (post.slug)}
-					<a class="news-card" href={`/news/${post.slug}`}>
+					<a class="news-card" href={`/posts/${post.slug}`}>
 						<div class="flex flex-1 flex-col p-7">
-							{#if post.publishedAt}
-								<time class="text-spec text-text-muted" datetime={post.publishedAt}>
-									{dateFormat.format(new Date(post.publishedAt.replace(' ', 'T')))}
-								</time>
-							{/if}
+							<div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+								{#if post.publishedAt}
+									<time class="text-spec text-text-muted" datetime={post.publishedAt}>
+										{dateFormat.format(new Date(post.publishedAt.replace(' ', 'T')))}
+									</time>
+								{/if}
+								{#if post.category}<span class="text-spec text-brand-blue">{post.category}</span>{/if}
+							</div>
 							<h3 class="font-display text-subheading text-ink mt-4">{post.title}</h3>
 							{#if post.excerpt}<p class="text-text mt-4 line-clamp-3 leading-relaxed">{post.excerpt}</p>{/if}
 							<span class="text-brand-blue mt-auto pt-7 text-base font-medium">Read article →</span>
@@ -70,18 +113,18 @@
 			{#if data.totalPages > 1}
 				<nav class="pagination" aria-label="News pages">
 					{#if data.currentPage > 1}
-						<a href={`/news?${data.query ? `q=${encodeURIComponent(data.query)}&` : ''}page=${data.currentPage - 1}`}>← Previous</a>
+						<a href={newsHref(data.currentPage - 1)}>← Previous</a>
 					{/if}
 					<span>Page {data.currentPage} of {data.totalPages}</span>
 					{#if data.currentPage < data.totalPages}
-						<a href={`/news?${data.query ? `q=${encodeURIComponent(data.query)}&` : ''}page=${data.currentPage + 1}`}>Next →</a>
+						<a href={newsHref(data.currentPage + 1)}>Next →</a>
 					{/if}
 				</nav>
 			{/if}
 		{:else}
 			<div class="empty-state">
 				<h2>No Matching News</h2>
-				<p>Try another search or clear the search field.</p>
+				<p>Try another search or clear the category filter.</p>
 				<a class="text-brand-blue font-medium" href="/news">View all news</a>
 			</div>
 		{/if}

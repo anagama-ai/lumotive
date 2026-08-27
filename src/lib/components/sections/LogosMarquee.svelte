@@ -44,7 +44,6 @@
 		<div class="lumo-inner">
 			<Reveal delay={0}>
 				{#if heading}<p class="text-eyebrow marquee-heading uppercase">{heading}</p>{/if}
-				{#if section.intro}<p class="text-lead marquee-intro">{String(section.intro)}</p>{/if}
 			</Reveal>
 			<div class="marquee-window" aria-label={heading || 'Partner logos'}>
 				<div class="marquee-lane">
@@ -72,7 +71,6 @@
 
 <style>
 	.marquee-heading { margin: 0 0 1rem; text-align: center; }
-	.marquee-intro { max-width: 48rem; margin: 0 auto 2rem; color: var(--color-muted); text-align: center; }
 	.marquee-window { position: relative; overflow: hidden; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
 	.marquee-lane { display: flex; width: max-content; align-items: center; animation: marquee 32s linear infinite; }
 	.marquee-window:hover .marquee-lane { animation-play-state: paused; }

@@ -21,26 +21,49 @@
 			</div></Reveal>
 		{/if}
 
-		<Reveal><div class={`rounded-card border-border bg-surface overflow-x-auto border ${section.eyebrow || section.heading || section.intro ? 'mt-10' : ''}`}>
-			<table class="w-full min-w-180 table-fixed border-collapse text-left">
-				<caption class="sr-only">{section.heading ? `${titleCase(String(section.heading))} comparison` : 'Offering comparison'}</caption>
-				<thead class="bg-background">
-					<tr>
-						<th class="text-eyebrow text-ink w-1/4 px-6 py-4 uppercase" scope="col">Offering</th>
-						<th class="text-eyebrow text-ink w-1/4 px-6 py-4 uppercase" scope="col">Evaluation level</th>
-						<th class="text-eyebrow text-ink px-6 py-4 uppercase" scope="col">Best for</th>
-					</tr>
-				</thead>
-				<tbody class="divide-border divide-y">
-					{#each cards as card, index (index)}
+		<Reveal>
+			<div class={`rounded-card border-border bg-surface hidden overflow-x-auto border md:block ${section.eyebrow || section.heading || section.intro ? 'mt-10' : ''}`}>
+				<table class="w-full min-w-180 table-fixed border-collapse text-left">
+					<caption class="sr-only">{section.heading ? `${titleCase(String(section.heading))} comparison` : 'Offering comparison'}</caption>
+					<thead class="bg-background">
 						<tr>
-							<th class="text-ink px-6 py-5 align-top font-medium" scope="row"><span class="flex items-center gap-3"><span aria-hidden="true" class={`size-2.5 shrink-0 rounded-full ${bar(card.accent)}`}></span>{titleCase(card.title ?? '')}</span></th>
-							<td class="text-muted px-6 py-5 align-top">{card.eyebrow ?? ''}</td>
-							<td class="text-ink px-6 py-5 align-top">{#if card.body}<div class="[&_p]:m-0">{@html card.body}</div>{/if}</td>
+							<th class="text-eyebrow text-ink w-1/4 px-6 py-4 uppercase" scope="col">Offering</th>
+							<th class="text-eyebrow text-ink w-1/4 px-6 py-4 uppercase" scope="col">Evaluation level</th>
+							<th class="text-eyebrow text-ink px-6 py-4 uppercase" scope="col">Best for</th>
 						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div></Reveal>
+					</thead>
+					<tbody class="divide-border divide-y">
+						{#each cards as card, index (index)}
+							<tr>
+								<th class="text-ink px-6 py-5 align-top font-medium" scope="row"><span class="flex items-center gap-3"><span aria-hidden="true" class={`size-2.5 shrink-0 rounded-full ${bar(card.accent)}`}></span>{titleCase(card.title ?? '')}</span></th>
+								<td class="text-muted px-6 py-5 align-top">{card.eyebrow ?? ''}</td>
+								<td class="text-ink px-6 py-5 align-top">{#if card.body}<div class="[&_p]:m-0">{@html card.body}</div>{/if}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+
+			<div class={`grid gap-4 md:hidden ${section.eyebrow || section.heading || section.intro ? 'mt-10' : ''}`}>
+				{#each cards as card, index (index)}
+					<article class="rounded-card border-border bg-surface border p-6">
+						<h3 class="font-display text-subheading text-ink flex items-center gap-3">
+							<span aria-hidden="true" class={`size-2.5 shrink-0 rounded-full ${bar(card.accent)}`}></span>
+							{titleCase(card.title ?? '')}
+						</h3>
+						<dl class="mt-5 grid gap-4">
+							<div>
+								<dt class="text-eyebrow text-muted uppercase">Evaluation level</dt>
+								<dd class="text-ink mt-1">{card.eyebrow ?? ''}</dd>
+							</div>
+							<div>
+								<dt class="text-eyebrow text-muted uppercase">Best for</dt>
+								<dd class="text-ink mt-1">{#if card.body}<div class="[&_p]:m-0">{@html card.body}</div>{/if}</dd>
+							</div>
+						</dl>
+					</article>
+				{/each}
+			</div>
+		</Reveal>
 	</div>
 </section>

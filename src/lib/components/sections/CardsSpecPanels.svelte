@@ -31,7 +31,7 @@
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 			</div></Reveal>
 		{/if}
-		<Reveal><div class="grid gap-6 md:grid-cols-2">
+		<Reveal stagger class="grid gap-6 md:grid-cols-2">
 			{#each cards as card, index (index)}
 				{@const image = resolveMedia(card.media, media, 1024)}
 				<article class="rounded-panel border-border bg-background overflow-hidden border">
@@ -44,6 +44,6 @@
 					</dl>
 				</article>
 			{/each}
-		</div></Reveal>
+		</Reveal>
 	</div>
 </section>

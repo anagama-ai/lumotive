@@ -26,7 +26,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 	const channelName = url.hostname;
 	const items = posts
 		.map((post) => {
-			const link = new URL(`/blog/${encodeURIComponent(String(post.slug ?? ''))}`, url.origin).href;
+			const link = new URL(`/posts/${encodeURIComponent(String(post.slug ?? ''))}`, url.origin).href;
 			return `    <item>\n      <title>${escapeXml(post.title)}</title>\n      <link>${escapeXml(link)}</link>\n      <guid isPermaLink="true">${escapeXml(link)}</guid>\n      <pubDate>${escapeXml(publicationDate(post.publishedAt || post.created || post.updated))}</pubDate>\n      <description>${escapeXml(post.excerpt)}</description>\n    </item>`;
 		})
 		.join('\n');

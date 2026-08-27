@@ -7,7 +7,6 @@
 	type Item = { media?: unknown; caption?: unknown };
 
 	let { section, media }: { section: Section; media: MediaMap } = $props();
-	let activated = $state(false);
 	let items = $derived((Array.isArray(section.items) ? section.items : []) as Item[]);
 	let heading = $derived(titleCase(typeof section.heading === 'string' ? section.heading : null));
 	let mode = $derived(
@@ -79,16 +78,7 @@
 
 		{#if embedUrl}
 			<Reveal>
-				{#if activated}
-					<iframe src={embedUrl} title={heading || 'Embedded video'} class="aspect-video w-full overflow-hidden rounded-panel border-0" loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>
-				{:else}
-					<button class="group grid aspect-video w-full cursor-pointer place-items-center overflow-hidden rounded-panel border-0 bg-panel text-white" type="button" onclick={() => (activated = true)} aria-label={`Load ${heading || 'video'}`}>
-						<span class="grid size-20 place-items-center rounded-full border border-white/30 bg-white/10 transition group-hover:scale-105 motion-reduce:transition-none">
-							<svg aria-hidden="true" class="ml-1 size-8" viewBox="0 0 32 32" fill="currentColor"><path d="M9 5.5v21l17-10.5L9 5.5Z" /></svg>
-						</span>
-						<span class="sr-only">The third-party video loads only after activation.</span>
-					</button>
-				{/if}
+				<iframe src={embedUrl} title={heading || 'Embedded video'} class="aspect-video w-full overflow-hidden rounded-panel border-0" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 			</Reveal>
 		{:else if mode === 'image' && items[0]}
 			{@const image = resolveMedia(items[0].media, media, 1440)}

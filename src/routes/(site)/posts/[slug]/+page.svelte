@@ -22,7 +22,7 @@
 		<div aria-hidden="true" class="bg-metasurface mask-hero-dots absolute inset-0"></div>
 		<div aria-hidden="true" class="from-panel via-panel/95 to-brand-blue/35 absolute inset-0 bg-linear-75"></div>
 		<div class="max-w-shell relative mx-auto px-4 py-14 md:px-7 md:py-20">
-			<a class="back-link" href="/news">← Back to news</a>
+			<a class="back-link" href="/news">← All news</a>
 			{#if data.post.publishedAt}
 				<time class="text-spec text-white/65" datetime={data.post.publishedAt}>
 					{dateFormat.format(new Date(data.post.publishedAt.replace(' ', 'T')))}

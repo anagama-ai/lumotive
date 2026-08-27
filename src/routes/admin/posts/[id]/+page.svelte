@@ -55,13 +55,13 @@
 	<div>
 		<h1>{data.post.title || 'Untitled post'}</h1>
 		<p class="sub">
-			Live at <code>/blog/{data.post.slug}</code>
+			Live at <code>/posts/{data.post.slug}</code>
 			· {data.post.status === 'published' ? 'visible to everyone' : 'only visible to you'}
 		</p>
 	</div>
 	<div class="head-actions">
 		<a class="btn" href="/admin/posts">All posts</a>
-		<a class="btn" href="/blog/{data.post.slug}" target="_blank" rel="noreferrer">View post</a>
+		<a class="btn" href="/posts/{data.post.slug}" target="_blank" rel="noreferrer">View post</a>
 	</div>
 </div>
 
@@ -116,6 +116,11 @@
 					<input name="publishedAt" type="date" value={data.post.publishedAt} />
 				</label>
 			</div>
+
+			<label class="field">
+				<span>Category</span>
+				<input name="category" type="text" value={data.post.category} />
+			</label>
 
 			<label class="field">
 				<span>Summary <span class="hint">— shown in listings</span></span>

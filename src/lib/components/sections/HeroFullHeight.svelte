@@ -40,33 +40,35 @@
 	data-peel-cover
 >
 	{#if visual}
-		<div class="hero-media absolute inset-0" aria-hidden="true">
-			{#if isVideo}
-				<video
-					{@attach manageVideo}
-					class="h-full w-full object-cover"
-					src={visual.src}
-					muted
-					loop
-					playsinline
-					preload="metadata"
-				></video>
-			{:else}
-				<img
-					class="h-full w-full object-cover"
-					src={visual.src}
-					srcset={visual.srcset}
-					sizes="100vw"
-					alt=""
-					width={visual.width ?? 1600}
-					height={visual.height ?? 900}
-				/>
-			{/if}
-		</div>
+		<Reveal immediate fade={false} y={0} scale={1.06} duration={1.6} class="absolute inset-0">
+			<div class="hero-media absolute inset-0" aria-hidden="true">
+				{#if isVideo}
+					<video
+						{@attach manageVideo}
+						class="h-full w-full object-cover"
+						src={visual.src}
+						muted
+						loop
+						playsinline
+						preload="metadata"
+					></video>
+				{:else}
+					<img
+						class="h-full w-full object-cover"
+						src={visual.src}
+						srcset={visual.srcset}
+						sizes="100vw"
+						alt=""
+						width={visual.width ?? 1600}
+						height={visual.height ?? 900}
+					/>
+				{/if}
+			</div>
+		</Reveal>
 	{/if}
 	<div class="hero-shade absolute inset-0"></div>
 	<div class="lumo-inner relative z-10">
-		<Reveal delay={0}>
+		<Reveal immediate stagger=".hero-copy > *" delay={0.15}>
 			<div class="hero-copy max-w-5xl">
 				{#if section.eyebrow}
 					<p class="text-eyebrow text-brand-amber mb-5 uppercase">{String(section.eyebrow)}</p>

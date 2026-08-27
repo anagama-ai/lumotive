@@ -30,11 +30,11 @@
 			</Reveal>
 		{/if}
 
-		<Reveal>
+		<Reveal stagger="[data-flow-panel]">
 			<div class="flex flex-col items-stretch md:flex-row">
 				{#each cards as card, index (index)}
 					{@const image = resolveMedia(card.media, media, 640)}
-					<article class="rounded-card bg-surface relative flex min-w-0 flex-1 flex-col overflow-hidden p-6 text-center md:p-8">
+					<article data-flow-panel class="rounded-card bg-surface relative flex min-w-0 flex-1 flex-col overflow-hidden p-6 text-center md:p-8">
 						<span aria-hidden="true" class={`pointer-events-none absolute inset-0 opacity-10 ${bar(card.accent)}`}></span>
 						<div class="relative flex h-full flex-col">
 							<h3 class="font-display text-ink text-xl">{titleCase(card.title ?? '')}</h3>

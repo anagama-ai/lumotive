@@ -64,7 +64,7 @@
 	>
 		<div class="lumo-inner">
 			{#if dark}
-				<Reveal delay={0}>
+				<Reveal delay={0} stagger="ul > *">
 					<div class="logo-panel">
 						{#if heading}<h2 class="font-display text-heading">{heading}</h2>{/if}
 						{#if section.intro}<p class="text-lead intro">{String(section.intro)}</p>{/if}
@@ -80,7 +80,7 @@
 						</div>
 					</Reveal>
 				{/if}
-				<Reveal delay={0}>
+				<Reveal delay={0} stagger="ul > *">
 					<div class="logo-panel">{@render logoList()}</div>
 				</Reveal>
 			{/if}

@@ -19,6 +19,7 @@
 	let body = $derived(typeof section.body === 'string' ? section.body : '');
 	let heading = $derived(titleCase(typeof section.heading === 'string' ? section.heading : null));
 	let variant = $derived(section.type);
+	let traitColumns = $derived(stats.length === 9 ? 'lg:grid-cols-3' : stats.length === 6 ? 'lg:grid-cols-3 xl:grid-cols-6' : 'lg:grid-cols-4');
 
 	const enumValue = (value: unknown, values: string[], fallback: string) => {
 		const candidate = String(value ?? '');
@@ -39,7 +40,7 @@
 	>
 		<div class="lumo-inner">
 			{#if variant === 'statsSpecPills'}
-				<Reveal>
+				<Reveal stagger="ul > *">
 					<div class="mx-auto max-w-3xl text-center">
 						{#if heading}<h2 class="text-statement">{heading}</h2>{/if}
 						{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
@@ -53,7 +54,7 @@
 					</ul>
 				</Reveal>
 			{:else if variant === 'statsDarkTraits'}
-				<Reveal>
+				<Reveal y={36} scale={0.985} duration={1}>
 					<div class="relative min-h-96 overflow-hidden rounded-panel bg-panel p-8 text-white md:p-14 lg:p-16">
 						{#if image}
 							<img
@@ -74,17 +75,19 @@
 							{#if body}<div class="prose mt-5 text-lead text-white/70">{@html body}</div>{/if}
 							{#if section.intro}<p class="text-spec mt-5 text-white/55">{String(section.intro)}</p>{/if}
 						</div>
-						<dl class="relative z-10 mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
-							{#each stats as stat, index (index)}
-								<div>
-									<dt class="text-base text-white">{String(stat.label ?? '')}</dt>
-									<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-spec mt-1">
-										{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
-									</dd>
-									{#if stat.description}<dd class="mt-2 text-sm text-white/55">{String(stat.description)}</dd>{/if}
-								</div>
-							{/each}
-						</dl>
+						<Reveal stagger="dl > *" delay={0.1}>
+							<dl class={`relative z-10 mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2 ${traitColumns}`}>
+								{#each stats as stat, index (index)}
+									<div>
+										<dt class="text-base text-white">{String(stat.label ?? '')}</dt>
+										<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-spec mt-1">
+											{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
+										</dd>
+										{#if stat.description}<dd class="mt-2 text-sm text-white/55">{String(stat.description)}</dd>{/if}
+									</div>
+								{/each}
+							</dl>
+						</Reveal>
 					</div>
 				</Reveal>
 			{:else if variant === 'statsLightTraits'}
@@ -95,17 +98,19 @@
 						{#if body}<div class="prose mt-5 text-lead">{@html body}</div>{/if}
 						{#if section.intro}<p class="mt-5">{String(section.intro)}</p>{/if}
 					</div>
-					<dl class="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
-						{#each stats as stat, index (index)}
-							<div>
-								<dt class="text-base">{String(stat.label ?? '')}</dt>
-								<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-spec mt-1">
-									{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
-								</dd>
-								{#if stat.description}<dd class="mt-2 text-sm opacity-65">{String(stat.description)}</dd>{/if}
-							</div>
-						{/each}
-					</dl>
+					<Reveal stagger="dl > *" delay={0.1}>
+						<dl class={`mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2 ${traitColumns}`}>
+							{#each stats as stat, index (index)}
+								<div>
+									<dt class="text-base">{String(stat.label ?? '')}</dt>
+									<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-spec mt-1">
+										{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
+									</dd>
+									{#if stat.description}<dd class="mt-2 text-sm opacity-65">{String(stat.description)}</dd>{/if}
+								</div>
+							{/each}
+						</dl>
+					</Reveal>
 				</Reveal>
 			{:else}
 				<Reveal>
@@ -117,21 +122,23 @@
 						{#if image}
 							<img class="mx-auto mt-8 w-full max-w-sm" src={image.src} srcset={image.srcset} sizes="384px" alt={image.alt} width={image.width ?? 640} height={image.height ?? 480} />
 						{/if}
-						<dl class="mt-12 grid gap-10 sm:grid-cols-3">
-							{#each stats as stat, index (index)}
-								<div>
-									<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-5xl font-medium tracking-tight">
-										{#if Number.isFinite(numeric(stat))}
-											<Counter value={numeric(stat)} prefix={String(stat.prefix ?? '')} suffix={String(stat.suffix ?? '')} />
-										{:else}
-											{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
-										{/if}
-									</dd>
-									<dt class="text-spec mt-2">{String(stat.label ?? '')}</dt>
-									{#if stat.description}<dd class="mt-2 text-sm opacity-70">{String(stat.description)}</dd>{/if}
-								</div>
-							{/each}
-						</dl>
+						<Reveal stagger="dl > *">
+							<dl class="mt-12 grid gap-10 sm:grid-cols-3">
+								{#each stats as stat, index (index)}
+									<div>
+										<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-5xl font-medium tracking-tight">
+											{#if Number.isFinite(numeric(stat))}
+												<Counter value={numeric(stat)} prefix={String(stat.prefix ?? '')} suffix={String(stat.suffix ?? '')} />
+											{:else}
+												{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
+											{/if}
+										</dd>
+										<dt class="text-spec mt-2">{String(stat.label ?? '')}</dt>
+										{#if stat.description}<dd class="mt-2 text-sm opacity-70">{String(stat.description)}</dd>{/if}
+									</div>
+								{/each}
+							</dl>
+						</Reveal>
 					</div>
 				</Reveal>
 			{/if}

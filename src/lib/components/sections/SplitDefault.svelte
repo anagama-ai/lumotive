@@ -52,7 +52,7 @@
 		<div class="split-layout" class:has-bleed={variant === 'peelBleed'}>
 			{#if variant !== 'peelBleed' && visual}
 				<div class="art-column">
-					<Reveal delay={0}>
+					<Reveal x={mediaRight ? 24 : -24} y={12} duration={1.1}>
 						<div class="art-frame">
 							<img src={visual.src} srcset={visual.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
 						</div>
@@ -63,7 +63,7 @@
 				{#if variant === 'peelBleed'}
 					{@render copy()}
 				{:else}
-					<Reveal delay={0.12}>{@render copy()}</Reveal>
+					<Reveal stagger delay={0.12}>{@render copy()}</Reveal>
 				{/if}
 			</div>
 		</div>

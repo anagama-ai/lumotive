@@ -26,3 +26,6 @@ pb_data/
 bin/pocketbase
 
 .cache/
+
+# Local verification scratch (PocketBase binary + throwaway pb_data)
+.local/
