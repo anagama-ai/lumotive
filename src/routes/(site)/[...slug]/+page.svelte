@@ -22,7 +22,7 @@
 	title={renderedPage.seoTitle || renderedPage.title}
 	description={renderedPage.seoDescription}
 	image={socialImage}
-	canonical={renderedPage.canonical}
+	canonical={`${route.url.origin}${route.url.pathname === '/' ? '' : route.url.pathname}`}
 	noindex={renderedPage.noindex}
 />
 

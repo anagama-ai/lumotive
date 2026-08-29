@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import Seo from '$lib/components/site/Seo.svelte';
 
 	let { data } = $props();
@@ -14,7 +15,11 @@
 	}
 </script>
 
-<Seo title="News | Lumotive" description="News, announcements and insights from Lumotive." />
+<Seo
+	title="News | Lumotive"
+	description="News, announcements and insights from Lumotive."
+	canonical={`${page.url.origin}${page.url.pathname}`}
+/>
 
 <article>
 	<section class="bg-panel relative isolate overflow-hidden">

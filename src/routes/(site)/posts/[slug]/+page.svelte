@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import Seo from '$lib/components/site/Seo.svelte';
 	import Prose from '$lib/components/sections/Prose.svelte';
 
@@ -13,8 +14,10 @@
 
 <Seo
 	title={`${data.post.title} | Lumotive`}
+	twitterTitle={data.post.title}
 	description={data.post.excerpt}
 	image={coverImage}
+	canonical={`${page.url.origin}${page.url.pathname}`}
 />
 
 <article>

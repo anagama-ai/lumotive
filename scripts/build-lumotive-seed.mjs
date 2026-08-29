@@ -290,6 +290,7 @@ const pages = routeOrder.map(([sourceSlug, path]) => {
 
 const header = normalise(captured.globals.get('header') ?? {})
 const footer = normalise(captured.globals.get('footer') ?? {})
+footer.copyright ||= 'Lumotive, Inc. All rights reserved.'
 const seo = normalise({
 	...(captured.globals.get('site-meta') ?? {}),
 	...(captured.globals.get('page-config') ?? {}),

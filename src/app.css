@@ -65,7 +65,10 @@ img, video { display: block; max-width: 100%; }
 .lumo-section[data-spacing-bottom='sm'] > .lumo-inner { padding-bottom: 2.5rem; }
 .lumo-section[data-spacing-bottom='lg'] > .lumo-inner { padding-bottom: 7rem; }
 
-.site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgb(226 229 236 / 80%); background: rgb(255 255 255 / 90%); backdrop-filter: blur(16px); }
+/* The hero is `relative isolate z-50` so the peel scenes ride up behind it, and
+   it comes later in the document. At an equal z-index the hero therefore paints
+   over the header's overflowing nav popover and mobile panel, hiding both. */
+.site-header { position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgb(226 229 236 / 80%); background: rgb(255 255 255 / 90%); backdrop-filter: blur(16px); }
 .header-inner { display: flex; min-height: 4.5rem; align-items: center; justify-content: space-between; gap: 2rem; }
 .site-logo { display: inline-flex; flex: none; align-items: center; text-decoration: none; }
 .site-logo img { width: auto; height: 1.55rem; }

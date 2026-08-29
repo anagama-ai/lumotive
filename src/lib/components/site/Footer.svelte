@@ -23,7 +23,6 @@
 					height="176"
 				/>
 			</a>
-			<p>Software-defined optical beamforming for the next generation of 3D sensing.</p>
 		</div>
 
 		{#each data.navItems || [] as group, index (index)}
