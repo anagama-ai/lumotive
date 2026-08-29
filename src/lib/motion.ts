@@ -18,6 +18,24 @@ export function prefersReducedMotion(): boolean {
 }
 
 /**
+ * Keeps an autoplaying decorative video paused while reduced motion is asked
+ * for, including when the preference changes after load. Use with `{@attach}`.
+ */
+export function honorReducedMotion(video: HTMLVideoElement) {
+	const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const enforce = () => {
+		if (query.matches) video.pause();
+	};
+	enforce();
+	video.addEventListener('play', enforce);
+	query.addEventListener('change', enforce);
+	return () => {
+		video.removeEventListener('play', enforce);
+		query.removeEventListener('change', enforce);
+	};
+}
+
+/**
  * Starts Lenis on GSAP's ticker and returns its teardown. The live Lenis instance
  * is exposed on `teardown.lenis` for scroll locking and programmatic scrolling.
  */

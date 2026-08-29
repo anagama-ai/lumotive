@@ -40,7 +40,8 @@
 						{#if section.eyebrow}<p data-peel="rise" class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
 						{#if heading}
 							<h2 data-peel="tint-each" class="text-display max-w-4xl text-white">
-								{#each heading.split(' ') as word, index (index)}<span>{word} </span>{/each}
+								<!-- The trailing space must live inside the expression: Svelte trims literal whitespace between elements, which welds the words together. -->
+								{#each heading.split(' ') as word, index (index)}<span>{word + ' '}</span>{/each}
 							</h2>
 						{/if}
 						{#if section.intro}<p data-peel="rise" class="text-lead mt-6 max-w-3xl text-white/70">{String(section.intro)}</p>{/if}

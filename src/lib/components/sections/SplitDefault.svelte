@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 	import { resolveMedia, type MediaMap } from '$lib/media';
+	import { honorReducedMotion } from '$lib/motion';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
 
@@ -44,7 +45,11 @@
 >
 	{#if variant === 'peelBleed' && visual}
 		<div class="bleed-media absolute inset-0" aria-hidden="true">
-			<img class="h-full w-full object-cover" src={visual.src} srcset={visual.srcset} sizes="100vw" alt="" width={visual.width ?? 1600} height={visual.height ?? 900} />
+			{#if visual.isVideo}
+				<video {@attach honorReducedMotion} class="h-full w-full object-cover" src={visual.src} autoplay loop muted playsinline></video>
+			{:else}
+				<img class="h-full w-full object-cover" src={visual.src} srcset={visual.srcset} sizes="100vw" alt="" width={visual.width ?? 1600} height={visual.height ?? 900} />
+			{/if}
 		</div>
 		<div class="bleed-shade absolute inset-0"></div>
 	{/if}
@@ -54,7 +59,11 @@
 				<div class="art-column">
 					<Reveal x={mediaRight ? 24 : -24} y={12} duration={1.1}>
 						<div class="art-frame">
-							<img src={visual.src} srcset={visual.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
+							{#if visual.isVideo}
+								<video {@attach honorReducedMotion} src={visual.src} autoplay loop muted playsinline aria-label={visual.alt || undefined}></video>
+							{:else}
+								<img src={visual.src} srcset={visual.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
+							{/if}
 						</div>
 					</Reveal>
 				</div>
@@ -76,7 +85,7 @@
 	.media-right .art-column { order: 2; }
 	.media-right .copy-column { order: 1; }
 	.art-frame { overflow: hidden; border-radius: var(--radius-card); }
-	.art-frame img { display: block; width: 100%; height: auto; }
+	.art-frame img, .art-frame video { display: block; width: 100%; height: auto; }
 	.split-eyebrow { margin: 0 0 1.25rem; color: var(--color-brand-blue); }
 	h2 { margin: 0; color: var(--color-ink); text-wrap: balance; }
 	.split-body { margin-top: 1.25rem; color: var(--color-muted); }
@@ -94,7 +103,7 @@
 	.dark-panel .art-frame { border-radius: 0; }
 	.stacked-card .split-layout { grid-template-columns: 1fr; gap: 2rem; background: var(--color-surface); box-shadow: var(--shadow-card); }
 	.stacked-card .art-column, .stacked-card .copy-column { order: initial; }
-	.stacked-card .art-frame img { max-height: 31rem; object-fit: contain; }
+	.stacked-card .art-frame img, .stacked-card .art-frame video { max-height: 31rem; object-fit: contain; }
 	.peel-bleed { min-height: 100svh; color: white; background: var(--color-panel); overflow: hidden; }
 	.peel-bleed .lumo-inner { display: flex; min-height: 100svh; align-items: center; }
 	.peel-bleed .split-layout { display: block; width: 100%; }

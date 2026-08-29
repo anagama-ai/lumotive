@@ -25,7 +25,11 @@ export type ResolvedImage = {
 	srcset?: string;
 	width?: number;
 	height?: number;
+	/** A video asset must render in a `<video>`; an `<img>` shows a broken icon. */
+	isVideo?: boolean;
 };
+
+const VIDEO_EXTENSION = /\.(mp4|webm|mov|m4v|ogv)(?:\?|#|$)/i;
 
 export function collectMediaIds(sections: Section[]): string[] {
 	const ids = new Set<string>();
@@ -86,13 +90,14 @@ export function resolveMedia(
 ): ResolvedImage | null {
 	const value = mediaValue(raw);
 	if (!value) return null;
-	if (value.kind === 'url') return { src: value.value, alt: '' };
+	if (value.kind === 'url') return { src: value.value, alt: '', isVideo: VIDEO_EXTENSION.test(value.value) };
 
 	const entry = media[value.value];
 	if (!entry?.file) return null;
 
 	const target = { id: value.value, file: entry.file };
-	if (!width) return { src: mediaSrc(target), alt: entry.alt };
+	const isVideo = VIDEO_EXTENSION.test(entry.file);
+	if (!width || isVideo) return { src: mediaSrc(target), alt: entry.alt, isVideo };
 
 	return {
 		src: mediaSrc(target, width),

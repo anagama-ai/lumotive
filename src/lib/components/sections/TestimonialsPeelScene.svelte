@@ -34,7 +34,8 @@
 				{#each quotes as quote, quoteIndex (quoteIndex)}
 					<figure class="mx-auto max-w-4xl text-center">
 						<blockquote data-peel="tint-each" class="text-quote text-ink">
-							{#each `“${String(quote.quote ?? '')}”`.split(' ') as word, index (index)}<span>{word} </span>{/each}
+							<!-- The trailing space must live inside the expression: Svelte trims literal whitespace between elements, which welds the words together. -->
+							{#each `“${String(quote.quote ?? '')}”`.split(' ') as word, index (index)}<span>{word + ' '}</span>{/each}
 						</blockquote>
 						<figcaption data-peel="rise" class="text-eyebrow mt-10 uppercase text-brand-blue">
 							{String(quote.author ?? '')}

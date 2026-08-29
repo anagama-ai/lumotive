@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolveMedia, type MediaMap } from '$lib/media';
+	import { honorReducedMotion } from '$lib/motion';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
 	import PeelScene from '$lib/components/lumotive/peel/PeelScene.svelte';
@@ -23,21 +24,7 @@
 	}: { section: Section; media: MediaMap; band?: Section } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	let sharedImage = $derived(resolveMedia(cards.find((card) => card.media)?.media, media, 1024));
-	let sharedIsVideo = $derived(Boolean(sharedImage && /\.mp4(?:$|[?#])/i.test(sharedImage.src)));
-
-	function honorReducedMotion(video: HTMLVideoElement) {
-		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-		const enforce = () => {
-			if (query.matches) video.pause();
-		};
-		enforce();
-		video.addEventListener('play', enforce);
-		query.addEventListener('change', enforce);
-		return () => {
-			video.removeEventListener('play', enforce);
-			query.removeEventListener('change', enforce);
-		};
-	}
+	let sharedIsVideo = $derived(Boolean(sharedImage?.isVideo));
 
 	const tones: Record<string, string> = {
 		accent1: 'text-brand-blue', accent2: 'text-brand-green', accent3: 'text-brand-amber',
