@@ -1,13 +1,22 @@
 import PocketBase from 'pocketbase';
-import { PUBLIC_PB_URL } from '$env/static/public';
+import { env } from '$env/dynamic/private';
 
-if (!PUBLIC_PB_URL) {
-	throw new Error(
-		'PUBLIC_PB_URL is required at build time and must be the browser-reachable PocketBase URL.'
-	);
-}
-
-export const PB_URL = PUBLIC_PB_URL;
+/**
+ * Resolved per call, never at module load. `$env/dynamic/private` is a runtime
+ * value, but this module is still imported while SvelteKit builds — so a
+ * top-level throw fails `vite build` on any machine without a populated `.env`,
+ * which is exactly what CI is. Validating here keeps the build configuration-free
+ * and still fails loudly on the first request if the variable is missing.
+ */
+const pbUrl = () => {
+	const raw = env.PB_URL?.replace(/\/+$/, '');
+	if (!raw) {
+		throw new Error(
+			'PB_URL is required at runtime and must be the server-reachable PocketBase URL.'
+		);
+	}
+	return raw;
+};
 
 /**
  * Fresh client per request. Never share one instance across requests on the server.
@@ -18,8 +27,8 @@ export const PB_URL = PUBLIC_PB_URL;
  * from method and path, so a layout load and a page load racing on the same
  * collection abort each other.
  */
-export const createPB = () => new PocketBase(PUBLIC_PB_URL).autoCancellation(false);
+export const createPB = () => new PocketBase(pbUrl()).autoCancellation(false);
 
-/** Public URL of a file stored on a record. */
-export const fileUrl = (collection: string, recordId: string, filename: string) =>
-	`${PUBLIC_PB_URL}/api/files/${collection}/${recordId}/${filename}`;
+/** Internal URL of a file stored on a PocketBase record. */
+export const pbFileUrl = (collection: string, recordId: string, filename: string) =>
+	`${pbUrl()}/api/files/${encodeURIComponent(collection)}/${encodeURIComponent(recordId)}/${encodeURIComponent(filename)}`;

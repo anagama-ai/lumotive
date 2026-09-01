@@ -8,7 +8,7 @@ import {
 	VARIANT_CONTENT_TYPE,
 	VARIANT_FORMAT
 } from '$lib/imagesizes';
-import { createPB, fileUrl } from '$lib/pb';
+import { createPB, pbFileUrl } from '$lib/pb';
 import type { RequestHandler } from './$types';
 
 const CACHE_CONTROL = 'public, max-age=31536000, immutable';
@@ -45,6 +45,73 @@ function originalContentType(filename: string) {
 	return ORIGINAL_CONTENT_TYPES[extension] ?? 'application/octet-stream';
 }
 
+function responseHeaders(response: Response, etag: string, includeEntityHeaders = true) {
+	const headers = new Headers({
+		'Cache-Control': CACHE_CONTROL,
+		ETag: etag
+	});
+	if (includeEntityHeaders) {
+		for (const name of ['Content-Type', 'Content-Length']) {
+			const value = response.headers.get(name);
+			if (value) headers.set(name, value);
+		}
+	}
+	return headers;
+}
+
+function matchesEtag(condition: string | null, etag: string | null) {
+	if (!condition || !etag) return false;
+	const target = etag.replace(/^W\//, '');
+	return condition
+		.split(',')
+		.some((candidate) => candidate.trim() === '*' || candidate.trim().replace(/^W\//, '') === target);
+}
+
+async function proxyOriginal(
+	method: 'GET' | 'HEAD',
+	request: Request,
+	url: URL,
+	id: string,
+	filename: string
+) {
+	const upstreamUrl = new URL(pbFileUrl('media', id, filename));
+	const thumb = url.searchParams.get('thumb');
+	if (thumb !== null) upstreamUrl.searchParams.set('thumb', thumb);
+	const fallbackEtag = `W/"${encodeURIComponent(`${id}/${filename}?thumb=${thumb ?? ''}`)}"`;
+	const ifNoneMatch = request.headers.get('If-None-Match');
+	let upstream: Response;
+	try {
+		upstream = await fetch(upstreamUrl, {
+			method,
+			headers: ifNoneMatch ? { 'If-None-Match': ifNoneMatch } : undefined
+		});
+	} catch {
+		return new Response(null, { status: 502 });
+	}
+
+	if (upstream.status === 404) return new Response(null, { status: 404 });
+	const etag = upstream.headers.get('ETag') ?? fallbackEtag;
+	if (upstream.status === 304) {
+		return new Response(null, {
+			status: 304,
+			headers: responseHeaders(upstream, etag, false)
+		});
+	}
+	if (!upstream.ok) return new Response(null, { status: 502 });
+
+	if (matchesEtag(ifNoneMatch, etag)) {
+		return new Response(null, {
+			status: 304,
+			headers: responseHeaders(upstream, etag, false)
+		});
+	}
+
+	return new Response(method === 'HEAD' ? null : upstream.body, {
+		status: upstream.status,
+		headers: responseHeaders(upstream, etag)
+	});
+}
+
 function imageResponse(bytes: Buffer, filename: string) {
 	const isWebp =
 		bytes.length >= 12 &&
@@ -60,7 +127,10 @@ function imageResponse(bytes: Buffer, filename: string) {
 	});
 }
 
-export const GET: RequestHandler = async ({ params, locals }) => {
+export const GET: RequestHandler = async ({ params, locals, request, url }) => {
+	if (params.variant === 'original') {
+		return proxyOriginal('GET', request, url, params.id, params.file);
+	}
 	const variantParts = params.variant.split('.');
 	const width = Number(variantParts[0]);
 	if (
@@ -96,7 +166,7 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 			try {
 				let stored: Buffer;
 				try {
-					const response = await fetch(fileUrl('media', params.id, params.file));
+					const response = await fetch(pbFileUrl('media', params.id, params.file));
 					if (!response.ok) error(404, 'Image not found.');
 					stored = Buffer.from(await response.arrayBuffer());
 				} catch {
@@ -142,4 +212,17 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 	} finally {
 		if (inFlight.get(key) === pending) inFlight.delete(key);
 	}
+};
+
+export const HEAD: RequestHandler = async (event) => {
+	if (event.params.variant === 'original') {
+		return proxyOriginal('HEAD', event.request, event.url, event.params.id, event.params.file);
+	}
+
+	const response = await GET(event);
+	return new Response(null, {
+		status: response.status,
+		statusText: response.statusText,
+		headers: response.headers
+	});
 };

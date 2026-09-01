@@ -7,9 +7,6 @@ RUN npm ci
 
 COPY . .
 
-ARG PUBLIC_PB_URL
-RUN test -n "$PUBLIC_PB_URL" || (echo >&2 "ERROR: PUBLIC_PB_URL build argument is required"; exit 1)
-ENV PUBLIC_PB_URL=${PUBLIC_PB_URL}
 RUN npm run build
 
 FROM node:22-bookworm-slim AS runtime

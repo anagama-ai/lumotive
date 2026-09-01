@@ -1,5 +1,5 @@
 import type PocketBase from 'pocketbase';
-import { fileUrl } from '$lib/pb';
+import { fileUrl } from '$lib/mediapath';
 import { variantCandidates, variantPath, type VariantWidth } from '$lib/imagesizes';
 import { mediaValue, sectionSpecs, type FieldSpec, type Section } from '$lib/sections';
 
@@ -112,9 +112,20 @@ export async function loadMediaMap(pb: PocketBase, ids: Iterable<string>): Promi
 	const unique = [...new Set(ids)];
 	if (!unique.length) return {};
 
-	const values = Object.fromEntries(unique.map((id, index) => [`id${index}`, id]));
-	const filter = unique.map((_, index) => `id = {:id${index}}`).join(' || ');
-	const records = await pb.collection('media').getFullList({ filter: pb.filter(filter, values) });
+	// Public visitors may view a referenced media record but cannot enumerate the library.
+	// If this fan-out becomes material, use an elevated server client; never reopen listRule.
+	const collection = pb.collection('media');
+	const records = (
+		await Promise.all(
+			unique.map(async (id) => {
+				try {
+					return await collection.getOne(id);
+				} catch {
+					return null;
+				}
+			})
+		)
+	).filter((record) => record !== null);
 
 	return Object.fromEntries(
 		records.map((record) => [

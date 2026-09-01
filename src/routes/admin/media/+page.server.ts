@@ -2,7 +2,7 @@ import { fail } from '@sveltejs/kit';
 import sharp from 'sharp';
 import { CONVERT_CONCURRENCY, UPLOAD_MAX_WIDTH } from '$lib/imagesizes';
 import { filenameStem, mediaSrc, mediaSrcset } from '$lib/media';
-import { fileUrl } from '$lib/pb';
+import { pbFileUrl } from '$lib/pb';
 import { MAX_FILE_SIZE } from '$lib/uploads';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -59,7 +59,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		const file = String(record.file ?? '');
 		if (!file || Number(record.width) > 0) continue;
 		try {
-			const response = await fetch(fileUrl('media', record.id, file));
+			const response = await fetch(pbFileUrl('media', record.id, file));
 			if (!response.ok) continue;
 			const { width, height } = await sharp(
 				Buffer.from(await response.arrayBuffer())
@@ -245,7 +245,7 @@ export const actions: Actions = {
 			const extension = extensionIndex === -1 ? '' : record.file.slice(extensionIndex);
 			const type =
 				ORIGINAL_CONTENT_TYPES[extension.slice(1).toLowerCase()] ?? 'application/octet-stream';
-			const response = await fetch(fileUrl('media', id, record.file));
+			const response = await fetch(pbFileUrl('media', id, record.file));
 			if (!response.ok) {
 				return fail(400, { error: 'Could not rename the image.' });
 			}
