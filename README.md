@@ -4,7 +4,12 @@ A working starter for client marketing sites with PocketBase v0.39.11 as the con
 
 ## Run locally
 
-Install dependencies, then run the two processes in separate terminals:
+```sh
+cp .env.example .env
+npm install
+```
+
+Then run the two processes in separate terminals:
 
 ```sh
 npm run pb
