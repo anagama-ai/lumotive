@@ -9,6 +9,8 @@ cp .env.example .env
 npm install
 ```
 
+PocketBase itself is not in the repository. Download v0.39.11 for your platform from https://github.com/pocketbase/pocketbase/releases/tag/v0.39.11 and put the binary at `bin/pocketbase`.
+
 Then run the two processes in separate terminals:
 
 ```sh
