@@ -71,14 +71,16 @@ jobs:
 
   deploy:
     needs: publish
-    if: github.ref == 'refs/heads/main'
+    if: >-
+      github.ref == 'refs/heads/main'
+      && vars.DOKPLOY_PB_APP_ID != ''
+      && vars.DOKPLOY_WEB_APP_ID != ''
     runs-on: ubuntu-latest
     env:
       DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
       DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
       PB_APP: ${{ vars.DOKPLOY_PB_APP_ID }}
       WEB_APP: ${{ vars.DOKPLOY_WEB_APP_ID }}
-      SITE_URL: https://lumotive-pb.filebx.net
       TAG: sha-${{ needs.publish.outputs.short_sha }}
 
     steps:
@@ -86,10 +88,10 @@ jobs:
         run: |
           set -euo pipefail
           dk() { npx -y @dokploy/cli@0.3.0 "$@"; }
+          api() { curl -sS -H "x-api-key: $DOKPLOY_API_KEY" "$DOKPLOY_URL/api/$1"; }
           wait_done() {
             for _ in $(seq 60); do
-              status=$(curl -sS -H "x-api-key: $DOKPLOY_API_KEY" \
-                "$DOKPLOY_URL/api/application.one?applicationId=$1" | jq -r .applicationStatus)
+              status=$(api "application.one?applicationId=$1" | jq -r .applicationStatus)
               [ "$status" = done ] && return 0
               [ "$status" = error ] && { echo "deploy failed: $1"; return 1; }
               sleep 5
@@ -105,5 +107,5 @@ jobs:
             wait_done "$2"
           done
 
-      - name: Smoke test the live site
-        run: curl -fsS -o /dev/null -w 'site:%{http_code}\n' "$SITE_URL/"
+          host=$(api "domain.byApplicationId?applicationId=$WEB_APP" | jq -r '.[0].host')
+          curl -fsS -o /dev/null -w "https://$host -> %{http_code}\n" "https://$host/"

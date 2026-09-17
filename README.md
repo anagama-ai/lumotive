@@ -220,6 +220,35 @@ Run PocketBase with a persistent volume mounted at `pb_data` so content and uplo
 
 `sharp` ships a platform-specific binary. The image that builds the app must match the image that runs it. A platform mismatch appears as a runtime failure in the resize route, not at build time.
 
+### Automatic deploys on push to main
+
+`publish.yml` builds both images, then deploys them to Dokploy. The deploy job is
+skipped unless the repository carries all four values, so a fresh clone builds
+images and does nothing else:
+
+| Kind | Name |
+| --- | --- |
+| Secret | `DOKPLOY_URL` |
+| Secret | `DOKPLOY_API_KEY` |
+| Variable | `DOKPLOY_PB_APP_ID` |
+| Variable | `DOKPLOY_WEB_APP_ID` |
+
+Each run pins both applications to the immutable `sha-<12>` tag it just pushed,
+deploys PocketBase, waits for it to settle, then deploys the web application.
+That order is mandatory: the web application server-renders from PocketBase on
+the first request. The job finishes by requesting the web application's own
+Dokploy domain, so a failed release fails the run.
+
+Roll back by pinning the previous tag and deploying it:
+
+```sh
+dokploy application update --applicationId <id> --dockerImage ghcr.io/<owner>/<repo>/web:sha-<old>
+dokploy application deploy --applicationId <id> --title "rollback"
+```
+
+Content edits never run this pipeline. An editor saves, PocketBase writes, and
+the next request renders it.
+
 ### Public origin behind a proxy
 
 Set adapter-node's `ORIGIN` to the public site origin, for example `ORIGIN=https://example.com`. Alternatively, set both `PROTOCOL_HEADER=x-forwarded-proto` and `HOST_HEADER=x-forwarded-host` and configure the proxy to send those headers.
