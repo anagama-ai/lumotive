@@ -5,7 +5,7 @@
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
-	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
+	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string; anchor?: string };
 	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	const tones: Record<string, string> = { accent1: 'text-brand-blue', accent2: 'text-brand-green', accent3: 'text-brand-amber', accent4: 'text-brand-blue', accent5: 'text-brand-green', accent6: 'text-brand-amber' };
@@ -28,7 +28,8 @@
 				{@const link = linkFor(card)}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`rounded-card bg-surface hover:shadow-card group flex flex-col overflow-hidden transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+					id={card.anchor ? String(card.anchor) : undefined}
+					class={`rounded-card bg-surface hover:shadow-card group flex scroll-mt-32 flex-col overflow-hidden transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}

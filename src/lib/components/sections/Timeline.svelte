@@ -63,7 +63,8 @@
 
 					<Reveal class="pb-4 lg:pb-8">
 						{#if stage.groups.length}
-							<ol class="grid gap-6 lg:grid-cols-2" aria-label={`${String(stage.row.title ?? 'Stage')} groups`}>
+							<!-- Two or more groups sit side by side; a lone group spans the row so no half stays empty. -->
+							<ol class={`grid gap-6 ${stage.groups.length > 1 ? 'lg:grid-cols-2' : ''}`} aria-label={`${String(stage.row.title ?? 'Stage')} groups`}>
 								{#each stage.groups as group, groupIndex (groupIndex)}
 									{@const groupImage = resolveMedia(group.row.media, media, 320)}
 									<li class={`rounded-panel p-8 ${groupIndex % 2 === 0 ? 'bg-brand-blue/6' : 'bg-brand-green/6'}`}>

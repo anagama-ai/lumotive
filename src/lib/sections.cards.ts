@@ -108,7 +108,14 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 	},
 	cardsMediaCards: {
 		label: 'Cards — media cards',
-		fields: [...presentationFields, ...introFields, cardsField(fullCardFields)]
+		fields: [
+			...presentationFields,
+			...introFields,
+			cardsField([
+				...fullCardFields,
+				{ name: 'anchor', label: 'Card anchor', type: 'text' }
+			])
+		]
 	},
 	cardsTextCards: {
 		label: 'Cards — text cards',

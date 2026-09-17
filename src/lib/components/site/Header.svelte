@@ -8,9 +8,19 @@
 	let { data = {} }: { data?: HeaderData } = $props();
 
 	const href = (link?: Link) => link?.url || '#';
+
+	let headerEl: HTMLElement | null = null;
+
+	// Menus are plain <details>, so they stay open after a client-side
+	// navigation. Collapse them once a link is activated; otherwise the mobile
+	// panel keeps covering the page — including in-page anchor targets such as
+	// /applications#robotics.
+	const collapseMenus = () => {
+		for (const menu of headerEl?.querySelectorAll('details') ?? []) menu.open = false;
+	};
 </script>
 
-<header class="site-header" data-lumotive-header>
+<header class="site-header" data-lumotive-header bind:this={headerEl}>
 	<div class="container header-inner">
 		<a class="site-logo" href="/" aria-label="Lumotive home">
 			<img src="/lumotive/logos/lumotive-wordmark.png" alt="Lumotive" width="1080" height="176" />
@@ -23,7 +33,8 @@
 						<a
 							href={href(item.link)}
 							target={item.link.newTab ? '_blank' : undefined}
-							rel={item.link.newTab ? 'noreferrer' : undefined}>{item.link.label}</a
+							rel={item.link.newTab ? 'noreferrer' : undefined}
+							onclick={collapseMenus}>{item.link.label}</a
 						>
 					{:else if item.blockType === 'sub' && item.label}
 						<details class="nav-group">
@@ -35,6 +46,7 @@
 											href={href(subitem.link)}
 											target={subitem.link.newTab ? '_blank' : undefined}
 											rel={subitem.link.newTab ? 'noreferrer' : undefined}
+											onclick={collapseMenus}
 										>
 											{subitem.link.label}
 											{#if subitem.Description}<small>{subitem.Description}</small>{/if}
@@ -72,7 +84,8 @@
 							<a
 								href={href(item.link)}
 								target={item.link.newTab ? '_blank' : undefined}
-								rel={item.link.newTab ? 'noreferrer' : undefined}>{item.link.label}</a
+								rel={item.link.newTab ? 'noreferrer' : undefined}
+								onclick={collapseMenus}>{item.link.label}</a
 							>
 						{:else if item.blockType === 'sub' && item.label}
 							<details>
@@ -84,6 +97,7 @@
 												href={href(subitem.link)}
 												target={subitem.link.newTab ? '_blank' : undefined}
 												rel={subitem.link.newTab ? 'noreferrer' : undefined}
+												onclick={collapseMenus}
 												>{subitem.link.label}</a
 											>
 										{/if}
@@ -98,7 +112,8 @@
 								class="header-button"
 								href={href(button.link)}
 								target={button.link.newTab ? '_blank' : undefined}
-								rel={button.link.newTab ? 'noreferrer' : undefined}>{button.link.label}</a
+								rel={button.link.newTab ? 'noreferrer' : undefined}
+								onclick={collapseMenus}>{button.link.label}</a
 							>
 						{/if}
 					{/each}

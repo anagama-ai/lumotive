@@ -10,6 +10,26 @@
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
 	const solidBackground = (accent?: string) => accent === 'accent2' ? 'bg-brand-red' : accent === 'accent3' ? 'bg-brand-amber' : 'bg-surface';
+
+	// The 4-column dense grid only tiles without holes for specific spans, so the
+	// spans depend on how many cards the section holds. Six cards: 2x2 feature, a
+	// tall third card and a 3-wide fifth card across three rows. Five cards: two
+	// flat rows — 2 + 1 + 1 on top, 3 + 1 below — with no row spans, so the grid
+	// stays short and the wide card keeps its copy on few lines. At md the two
+	// wide cards and the trailing card each take the full 2-column row, which
+	// leaves that breakpoint gap-free too.
+	const spanFor = (index: number, count: number) => {
+		if (count === 5) {
+			if (index === 0) return 'md:col-span-2 lg:col-span-2';
+			if (index === 3) return 'md:col-span-2 lg:col-span-3';
+			if (index === 4) return 'md:col-span-2 lg:col-span-1';
+			return '';
+		}
+		if (index === 0) return 'lg:col-span-2 lg:row-span-2';
+		if (index === 2) return 'lg:row-span-2';
+		if (index === 4) return 'lg:col-span-3';
+		return '';
+	};
 </script>
 
 <section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')}>
@@ -29,7 +49,7 @@
 				{@const darkText = solid && card.accent !== 'accent2'}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''} ${index === 2 ? 'lg:row-span-2' : ''} ${index === 4 ? 'lg:col-span-3' : ''} ${solid ? solidBackground(card.accent) : 'bg-surface'}${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+					class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${spanFor(index, cards.length)} ${solid ? solidBackground(card.accent) : 'bg-surface'}${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
