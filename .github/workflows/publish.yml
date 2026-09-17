@@ -87,6 +87,8 @@ jobs:
       - name: Deploy PocketBase, then the web app
         run: |
           set -euo pipefail
+          # GHCR rejects a mixed-case path, and an organisation name is free to have capitals.
+          IMAGE_BASE=ghcr.io/$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')
           dk() { npx -y @dokploy/cli@0.3.0 "$@"; }
           api() { curl -sS -H "x-api-key: $DOKPLOY_API_KEY" "$DOKPLOY_URL/api/$1"; }
           wait_done() {
@@ -101,9 +103,8 @@ jobs:
 
           for pair in "pb $PB_APP" "web $WEB_APP"; do
             set -- $pair
-            dk application update --applicationId "$2" \
-              --dockerImage "ghcr.io/${GITHUB_REPOSITORY}/$1:${TAG}"
-            dk application deploy --applicationId "$2" --title "ci ${TAG}"
+            dk application update --applicationId "$2" --dockerImage "$IMAGE_BASE/$1:$TAG"
+            dk application deploy --applicationId "$2" --title "ci $TAG"
             wait_done "$2"
           done
 
