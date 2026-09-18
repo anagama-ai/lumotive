@@ -41,7 +41,9 @@
 	});
 </script>
 
-<PeelScene {band} {media}>
+<!-- Homepage only: ride the hero's lower edge so this section fills the strip
+     the hero vacates instead of trailing an empty viewport behind it. -->
+<PeelScene {band} {media} revealFollow>
 	<section
 		class="lumo-section"
 		id={section.anchor ? String(section.anchor) : undefined}
@@ -68,7 +70,7 @@
 					{@const link = linkFor(card)}
 					<svelte:element
 						this={link.href ? 'a' : 'article'}
-						class={`rounded-card bg-surface hover:shadow-card group flex flex-col overflow-hidden transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+						class={`rounded-card bg-surface hover:shadow-card group flex flex-col overflow-hidden transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 						href={link.href || undefined}
 						target={link.href && link.newTab ? '_blank' : undefined}
 						rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
@@ -89,7 +91,7 @@
 						<div class="flex flex-1 flex-col p-6">
 							{#if card.eyebrow}<p class={`text-eyebrow uppercase ${tone(card.accent)}`}>{card.eyebrow}</p>{/if}
 							<h3 class="font-display text-subheading text-ink mt-2">{titleCase(card.title ?? '')}</h3>
-							{#if card.body}<div class="mt-3 text-base leading-relaxed [&_p]:line-clamp-3">{@html card.body}</div>{/if}
+							{#if card.body}<div class="mt-3 text-base leading-relaxed">{@html card.body}</div>{/if}
 							{#if link.href && link.label}
 								<span class={`mt-auto inline-flex items-center gap-2 self-start pt-5 text-base font-medium ${tone(card.accent)}`}>
 									{link.label}

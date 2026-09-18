@@ -14,12 +14,21 @@
 		children,
 		band,
 		media = {},
-		uncover = true
+		uncover = true,
+		revealFollow = false
 	}: {
 		children?: Snippet;
 		band?: Section;
 		media?: MediaMap;
 		uncover?: boolean;
+		/**
+		 * Ride the edge of the panel above instead of waiting for it to finish
+		 * clearing. This scene's content is held exactly at that panel's lower
+		 * edge and rises with it, so the vacated strip is filled as it appears
+		 * and the two panels never show content over one another. Off by default:
+		 * every other scene keeps waiting for a full viewport of scroll.
+		 */
+		revealFollow?: boolean;
 	} = $props();
 
 	setContext(IN_PEEL_SCENE, true);
@@ -31,6 +40,7 @@
 		const root = scope;
 		const stickyPanel = panel;
 		const shouldUncover = uncover;
+		const followReveal = revealFollow;
 
 		gsap.registerPlugin(ScrollTrigger);
 
@@ -93,9 +103,18 @@
 
 				const size = () => {
 					if (!wide) return;
-					root.style.marginTop = shouldUncover && cover ? `-${cover.offsetHeight}px` : '';
+					// `.uncover` lifts a scene by a viewport so it slides out from under
+					// the panel above. With no such panel there is nothing to slide out
+					// from, and the lift would drag the scene over the section above it.
+					root.style.marginTop = shouldUncover && cover ? `-${cover.offsetHeight}px` : '0px';
 					root.style.height = '';
-					root.style.height = `calc(${stickyPanel.offsetHeight + (shouldUncover ? (cover?.offsetHeight ?? 0) : 0)}px + ${BEAT_VIEWPORTS * 100}dvh)`;
+					// A reveal-follow scene plays its beats while it rides the panel
+					// above, so everything is finished once that panel has cleared.
+					// Reserving the usual beat runway on top of that would pin it in
+					// place for a further viewport with nothing left to animate.
+					const lift = shouldUncover ? (cover?.offsetHeight ?? 0) : 0;
+					const runway = followReveal && cover ? 0 : BEAT_VIEWPORTS * 100;
+					root.style.height = `calc(${stickyPanel.offsetHeight + lift}px + ${runway}dvh)`;
 				};
 				size();
 
@@ -118,12 +137,35 @@
 							)
 						: undefined;
 
+				// The panel above clears by shrinking its sticky window from a full
+				// viewport down to nothing. Held at that shrinking edge, this panel's
+				// content occupies the strip the moment it is vacated: no empty band,
+				// and nothing of this scene is ever painted beside the panel above.
+				const followTween =
+					followReveal && shouldUncover && wide && cover && stickyPanel.children.length
+						? gsap.fromTo(
+								stickyPanel.children,
+								{ y: () => cover.offsetHeight },
+								{
+									y: 0,
+									ease: 'none',
+									scrollTrigger: {
+										trigger: root,
+										start: 'top top',
+										end: () => `+=${cover.offsetHeight}`,
+										scrub: true,
+										invalidateOnRefresh: true
+									}
+								}
+							)
+						: undefined;
+
 				const timeline = gsap.timeline({
 					scrollTrigger: {
 						trigger: root,
 						start: wide
 							? shouldUncover
-								? () => `top+=${cover?.offsetHeight ?? 0} top`
+								? () => `top+=${followTween ? 0 : (cover?.offsetHeight ?? 0)} top`
 								: 'top top'
 							: 'top 80%',
 						end: wide ? () => `+=${window.innerHeight * BEAT_VIEWPORTS}` : undefined,
@@ -160,6 +202,8 @@
 				return () => {
 					coverTween?.scrollTrigger?.kill();
 					coverTween?.revert();
+					followTween?.scrollTrigger?.kill();
+					followTween?.revert();
 					timeline.scrollTrigger?.kill();
 					timeline.revert();
 					root.style.marginTop = '';

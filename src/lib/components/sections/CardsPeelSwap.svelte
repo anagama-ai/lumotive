@@ -50,7 +50,7 @@
 		<div class="lumo-inner relative flex min-h-full flex-col justify-center">
 			{#if section.heading || section.intro}
 				<div class="text-center">
-					{#if section.heading}<h2 class="font-display text-statement text-ink">{titleCase(String(section.heading))}</h2>{/if}
+					{#if section.heading}<h2 class="font-display text-statement text-ink mt-12 md:mt-0">{titleCase(String(section.heading))}</h2>{/if}
 					{#if section.intro}<p class="text-lead text-muted mx-auto mt-4 max-w-4xl">{String(section.intro)}</p>{/if}
 				</div>
 			{/if}

@@ -64,7 +64,7 @@
 					<Reveal class="pb-4 lg:pb-8">
 						{#if stage.groups.length}
 							<!-- Two or more groups sit side by side; a lone group spans the row so no half stays empty. -->
-							<ol class={`grid gap-6 ${stage.groups.length > 1 ? 'lg:grid-cols-2' : ''}`} aria-label={`${String(stage.row.title ?? 'Stage')} groups`}>
+							<ol class={`grid list-none gap-6 ${stage.groups.length > 1 ? 'lg:grid-cols-2' : ''}`} aria-label={`${String(stage.row.title ?? 'Stage')} groups`}>
 								{#each stage.groups as group, groupIndex (groupIndex)}
 									{@const groupImage = resolveMedia(group.row.media, media, 320)}
 									<li class={`rounded-panel p-8 ${groupIndex % 2 === 0 ? 'bg-brand-blue/6' : 'bg-brand-green/6'}`}>
@@ -77,7 +77,7 @@
 												</div>
 											</header>
 											{#if group.items.length}
-												<ol class={`mt-8 grid gap-6 ${group.items.length > 1 ? 'sm:grid-cols-3 sm:text-center' : ''}`} aria-label={`${String(group.row.title ?? 'Group')} items`}>
+												<ol class={`mt-8 grid list-none gap-6 ${group.items.length > 1 ? 'sm:grid-cols-3 sm:text-center' : ''}`} aria-label={`${String(group.row.title ?? 'Group')} items`}>
 													{#each group.items as item, itemIndex (itemIndex)}
 														{@const itemImage = resolveMedia(item.media, media, 640)}
 														<li>
@@ -107,7 +107,7 @@
 								</div>
 							</article>
 						{:else if stage.items.length}
-							<ol class={`rounded-panel grid gap-8 p-8 md:grid-cols-2 md:gap-10 ${panels[stageIndex % panels.length]}`} aria-label={`${String(stage.row.title ?? 'Stage')} items`}>
+							<ol class={`rounded-panel grid list-none gap-8 p-8 md:grid-cols-2 md:gap-10 ${panels[stageIndex % panels.length]}`} aria-label={`${String(stage.row.title ?? 'Stage')} items`}>
 								{#each stage.items as item, itemIndex (itemIndex)}
 									{@const itemImage = resolveMedia(item.media, media, 320)}
 									<li class={`flex items-start gap-5 ${itemIndex > 0 ? 'md:border-l md:border-current/20 md:pl-10' : ''}`}>

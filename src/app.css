@@ -61,9 +61,11 @@ img, video { display: block; max-width: 100%; }
 .lumo-section[data-spacing-top='none'] > .lumo-inner { padding-top: 0; }
 .lumo-section[data-spacing-top='sm'] > .lumo-inner { padding-top: 2.5rem; }
 .lumo-section[data-spacing-top='lg'] > .lumo-inner { padding-top: 7rem; }
+.lumo-section[data-spacing-top='xl'] > .lumo-inner { padding-top: 9rem; }
 .lumo-section[data-spacing-bottom='none'] > .lumo-inner { padding-bottom: 0; }
 .lumo-section[data-spacing-bottom='sm'] > .lumo-inner { padding-bottom: 2.5rem; }
 .lumo-section[data-spacing-bottom='lg'] > .lumo-inner { padding-bottom: 7rem; }
+.lumo-section[data-spacing-bottom='xl'] > .lumo-inner { padding-bottom: 9rem; }
 
 /* The hero is `relative isolate z-50` so the peel scenes ride up behind it, and
    it comes later in the document. At an equal z-index the hero therefore paints

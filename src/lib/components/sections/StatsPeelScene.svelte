@@ -45,7 +45,7 @@
 							</h2>
 						{/if}
 						{#if section.intro}<p data-peel="rise" class="text-lead mt-6 max-w-3xl text-white/70">{String(section.intro)}</p>{/if}
-						{#if body}<div data-peel="rise" class="prose mt-6 max-w-3xl text-lead text-white/70">{@html body}</div>{/if}
+						{#if body}<div data-peel="rise" class="prose body-cta mt-6 max-w-3xl text-lead text-white/70">{@html body}</div>{/if}
 						<dl data-peel="rise-each" class="mt-12 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
 							{#each stats as stat, index (index)}
 								<div>
@@ -63,3 +63,25 @@
 		</section>
 	</PeelScene>
 {/if}
+
+<style>
+	/* The body's call to action uses the site's primary CTA pill — the same white
+	   fill, ink label, rounded shape and padding as the hero's "Talk to our team"
+	   button. `.prose a` in app.css is unlayered, so the override is scoped here
+	   rather than written as utilities. */
+	.body-cta :global(a) {
+		display: inline-flex;
+		padding: .75rem 1.75rem;
+		border-radius: 999px;
+		color: var(--color-ink);
+		background: white;
+		font-weight: 650;
+		text-decoration: none;
+		transition: transform 200ms ease, background 200ms ease;
+	}
+	.body-cta :global(a:hover) { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
+	@media (prefers-reduced-motion: reduce) {
+		.body-cta :global(a) { transition: none; }
+		.body-cta :global(a:hover) { transform: none; }
+	}
+</style>

@@ -14,7 +14,9 @@
 	const bar = (accent?: string) => accent === 'accent2' ? 'bg-brand-red' : accent === 'accent3' ? 'bg-brand-amber' : 'bg-surface';
 </script>
 
-<PeelScene {band} {media}>
+<!-- Homepage only: ride the edge of the hero panel above so this section fills
+     the strip it vacates instead of trailing a viewport of empty scroll. -->
+<PeelScene {band} {media} revealFollow>
 	<section
 		class="lumo-section"
 		id={section.anchor ? String(section.anchor) : undefined}
@@ -41,7 +43,7 @@
 						{@const darkText = amber || (solid && card.accent !== 'accent2')}
 						<svelte:element
 							this={link.href ? 'a' : 'article'}
-							class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''} ${index === 2 ? 'lg:row-span-2' : ''} ${index === 4 ? 'lg:col-span-3' : ''} ${solid ? bar(card.accent) : 'bg-surface'}${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+							class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''} ${index === 2 ? 'lg:row-span-2' : ''} ${index === 4 ? 'lg:col-span-3' : ''} ${solid ? bar(card.accent) : 'bg-surface'}${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 							href={link.href || undefined}
 							target={link.href && link.newTab ? '_blank' : undefined}
 							rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}

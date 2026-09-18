@@ -68,8 +68,8 @@
 	data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 	data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
 	data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
-	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg'], 'md')}
-	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
+	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
+	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
 	style:background-image={`url("${backdrop.src}")`}
 	style:background-position={backdrop.position}
 	style:background-size="cover"
@@ -82,7 +82,7 @@
 			<div class="grid gap-10 md:grid-cols-2 md:gap-16">
 				<Reveal stagger class="self-center">
 					{#if section.eyebrow}<p class="text-eyebrow mb-5 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-					{#if heading}<h2 class="text-heading text-white">{heading}</h2>{/if}
+					{#if heading}<h2 class={`text-white ${enumValue(section.headingSize, ['heading', 'statement'], 'heading') === 'statement' ? 'text-statement' : 'text-heading'}`}>{heading}</h2>{/if}
 					{#if body}<div class="prose mt-5 max-w-md text-lead text-white/70">{@html body}</div>{/if}
 				</Reveal>
 				<Reveal stagger="li" delay={0.12} class="self-center">

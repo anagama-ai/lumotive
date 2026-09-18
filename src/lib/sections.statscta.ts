@@ -37,6 +37,7 @@ const statsFields: FieldSpec[] = [
 const ctaFields: FieldSpec[] = [
 	{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
 	{ name: 'heading', label: 'Heading', type: 'text' },
+	{ name: 'headingSize', label: 'Heading size (heading | statement)', type: 'text' },
 	{ name: 'body', label: 'Body', type: 'richtext' },
 	{ name: 'primaryLinkLabel', label: 'Primary link label', type: 'text' },
 	{ name: 'primaryLinkUrl', label: 'Primary link URL', type: 'url' },

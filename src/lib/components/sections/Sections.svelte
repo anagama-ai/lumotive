@@ -27,6 +27,7 @@
 	import CtaSpectrum from './CtaSpectrum.svelte';
 	import CtaSplitLinks from './CtaSplitLinks.svelte';
 	import Form from './Form.svelte';
+	import FormPipedrive from './FormPipedrive.svelte';
 	import Hero from './Hero.svelte';
 	import HeroBand from './HeroBand.svelte';
 	import HeroFullHeight from './HeroFullHeight.svelte';
@@ -161,6 +162,8 @@
 		<Cta {section} />
 	{:else if section.type === 'form'}
 		<Form {section} {forms} {result} />
+	{:else if section.type === 'formPipedrive'}
+		<FormPipedrive {section} />
 	{/if}
 {/snippet}
 

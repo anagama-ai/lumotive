@@ -4,6 +4,7 @@
 	import { honorReducedMotion } from '$lib/motion';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
+	import { videoEmbedUrl } from '$lib/video';
 
 	type Variant = 'default' | 'darkPanel' | 'peelBleed' | 'stackedCard';
 	let {
@@ -15,6 +16,9 @@
 	let visual = $derived(resolveMedia(section.media, media, 1024));
 	let mediaRight = $derived(String(section.mediaPosition || 'left') === 'right');
 	let linkNewTab = $derived(section.linkNewTab === true || section.linkNewTab === 'true');
+	// A `videoUrl` turns the art column into a real player: same frame, same
+	// radius, same column proportions as the image it replaces.
+	let embedUrl = $derived(videoEmbedUrl(section.videoUrl));
 </script>
 
 {#snippet copy()}
@@ -55,13 +59,22 @@
 	{/if}
 	<div class="lumo-inner relative z-10">
 		<div class="split-layout" class:has-bleed={variant === 'peelBleed'}>
-			{#if variant !== 'peelBleed' && visual}
+			{#if variant !== 'peelBleed' && (embedUrl || visual)}
 				<div class="art-column">
 					<Reveal x={mediaRight ? 24 : -24} y={12} duration={1.1}>
 						<div class="art-frame">
-							{#if visual.isVideo}
+							{#if embedUrl}
+								<iframe
+									src={embedUrl}
+									title={heading || 'Embedded video'}
+									class="video-embed"
+									loading="lazy"
+									allow="autoplay; fullscreen; picture-in-picture"
+									allowfullscreen
+								></iframe>
+							{:else if visual?.isVideo}
 								<video {@attach honorReducedMotion} src={visual.src} autoplay loop muted playsinline aria-label={visual.alt || undefined}></video>
-							{:else}
+							{:else if visual}
 								<img src={visual.src} srcset={visual.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
 							{/if}
 						</div>
@@ -86,6 +99,7 @@
 	.media-right .copy-column { order: 1; }
 	.art-frame { overflow: hidden; border-radius: var(--radius-card); }
 	.art-frame img, .art-frame video { display: block; width: 100%; height: auto; }
+	.video-embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
 	.split-eyebrow { margin: 0 0 1.25rem; color: var(--color-brand-blue); }
 	h2 { margin: 0; color: var(--color-ink); text-wrap: balance; }
 	.split-body { margin-top: 1.25rem; color: var(--color-muted); }

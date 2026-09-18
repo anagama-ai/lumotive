@@ -29,7 +29,7 @@
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
 					id={card.anchor ? String(card.anchor) : undefined}
-					class={`rounded-card bg-surface hover:shadow-card group flex scroll-mt-32 flex-col overflow-hidden transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+					class={`rounded-card bg-surface hover:shadow-card group flex scroll-mt-32 flex-col overflow-hidden transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}

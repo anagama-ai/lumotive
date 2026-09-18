@@ -3,6 +3,7 @@
 	import { resolveMedia, type MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
+	import { videoEmbedUrl } from '$lib/video';
 
 	type Item = { media?: unknown; caption?: unknown };
 
@@ -16,36 +17,7 @@
 				? 'video'
 				: 'image'
 	);
-
-	const videoId = (value: string | null) => (value && /^[A-Za-z0-9_-]+$/.test(value) ? value : null);
-	const toEmbedUrl = (value: unknown) => {
-		if (!value) return null;
-		let url: URL;
-		try {
-			url = new URL(String(value));
-		} catch {
-			return null;
-		}
-		if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) return null;
-		const host = url.hostname.toLowerCase();
-		if (host === 'player.vimeo.com') return /^\/video\/\d+\/?$/.test(url.pathname) ? url.href : null;
-		if (host === 'vimeo.com' || host === 'www.vimeo.com') {
-			const id = url.pathname.match(/^\/(\d+)\/?$/)?.[1];
-			return id ? `https://player.vimeo.com/video/${id}` : null;
-		}
-		if (host === 'youtube.com' || host === 'www.youtube.com') {
-			const embedded = url.pathname.match(/^\/embed\/([^/]+)\/?$/)?.[1];
-			if (videoId(embedded ?? null)) return `https://www.youtube.com/embed/${embedded}`;
-			const id = url.pathname === '/watch' ? videoId(url.searchParams.get('v')) : null;
-			return id ? `https://www.youtube.com/embed/${id}` : null;
-		}
-		if (host === 'youtu.be') {
-			const id = videoId(url.pathname.match(/^\/([^/]+)\/?$/)?.[1] ?? null);
-			return id ? `https://www.youtube.com/embed/${id}` : null;
-		}
-		return null;
-	};
-	let embedUrl = $derived(mode === 'video' ? toEmbedUrl(section.videoUrl) : null);
+	let embedUrl = $derived(mode === 'video' ? videoEmbedUrl(section.videoUrl) : null);
 
 	const enumValue = (value: unknown, values: string[], fallback: string) => {
 		const candidate = String(value ?? '');

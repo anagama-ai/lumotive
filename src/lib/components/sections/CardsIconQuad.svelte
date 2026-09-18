@@ -28,7 +28,7 @@
 				{@const link = linkFor(card)}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`group flex flex-col bg-transparent p-8${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+					class={`group flex flex-col bg-transparent p-8${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}

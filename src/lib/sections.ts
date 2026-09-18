@@ -66,6 +66,21 @@ export const sectionSpecs: Record<string, SectionSpec> = {
 			{ name: 'formId', label: 'Form', type: 'form' },
 			{ name: 'confirmation', label: 'Confirmation message', type: 'textarea' }
 		]
+	},
+	formPipedrive: {
+		label: 'Form — Pipedrive embed',
+		fields: [
+			{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
+			{ name: 'heading', label: 'Heading', type: 'text' },
+			{ name: 'intro', label: 'Introduction', type: 'textarea' },
+			{ name: 'formUrl', label: 'Pipedrive web form URL', type: 'url' },
+			{ name: 'designVersion', label: 'Design version (pipedrive)', type: 'text' },
+			{ name: 'background', label: 'Background (none | subtle | strong | inverse)', type: 'text' },
+			{ name: 'width', label: 'Width (contained | wide | full)', type: 'text' },
+			{ name: 'spacingTop', label: 'Top spacing (none | sm | md | lg)', type: 'text' },
+			{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | md | lg)', type: 'text' },
+			{ name: 'anchor', label: 'Anchor', type: 'text' }
+		]
 	}
 };
 

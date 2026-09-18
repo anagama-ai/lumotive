@@ -19,6 +19,14 @@
 	// wide cards and the trailing card each take the full 2-column row, which
 	// leaves that breakpoint gap-free too.
 	const spanFor = (index: number, count: number) => {
+		// Three cards: a 2x2 feature beside two half-width cards stacked in the
+		// remaining two columns. At md the pair sits on the first row and the
+		// third card spans both columns, so neither breakpoint leaves a hole.
+		if (count === 3) {
+			if (index === 0) return 'lg:col-span-2 lg:row-span-2';
+			if (index === 2) return 'md:col-span-2 lg:col-span-2';
+			return 'lg:col-span-2';
+		}
 		if (count === 5) {
 			if (index === 0) return 'md:col-span-2 lg:col-span-2';
 			if (index === 3) return 'md:col-span-2 lg:col-span-3';
@@ -49,7 +57,7 @@
 				{@const darkText = solid && card.accent !== 'accent2'}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${spanFor(index, cards.length)} ${solid ? solidBackground(card.accent) : 'bg-surface'}${link.href ? ' focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+					class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${spanFor(index, cards.length)} ${solid ? solidBackground(card.accent) : 'bg-surface'}${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
