@@ -80,6 +80,13 @@
 {/if}
 
 <style>
+	/* Pipedrive's own embed caps its iframe at 768px and never fills a wider
+	   host, so the default 82rem shell (--container-shell) left the panel with a
+	   dead column of white to the right of the fields. The form column runs at
+	   the site's narrow container instead, so the heading and the panel share an
+	   edge and the block sits centred in the section. */
+	.lumo-section > .lumo-inner { max-width: var(--container-narrow); }
+
 	/* The embed reports its own height to the loader, so the frame only supplies
 	   the surface it sits on and never a fixed height of its own. */
 	.form-frame { border-radius: var(--radius-panel); background: var(--color-surface); padding: clamp(1rem, 3vw, 2.5rem); }
