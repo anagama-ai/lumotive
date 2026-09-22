@@ -183,10 +183,12 @@
 							'+=0.06'
 						);
 					} else if (kind === 'fall') {
+						// An element that also rises must start hidden; the fall's
+						// from-state would otherwise render on top of the rise's.
 						timeline.fromTo(
 							el,
 							{ opacity: 1, y: 0 },
-							{ opacity: 0, y: -16, duration: 0.45, ease: 'power3.out' },
+							{ opacity: 0, y: -16, duration: 0.45, ease: 'power3.out', immediateRender: false },
 							'+=0.06'
 						);
 					} else {
