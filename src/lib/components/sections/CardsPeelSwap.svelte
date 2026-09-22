@@ -60,7 +60,7 @@
 					{@const link = linkFor(card)}
 					<article
 						data-peel={[index > 0 && 'rise', index < cards.length - 1 && 'fall'].filter(Boolean).join(' ') || undefined}
-						class={`md:col-start-1 md:row-start-1 ${index > 0 ? 'pointer-events-none' : ''}`}
+						class={`md:col-start-1 md:row-start-1 ${index > 0 ? 'pointer-events-none md:motion-safe:opacity-0' : ''}`}
 					>
 						{#if card.eyebrow}<p class={`text-eyebrow uppercase ${tone(card.accent)}`}>{card.eyebrow}</p>{/if}
 						<h3 class="font-display text-heading text-ink mt-3">{titleCase(card.title ?? '')}</h3>

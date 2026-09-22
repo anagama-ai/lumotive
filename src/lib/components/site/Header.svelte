@@ -18,6 +18,14 @@
 	const collapseMenus = () => {
 		for (const menu of headerEl?.querySelectorAll('details') ?? []) menu.open = false;
 	};
+
+	// Desktop menus open on hover; the click behaviour of <details> stays intact
+	// for keyboard and touch. Pointers that cannot hover (touch) are skipped so
+	// the emulated mouseenter does not fight the tap.
+	const hoverOpen = (event: MouseEvent, open: boolean) => {
+		if (!matchMedia('(hover: hover)').matches) return;
+		(event.currentTarget as HTMLDetailsElement).open = open;
+	};
 </script>
 
 <header class="site-header" data-lumotive-header bind:this={headerEl}>
@@ -37,7 +45,11 @@
 							onclick={collapseMenus}>{item.link.label}</a
 						>
 					{:else if item.blockType === 'sub' && item.label}
-						<details class="nav-group">
+						<details
+							class="nav-group"
+							onmouseenter={(event) => hoverOpen(event, true)}
+							onmouseleave={(event) => hoverOpen(event, false)}
+						>
 							<summary>{item.label}</summary>
 							<div class="nav-popover">
 								{#each item.subitems || [] as subitem, index (index)}
