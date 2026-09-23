@@ -110,7 +110,7 @@
 	.hero-body :global(p) { margin: 0; }
 	.primary-link { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: white; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.primary-link:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
-	.secondary-link { color: white; font-weight: 650; text-decoration: none; }
+	.secondary-link { display: inline-flex; min-height: 2.75rem; align-items: center; color: white; font-weight: 650; text-decoration: none; }
 	.secondary-link span { display: inline-block; margin-left: .25rem; transition: transform 200ms ease; }
 	.secondary-link:hover span { transform: translateX(.25rem); }
 	@media (prefers-reduced-motion: reduce) {

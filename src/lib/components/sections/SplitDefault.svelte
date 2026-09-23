@@ -105,7 +105,7 @@
 	.split-body { margin-top: 1.25rem; color: var(--color-muted); }
 	.split-body :global(p:first-child) { margin-top: 0; }
 	.split-body :global(p:last-child) { margin-bottom: 0; }
-	.split-link { display: inline-flex; gap: .5rem; margin-top: 1.75rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
+	.split-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; margin-top: 1.75rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
 	.split-link span { transition: transform 200ms ease; }
 	.split-link:hover span { transform: translateX(.25rem); }
 	.dark-panel .split-layout, .stacked-card .split-layout { padding: clamp(2rem, 5vw, 4rem); border-radius: var(--radius-panel); }

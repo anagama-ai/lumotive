@@ -236,6 +236,7 @@
 <style>
 	.peel-scene {
 		position: relative;
+		margin-top: 0;
 		z-index: 40;
 		background: var(--color-background, var(--paper));
 	}
@@ -246,9 +247,6 @@
 	}
 
 	@media (min-width: 768px) {
-		.peel-scene.uncover {
-			margin-top: -100dvh;
-		}
 
 		.peel-panel {
 			position: sticky;
@@ -260,9 +258,6 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.peel-scene.uncover {
-			margin-top: 0;
-		}
 
 		.peel-panel {
 			position: static;

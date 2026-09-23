@@ -46,7 +46,10 @@ button:not(:disabled), [role='button']:not(:disabled), a { cursor: pointer; }
 a { color: inherit; text-decoration-thickness: .08em; text-underline-offset: .2em; }
 img, video { display: block; max-width: 100%; }
 ::selection { color: #fff; background: var(--color-primary); }
-:focus-visible { outline: 3px solid var(--color-brand-amber); outline-offset: 4px; border-radius: .2rem; }
+:focus-visible { outline: 3px solid var(--color-brand-blue-dark); outline-offset: 4px; border-radius: .2rem; }
+:is(.bg-panel, .bg-ink, .site-footer, .lumo-section[data-background='inverse']):focus-visible,
+:is(.bg-panel, .bg-ink, .site-footer, .lumo-section[data-background='inverse']) :focus-visible { outline-color: var(--color-brand-amber); }
+.lumo-section[data-background='strong'] :focus-visible { outline-color: #fff; }
 
 .container { width: min(var(--container-content), calc(100% - 3rem)); margin-inline: auto; }
 .container.narrow { width: min(var(--container-narrow), calc(100% - 3rem)); }
@@ -72,7 +75,7 @@ img, video { display: block; max-width: 100%; }
    over the header's overflowing nav popover and mobile panel, hiding both. */
 .site-header { position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgb(226 229 236 / 80%); background: rgb(255 255 255 / 90%); backdrop-filter: blur(16px); }
 .header-inner { display: flex; min-height: 4.5rem; align-items: center; justify-content: space-between; gap: 2rem; }
-.site-logo { display: inline-flex; flex: none; align-items: center; text-decoration: none; }
+.site-logo { display: inline-flex; min-height: 2.75rem; flex: none; align-items: center; justify-content: center; text-decoration: none; }
 .site-logo img { width: auto; height: 1.55rem; }
 .desktop-nav { display: flex; align-items: center; gap: .25rem; }
 .desktop-nav > a, .nav-group > summary { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .65rem .8rem; color: var(--color-ink); font-size: .82rem; font-weight: 500; text-decoration: none; list-style: none; transition: color 160ms ease, background 160ms ease; }
@@ -158,7 +161,10 @@ h2 { text-wrap: balance; }
 @media (max-width: 640px) {
 	.container, .container.narrow { width: min(100% - 2rem, var(--container-content)); }
 	.footer-inner { grid-template-columns: 1fr 1fr; }
+	.footer-group nav { gap: 0; }
+	.footer-group a, .footer-legal a { display: inline-flex; min-height: 2.75rem; align-items: center; }
 	.footer-legal { align-items: flex-start; flex-direction: column; }
+	.footer-legal nav { flex-wrap: wrap; row-gap: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -23,7 +23,7 @@
 				<article class="border-border flex flex-col border-t py-5">
 					<p class="text-eyebrow text-muted uppercase">{card.year ?? ''}</p>
 					<h3 class="font-display text-ink mt-2 text-base">{card.title ?? ''}</h3>
-					{#if card.linkUrl}<a class="text-brand-blue hover:text-brand-blue-dark mt-4 inline-flex items-center gap-2 self-start font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none" href={card.linkUrl} target="_blank" rel="noopener noreferrer">Learn more<span class="sr-only"> about {card.title ?? 'this award'}</span><svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></a>{/if}
+					{#if card.linkUrl}<a class="text-brand-blue hover:text-brand-blue-dark mt-4 inline-flex min-h-11 items-center gap-2 self-start font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none" href={card.linkUrl} target="_blank" rel="noopener noreferrer">Learn more<span class="sr-only"> about {card.title ?? 'this award'}</span><svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></a>{/if}
 				</article>
 			{/each}
 		</div></Reveal>

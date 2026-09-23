@@ -46,7 +46,7 @@
 			{#if variant === 'statsSpecPills'}
 				<Reveal stagger="ul > *">
 					<div class="mx-auto max-w-3xl text-center">
-						{#if heading}<h2 class="text-statement">{heading}</h2>{/if}
+						{#if heading}<h2 class="font-display text-statement">{heading}</h2>{/if}
 						{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 					</div>
 					<ul class="mt-10 flex flex-wrap justify-center gap-3" aria-label="Specifications">
@@ -75,7 +75,7 @@
 						{/if}
 						<div class="relative z-10 max-w-3xl">
 							{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-							{#if heading}<h2 class="text-heading text-white">{heading}</h2>{/if}
+							{#if heading}<h2 class="font-display text-heading text-white">{heading}</h2>{/if}
 							{#if body}<div class="prose mt-5 text-lead text-white/70">{@html body}</div>{/if}
 							{#if section.intro}<p class="text-spec mt-5 text-white/55">{String(section.intro)}</p>{/if}
 						</div>
@@ -98,7 +98,7 @@
 				<Reveal>
 					<div class={`mx-auto max-w-4xl ${image ? 'text-center text-white' : ''}`}>
 						{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-						{#if heading}<h2 class={`text-heading ${image ? 'text-white' : 'text-ink'}`}>{heading}</h2>{/if}
+						{#if heading}<h2 class={`font-display text-heading ${image ? 'text-white' : 'text-ink'}`}>{heading}</h2>{/if}
 						{#if body}<div class="prose mt-5 text-lead">{@html body}</div>{/if}
 					</div>
 					<div class="rounded-card border-border bg-surface mx-auto mt-10 max-w-4xl overflow-hidden border">
@@ -123,7 +123,7 @@
 				<Reveal>
 					<div class="max-w-4xl">
 						{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-						{#if heading}<h2 class="text-heading text-ink">{heading}</h2>{/if}
+						{#if heading}<h2 class="font-display text-heading text-ink">{heading}</h2>{/if}
 						{#if body}<div class="prose mt-5 text-lead">{@html body}</div>{/if}
 						{#if section.intro}<p class="mt-5">{String(section.intro)}</p>{/if}
 					</div>
@@ -145,7 +145,7 @@
 				<Reveal>
 					<div class="mx-auto max-w-5xl text-center">
 						{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-blue">{String(section.eyebrow)}</p>{/if}
-						{#if heading}<h2 class="text-statement text-ink">{heading}</h2>{/if}
+						{#if heading}<h2 class="font-display text-statement text-ink">{heading}</h2>{/if}
 						{#if section.intro}<p class="text-lead mx-auto mt-4 max-w-3xl">{String(section.intro)}</p>{/if}
 						{#if body}<div class="prose mx-auto mt-5 max-w-3xl text-lead">{@html body}</div>{/if}
 						{#if image}
