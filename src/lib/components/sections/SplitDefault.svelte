@@ -127,6 +127,7 @@
 	.peel-bleed.media-right .bleed-shade { background: linear-gradient(-90deg, rgb(4 13 31 / 96%), rgb(4 13 31 / 74%), rgb(4 13 31 / 38%)); }
 	@media (max-width: 767px) {
 		.split-layout { grid-template-columns: 1fr; }
+		.art-frame img { width: auto; max-width: 75%; max-height: 50svh; margin-inline: auto; }
 		.media-right .art-column, .media-right .copy-column { order: initial; }
 		.peel-bleed.media-right .copy-column { margin-left: 0; }
 	}

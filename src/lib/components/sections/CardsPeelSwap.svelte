@@ -40,7 +40,7 @@
 
 <PeelScene {band} {media} uncover={false}>
 	<section
-		class="lumo-section"
+		class="lumo-section my-auto"
 		id={section.anchor ? String(section.anchor) : undefined}
 		data-background={String(section.background ?? 'none')}
 		data-width={String(section.width ?? 'contained')}

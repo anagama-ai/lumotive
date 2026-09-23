@@ -38,15 +38,12 @@
 				{#each columns as column, index (index)}
 					<div class={`rounded-card px-6 py-10 ${index === 0 ? 'bg-background' : 'bg-brand-blue/6'}`}>
 						<p class={`font-display text-subheading text-center ${index === 0 ? 'text-ink' : 'text-brand-blue'}`}>{column.label}</p>
-						<ul class="mt-8">
+						<ul class="mt-8 list-none space-y-4 p-0">
 							{#each column.rows as row, rowIndex (rowIndex)}
 								{@const image = resolveMedia(row.media, media, 320)}
-								<li class="text-center">
-									{#if rowIndex > 0}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" class="text-muted mx-auto my-2"><path d="m3 6 5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg>{/if}
-									<span class="text-ink inline-flex items-center justify-center gap-2 text-lg">
-										{#if image}<img class="size-6 shrink-0 object-contain" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />{/if}
-										{row.title ?? ''}
-									</span>
+								<li class="text-ink flex items-center gap-3 text-lg">
+									{#if image}<img class="size-7 shrink-0 object-contain" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />{/if}
+									{row.title ?? ''}
 								</li>
 							{/each}
 						</ul>

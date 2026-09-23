@@ -33,10 +33,10 @@
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
 				>
-					{#if image}<img class="mb-6 size-12 object-contain" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />{/if}
+					{#if image}<img class="mb-4 size-20 object-contain" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />{/if}
 					{#if card.eyebrow}<p class={`text-eyebrow uppercase ${tone(card.accent)}`}>{card.eyebrow}</p>{/if}
-					<h3 class="font-display text-subheading text-ink mt-3">{titleCase(card.title ?? '')}</h3>
-					{#if card.body}<div class="mt-3 text-base leading-relaxed">{@html card.body}</div>{/if}
+					<h3 class="font-display text-subheading text-ink mt-2 mb-0">{titleCase(card.title ?? '')}</h3>
+					{#if card.body}<div class="mt-2 text-base leading-relaxed [&_p]:my-0 [&_p+p]:mt-2">{@html card.body}</div>{/if}
 					{#if card.badge}<span class="text-spec bg-background text-ink mt-4 self-start rounded-full px-3 py-1">{card.badge}</span>{/if}
 					{#if link.href && link.label}<span class={`mt-auto inline-flex items-center gap-2 self-start pt-6 text-base font-medium ${tone(card.accent)}`}>{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
 				</svelte:element>

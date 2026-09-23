@@ -65,7 +65,7 @@ const ctaFields: FieldSpec[] = [
 export const statsCtaSpecs: Record<string, SectionSpec> = {
 	statsCentered: { label: 'Stats — centered', fields: statsFields },
 	statsDarkTraits: { label: 'Stats — dark traits', fields: statsFields },
-	statsLightTraits: { label: 'Stats — light traits', fields: statsFields },
+	statsLightTraits: { label: 'Stats — light traits (design version: lightTraits | specTable)', fields: statsFields },
 	statsSpecPills: { label: 'Stats — specification pills', fields: statsFields },
 	statsPeelScene: { label: 'Stats — peel scene', fields: statsFields },
 	statsSceneBand: { label: 'Stats — scene band', fields: statsFields },

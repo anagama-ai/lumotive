@@ -30,7 +30,7 @@
 
 {#if stats.length}
 	<section
-		class="lumo-section"
+		class="lumo-section relative"
 		id={section.anchor ? String(section.anchor) : undefined}
 		data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 		data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
@@ -38,7 +38,11 @@
 		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg'], 'md')}
 		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
 	>
-		<div class="lumo-inner">
+		{#if variant === 'statsLightTraits' && section.designVersion === 'specTable' && image}
+			<img class="absolute inset-0 size-full object-cover" src={image.src} srcset={image.srcset} sizes="100vw" alt="" aria-hidden="true" width={image.width ?? 1600} height={image.height ?? 900} />
+			<div class="absolute inset-0 bg-panel/80"></div>
+		{/if}
+		<div class="lumo-inner relative z-10">
 			{#if variant === 'statsSpecPills'}
 				<Reveal stagger="ul > *">
 					<div class="mx-auto max-w-3xl text-center">
@@ -80,15 +84,40 @@
 								{#each stats as stat, index (index)}
 									<div>
 										<dt class="text-base text-white">{String(stat.label ?? '')}</dt>
-										<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-spec mt-1">
+										<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-spec ml-0 mt-1">
 											{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
 										</dd>
-										{#if stat.description}<dd class="mt-2 text-sm text-white/55">{String(stat.description)}</dd>{/if}
+										{#if stat.description}<dd class="ml-0 mt-2 text-sm text-white/55">{String(stat.description)}</dd>{/if}
 									</div>
 								{/each}
 							</dl>
 						</Reveal>
 					</div>
+				</Reveal>
+			{:else if variant === 'statsLightTraits' && section.designVersion === 'specTable'}
+				<Reveal>
+					<div class={`mx-auto max-w-4xl ${image ? 'text-center text-white' : ''}`}>
+						{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
+						{#if heading}<h2 class={`text-heading ${image ? 'text-white' : 'text-ink'}`}>{heading}</h2>{/if}
+						{#if body}<div class="prose mt-5 text-lead">{@html body}</div>{/if}
+					</div>
+					<div class="rounded-card border-border bg-surface mx-auto mt-10 max-w-4xl overflow-hidden border">
+						<table class="w-full border-collapse text-left">
+							<caption class="sr-only">{heading ?? 'Specifications'}</caption>
+							<tbody class="divide-border divide-y">
+								{#each stats as stat, index (index)}
+									<tr>
+										<th class="text-ink w-1/2 px-6 py-4 align-middle text-base font-normal" scope="row">
+											{String(stat.label ?? '')}
+											{#if stat.description}<div class="mt-1">{String(stat.description)}</div>{/if}
+										</th>
+										<td class="text-ink px-6 py-4 align-middle whitespace-pre-line">{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
+					{#if section.intro}<p class={`mx-auto mt-5 max-w-4xl text-sm whitespace-pre-line ${image ? 'text-white/65' : 'opacity-65'}`}>{String(section.intro)}</p>{/if}
 				</Reveal>
 			{:else if variant === 'statsLightTraits'}
 				<Reveal>
@@ -103,10 +132,10 @@
 							{#each stats as stat, index (index)}
 								<div>
 									<dt class="text-base">{String(stat.label ?? '')}</dt>
-									<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-spec mt-1">
+									<dd class:text-brand-blue={index % 3 === 0} class:text-brand-green={index % 3 === 1} class:text-brand-amber={index % 3 === 2} class="text-spec ml-0 mt-1">
 										{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
 									</dd>
-									{#if stat.description}<dd class="mt-2 text-sm opacity-65">{String(stat.description)}</dd>{/if}
+									{#if stat.description}<dd class="ml-0 mt-2 text-sm opacity-65">{String(stat.description)}</dd>{/if}
 								</div>
 							{/each}
 						</dl>
