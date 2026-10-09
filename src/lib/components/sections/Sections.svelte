@@ -2,6 +2,7 @@
 	import type { FormSubmissionResult, PublicForms } from '$lib/forms';
 	import type { MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
+	import type { TeaserPost } from '$lib/posts.server';
 	import Cards from './Cards.svelte';
 	import CardsApplicationBento from './CardsApplicationBento.svelte';
 	import CardsAwardCards from './CardsAwardCards.svelte';
@@ -37,6 +38,7 @@
 	import LogosSceneBand from './LogosSceneBand.svelte';
 	import MediaVideoEmbed from './MediaVideoEmbed.svelte';
 	import Prose from './Prose.svelte';
+	import PostsFeatured from './PostsFeatured.svelte';
 	import SplitDarkPanel from './SplitDarkPanel.svelte';
 	import SplitDefault from './SplitDefault.svelte';
 	import SplitPeelBleed from './SplitPeelBleed.svelte';
@@ -60,11 +62,13 @@
 		sections = [],
 		media = {},
 		forms = {},
+		posts = [],
 		result = null
 	}: {
 		sections?: Section[];
 		media?: MediaMap;
 		forms?: PublicForms;
+		posts?: TeaserPost[];
 		result?: FormSubmissionResult | null;
 	} = $props();
 </script>
@@ -152,6 +156,8 @@
 		<CtaSpectrum {section} {media} />
 	{:else if section.type === 'timeline'}
 		<Timeline {section} {media} />
+	{:else if section.type === 'postsFeatured'}
+		<PostsFeatured {section} {media} {posts} />
 	{:else if section.type === 'hero'}
 		<Hero {section} {media} />
 	{:else if section.type === 'prose'}

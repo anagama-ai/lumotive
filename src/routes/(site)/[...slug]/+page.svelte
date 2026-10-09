@@ -28,4 +28,10 @@
 
 <Breadcrumbs breadcrumbs={data.breadcrumbs} />
 
-<Sections sections={renderedPage.sections} media={data.media} forms={data.forms} result={form} />
+<Sections
+	sections={renderedPage.sections}
+	media={data.media}
+	forms={data.forms}
+	posts={data.posts}
+	result={form}
+/>

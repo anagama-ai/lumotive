@@ -37,6 +37,7 @@
 	data-width={section.width ?? 'contained'}
 	data-spacing-top={section.spacingTop ?? 'md'}
 	data-spacing-bottom={section.spacingBottom ?? 'md'}
+	data-align={band ? undefined : 'container'}
 	data-peel-cover
 >
 	{#if visual}
@@ -116,28 +117,8 @@
 	}
 
 	/* Hero refinement, full-height variant only (the `.band` hero is untouched).
-
-	   Alignment: the section shell is capped by --container-shell (93.75rem)
-	   while the header's `.container` is additionally capped by Tailwind's own
-	   `container` utility (1280px from the xl breakpoint, 1536px from 2xl). The
-	   hero copy therefore started 52px left of the nav logo at 1440. These rules
-	   reproduce the header's geometry exactly, at every width. */
-	.hero-shell:not(.band) > .lumo-inner {
-		width: min(var(--container-content), 100% - 3rem);
-		max-width: none;
-		padding-inline: 0;
-	}
-	@media (min-width: 1280px) {
-		.hero-shell:not(.band) > .lumo-inner { max-width: 1280px; }
-	}
-	@media (min-width: 1536px) {
-		.hero-shell:not(.band) > .lumo-inner { max-width: 1536px; }
-	}
-	@media (max-width: 640px) {
-		/* The narrower gutter `.container` switches to on small screens. */
-		.hero-shell:not(.band) > .lumo-inner { width: min(100% - 2rem, var(--container-content)); }
-	}
-
+	   Alignment comes from the shared `data-align="container"` rule in app.css,
+	   set on the section above. */
 	/* A slightly wider measure so the copy is not boxed in. The heading keeps
 	   its own 20ch cap, so "Programmable Optics" still sets on one line. */
 	.hero-shell:not(.band) .hero-copy { max-width: 72rem; }
