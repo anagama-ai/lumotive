@@ -76,7 +76,7 @@
 				{#if heading}<h1 class="font-display text-display text-white">{heading}</h1>{/if}
 				{#if section.body}<div class="text-lead hero-body mt-6 max-w-xl text-white/75">{@html String(section.body)}</div>{/if}
 				{#if (section.primaryLinkLabel && section.primaryLinkUrl) || (section.secondaryLinkLabel && section.secondaryLinkUrl)}
-					<div class="mt-9 flex flex-wrap items-center gap-8">
+					<div class="hero-actions mt-9 flex flex-wrap items-center gap-8">
 						{#if section.primaryLinkLabel && section.primaryLinkUrl}
 							<a
 								class="primary-link"
@@ -114,6 +114,38 @@
 	@media (min-width: 768px) {
 		.hero-copy h1 { max-width: 20ch; }
 	}
+
+	/* Hero refinement, full-height variant only (the `.band` hero is untouched).
+
+	   Alignment: the section shell is capped by --container-shell (93.75rem)
+	   while the header's `.container` is additionally capped by Tailwind's own
+	   `container` utility (1280px from the xl breakpoint, 1536px from 2xl). The
+	   hero copy therefore started 52px left of the nav logo at 1440. These rules
+	   reproduce the header's geometry exactly, at every width. */
+	.hero-shell:not(.band) > .lumo-inner {
+		width: min(var(--container-content), 100% - 3rem);
+		max-width: none;
+		padding-inline: 0;
+	}
+	@media (min-width: 1280px) {
+		.hero-shell:not(.band) > .lumo-inner { max-width: 1280px; }
+	}
+	@media (min-width: 1536px) {
+		.hero-shell:not(.band) > .lumo-inner { max-width: 1536px; }
+	}
+	@media (max-width: 640px) {
+		/* The narrower gutter `.container` switches to on small screens. */
+		.hero-shell:not(.band) > .lumo-inner { width: min(100% - 2rem, var(--container-content)); }
+	}
+
+	/* A slightly wider measure so the copy is not boxed in. The heading keeps
+	   its own 20ch cap, so "Programmable Optics" still sets on one line. */
+	.hero-shell:not(.band) .hero-copy { max-width: 72rem; }
+	.hero-shell:not(.band) .hero-body { max-width: 40rem; margin-top: 2rem; }
+	.hero-shell:not(.band) .hero-actions { margin-top: 2.75rem; }
+	/* The shell is bottom-aligned, so extra bottom padding lifts the block.
+	   Section height is unchanged. */
+	.hero-shell:not(.band) .hero-copy { padding-bottom: calc(clamp(4rem, 9vw, 7rem) + 1rem); }
 	.hero-body :global(p) { margin: 0; }
 	.primary-link { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: white; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.primary-link:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
