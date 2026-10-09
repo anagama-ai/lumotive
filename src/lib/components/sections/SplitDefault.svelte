@@ -41,6 +41,7 @@
 	class:peel-bleed={variant === 'peelBleed'}
 	class:stacked-card={variant === 'stackedCard'}
 	class:media-right={mediaRight}
+	class:no-media={variant === 'default' && !embedUrl && !visual}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
 	data-width={section.width ?? 'contained'}
@@ -108,6 +109,18 @@
 	.split-link { display: inline-flex; gap: .5rem; margin-top: 1.75rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
 	.split-link span { transition: transform 200ms ease; }
 	.split-link:hover span { transform: translateX(.25rem); }
+	/* First use of a pull quote in a split body: the approved page sets the
+	   quote above its attribution, so the quote reads as the larger line. */
+	.split-body :global(blockquote) { margin: 1.75rem 0 0; padding-left: 1.25rem; border-left: 2px solid var(--color-brand-blue); }
+	.split-body :global(blockquote p:first-child) { color: var(--color-ink); font-family: var(--font-display); font-size: var(--text-subheading); line-height: 1.25; }
+	.split-body :global(blockquote p:last-child) { margin-bottom: 0; font-size: var(--text-spec); }
+	.dark-panel .split-body :global(blockquote p:first-child), .peel-bleed .split-body :global(blockquote p:first-child) { color: white; }
+	/* A default split whose art column is absent would otherwise leave half the
+	   grid empty. One column, held to the same reading measure the peel variant
+	   already uses. Only the default variant: darkPanel keeps its two-column
+	   frame, and stackedCard is single-column already. */
+	.no-media .split-layout { grid-template-columns: 1fr; }
+	.no-media .copy-column { max-width: 48rem; }
 	.dark-panel .split-layout, .stacked-card .split-layout { padding: clamp(2rem, 5vw, 4rem); border-radius: var(--radius-panel); }
 	.dark-panel .split-layout { color: white; background: var(--color-panel); }
 	.dark-panel h2, .peel-bleed h2 { color: white; }

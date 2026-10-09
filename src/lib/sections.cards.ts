@@ -122,6 +122,8 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 		fields: [
 			...presentationFields,
 			...introFields,
+			...linkFields,
+			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
 			cardsField(fullCardFields.filter((field) => field.name !== 'media'))
 		]
 	},

@@ -8,6 +8,14 @@
 	type Card = { eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
 	let { section, media: _media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
+	// Optional single action under the grid, for a section whose cards share one
+	// destination. Unset on every existing section, so nothing else gains a link.
+	let sectionLink = $derived.by(() => {
+		const label = String(section.linkLabel ?? '').trim();
+		const href = String(section.linkUrl ?? '').trim();
+		if (!label || !href) return null;
+		return { label, href, newTab: section.linkNewTab === true || section.linkNewTab === 'true' };
+	});
 	const tones: Record<string, { text: string; bar: string }> = {
 		accent1: { text: 'text-brand-blue', bar: 'bg-brand-blue' }, accent2: { text: 'text-brand-green', bar: 'bg-brand-green' }, accent3: { text: 'text-brand-amber', bar: 'bg-brand-amber' },
 		accent4: { text: 'text-brand-blue', bar: 'bg-brand-blue' }, accent5: { text: 'text-brand-green', bar: 'bg-brand-green' }, accent6: { text: 'text-brand-amber', bar: 'bg-brand-amber' }
@@ -45,5 +53,27 @@
 				</svelte:element>
 			{/each}
 		</Reveal>
+		{#if sectionLink}
+			<Reveal delay={0.12}>
+				<a
+					class="section-link"
+					href={sectionLink.href}
+					target={sectionLink.newTab ? '_blank' : undefined}
+					rel={sectionLink.newTab ? 'noreferrer' : undefined}
+				>{sectionLink.label} <span aria-hidden="true">→</span></a>
+			</Reveal>
+		{/if}
 	</div>
 </section>
+
+<style>
+	/* A bare `text-brand-blue` utility loses to the global anchor colour, so the
+	   section action is coloured the same scoped way `.split-link` is. */
+	.section-link { display: inline-flex; gap: .5rem; margin-top: 2.5rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
+	.section-link span { transition: transform 200ms ease; }
+	.section-link:hover span { transform: translateX(.25rem); }
+	@media (prefers-reduced-motion: reduce) {
+		.section-link span { transition: none; }
+		.section-link:hover span { transform: none; }
+	}
+</style>
