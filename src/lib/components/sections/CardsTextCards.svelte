@@ -16,6 +16,16 @@
 		if (!label || !href) return null;
 		return { label, href, newTab: section.linkNewTab === true || section.linkNewTab === 'true' };
 	});
+	// Desktop column count. Default stays the three-up grid every existing
+	// section renders; `columns: "2"` opts a section into an even two-up, for a
+	// pair of cards that would otherwise leave a third of the row empty.
+	// Tablet stays two-up and mobile stays stacked either way, and the classes
+	// are written out in full so Tailwind emits them.
+	let gridClass = $derived(
+		String(section.columns ?? '') === '2'
+			? 'grid gap-6 md:grid-cols-2'
+			: 'grid gap-6 md:grid-cols-2 lg:grid-cols-3'
+	);
 	const tones: Record<string, { text: string; bar: string }> = {
 		accent1: { text: 'text-brand-blue', bar: 'bg-brand-blue' }, accent2: { text: 'text-brand-green', bar: 'bg-brand-green' }, accent3: { text: 'text-brand-amber', bar: 'bg-brand-amber' },
 		accent4: { text: 'text-brand-blue', bar: 'bg-brand-blue' }, accent5: { text: 'text-brand-green', bar: 'bg-brand-green' }, accent6: { text: 'text-brand-amber', bar: 'bg-brand-amber' }
@@ -33,7 +43,7 @@
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 			</div></Reveal>
 		{/if}
-		<Reveal stagger class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		<Reveal stagger class={gridClass}>
 			{#each cards as card, index (index)}
 				{@const link = linkFor(card)}
 				{@const colors = tone(card.accent)}
