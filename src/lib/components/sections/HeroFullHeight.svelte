@@ -107,6 +107,13 @@
 	.hero-copy { padding-block: clamp(4rem, 9vw, 7rem); }
 	.hero-copy h1 { max-width: 13ch; margin: 0; letter-spacing: -.055em; line-height: .9; text-transform: uppercase; text-wrap: balance; }
 	.band .hero-copy h1 { max-width: 18ch; text-transform: none; }
+	/* 13ch is a two-line measure: it breaks "Programmable Optics" even where the
+	   column has room. From the tablet breakpoint up the heading gets a measure
+	   wide enough to set on one line; below it the original wrap is unchanged.
+	   The `.band` rule above is more specific, so hero bands keep 18ch. */
+	@media (min-width: 768px) {
+		.hero-copy h1 { max-width: 20ch; }
+	}
 	.hero-body :global(p) { margin: 0; }
 	.primary-link { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: white; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.primary-link:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
