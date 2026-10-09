@@ -10,7 +10,11 @@
 	let { section, media: _media }: { section: Section; media: MediaMap } = $props();
 	let body = $derived(typeof section.body === 'string' ? section.body : '');
 	let heading = $derived(titleCase(typeof section.heading === 'string' ? section.heading : null));
-	let split = $derived(section.type === 'ctaSplitLinks');
+	// `mode: "stacked"` turns the split CTA into one left-aligned column with a
+	// button-led action row. Opt-in per section, so the two-column CTAs on
+	// /contact and /culture are unchanged.
+	let stacked = $derived(section.type === 'ctaSplitLinks' && String(section.mode ?? '') === 'stacked');
+	let split = $derived(section.type === 'ctaSplitLinks' && !stacked);
 
 	const backdrops: Record<string, { src: string; position: string }> = {
 		ctaDefault: { src: '/lumotive/img/cta-glow.jpg', position: 'right center' },
@@ -70,12 +74,13 @@
 	data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
 	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
 	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
+	data-align={stacked ? 'container' : undefined}
 	style:background-image={`url("${backdrop.src}")`}
 	style:background-position={backdrop.position}
 	style:background-size="cover"
 >
 	<div
-		class={`pointer-events-none absolute inset-0 -z-10 ${split ? 'from-panel/70 via-panel/45 to-panel/20 bg-linear-75 from-25% via-60%' : 'bg-[radial-gradient(ellipse_55%_70%_at_50%_50%,rgba(10,18,38,0.94),rgba(10,18,38,0.55)_65%,rgba(10,18,38,0.15))]'}`}
+		class={`pointer-events-none absolute inset-0 -z-10 ${split || stacked ? 'from-panel/70 via-panel/45 to-panel/20 bg-linear-75 from-25% via-60%' : 'bg-[radial-gradient(ellipse_55%_70%_at_50%_50%,rgba(10,18,38,0.94),rgba(10,18,38,0.55)_65%,rgba(10,18,38,0.15))]'}`}
 	></div>
 	<div class="lumo-inner relative z-10">
 		{#if split}
@@ -97,6 +102,23 @@
 					</ul>
 				</Reveal>
 			</div>
+		{:else if stacked}
+			<Reveal stagger class="max-w-3xl">
+				{#if section.eyebrow}<p class="text-eyebrow mb-5 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
+				{#if heading}<h2 class={`font-display text-white ${enumValue(section.headingSize, ['heading', 'statement'], 'heading') === 'statement' ? 'text-statement' : 'text-heading'}`}>{heading}</h2>{/if}
+				{#if body}<div class="prose mt-5 text-lead text-white/75">{@html body}</div>{/if}
+				{#if links.length}
+					<div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+						{#each links as item, index (`${item.label}:${item.href}`)}
+							{#if index === 0}
+								<a class="cta-button" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
+							{:else}
+								<a class="cta-text-link" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label} <span aria-hidden="true">→</span></a>
+							{/if}
+						{/each}
+					</div>
+				{/if}
+			</Reveal>
 		{:else}
 			<Reveal stagger class="mx-auto max-w-3xl text-center">
 				{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
@@ -113,3 +135,24 @@
 		{/if}
 	</div>
 </section>
+
+<style>
+	/* Matches the hero's primary button: a bare `text-ink` utility loses to the
+	   global anchor colour, so the pill is styled in scoped CSS. */
+	.cta-button { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: #fff; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
+	.cta-button:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
+	@media (prefers-reduced-motion: reduce) {
+		.cta-button { transition: none; }
+		.cta-button:hover { transform: none; }
+	}
+	/* A bare utility loses to the global anchor colour, so the secondary action
+	   is coloured the same scoped way the other section links are. White on the
+	   dark panel, matching the primary button's contrast. */
+	.cta-text-link { display: inline-flex; gap: .5rem; color: #fff; font-weight: 650; text-decoration: none; }
+	.cta-text-link span { transition: transform 200ms ease; }
+	.cta-text-link:hover span { transform: translateX(.25rem); }
+	@media (prefers-reduced-motion: reduce) {
+		.cta-text-link span { transition: none; }
+		.cta-text-link:hover span { transform: none; }
+	}
+</style>

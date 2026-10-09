@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { loadReferencedForms, submitForm } from '$lib/forms.server';
 import { collectMediaIds, loadMediaMap } from '$lib/media';
+import { loadFeaturedPosts } from '$lib/posts.server';
 import { mediaValue, type Section } from '$lib/sections';
 import type { Actions } from './$types';
 
@@ -21,9 +22,10 @@ export async function load({
 		const mediaIds = collectMediaIds(sections);
 		const ogImage = mediaValue(page.ogImage);
 		if (ogImage?.kind === 'media') mediaIds.push(ogImage.value);
-		const [media, forms] = await Promise.all([
+		const [media, forms, posts] = await Promise.all([
 			loadMediaMap(locals.pb, mediaIds),
-			loadReferencedForms(locals.pb, sections)
+			loadReferencedForms(locals.pb, sections),
+			loadFeaturedPosts(locals.pb, sections)
 		]);
 		const segments = params.slug.split('/').filter(Boolean);
 		const ancestorPaths = segments.slice(0, -1).map((_, index) => segments.slice(0, index + 1).join('/'));
@@ -56,6 +58,7 @@ export async function load({
 				sections
 			},
 			media,
+			posts,
 			forms,
 			breadcrumbs
 		};

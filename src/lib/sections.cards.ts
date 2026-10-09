@@ -55,7 +55,13 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 	},
 	cardsPeelBento: {
 		label: 'Cards — peel bento',
-		fields: [...presentationFields, ...introFields, cardsField(fullCardFields)]
+		fields: [
+			...presentationFields,
+			...introFields,
+			...linkFields,
+			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
+			cardsField(fullCardFields)
+		]
 	},
 	cardsPeelSwap: {
 		label: 'Cards — peel swap',
