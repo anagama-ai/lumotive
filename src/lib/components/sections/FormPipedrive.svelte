@@ -87,8 +87,13 @@
 	   edge and the block sits centred in the section. */
 	.lumo-section > .lumo-inner { max-width: var(--container-narrow); }
 
-	/* The embed reports its own height to the loader, so the frame only supplies
-	   the surface it sits on and never a fixed height of its own. */
+	/* Match the live embed's measured height so the section does not collapse
+	   while Pipedrive loads and expands its iframe. */
 	.form-frame { border-radius: var(--radius-panel); background: var(--color-surface); padding: clamp(1rem, 3vw, 2.5rem); }
+	.pipedriveWebForms { min-height: 1226px; }
 	.pipedriveWebForms :global(iframe) { display: block; width: 100%; border: 0; }
+
+	@media (min-width: 768px) {
+		.pipedriveWebForms { min-height: 1137px; }
+	}
 </style>

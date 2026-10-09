@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-23T18:17:47Z",
+  "title": "Design System: Lumotive",
+  "extensions": {
+    "colorMeta": {
+      "brand-blue": {
+        "role": "primary",
+        "displayName": "Laser Blue",
+        "canonical": "#0078d0",
+        "tonalRamp": ["oklch(15% 0.162 250.4)", "oklch(25% 0.162 250.4)", "oklch(35% 0.162 250.4)", "oklch(45% 0.162 250.4)", "oklch(55% 0.162 250.4)", "oklch(65% 0.162 250.4)", "oklch(80% 0.162 250.4)", "oklch(95% 0.162 250.4)"]
+      },
+      "brand-blue-dark": {
+        "role": "primary",
+        "displayName": "Deep Laser Blue",
+        "canonical": "#0063ad",
+        "tonalRamp": ["oklch(15% 0.141 250.3)", "oklch(25% 0.141 250.3)", "oklch(35% 0.141 250.3)", "oklch(45% 0.141 250.3)", "oklch(55% 0.141 250.3)", "oklch(65% 0.141 250.3)", "oklch(80% 0.141 250.3)", "oklch(95% 0.141 250.3)"]
+      },
+      "brand-green": {
+        "role": "secondary",
+        "displayName": "Signal Green",
+        "canonical": "#00a651",
+        "tonalRamp": ["oklch(15% 0.170 151.2)", "oklch(25% 0.170 151.2)", "oklch(35% 0.170 151.2)", "oklch(45% 0.170 151.2)", "oklch(55% 0.170 151.2)", "oklch(65% 0.170 151.2)", "oklch(80% 0.170 151.2)", "oklch(95% 0.170 151.2)"]
+      },
+      "brand-amber": {
+        "role": "secondary",
+        "displayName": "Optical Amber",
+        "canonical": "#ffb114",
+        "tonalRamp": ["oklch(15% 0.168 76.3)", "oklch(25% 0.168 76.3)", "oklch(35% 0.168 76.3)", "oklch(45% 0.168 76.3)", "oklch(55% 0.168 76.3)", "oklch(65% 0.168 76.3)", "oklch(80% 0.168 76.3)", "oklch(95% 0.168 76.3)"]
+      },
+      "brand-red": {
+        "role": "secondary",
+        "displayName": "Emitter Red",
+        "canonical": "#ee0000",
+        "tonalRamp": ["oklch(15% 0.245 29.2)", "oklch(25% 0.245 29.2)", "oklch(35% 0.245 29.2)", "oklch(45% 0.245 29.2)", "oklch(55% 0.245 29.2)", "oklch(65% 0.245 29.2)", "oklch(80% 0.245 29.2)", "oklch(95% 0.245 29.2)"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Optical Ink",
+        "canonical": "#0d1526",
+        "tonalRamp": ["oklch(15% 0.037 264.2)", "oklch(25% 0.037 264.2)", "oklch(35% 0.037 264.2)", "oklch(45% 0.037 264.2)", "oklch(55% 0.037 264.2)", "oklch(65% 0.037 264.2)", "oklch(80% 0.037 264.2)", "oklch(95% 0.037 264.2)"]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Lab Navy",
+        "canonical": "#0a1226",
+        "tonalRamp": ["oklch(15% 0.043 266.0)", "oklch(25% 0.043 266.0)", "oklch(35% 0.043 266.0)", "oklch(45% 0.043 266.0)", "oklch(55% 0.043 266.0)", "oklch(65% 0.043 266.0)", "oklch(80% 0.043 266.0)", "oklch(95% 0.043 266.0)"]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Cool Field",
+        "canonical": "#f3f4f7",
+        "tonalRamp": ["oklch(15% 0.004 271.4)", "oklch(25% 0.004 271.4)", "oklch(35% 0.004 271.4)", "oklch(45% 0.004 271.4)", "oklch(55% 0.004 271.4)", "oklch(65% 0.004 271.4)", "oklch(80% 0.004 271.4)", "oklch(95% 0.004 271.4)"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Instrument White",
+        "canonical": "#ffffff",
+        "tonalRamp": ["oklch(15% 0 0)", "oklch(25% 0 0)", "oklch(35% 0 0)", "oklch(45% 0 0)", "oklch(55% 0 0)", "oklch(65% 0 0)", "oklch(80% 0 0)", "oklch(95% 0 0)"]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Slate Text",
+        "canonical": "#4b5565",
+        "tonalRamp": ["oklch(15% 0.029 259.8)", "oklch(25% 0.029 259.8)", "oklch(35% 0.029 259.8)", "oklch(45% 0.029 259.8)", "oklch(55% 0.029 259.8)", "oklch(65% 0.029 259.8)", "oklch(80% 0.029 259.8)", "oklch(95% 0.029 259.8)"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Slate",
+        "canonical": "#7c8698",
+        "tonalRamp": ["oklch(15% 0.030 262.3)", "oklch(25% 0.030 262.3)", "oklch(35% 0.030 262.3)", "oklch(45% 0.030 262.3)", "oklch(55% 0.030 262.3)", "oklch(65% 0.030 262.3)", "oklch(80% 0.030 262.3)", "oklch(95% 0.030 262.3)"]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Calibration Line",
+        "canonical": "#e2e5ec",
+        "tonalRamp": ["oklch(15% 0.010 267.4)", "oklch(25% 0.010 267.4)", "oklch(35% 0.010 267.4)", "oklch(45% 0.010 267.4)", "oklch(55% 0.010 267.4)", "oklch(65% 0.010 267.4)", "oklch(80% 0.010 267.4)", "oklch(95% 0.010 267.4)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero statements and rare maximum-scale section introductions." },
+      "statement": { "displayName": "Statement", "purpose": "Major section propositions and centered CTA headlines." },
+      "heading": { "displayName": "Heading", "purpose": "Standard section headings and dark-panel titles." },
+      "subheading": { "displayName": "Subheading", "purpose": "Card titles and compact content groups." },
+      "lead": { "displayName": "Lead", "purpose": "Introductory paragraphs and primary explanatory copy." },
+      "body": { "displayName": "Body", "purpose": "Default reading and component copy." },
+      "eyebrow": { "displayName": "Eyebrow", "purpose": "Uppercase context labels and section identifiers." },
+      "spec": { "displayName": "Specification", "purpose": "Technical values, metadata, captions, and badges." }
+    },
+    "shadows": [
+      { "name": "card-lift", "value": "0 18px 40px -24px rgb(13 21 38 / 40%)", "purpose": "Menus, dialogs, stacked cards, and interactive-card hover." },
+      { "name": "mobile-action-scrim", "value": "0 -1rem 1.5rem var(--color-surface)", "purpose": "Separates the sticky mobile CTA from scrolling navigation." }
+    ],
+    "motion": [
+      { "name": "state-fast", "value": "160ms ease", "purpose": "Header links and the persistent contact action." },
+      { "name": "ui-standard", "value": "200-300ms cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Tailwind-powered card, CTA, and arrow transitions." },
+      { "name": "drawer-out", "value": "360-480ms cubic-bezier(.2, .8, .2, 1)", "purpose": "Mobile drawer and its 40ms-staggered items." },
+      { "name": "reveal", "value": "GSAP power3.out, 0.9s, 0.09s stagger", "purpose": "Primary section and component entrance motion." },
+      { "name": "batch-reveal", "value": "GSAP power2.out, 0.6s, 0.08s stagger", "purpose": "Legacy data-reveal batches." },
+      { "name": "peel-scrub", "value": "GSAP none", "purpose": "Linear scroll-linked peel translation and color interpolation." },
+      { "name": "smooth-scroll", "value": "Lenis lerp 0.1", "purpose": "The project constructs Lenis with its actual default interpolation and no duration/easing override." }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "640px" },
+      { "name": "tablet", "value": "768px" },
+      { "name": "navigation-collapse", "value": "1100px" },
+      { "name": "desktop", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default blue action with firm corners and a short lift.",
+      "html": "<button class=\"ds-btn-primary\">Contact</button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; justify-content:center; padding:.9rem 1.25rem; border:0; border-radius:var(--radius-button, .5rem); color:var(--color-surface, #fff); background:var(--color-primary, #0078d0); font:600 1rem var(--font-body, Poppins, system-ui, sans-serif); box-shadow:var(--shadow-card, 0 18px 40px -24px rgb(13 21 38 / 40%)); transition:background 180ms ease, transform 180ms ease; } .ds-btn-primary:hover { background:var(--color-primary-hover, #0063ad); transform:translateY(-2px); } .ds-btn-primary:focus-visible { outline:3px solid var(--color-brand-amber, #ffb114); outline-offset:4px; } .ds-btn-primary:active { transform:translateY(0); }"
+    },
+    {
+      "name": "Header CTA",
+      "kind": "button",
+      "refersTo": "header-cta",
+      "description": "Persistent pill-shaped contact action used once in the header.",
+      "html": "<a class=\"ds-header-cta\" href=\"#\">Contact</a>",
+      "css": ".ds-header-cta { display:inline-flex; min-height:3rem; align-items:center; justify-content:center; padding:.75rem 1.5rem; border-radius:9999px; color:var(--color-surface, #fff); background:var(--color-primary, #0078d0); font:600 .9rem var(--font-body, Poppins, system-ui, sans-serif); text-decoration:none; transition:background 160ms ease; } .ds-header-cta:hover { background:var(--color-primary-hover, #0063ad); } .ds-header-cta:focus-visible { outline:3px solid var(--color-brand-amber, #ffb114); outline-offset:4px; } .ds-header-cta:active { background:var(--color-primary-hover, #0063ad); }"
+    },
+    {
+      "name": "Hero Primary Link",
+      "kind": "button",
+      "refersTo": "hero-primary-link",
+      "description": "White inverse action for a Lab Navy hero or CTA.",
+      "html": "<a class=\"ds-btn-inverse\" href=\"#\">Talk to our team</a>",
+      "css": ".ds-btn-inverse { display:inline-flex; align-items:center; padding:.75rem 1.75rem; border-radius:999px; color:var(--color-ink, #0d1526); background:var(--color-surface, #fff); font:650 1rem var(--font-body, Poppins, system-ui, sans-serif); text-decoration:none; transition:transform 200ms ease, background 200ms ease; } .ds-btn-inverse:hover { background:rgb(255 255 255 / 85%); transform:translateY(-2px); } .ds-btn-inverse:focus-visible { outline:3px solid var(--color-brand-amber, #ffb114); outline-offset:4px; } .ds-btn-inverse:active { transform:translateY(0); }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "White form field with a cool border and explicit focus halo.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Email</span><input class=\"ds-input\" type=\"email\" value=\"name@example.com\"></label>",
+      "css": ".ds-field { display:grid; gap:.45rem; color:var(--color-text, #4b5565); font:650 1rem var(--font-body, Poppins, system-ui, sans-serif); } .ds-field-label { display:block; } .ds-input { width:100%; border:1px solid #b8c3bd; border-radius:var(--radius-button, 8px); padding:.8rem .9rem; background:var(--color-surface, #fff); color:var(--color-text, #4b5565); font:400 1rem var(--font-body, Poppins, system-ui, sans-serif); } .ds-input:hover { border-color:var(--color-muted, #7c8698); } .ds-input:focus { border-color:var(--color-primary, #0078d0); outline:3px solid rgb(0 120 208 / 20%); }"
+    },
+    {
+      "name": "Navigation Item",
+      "kind": "nav",
+      "description": "Compact desktop navigation label with a blue hover signal.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item\" href=\"#\">Platform</a></nav>",
+      "css": ".ds-nav { display:flex; align-items:center; } .ds-nav-item { display:inline-flex; min-height:2.75rem; align-items:center; padding:.65rem .8rem; color:var(--color-ink, #0d1526); font:500 .82rem var(--font-body, Poppins, system-ui, sans-serif); text-decoration:none; transition:color 160ms ease, background 160ms ease; } .ds-nav-item:hover { color:var(--color-primary, #0078d0); } .ds-nav-item:focus-visible { outline:3px solid var(--color-brand-amber, #ffb114); outline-offset:4px; } .ds-nav-item:active { color:var(--color-primary-hover, #0063ad); }"
+    },
+    {
+      "name": "Text Card",
+      "kind": "card",
+      "refersTo": "card-standard",
+      "description": "White technical card with an accent bar and restrained hover elevation.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card-bar\"></span><p class=\"ds-card-eyebrow\">Beam steering</p><h3 class=\"ds-card-title\">Flexible Scan Patterns</h3><p class=\"ds-card-body\">Direct the beam where it is needed.</p><span class=\"ds-card-link\">Learn more →</span></a>",
+      "css": ".ds-card { display:flex; flex-direction:column; padding:2rem; border-radius:var(--radius-card, 1rem); color:var(--color-text, #4b5565); background:var(--color-surface, #fff); font-family:var(--font-body, Poppins, system-ui, sans-serif); text-decoration:none; transition:transform 300ms cubic-bezier(.4,0,.2,1), box-shadow 300ms cubic-bezier(.4,0,.2,1); } .ds-card-bar { width:2.5rem; height:.25rem; margin-bottom:1.5rem; border-radius:9999px; background:var(--color-brand-blue, #0078d0); } .ds-card-eyebrow { margin:0; color:var(--color-brand-blue, #0078d0); font-size:.75rem; font-weight:600; line-height:1.4; letter-spacing:.14em; text-transform:uppercase; } .ds-card-title { margin:.75rem 0 0; color:var(--color-ink, #0d1526); font:600 clamp(1.25rem, 1.7vw, 1.5rem)/1.15 var(--font-display, Oswald, system-ui, sans-serif); } .ds-card-body { margin:.5rem 0 0; line-height:1.625; } .ds-card-link { margin-top:1.5rem; color:var(--color-brand-blue, #0078d0); font-weight:500; } .ds-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-card, 0 18px 40px -24px rgb(13 21 38 / 40%)); } .ds-card:focus-visible { outline:3px solid var(--color-brand-amber, #ffb114); outline-offset:4px; } .ds-card:active { transform:translateY(-2px); }"
+    },
+    {
+      "name": "Dark Technical Panel",
+      "kind": "custom",
+      "refersTo": "panel-dark",
+      "description": "The laboratory stage for mechanism, imagery, and compact specifications.",
+      "html": "<section class=\"ds-dark-panel\"><p class=\"ds-dark-eyebrow\">Light Control Metasurface™</p><h2 class=\"ds-dark-title\">Flexible Beam Steering for 3D Sensing</h2><p class=\"ds-dark-body\">No moving parts.</p></section>",
+      "css": ".ds-dark-panel { padding:clamp(2rem, 5vw, 4rem); border-radius:var(--radius-panel, 1.5rem); color:var(--color-surface, #fff); background:var(--color-panel, #0a1226); font-family:var(--font-body, Poppins, system-ui, sans-serif); } .ds-dark-eyebrow { margin:0 0 1rem; color:var(--color-brand-amber, #ffb114); font-size:.75rem; font-weight:600; line-height:1.4; letter-spacing:.14em; text-transform:uppercase; } .ds-dark-title { max-width:18ch; margin:0; color:#fff; font:600 clamp(1.7rem, 3vw, 2.4rem)/1.15 var(--font-display, Oswald, system-ui, sans-serif); } .ds-dark-body { margin:1.25rem 0 0; color:rgb(255 255 255 / 70%); font-size:1.0625rem; line-height:1.65; }"
+    },
+    {
+      "name": "Eyebrow Label",
+      "kind": "custom",
+      "refersTo": "eyebrow",
+      "description": "Tracked uppercase context label for a section or card.",
+      "html": "<p class=\"ds-eyebrow\">Light Control Metasurface™</p>",
+      "css": ".ds-eyebrow { margin:0; color:var(--color-brand-blue, #0078d0); font:600 .75rem/1.4 var(--font-body, Poppins, system-ui, sans-serif); letter-spacing:.14em; text-transform:uppercase; }"
+    },
+    {
+      "name": "Specification Pill",
+      "kind": "chip",
+      "description": "Short standalone technical attribute on a quiet white surface.",
+      "html": "<span class=\"ds-spec-pill\">No moving parts</span>",
+      "css": ".ds-spec-pill { display:inline-flex; padding:.5rem 1.25rem; border:1px solid rgb(13 21 38 / 15%); border-radius:9999px; color:var(--color-ink, #0d1526); background:var(--color-surface, #fff); font:500 1rem/1.5 var(--font-body, Poppins, system-ui, sans-serif); }"
+    },
+    {
+      "name": "Specification Pair",
+      "kind": "custom",
+      "refersTo": "spec-label",
+      "description": "Compact label-and-value unit used in definition lists and spec panels.",
+      "html": "<dl class=\"ds-spec-pair\"><dt class=\"ds-spec-key\">Architecture</dt><dd class=\"ds-spec-value\">No moving parts</dd></dl>",
+      "css": ".ds-spec-pair { margin:0; font-family:var(--font-body, Poppins, system-ui, sans-serif); } .ds-spec-key { color:var(--color-muted, #7c8698); font-size:.75rem; font-weight:600; line-height:1.4; letter-spacing:.14em; text-transform:uppercase; } .ds-spec-value { margin:.5rem 0 0; color:var(--color-ink, #0d1526); font-size:.875rem; line-height:1.375; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Light Lab",
+    "overview": "Lumotive's visual system should feel like precision engineering observed inside an optical laboratory. Dark navy panels are the lab: controlled, technical spaces that frame mechanisms, media, specifications, and decisive calls to action. Bright blue is the laser: a focused signal for action, active information, and the path through dense technical content.\n\nThe system is spacious but not soft. Oswald supplies a compressed, industrial display voice; Poppins keeps explanations, labels, and navigation calm and highly legible. White cards and cool-gray page fields create the clean bench around the dark apparatus. Green, amber, and red are measured spectral accents rather than competing brand voices.",
+    "keyCharacteristics": [
+      "High-contrast dark technical stages set into a cool, quiet page field.",
+      "Focused blue actions and data cues, supported by sparse spectral accents.",
+      "Condensed display type paired with a neutral geometric body face.",
+      "Firm rounded geometry, thin borders, and short, exact hover lifts.",
+      "Generous section rhythm with compact labels and specification typography."
+    ],
+    "rules": [
+      { "name": "The Laser Is Rare Rule", "body": "Blue marks the route, action, or measurement; do not turn it into ambient decoration across an entire screen.", "section": "colors" },
+      { "name": "The Spectral Accent Rule", "body": "Green, amber, and red may distinguish adjacent data or cards, but they never compete with blue for the primary action.", "section": "colors" },
+      { "name": "The Two-Voice Rule", "body": "Oswald states; Poppins explains. Do not introduce a third typographic voice or use Poppins to imitate display type.", "section": "typography" },
+      { "name": "The Exact Lift Rule", "body": "A responsive control may rise 2px and a card 4px; add the one card shadow, never a stack of ornamental shadows.", "section": "elevation" },
+      { "name": "The Radius Has Rank Rule", "body": "Radius increases with structural scale: control, card, then panel. Do not apply panel rounding to small controls or turn every container into a pill.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do use Lab Navy as a purposeful technical stage for heroes, mechanism panels, CTAs, and the footer.",
+      "Do keep Laser Blue concentrated on actions, links, active data, and small accent bars.",
+      "Do preserve the established control-card-panel radius hierarchy and the 5rem default section rhythm.",
+      "Do respect reduced-motion preferences by removing reveals, hover translation, smooth scrolling, and autoplaying decorative motion."
+    ],
+    "donts": [
+      "Don't spread every spectral accent through the same component; one blue, green, amber, or red signal is enough.",
+      "Don't put permanent shadows on every card; tonal separation is the resting state and elevation signals interaction.",
+      "Don't soften the system with oversized pill cards, diffuse gradients, or floaty spring motion.",
+      "Don't replace compact technical labels with oversized marketing type or mix Oswald into body copy."
+    ]
+  }
+}

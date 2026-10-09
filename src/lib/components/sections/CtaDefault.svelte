@@ -82,7 +82,7 @@
 			<div class="grid gap-10 md:grid-cols-2 md:gap-16">
 				<Reveal stagger class="self-center">
 					{#if section.eyebrow}<p class="text-eyebrow mb-5 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-					{#if heading}<h2 class={`text-white ${enumValue(section.headingSize, ['heading', 'statement'], 'heading') === 'statement' ? 'text-statement' : 'text-heading'}`}>{heading}</h2>{/if}
+					{#if heading}<h2 class={`font-display text-white ${enumValue(section.headingSize, ['heading', 'statement'], 'heading') === 'statement' ? 'text-statement' : 'text-heading'}`}>{heading}</h2>{/if}
 					{#if body}<div class="prose mt-5 max-w-md text-lead text-white/70">{@html body}</div>{/if}
 				</Reveal>
 				<Reveal stagger="li" delay={0.12} class="self-center">
@@ -100,7 +100,7 @@
 		{:else}
 			<Reveal stagger class="mx-auto max-w-3xl text-center">
 				{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-				{#if heading}<h2 class="text-statement text-white">{heading}</h2>{/if}
+				{#if heading}<h2 class="font-display text-statement text-white">{heading}</h2>{/if}
 				{#if body}<div class="prose mx-auto mt-6 text-lead text-white/75">{@html body}</div>{/if}
 				{#if links.length}
 					<div class="mt-9 flex flex-wrap items-center justify-center gap-4">

@@ -31,11 +31,12 @@ export async function readGlobal(
 	}
 }
 
-/** Create the global on first save, update it afterwards. */
-export function putGlobal(pb: PocketBase, key: string, id: string, data: unknown) {
-	return id
-		? pb.collection('globals').update(id, { data })
-		: pb.collection('globals').create({ key, data });
+/** Create the global on first save, otherwise merge into the stored data.
+ *  A form only carries its own fields; a full replace would delete the rest. */
+export async function putGlobal(pb: PocketBase, key: string, id: string, data: Record<string, unknown>) {
+	if (!id) return pb.collection('globals').create({ key, data });
+	const current = await readGlobal(pb, key);
+	return pb.collection('globals').update(id, { data: { ...current.data, ...data } });
 }
 
 /** Rows arrive as a JSON string in a hidden input. Entirely blank rows are dropped. */

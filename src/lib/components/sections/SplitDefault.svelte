@@ -106,7 +106,7 @@
 	.split-body { margin-top: 1.25rem; color: var(--color-muted); }
 	.split-body :global(p:first-child) { margin-top: 0; }
 	.split-body :global(p:last-child) { margin-bottom: 0; }
-	.split-link { display: inline-flex; gap: .5rem; margin-top: 1.75rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
+	.split-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; margin-top: 1.75rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
 	.split-link span { transition: transform 200ms ease; }
 	.split-link:hover span { transform: translateX(.25rem); }
 	/* First use of a pull quote in a split body: the approved page sets the
@@ -140,6 +140,7 @@
 	.peel-bleed.media-right .bleed-shade { background: linear-gradient(-90deg, rgb(4 13 31 / 96%), rgb(4 13 31 / 74%), rgb(4 13 31 / 38%)); }
 	@media (max-width: 767px) {
 		.split-layout { grid-template-columns: 1fr; }
+		.art-frame img { width: auto; max-width: 75%; max-height: 50svh; margin-inline: auto; }
 		.media-right .art-column, .media-right .copy-column { order: initial; }
 		.peel-bleed.media-right .copy-column { margin-left: 0; }
 	}

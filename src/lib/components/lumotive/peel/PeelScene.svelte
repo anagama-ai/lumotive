@@ -183,10 +183,12 @@
 							'+=0.06'
 						);
 					} else if (kind === 'fall') {
+						// An element that also rises must start hidden; the fall's
+						// from-state would otherwise render on top of the rise's.
 						timeline.fromTo(
 							el,
 							{ opacity: 1, y: 0 },
-							{ opacity: 0, y: -16, duration: 0.45, ease: 'power3.out' },
+							{ opacity: 0, y: -16, duration: 0.45, ease: 'power3.out', immediateRender: false },
 							'+=0.06'
 						);
 					} else {
@@ -234,6 +236,7 @@
 <style>
 	.peel-scene {
 		position: relative;
+		margin-top: 0;
 		z-index: 40;
 		background: var(--color-background, var(--paper));
 	}
@@ -244,9 +247,6 @@
 	}
 
 	@media (min-width: 768px) {
-		.peel-scene.uncover {
-			margin-top: -100dvh;
-		}
 
 		.peel-panel {
 			position: sticky;
@@ -258,9 +258,6 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.peel-scene.uncover {
-			margin-top: 0;
-		}
 
 		.peel-panel {
 			position: static;

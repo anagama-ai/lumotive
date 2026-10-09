@@ -46,7 +46,10 @@ button:not(:disabled), [role='button']:not(:disabled), a { cursor: pointer; }
 a { color: inherit; text-decoration-thickness: .08em; text-underline-offset: .2em; }
 img, video { display: block; max-width: 100%; }
 ::selection { color: #fff; background: var(--color-primary); }
-:focus-visible { outline: 3px solid var(--color-brand-amber); outline-offset: 4px; border-radius: .2rem; }
+:focus-visible { outline: 3px solid var(--color-brand-blue-dark); outline-offset: 4px; border-radius: .2rem; }
+:is(.bg-panel, .bg-ink, .site-footer, .lumo-section[data-background='inverse']):focus-visible,
+:is(.bg-panel, .bg-ink, .site-footer, .lumo-section[data-background='inverse']) :focus-visible { outline-color: var(--color-brand-amber); }
+.lumo-section[data-background='strong'] :focus-visible { outline-color: #fff; }
 
 .container { width: min(var(--container-content), calc(100% - 3rem)); margin-inline: auto; }
 .container.narrow { width: min(var(--container-narrow), calc(100% - 3rem)); }
@@ -72,7 +75,7 @@ img, video { display: block; max-width: 100%; }
    over the header's overflowing nav popover and mobile panel, hiding both. */
 .site-header { position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgb(226 229 236 / 80%); background: rgb(255 255 255 / 90%); backdrop-filter: blur(16px); }
 .header-inner { display: flex; min-height: 4.5rem; align-items: center; justify-content: space-between; gap: 2rem; }
-.site-logo { display: inline-flex; flex: none; align-items: center; text-decoration: none; }
+.site-logo { display: inline-flex; min-height: 2.75rem; flex: none; align-items: center; justify-content: center; text-decoration: none; }
 .site-logo img { width: auto; height: 1.55rem; }
 .desktop-nav { display: flex; align-items: center; gap: .25rem; }
 .desktop-nav > a, .nav-group > summary { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .65rem .8rem; color: var(--color-ink); font-size: .82rem; font-weight: 500; text-decoration: none; list-style: none; transition: color 160ms ease, background 160ms ease; }
@@ -81,18 +84,35 @@ img, video { display: block; max-width: 100%; }
 .nav-group > summary::-webkit-details-marker { display: none; }
 .nav-group > summary::after { content: ''; width: .4rem; height: .4rem; margin: -.2rem 0 0 .55rem; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg); }
 .nav-popover { position: absolute; top: calc(100% + .4rem); left: 50%; width: min(22rem, 90vw); margin: 0; padding: .65rem; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); transform: translateX(-50%); }
+/* The popover sits .4rem below the summary; without this bridge the pointer
+   leaves .nav-group in that gap and the menu closes on the way down. */
+.nav-popover::before { content: ''; position: absolute; right: 0; bottom: 100%; left: 0; height: .4rem; }
 .nav-popover a { display: block; padding: .8rem; border-radius: .55rem; color: var(--color-ink); font-size: .84rem; text-decoration: none; }
 .nav-popover a:hover { color: var(--color-primary); background: var(--color-background); }
 .header-actions { display: flex; align-items: center; gap: .5rem; }
-.header-button { display: inline-flex; align-items: center; justify-content: center; min-height: 2.6rem; padding: .65rem 1rem; border-radius: var(--radius-button); color: #fff; background: var(--color-primary); font-size: .82rem; font-weight: 600; text-decoration: none; transition: background 160ms ease; }
+.header-button { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: .75rem 1.5rem; border-radius: 9999px; color: #fff; background: var(--color-primary); font-size: .9rem; font-weight: 600; text-decoration: none; transition: background 160ms ease; }
 .header-button:hover { background: var(--color-primary-hover); }
 .mobile-nav { display: none; }
-.mobile-nav > summary { display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid var(--color-border); border-radius: var(--radius-button); color: var(--color-ink); list-style: none; }
+.mobile-nav > summary { position: relative; display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid var(--color-border); border-radius: var(--radius-button); color: var(--color-ink); list-style: none; }
 .mobile-nav > summary::-webkit-details-marker { display: none; }
 .mobile-nav > summary::before { content: 'Menu'; font-size: .7rem; font-weight: 600; }
-.mobile-panel { position: absolute; top: 100%; right: 0; left: 0; max-height: calc(100dvh - 4.5rem); overflow: auto; padding: 1rem max(1rem, calc((100vw - var(--container-nav)) / 2)); border-bottom: 1px solid var(--color-border); background: var(--color-surface); box-shadow: var(--shadow-card); }
-.mobile-panel a, .mobile-panel summary { display: block; padding: .85rem; color: var(--color-ink); font-size: .95rem; font-weight: 500; text-decoration: none; list-style: none; }
-.mobile-panel details > div { padding-left: 1rem; }
+/* Open state: two crossed bars drawn with the pseudo-elements. */
+.mobile-nav[open] > summary::before, .mobile-nav[open] > summary::after { content: ''; position: absolute; top: 50%; left: 50%; width: 1.1rem; height: 2px; background: currentColor; border-radius: 1px; }
+.mobile-nav[open] > summary::before { transform: translate(-50%, -50%) rotate(45deg); }
+.mobile-nav[open] > summary::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.mobile-panel { position: absolute; top: 100%; right: 0; left: 0; display: flex; flex-direction: column; height: calc(100dvh - 4.5rem); overflow: auto; padding: 1.25rem max(1rem, calc((100vw - var(--container-nav)) / 2)) 1.5rem; background: var(--color-surface); animation: drawer-in 360ms cubic-bezier(.2, .8, .2, 1) both; }
+.mobile-panel > * { animation: drawer-item 480ms cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(60ms + var(--i, 0) * 40ms); }
+.mobile-panel a, .mobile-panel summary { display: block; padding: .85rem; color: var(--color-ink); font-size: 1.15rem; font-weight: 500; text-decoration: none; list-style: none; }
+.mobile-panel summary { display: flex; align-items: center; justify-content: space-between; }
+.mobile-panel summary::-webkit-details-marker { display: none; }
+.mobile-panel summary::after { content: ''; width: .55rem; height: .55rem; margin-right: .25rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform 200ms ease; }
+.mobile-panel details[open] > summary::after { transform: rotate(225deg); }
+.mobile-panel details > div, .mobile-panel details > div > div { padding-left: 1rem; }
+.mobile-panel .header-button { position: sticky; bottom: 0; display: flex; min-height: 3.75rem; margin-top: auto; padding: 1.1rem; color: #fff; font-size: 1.2rem; box-shadow: 0 -1rem 1.5rem var(--color-surface); }
+.mobile-panel > :nth-last-child(2) { margin-bottom: 1.5rem; }
+@keyframes drawer-in { from { opacity: 0; transform: translateY(-1rem); } to { opacity: 1; transform: none; } }
+@keyframes drawer-item { from { opacity: 0; transform: translateY(.75rem); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .mobile-panel, .mobile-panel > * { animation: none; } }
 
 .site-footer { color: rgb(255 255 255 / 72%); background: var(--color-panel); }
 .footer-inner { display: grid; grid-template-columns: minmax(12rem, 1.5fr) repeat(4, minmax(8rem, 1fr)); gap: 3rem 2rem; padding-block: clamp(3.5rem, 7vw, 6rem); }
@@ -141,7 +161,10 @@ h2 { text-wrap: balance; }
 @media (max-width: 640px) {
 	.container, .container.narrow { width: min(100% - 2rem, var(--container-content)); }
 	.footer-inner { grid-template-columns: 1fr 1fr; }
+	.footer-group nav { gap: 0; }
+	.footer-group a, .footer-legal a { display: inline-flex; min-height: 2.75rem; align-items: center; }
 	.footer-legal { align-items: flex-start; flex-direction: column; }
+	.footer-legal nav { flex-wrap: wrap; row-gap: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -19,8 +19,13 @@ export function videoEmbedUrl(value: unknown): string | null {
 
 	if (host === 'player.vimeo.com') return /^\/video\/\d+\/?$/.test(url.pathname) ? url.href : null;
 	if (host === 'vimeo.com' || host === 'www.vimeo.com') {
-		const video = url.pathname.match(/^\/(\d+)\/?$/)?.[1];
-		return video ? `https://player.vimeo.com/video/${video}` : null;
+		const [, video, hash = ''] =
+			url.pathname.match(/^\/(\d+)(?:\/([^/]+))?\/?$/) ?? [];
+		if (!video) return null;
+		if (!hash) return `https://player.vimeo.com/video/${video}`;
+		return /^[A-Za-z0-9]+$/.test(hash)
+			? `https://player.vimeo.com/video/${video}?h=${hash}`
+			: null;
 	}
 	if (host === 'youtube.com' || host === 'www.youtube.com') {
 		const embedded = url.pathname.match(/^\/embed\/([^/]+)\/?$/)?.[1];

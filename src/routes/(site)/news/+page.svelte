@@ -39,7 +39,7 @@
 			<nav aria-label="Filter by category" class="flex flex-wrap gap-3">
 				<a
 					class={[
-						'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+						'inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-sm font-medium transition-colors',
 						!data.category
 							? 'border-brand-blue bg-brand-blue text-white'
 							: 'border-border bg-surface text-text hover:border-brand-blue hover:text-brand-blue'
@@ -52,7 +52,7 @@
 				{#each data.categories as category (category)}
 					<a
 						class={[
-							'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+							'inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-sm font-medium transition-colors',
 							category === data.category
 								? 'border-brand-blue bg-brand-blue text-white'
 								: 'border-border bg-surface text-text hover:border-brand-blue hover:text-brand-blue'
@@ -142,7 +142,7 @@
 	.news-search div { display: flex; align-items: center; gap: .75rem; }
 	.news-search input { min-width: 0; flex: 1; border: 1px solid var(--color-border); border-radius: 999px; padding: .85rem 1.1rem; background: var(--color-surface); }
 	.news-search button { border: 0; border-radius: 999px; padding: .85rem 1.25rem; color: white; background: var(--color-brand-blue); font: inherit; font-weight: 700; cursor: pointer; }
-	.news-search a { color: var(--color-brand-blue); font-weight: 700; }
+	.news-search a { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; color: var(--color-brand-blue); font-weight: 700; }
 	.news-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-top: 3rem; }
 	.news-heading h2 { margin-bottom: 0; }
 	.news-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
