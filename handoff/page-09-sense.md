@@ -113,6 +113,33 @@ the package removes everywhere. Verified absent from the rendered page.
   is byte-identical to the pre-migration record.
 - `svelte-check` and the production build both clean.
 
+### Finalisation audit
+
+Section order asserted against the package at 1440: all eight headings match in
+sequence, exactly. Measured top-to-bottom at 1440 and 390:
+
+| # | Section | Height @1440 | Inner padding |
+| --- | --- | --- | --- |
+| 1 | hero | 612 | band, none |
+| 2 | `#problem` | 710 | 80/80 |
+| 3 | `#the-answer` | 1057 | 80/80 |
+| 4 | `#robots-and-vehicles` | 896 | 80/80 |
+| 5 | `#hdr` | 310 | 40/40 |
+| 6 | `#applications` | 888 | 80/80 |
+| 7 | `#start-building` | 677 | 80/80 |
+| 8 | closing CTA | 598 | 112/112 |
+
+**No unexpected blank space.** Every inter-section gap measures **0px** at both
+widths — sections meet exactly and all vertical rhythm comes from each
+section's own padding. The distance from each section's last element to its
+inner edge equals its padding-bottom throughout; the only variance is
+`#the-answer` at 97px against an 80px padding, which is the line-box leading
+under the closing sentence, not empty layout.
+
+The hero and the closing CTA keep their own established rhythm (a band, and
+the CTA's `lg` spacing). The Start Building cards and the closing CTA were not
+touched in this pass and need no visual change.
+
 ## Blockers
 
 1. **Module and Solution Providers component — not built.** Specified as logos
@@ -124,8 +151,24 @@ the package removes everywhere. Verified absent from the rendered page.
      the package removes site-wide, so it cannot stand in.
 
    A provider strip missing half its members misstates who builds on LCM, so the
-   component waits for both logos. It is also needed on /dev-kits, /partners and
-   /sense/robotics, so one delivery unblocks four pages.
+   component waits for both logos.
+
+   **It blocks four package pages, not just this one.** Package page 03 lists
+   the component as used on Sense, Dev Kits hub, Partners and Robotics, and the
+   component heading appears verbatim on each of those pages:
+
+   | Package page | Surface | State |
+   | --- | --- | --- |
+   | 09 | `/sense` | implemented except this component |
+   | 10 | `/sense/robotics` | not built yet |
+   | 12 | `/dev-kits` | not built yet |
+   | 19 | `/partners` | not built yet |
+
+   One delivery of the two logos unblocks all four. Build it once as a shared
+   component, since the package requires the copy, the order and the "no
+   external links" rule to be identical everywhere it appears. Webvizio #121
+   and #122 ("Partners: add Leopard Imaging, order") resolve through this same
+   component and must stay open until it ships.
 2. **HDR demo visual** — pending Lumotive asset; the section ships copy-only.
 3. **Section images for #119** — the package calls for "AMR or humanoid in a
    warehouse aisle" and "vehicle or heavy equipment with a 180° coverage arc".
