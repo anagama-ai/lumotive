@@ -17,6 +17,8 @@ const heroFields: FieldSpec[] = [
 	{ name: 'heading', label: 'Heading', type: 'text' },
 	{ name: 'body', label: 'Body', type: 'richtext' },
 	{ name: 'media', label: 'Media', type: 'media' },
+	// Desktop-only horizontal shift of the media layer, e.g. "30%".
+	{ name: 'mediaShift', label: 'Media shift on desktop (CSS length, e.g. 30%)', type: 'text' },
 	{ name: 'primaryLinkLabel', label: 'Primary link label', type: 'text' },
 	{ name: 'primaryLinkUrl', label: 'Primary link URL', type: 'url' },
 	{ name: 'primaryLinkNewTab', label: 'Primary link opens a new tab (true | false)', type: 'text' },

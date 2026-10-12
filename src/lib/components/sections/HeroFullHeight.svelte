@@ -14,6 +14,13 @@
 	let isVideo = $derived(Boolean(visual && /\.(mp4|webm)(?:$|\?)/i.test(visual.src)));
 	let primaryNewTab = $derived(section.primaryLinkNewTab === true || section.primaryLinkNewTab === 'true');
 	let secondaryNewTab = $derived(section.secondaryLinkNewTab === true || section.secondaryLinkNewTab === 'true');
+	// Optional desktop-only horizontal shift of the hero's media layer, for a
+	// product shot that sits centred in its own frame and would otherwise run
+	// under the headline. The asset is not rescaled or recropped: the layer is
+	// translated, and the strip it uncovers is filled with the photograph's own
+	// white backdrop so the two read as one surface under the gradient. Unset
+	// on every other hero, which is therefore untouched.
+	let mediaShift = $derived(String(section.mediaShift ?? '').trim());
 	function manageVideo(element: HTMLVideoElement) {
 		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const sync = () => {
@@ -42,7 +49,7 @@
 >
 	{#if visual}
 		<Reveal immediate fade={false} y={0} scale={1.06} duration={1.6} class="absolute inset-0">
-			<div class="hero-media absolute inset-0" aria-hidden="true">
+			<div class="hero-media absolute inset-0" class:shifted={mediaShift} style:--hero-media-shift={mediaShift || undefined} aria-hidden="true">
 				{#if isVideo}
 					<video
 						{@attach manageVideo}
@@ -104,6 +111,20 @@
 <style>
 	.hero-shell { min-height: 100svh; }
 	.hero-shell.band { min-height: clamp(32rem, 68svh, 47rem); }
+	/* Desktop only. Below 1024px the hero stacks the copy over a much narrower
+	   frame, where the centred subject is already clear of the headline, so the
+	   tablet and mobile composition is deliberately left as it is.
+
+	   The translation goes on the image, not on the layer: the layer stays put
+	   and carries the photograph's own white backdrop, so the strip the image
+	   uncovers is the same white under the same gradient and no seam appears.
+	   Translating the layer itself takes the fill with it and leaves a visible
+	   vertical edge against the panel. */
+	@media (min-width: 1024px) {
+		.hero-media.shifted { background: #fff; }
+		.hero-media.shifted > img,
+		.hero-media.shifted > video { transform: translateX(var(--hero-media-shift, 0)); }
+	}
 	.hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 20%, rgb(4 13 31 / 76%) 55%, rgb(6 101 214 / 40%)); }
 	.hero-copy { padding-block: clamp(4rem, 9vw, 7rem); }
 	.hero-copy h1 { max-width: 13ch; margin: 0; letter-spacing: -.055em; line-height: .9; text-transform: uppercase; text-wrap: balance; }
