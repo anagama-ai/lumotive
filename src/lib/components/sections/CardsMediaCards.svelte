@@ -26,6 +26,9 @@
 	// action pinned to the foot of the card. Unset keeps the default rhythm, so
 	// the media-card grids that do not ask for either are unaffected.
 	let density = $derived(['compact', 'tight'].includes(String(section.density ?? '')) ? String(section.density) : undefined);
+	// Optional trailing line under the grid, for a caveat the package prints
+	// beneath a set of cards. Unset on every existing section.
+	let note = $derived(String(section.note ?? '').trim());
 	let fourUp = $derived(String(section.columns ?? '') === '4');
 	// Desktop column count. Unset keeps the historic behaviour exactly: two-up,
 	// widening to three only for a three-card section. `columns: "4"` opts a
@@ -84,6 +87,9 @@
 				<a class="section-button" href={sectionLink.href} target={sectionLink.newTab ? '_blank' : undefined} rel={sectionLink.newTab ? 'noreferrer' : undefined}>{sectionLink.label}</a>
 			</div></Reveal>
 		{/if}
+		{#if note}
+			<Reveal delay={0.12}><p class="section-note mt-8 block max-w-3xl">{note}</p></Reveal>
+		{/if}
 	</div>
 </section>
 
@@ -129,4 +135,8 @@
 	.card-body :global(ul) { margin: .75rem 0 0; padding-left: 1.1rem; list-style: disc; }
 	.card-body :global(li) { margin-top: .35rem; }
 	.card-body :global(li::marker) { color: var(--color-muted); }
+	/* A small trailing line under the grid, for a caveat the package prints
+	   beneath a set of cards. Slate, not muted: at the spec size muted slate
+	   falls under 4.5:1 on the page field. */
+	.section-note { color: var(--color-text); font-size: var(--text-spec); line-height: 1.5; }
 </style>
