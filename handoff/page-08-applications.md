@@ -73,7 +73,78 @@ page exactly:
 - Links: `/contact`, `/sense`, `/connect` all 200.
 - `/platform`, `/lcm-chips` and `/dev-kits` re-checked for regression from the
   shared card changes: clean at 390 and 1440.
-- `svelte-check` and the production build both clean.
+- `svelte-check` 589 files, 0 errors, 0 warnings; production build clean.
+- Footer verified against the page-01 site map: Platform (LCM technology, LCM
+  chips, Applications), Sense (Overview, Robotics, Automotive, Dev kits),
+  Connect (Optical circuit switching), Company (About, Culture & careers,
+  Partners, News & events, Contact), and the legal line. Correct. The LinkedIn
+  icon renders zero marks, which is expected: `globals.seo.socialChannels` is
+  still empty and the URL is an open Lumotive input.
+
+### Card refinement after visual review
+
+`1787709600_applications_cards_tight.js` sets `density: "tight"`, a new
+cardsMediaCards value, on `91a455fe` only. The default rhythm assumes a
+photograph above the text; with the eight shipping photo-less, the copy floated
+in a tall box.
+
+| Metric (1440) | Before | After |
+| --- | --- | --- |
+| Card padding | 32px | 24px |
+| Title to description | 40px | 16px |
+| Row 1 card height | 322px | 242px |
+| Row 2 card height | 374px | 268px |
+| Trailing space under a card with a link | 32px | 24px, action pinned to the foot |
+
+The heading's inherited 24px bottom margin, which had been stacking on the
+`mt-4` utility, is zeroed; padding comes in to 1.5rem; and the card action
+takes `margin-top: auto`, so the slack a row's tallest card creates is absorbed
+between copy and action rather than trailing below it.
+
+Unchanged: approved copy, typography, card surface, radius, links, the hero and
+the closing CTA, and the 1 → 2 → 4 responsive grid. Cards still equalise per
+row at every breakpoint.
+
+Scope verified: `/platform`'s solutions grid keeps `compact` at 32px padding
+and `/dev-kits`' two grids keep the default 32px. Only `/applications` is
+`tight`.
+
+### AMR animation — identified, but not confirmed as the approved asset
+
+The package's dev note is conditional: "If the existing staging video
+vimeo.com/1174547871 is the AMR animation, use it in the left slot."
+
+Queried through Vimeo's public oEmbed endpoint, which answers for the unlisted
+URL with its privacy hash:
+
+| | `1174547871/6e198e52ae` | `1227505713` |
+| --- | --- | --- |
+| Title | **"Lumotive - AGV AMR"** | "Optical Circuit Switching: Solid-state and At Scale" |
+| Duration | 57s | 72s |
+| Uploaded | 2026-03-17 | 2026-09-16 |
+| Resolution | 1280×720 | — |
+
+So the left-slot candidate is a genuine Lumotive AGV/AMR video, not an
+unrelated asset. **It is still not confirmed as the approved animation.** Its
+poster frame — fetched from the Vimeo CDN and inspected — opens on a stock
+warehouse shot with an animated caption reading "ROBOTS are becoming a COMMON
+feature in MODERN warehouses and INDUSTRIAL operations". That is a narrated
+marketing explainer with burned-in titles, whereas the package specifies
+"AMR animation (non-sequential ROI pulses, continuous point cloud)" and pairs
+it with the caption "One programmable sensor, three jobs". Package page 04 also
+lists the AMR animation as a **new** asset request, which suggests the approved
+clip is not the one already on staging.
+
+The ROI/point-cloud sequence may well appear later in the 57 seconds; only the
+poster frame is reachable here, since the player itself answers 401 to this
+sandboxed browser. **Someone has to watch it.** Two possible outcomes:
+
+- it is the approved animation, in which case the left slot takes
+  `https://vimeo.com/1174547871/6e198e52ae` and the section can be built; or
+- it is the marketing explainer and the approved animation is still pending,
+  in which case the section keeps waiting.
+
+The video section has **not** been added either way, as instructed.
 
 ## Original review (reference)
 
@@ -258,10 +329,15 @@ placeholders and no unapproved imagery.
 
 Outstanding, none of which blocks review:
 
-- **"Programmable Optics in Motion" is not built**, pending confirmation that
-  `vimeo.com/1174547871` is the AMR animation. The Connect half
+- **"Programmable Optics in Motion" is not built.** The left-slot candidate is
+  now identified as "Lumotive - AGV AMR" (57s), a genuine Lumotive AGV/AMR
+  video, but its poster frame is a captioned marketing explainer rather than
+  the "non-sequential ROI pulses, continuous point cloud" animation the package
+  describes, and package page 04 lists the AMR animation as a new asset
+  request. Someone must watch the 57 seconds on a normal network and confirm or
+  reject it; see the AMR section above. The Connect half
   (`vimeo.com/1227505713`) is supplied and ready. Batch the confirmation with
-  the page-06 Vimeo playback check; both need a normal network.
+  the page-06 Vimeo playback check.
 - **Five of eight card images** are missing, so all eight ship without
   photographs. Adding them is data-only, per card.
 - **Q19 is open** and the status labels stay omitted until Apurva settles it.

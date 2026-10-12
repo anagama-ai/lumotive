@@ -20,10 +20,12 @@
 		if (!label || !href) return null;
 		return { label, href, newTab: section.linkNewTab === true || section.linkNewTab === 'true' };
 	});
-	// `density: "compact"` tightens the card text block and the gap above the
-	// shared action. Opt-in per section, so the media-card grids on
-	// /dev-kits and /applications keep their current rhythm.
-	let compact = $derived(String(section.density ?? '') === 'compact');
+	// `density` tightens the card rhythm. `compact` closes the heading and
+	// description gap and the space above the shared action. `tight` goes
+	// further for a grid with no photographs: smaller card padding and the card
+	// action pinned to the foot of the card. Unset keeps the default rhythm, so
+	// the media-card grids that do not ask for either are unaffected.
+	let density = $derived(['compact', 'tight'].includes(String(section.density ?? '')) ? String(section.density) : undefined);
 	let fourUp = $derived(String(section.columns ?? '') === '4');
 	// Desktop column count. Unset keeps the historic behaviour exactly: two-up,
 	// widening to three only for a three-card section. `columns: "4"` opts a
@@ -37,7 +39,7 @@
 	);
 </script>
 
-<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined} data-density={compact ? 'compact' : undefined}>
+<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined} data-density={density}>
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal><div class="mb-12 max-w-4xl">
@@ -59,7 +61,7 @@
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
 				>
 					{#if image}<div class="relative aspect-video w-full overflow-hidden"><img class="absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
-					<div class="flex flex-1 flex-col p-8">
+					<div class="card-pad flex flex-1 flex-col p-8">
 						<!-- Optical Ink, and Laser Blue on the action below: at these
 						     sizes Signal Green measures 3.19:1 and Optical Amber less
 						     still on the white card. The accent cycle stays on
@@ -72,7 +74,7 @@
 						<h3 class={`font-display text-subheading text-ink ${card.eyebrow ? 'mt-3' : 'mt-0'}${fourUp ? ' lg:flex lg:min-h-14 lg:items-start' : ''}`}>{titleCase(card.title ?? '')}</h3>
 						{#if card.body}<div class="card-body mt-4 text-base leading-relaxed">{@html card.body}</div>{/if}
 						{#if card.badge}<span class="text-spec bg-background text-ink mt-4 self-start rounded-full px-3 py-1">{card.badge}</span>{/if}
-						{#if link.href && link.label}<span class="text-brand-blue mt-7 inline-flex items-center gap-2 self-start text-base font-medium">{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
+						{#if link.href && link.label}<span class="card-link text-brand-blue mt-7 inline-flex items-center gap-2 self-start text-base font-medium">{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
 					</div>
 				</svelte:element>
 			{/each}
@@ -108,4 +110,17 @@
 	[data-density='compact'] .card-body :global(p) { margin: 0; }
 	[data-density='compact'] .card-body :global(p + p) { margin-top: .75rem; }
 	[data-density='compact'] .section-action { margin-top: 2.25rem; }
+	/* Tight density: for a grid whose cards carry no photograph, where the
+	   default rhythm leaves the text floating in a tall box. The heading's
+	   inherited bottom margin goes, so a title sits 16px above its description
+	   rather than 40px; the card padding comes in from 2rem to 1.5rem; and the
+	   action is pushed to the foot of the card, so the slack a row's tallest
+	   card creates is absorbed between the copy and the action instead of
+	   trailing below it. Row heights still equalise, and sections that do not
+	   ask for this density are untouched. */
+	[data-density='tight'] .card-pad { padding: 1.5rem; }
+	[data-density='tight'] h3 { margin-bottom: 0; }
+	[data-density='tight'] .card-body :global(p) { margin: 0; }
+	[data-density='tight'] .card-body :global(p + p) { margin-top: .75rem; }
+	[data-density='tight'] .card-link { margin-top: auto; padding-top: 1.25rem; }
 </style>
