@@ -47,6 +47,8 @@ const ctaFields: FieldSpec[] = [
 	{ name: 'primaryLinkNewTab', label: 'Primary link opens a new tab (true | false)', type: 'text' },
 	// Lead-in printed before the secondary action in the stacked variant.
 	{ name: 'note', label: 'Note before the secondary action', type: 'text' },
+	// Small trailing line under the action row: the reference design caveat.
+	{ name: 'caveat', label: 'Caveat under the actions', type: 'text' },
 	{ name: 'secondaryLinkLabel', label: 'Secondary link label', type: 'text' },
 	{ name: 'secondaryLinkUrl', label: 'Secondary link URL', type: 'url' },
 	{

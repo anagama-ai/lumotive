@@ -16,6 +16,9 @@
 	let stacked = $derived(section.type === 'ctaSplitLinks' && String(section.mode ?? '') === 'stacked');
 	// Optional lead-in printed before the secondary action. Unset elsewhere.
 	let note = $derived(String(section.note ?? '').trim());
+	// Optional small trailing line under the action row, for the reference
+	// design caveat the package prints at the foot of a category page.
+	let caveat = $derived(String(section.caveat ?? '').trim());
 	let split = $derived(section.type === 'ctaSplitLinks' && !stacked);
 
 	const backdrops: Record<string, { src: string; position: string }> = {
@@ -124,6 +127,7 @@
 						{/each}
 					</div>
 				{/if}
+				{#if caveat}<p class="cta-caveat">{caveat}</p>{/if}
 			</Reveal>
 		{:else}
 			<Reveal stagger class="mx-auto max-w-3xl text-center">
@@ -146,6 +150,9 @@
 	/* Matches the hero's primary button: a bare `text-ink` utility loses to the
 	   global anchor colour, so the pill is styled in scoped CSS. */
 	.cta-note { color: rgb(255 255 255 / 75%); font-size: var(--text-spec); line-height: 1.5; }
+	/* Same small, quiet treatment as the lead-in note, set apart from the
+	   action row above it. */
+	.cta-caveat { margin-top: 2rem; max-width: 46rem; color: rgb(255 255 255 / 75%); font-size: var(--text-spec); line-height: 1.5; }
 	.cta-button { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: #fff; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.cta-button:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
 	@media (prefers-reduced-motion: reduce) {
