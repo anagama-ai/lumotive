@@ -123,4 +123,10 @@
 	[data-density='tight'] .card-body :global(p) { margin: 0; }
 	[data-density='tight'] .card-body :global(p + p) { margin-top: .75rem; }
 	[data-density='tight'] .card-link { margin-top: auto; padding-top: 1.25rem; }
+	/* A card body may carry a spec list where the package prints one. The global
+	   stylesheet only styles lists inside `.prose`, so the card supplies its own
+	   marker and indent rather than inheriting the browser's. */
+	.card-body :global(ul) { margin: .75rem 0 0; padding-left: 1.1rem; list-style: disc; }
+	.card-body :global(li) { margin-top: .35rem; }
+	.card-body :global(li::marker) { color: var(--color-muted); }
 </style>
