@@ -29,6 +29,8 @@
 	// Optional trailing line under the grid, for a caveat the package prints
 	// beneath a set of cards. Unset on every existing section.
 	let note = $derived(String(section.note ?? '').trim());
+	// Label for this section's own group of cards, printed above its grid.
+	let label = $derived(String(section.label ?? '').trim());
 	let fourUp = $derived(String(section.columns ?? '') === '4');
 	// Desktop column count. Unset keeps the historic behaviour exactly: two-up,
 	// widening to three only for a three-card section. `columns: "4"` opts a
@@ -50,6 +52,12 @@
 				{#if section.heading}<h2 class="font-display text-statement text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 			</div></Reveal>
+		{/if}
+		<!-- A group label sits with its own grid, below any section heading, so a
+		     heading can introduce several labelled groups in a row rather than
+		     being pushed under the first group's label. -->
+		{#if label}
+			<Reveal><p class="text-eyebrow text-brand-blue-dark mb-5 uppercase">{label}</p></Reveal>
 		{/if}
 		<Reveal stagger class={gridClass}>
 			{#each cards as card, index (index)}

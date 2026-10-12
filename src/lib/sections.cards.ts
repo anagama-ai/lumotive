@@ -124,6 +124,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
 			{ name: 'density', label: 'Card density (compact)', type: 'text' },
 			{ name: 'columns', label: 'Desktop columns (4; default is 2, or 3 for three cards)', type: 'text' },
+			{ name: 'label', label: 'Group label above the grid', type: 'text' },
 			{ name: 'note', label: 'Note under the grid', type: 'text' },
 			cardsField([
 				...fullCardFields,
