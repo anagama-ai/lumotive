@@ -22,6 +22,8 @@ const statsFields: FieldSpec[] = [
 	{ name: 'intro', label: 'Introduction', type: 'textarea' },
 	{ name: 'body', label: 'Body', type: 'richtext' },
 	{ name: 'media', label: 'Media', type: 'media' },
+	// Pin the tile grid to four across instead of the count-derived default.
+	{ name: 'columns', label: 'Desktop columns (4)', type: 'text' },
 	{
 		name: 'stats',
 		label: 'Statistics',
@@ -49,6 +51,8 @@ const ctaFields: FieldSpec[] = [
 	{ name: 'note', label: 'Note before the secondary action', type: 'text' },
 	// Small trailing line under the action row: the reference design caveat.
 	{ name: 'caveat', label: 'Caveat under the actions', type: 'text' },
+	// Stacked split CTA only: drop the dark panel for the page field.
+	{ name: 'tone', label: 'Tone (light)', type: 'text' },
 	{ name: 'secondaryLinkLabel', label: 'Secondary link label', type: 'text' },
 	{ name: 'secondaryLinkUrl', label: 'Secondary link URL', type: 'url' },
 	{

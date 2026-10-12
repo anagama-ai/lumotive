@@ -19,7 +19,18 @@
 	let body = $derived(typeof section.body === 'string' ? section.body : '');
 	let heading = $derived(titleCase(typeof section.heading === 'string' ? section.heading : null));
 	let variant = $derived(section.type);
-	let traitColumns = $derived(stats.length === 9 ? 'lg:grid-cols-3' : stats.length === 6 ? 'lg:grid-cols-3 xl:grid-cols-6' : 'lg:grid-cols-4');
+	// `columns: "4"` pins a six-tile row to two rows of four, which is how the
+	// package sets a six-figure spec block. The count-derived default below is
+	// unchanged for every section that does not ask.
+	let traitColumns = $derived(
+		String(section.columns ?? '') === '4'
+			? 'lg:grid-cols-4'
+			: stats.length === 9
+				? 'lg:grid-cols-3'
+				: stats.length === 6
+					? 'lg:grid-cols-3 xl:grid-cols-6'
+					: 'lg:grid-cols-4'
+	);
 
 	const enumValue = (value: unknown, values: string[], fallback: string) => {
 		const candidate = String(value ?? '');

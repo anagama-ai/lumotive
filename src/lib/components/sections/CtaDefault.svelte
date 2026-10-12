@@ -19,6 +19,11 @@
 	// Optional small trailing line under the action row, for the reference
 	// design caveat the package prints at the foot of a category page.
 	let caveat = $derived(String(section.caveat ?? '').trim());
+	// `tone: "light"` drops the dark panel and its backdrop for the page field,
+	// for the per-kit action rows a category page repeats between kit sections,
+	// where a dark slab after every kit would read as several closing CTAs.
+	// Stacked only; the page's own closing CTA keeps the dark panel.
+	let light = $derived(stacked && String(section.tone ?? '') === 'light');
 	let split = $derived(section.type === 'ctaSplitLinks' && !stacked);
 
 	const backdrops: Record<string, { src: string; position: string }> = {
@@ -72,7 +77,9 @@
 </script>
 
 <section
-	class="lumo-section relative isolate overflow-hidden bg-panel"
+	class="lumo-section relative isolate overflow-hidden"
+	class:bg-panel={!light}
+	class:cta-light={light}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 	data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
@@ -80,13 +87,15 @@
 	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
 	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
 	data-align={stacked || section.align === 'container' ? 'container' : undefined}
-	style:background-image={`url("${backdrop.src}")`}
-	style:background-position={backdrop.position}
-	style:background-size="cover"
+	style:background-image={light ? undefined : `url("${backdrop.src}")`}
+	style:background-position={light ? undefined : backdrop.position}
+	style:background-size={light ? undefined : 'cover'}
 >
-	<div
-		class={`pointer-events-none absolute inset-0 -z-10 ${split || stacked ? 'from-panel/70 via-panel/45 to-panel/20 bg-linear-75 from-25% via-60%' : 'bg-[radial-gradient(ellipse_55%_70%_at_50%_50%,rgba(10,18,38,0.94),rgba(10,18,38,0.55)_65%,rgba(10,18,38,0.15))]'}`}
-	></div>
+	{#if !light}
+		<div
+			class={`pointer-events-none absolute inset-0 -z-10 ${split || stacked ? 'from-panel/70 via-panel/45 to-panel/20 bg-linear-75 from-25% via-60%' : 'bg-[radial-gradient(ellipse_55%_70%_at_50%_50%,rgba(10,18,38,0.94),rgba(10,18,38,0.55)_65%,rgba(10,18,38,0.15))]'}`}
+		></div>
+	{/if}
 	<div class="lumo-inner relative z-10">
 		{#if split}
 			<div class="grid gap-10 md:grid-cols-2 md:gap-16">
@@ -171,4 +180,18 @@
 		.cta-text-link span { transition: none; }
 		.cta-text-link:hover span { transform: none; }
 	}
+	/* Light tone. The stacked markup is shared, so the dark-panel colours are
+	   re-pointed here rather than branched in the template. Every value is an
+	   existing token: Optical Ink for the heading and the pill, Slate Text for
+	   the body and the small lines, Laser Blue for the secondary action. */
+	.cta-light :global(h2) { color: var(--color-ink); }
+	.cta-light :global(.prose) { color: var(--color-text); }
+	.cta-light :global(.text-eyebrow) { color: var(--color-brand-blue-dark); }
+	.cta-light .cta-note, .cta-light .cta-caveat { color: var(--color-text); }
+	.cta-light .cta-button { color: #fff; background: var(--color-ink); }
+	.cta-light .cta-button:hover { background: rgb(10 18 38 / 88%); }
+	/* Deep Laser Blue, not Laser Blue: at the action's 16px the lighter blue is
+	   4.15:1 on the page field, under the 4.5:1 floor. Same correction the
+	   section links elsewhere carry. */
+	.cta-light .cta-text-link { color: var(--color-brand-blue-dark); }
 </style>
