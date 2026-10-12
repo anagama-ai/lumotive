@@ -26,6 +26,12 @@
 	// `steps` renders the cards as one compact numbered list instead of a card
 	// grid, for an ordered sequence whose entries are a label and a short value.
 	let steps = $derived(String(section.designVersion ?? '') === 'steps');
+	// Two optional emphasised lines the package uses around a card grid: a
+	// proposition under the introduction, and a closing result under the cards.
+	// Both are plain sentences set in the lead size at medium weight, which is
+	// how the package prints them. Unset on every existing section.
+	let statement = $derived(String(section.statement ?? '').trim());
+	let conclusion = $derived(String(section.conclusion ?? '').trim());
 	// `casing: "exact"` prints card titles exactly as the editor typed them, for
 	// a section whose approved card wording is sentence case and must not be
 	// re-capitalised. Section headings are unaffected: the package title-cases
@@ -62,6 +68,7 @@
 				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
 				{#if section.heading}<h2 class="font-display text-statement text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
+				{#if statement}<p class="text-lead text-ink mt-4 font-medium">{statement}</p>{/if}
 			</div></Reveal>
 		{/if}
 		{#if steps}
@@ -95,13 +102,16 @@
 				>
 					<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
 					{#if card.eyebrow}<p class="text-eyebrow text-ink uppercase">{card.eyebrow}</p>{/if}
-					<h3 class="font-display text-subheading text-ink mt-3 mb-0">{cardTitle(card.title)}</h3>
-					{#if card.body}<div class="mt-2 text-base leading-relaxed [&_p]:my-0 [&_p+p]:mt-2">{@html card.body}</div>{/if}
+					{#if card.title}<h3 class="font-display text-subheading text-ink mt-3 mb-0">{cardTitle(card.title)}</h3>{/if}
+					{#if card.body}<div class="card-copy mt-2 text-base leading-relaxed [&_p]:my-0 [&_p+p]:mt-2">{@html card.body}</div>{/if}
 					{#if card.badge}<span class="text-spec bg-background text-ink mt-4 self-start rounded-full px-3 py-1">{card.badge}</span>{/if}
 					{#if link.href && link.label}<span class="text-brand-blue mt-auto inline-flex items-center gap-2 self-start pt-6 text-base font-medium">{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
 				</svelte:element>
 			{/each}
 		</Reveal>
+		{/if}
+		{#if conclusion}
+			<Reveal delay={0.1}><p class="text-lead text-ink mt-10 max-w-3xl font-medium">{conclusion}</p></Reveal>
 		{/if}
 		{#if note || sectionLink}
 			<Reveal delay={0.12}>
@@ -149,4 +159,10 @@
 		.section-link span { transition: none; }
 		.section-link:hover span { transform: none; }
 	}
+	/* A card body may carry a bullet list where the package prints one. The
+	   global stylesheet only styles lists inside `.prose`, so the card supplies
+	   its own marker and indent rather than inheriting the browser's. */
+	.card-copy :global(ul) { margin: .75rem 0 0; padding-left: 1.1rem; list-style: disc; }
+	.card-copy :global(li) { margin-top: .35rem; }
+	.card-copy :global(li::marker) { color: var(--color-muted); }
 </style>

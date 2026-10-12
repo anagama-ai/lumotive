@@ -135,6 +135,10 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 		fields: [
 			...presentationFields,
 			...introFields,
+			// Emphasised lines around the grid: a proposition under the
+			// introduction, and a closing result under the cards.
+			{ name: 'statement', label: 'Statement under the introduction', type: 'text' },
+			{ name: 'conclusion', label: 'Closing line under the grid', type: 'text' },
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
 			{ name: 'columns', label: 'Desktop columns (2 | 3 | 5, default 3)', type: 'text' },
