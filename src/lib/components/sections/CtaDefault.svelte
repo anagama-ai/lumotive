@@ -14,6 +14,8 @@
 	// button-led action row. Opt-in per section, so the two-column CTAs on
 	// /contact and /culture are unchanged.
 	let stacked = $derived(section.type === 'ctaSplitLinks' && String(section.mode ?? '') === 'stacked');
+	// Optional lead-in printed before the secondary action. Unset elsewhere.
+	let note = $derived(String(section.note ?? '').trim());
 	let split = $derived(section.type === 'ctaSplitLinks' && !stacked);
 
 	const backdrops: Record<string, { src: string; position: string }> = {
@@ -110,6 +112,10 @@
 				{#if links.length}
 					<div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
 						{#each links as item, index (`${item.label}:${item.href}`)}
+							<!-- The package prints a lead-in before the secondary action
+							     ("Designing at the chip level? Explore LCM chips →"), so the
+							     note sits with that link rather than under the pair. -->
+							{#if index === 1 && note}<span class="cta-note">{note}</span>{/if}
 							{#if index === 0}
 								<a class="cta-button" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
 							{:else}
@@ -139,6 +145,7 @@
 <style>
 	/* Matches the hero's primary button: a bare `text-ink` utility loses to the
 	   global anchor colour, so the pill is styled in scoped CSS. */
+	.cta-note { color: rgb(255 255 255 / 75%); font-size: var(--text-spec); line-height: 1.5; }
 	.cta-button { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: #fff; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.cta-button:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
 	@media (prefers-reduced-motion: reduce) {
@@ -148,7 +155,9 @@
 	/* A bare utility loses to the global anchor colour, so the secondary action
 	   is coloured the same scoped way the other section links are. White on the
 	   dark panel, matching the primary button's contrast. */
-	.cta-text-link { display: inline-flex; gap: .5rem; color: #fff; font-weight: 650; text-decoration: none; }
+	/* The 2.75rem minimum the other standalone actions carry: at the body
+	   line-height alone this was a 25px tap target. */
+	.cta-text-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; color: #fff; font-weight: 650; text-decoration: none; }
 	.cta-text-link span { transition: transform 200ms ease; }
 	.cta-text-link:hover span { transform: translateX(.25rem); }
 	@media (prefers-reduced-motion: reduce) {

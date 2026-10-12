@@ -113,6 +113,11 @@
 	.split-body { margin-top: 1.25rem; color: var(--color-text); }
 	.split-body :global(p:first-child) { margin-top: 0; }
 	.split-body :global(p:last-child) { margin-bottom: 0; }
+	/* A split body may carry a bullet list where the package prints one; the
+	   global stylesheet only styles lists inside `.prose`. */
+	.split-body :global(ul) { margin: 1rem 0 0; padding-left: 1.15rem; list-style: disc; }
+	.split-body :global(li) { margin-top: .4rem; }
+	.split-body :global(li::marker) { color: var(--color-muted); }
 	.split-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; margin-top: 1.75rem; color: var(--color-brand-blue-dark); font-weight: 650; text-decoration: none; }
 	.split-link span { transition: transform 200ms ease; }
 	.split-link:hover span { transform: translateX(.25rem); }

@@ -45,6 +45,8 @@ const ctaFields: FieldSpec[] = [
 	{ name: 'primaryLinkLabel', label: 'Primary link label', type: 'text' },
 	{ name: 'primaryLinkUrl', label: 'Primary link URL', type: 'url' },
 	{ name: 'primaryLinkNewTab', label: 'Primary link opens a new tab (true | false)', type: 'text' },
+	// Lead-in printed before the secondary action in the stacked variant.
+	{ name: 'note', label: 'Note before the secondary action', type: 'text' },
 	{ name: 'secondaryLinkLabel', label: 'Secondary link label', type: 'text' },
 	{ name: 'secondaryLinkUrl', label: 'Secondary link URL', type: 'url' },
 	{
