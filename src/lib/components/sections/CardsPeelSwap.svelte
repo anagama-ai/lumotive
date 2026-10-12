@@ -46,6 +46,7 @@
 		data-width={String(section.width ?? 'contained')}
 		data-spacing-top={String(section.spacingTop ?? 'md')}
 		data-spacing-bottom={String(section.spacingBottom ?? 'md')}
+		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		<div class="lumo-inner relative flex min-h-full flex-col justify-center">
 			{#if section.heading || section.intro}

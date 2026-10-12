@@ -6,7 +6,10 @@ const presentationFields: FieldSpec[] = [
 	{ name: 'width', label: 'Width (contained | wide | full)', type: 'text' },
 	{ name: 'spacingTop', label: 'Top spacing (none | sm | md | lg)', type: 'text' },
 	{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | md | lg)', type: 'text' },
-	{ name: 'anchor', label: 'Anchor', type: 'text' }
+	{ name: 'anchor', label: 'Anchor', type: 'text' },
+	// Opt the section's inner column into the header container, so its
+	// content lines up with the navigation logo. Unset keeps the wider shell.
+	{ name: 'align', label: 'Align with header container (container)', type: 'text' }
 ];
 
 const introFields: FieldSpec[] = [
@@ -117,6 +120,9 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 		fields: [
 			...presentationFields,
 			...introFields,
+			...linkFields,
+			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
+			{ name: 'density', label: 'Card density (compact)', type: 'text' },
 			cardsField([
 				...fullCardFields,
 				{ name: 'anchor', label: 'Card anchor', type: 'text' }
@@ -130,7 +136,16 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			...introFields,
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
-			{ name: 'columns', label: 'Desktop columns (2 | 3, default 3)', type: 'text' },
+			{ name: 'columns', label: 'Desktop columns (2 | 3 | 5, default 3)', type: 'text' },
+			// Print card titles exactly as typed, for a section whose approved
+			// card wording is sentence case. Section headings are unaffected.
+			{ name: 'casing', label: 'Card title casing (exact)', type: 'text' },
+			// Small trailing line under the grid: the reference-design caveat, or
+			// the lead-in to the shared action ("New to metasurfaces?").
+			{ name: 'note', label: 'Note under the grid', type: 'text' },
+			// Second trailing line, kept separate from `note` where a section
+			// carries two captions that belong to different panels.
+			{ name: 'outro', label: 'Second note under the grid', type: 'text' },
 			cardsField(fullCardFields.filter((field) => field.name !== 'media'))
 		]
 	},
@@ -143,6 +158,27 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 				{ name: 'media', label: 'Media', type: 'media' },
 				{ name: 'title', label: 'Title', type: 'text' },
 				{ name: 'body', label: 'Specifications', type: 'richtext' }
+			])
+		]
+	},
+	// Row-labelled comparison of two or more offerings. Each card is one
+	// column; its `body` lists that column's values as `<li>Label: Value</li>`,
+	// the spec-pair convention CardsSpecPanels established. Desktop renders a
+	// table, mobile one stacked card per column.
+	cardsSpecComparison: {
+		label: 'Cards — specification comparison',
+		fields: [
+			...presentationFields,
+			...introFields,
+			{ name: 'outro', label: 'Closing line', type: 'textarea' },
+			cardsField([
+				{ name: 'media', label: 'Column photo', type: 'media' },
+				{ name: 'eyebrow', label: 'Column label', type: 'text' },
+				{ name: 'title', label: 'Column title', type: 'text' },
+				{ name: 'body', label: 'Values (Label: Value per list item)', type: 'richtext' },
+				// The column the comparison argues for: a Laser Blue wash and
+				// medium-weight values.
+				{ name: 'emphasis', label: 'Emphasize this column (true)', type: 'text' }
 			])
 		]
 	},

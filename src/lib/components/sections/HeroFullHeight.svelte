@@ -37,7 +37,7 @@
 	data-width={section.width ?? 'contained'}
 	data-spacing-top={section.spacingTop ?? 'md'}
 	data-spacing-bottom={section.spacingBottom ?? 'md'}
-	data-align={band ? undefined : 'container'}
+	data-align={band ? (section.align === 'container' ? 'container' : undefined) : 'container'}
 	data-peel-cover
 >
 	{#if visual}

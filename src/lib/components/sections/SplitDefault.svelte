@@ -47,6 +47,8 @@
 	data-width={section.width ?? 'contained'}
 	data-spacing-top={section.spacingTop ?? 'md'}
 	data-spacing-bottom={section.spacingBottom ?? 'md'}
+	data-align={section.align === 'container' ? 'container' : undefined}
+	data-bleed={variant === 'peelBleed' && section.bleed === 'compact' ? 'compact' : undefined}
 >
 	{#if variant === 'peelBleed' && visual}
 		<div class="bleed-media absolute inset-0" aria-hidden="true">
@@ -101,12 +103,17 @@
 	.art-frame { overflow: hidden; border-radius: var(--radius-card); }
 	.art-frame img, .art-frame video { display: block; width: 100%; height: auto; }
 	.video-embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
-	.split-eyebrow { margin: 0 0 1.25rem; color: var(--color-brand-blue); }
+	/* Deep Laser Blue on light: at the eyebrow's 12px, Laser Blue measures
+	   4.15:1 on the page field, under the 4.5:1 floor. Dark variants below
+	   keep their own colours, which are measured against the navy panel. */
+	.split-eyebrow { margin: 0 0 1.25rem; color: var(--color-brand-blue-dark); }
 	h2 { margin: 0; color: var(--color-ink); text-wrap: balance; }
-	.split-body { margin-top: 1.25rem; color: var(--color-muted); }
+	/* Slate Text, not Muted Slate: the body is the section's reading copy and
+	   muted measured 3.34:1 on the page field. */
+	.split-body { margin-top: 1.25rem; color: var(--color-text); }
 	.split-body :global(p:first-child) { margin-top: 0; }
 	.split-body :global(p:last-child) { margin-bottom: 0; }
-	.split-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; margin-top: 1.75rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
+	.split-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; margin-top: 1.75rem; color: var(--color-brand-blue-dark); font-weight: 650; text-decoration: none; }
 	.split-link span { transition: transform 200ms ease; }
 	.split-link:hover span { transform: translateX(.25rem); }
 	/* First use of a pull quote in a split body: the approved page sets the
@@ -138,6 +145,23 @@
 	.peel-bleed.media-right .copy-column { margin-left: auto; }
 	.bleed-shade { background: linear-gradient(90deg, rgb(4 13 31 / 96%), rgb(4 13 31 / 74%), rgb(4 13 31 / 38%)); }
 	.peel-bleed.media-right .bleed-shade { background: linear-gradient(-90deg, rgb(4 13 31 / 96%), rgb(4 13 31 / 74%), rgb(4 13 31 / 38%)); }
+	/* Opt-in compact peel bleed. The full 100svh band leaves a lot of dead
+	   space around a short copy column, and the standard shade darkens the
+	   bleed image until it reads as empty rather than as art. This trims the
+	   band and lets more of the image through on the open side, while keeping
+	   the copy side at the same 96% opacity so text contrast is unchanged.
+	   The pin window the peel scene scrolls through is driven by section
+	   height, so it follows the shorter band automatically. */
+	.peel-bleed[data-bleed='compact'] { min-height: 80svh; }
+	.peel-bleed[data-bleed='compact'] .lumo-inner { min-height: 80svh; }
+	.peel-bleed[data-bleed='compact'] .bleed-shade { background: linear-gradient(90deg, rgb(4 13 31 / 96%), rgb(4 13 31 / 66%), rgb(4 13 31 / 20%)); }
+	.peel-bleed[data-bleed='compact'].media-right .bleed-shade { background: linear-gradient(-90deg, rgb(4 13 31 / 96%), rgb(4 13 31 / 66%), rgb(4 13 31 / 20%)); }
+	@media (max-width: 767px) {
+		/* Mobile keeps the taller band: the copy stacks over the full width, so
+		   the shade must stay heavy and the height must fit the text. */
+		.peel-bleed[data-bleed='compact'], .peel-bleed[data-bleed='compact'] .lumo-inner { min-height: 100svh; }
+		.peel-bleed[data-bleed='compact'] .bleed-shade { background: linear-gradient(90deg, rgb(4 13 31 / 96%), rgb(4 13 31 / 86%), rgb(4 13 31 / 72%)); }
+	}
 	@media (max-width: 767px) {
 		.split-layout { grid-template-columns: 1fr; }
 		.art-frame img { width: auto; max-width: 75%; max-height: 50svh; margin-inline: auto; }

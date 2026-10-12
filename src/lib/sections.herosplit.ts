@@ -6,7 +6,10 @@ const presentationFields = (designVersion: string): FieldSpec[] => [
 	{ name: 'width', label: 'Width (contained | wide | full)', type: 'text' },
 	{ name: 'spacingTop', label: 'Top spacing (none | sm | md | lg)', type: 'text' },
 	{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | md | lg)', type: 'text' },
-	{ name: 'anchor', label: 'Anchor', type: 'text' }
+	{ name: 'anchor', label: 'Anchor', type: 'text' },
+	// Opt the section's inner column into the header container, so its
+	// content lines up with the navigation logo. Unset keeps the wider shell.
+	{ name: 'align', label: 'Align with header container (container)', type: 'text' }
 ];
 
 const heroFields: FieldSpec[] = [
@@ -31,7 +34,9 @@ const splitFields: FieldSpec[] = [
 	{ name: 'mediaPosition', label: 'Media position (left | right)', type: 'text' },
 	{ name: 'linkLabel', label: 'Link label', type: 'text' },
 	{ name: 'linkUrl', label: 'Link URL', type: 'url' },
-	{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' }
+	{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
+	// peelBleed only: a shorter band with more of the bleed image showing.
+	{ name: 'bleed', label: 'Bleed height (compact)', type: 'text' }
 ];
 
 const logosFields: FieldSpec[] = [
@@ -59,6 +64,12 @@ export const heroSplitSpecs: Record<string, SectionSpec> = {
 	heroBand: {
 		label: 'Hero — band',
 		fields: [...heroFields, ...presentationFields('band')]
+	},
+	// Copy on one side, a product photo on the other, on the Lab Navy stage.
+	// With no media the copy keeps the full column rather than holding a gap.
+	heroSplit: {
+		label: 'Hero — split',
+		fields: [...heroFields, ...presentationFields('split')]
 	},
 	splitDefault: {
 		label: 'Split — default',

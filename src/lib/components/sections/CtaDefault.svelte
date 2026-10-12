@@ -74,7 +74,7 @@
 	data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
 	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
 	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
-	data-align={stacked ? 'container' : undefined}
+	data-align={stacked || section.align === 'container' ? 'container' : undefined}
 	style:background-image={`url("${backdrop.src}")`}
 	style:background-position={backdrop.position}
 	style:background-size="cover"
