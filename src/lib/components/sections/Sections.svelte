@@ -17,6 +17,7 @@
 	import CardsPeelBento from './CardsPeelBento.svelte';
 	import CardsPeelScene from './CardsPeelScene.svelte';
 	import CardsPeelSwap from './CardsPeelSwap.svelte';
+	import CardsSpecComparison from './CardsSpecComparison.svelte';
 	import CardsSpecPanels from './CardsSpecPanels.svelte';
 	import CardsTeamCards from './CardsTeamCards.svelte';
 	import CardsTextCards from './CardsTextCards.svelte';
@@ -32,6 +33,7 @@
 	import Hero from './Hero.svelte';
 	import HeroBand from './HeroBand.svelte';
 	import HeroFullHeight from './HeroFullHeight.svelte';
+	import HeroSplit from './HeroSplit.svelte';
 	import LogosGridOnDark from './LogosGridOnDark.svelte';
 	import LogosLabelled from './LogosLabelled.svelte';
 	import LogosMarquee from './LogosMarquee.svelte';
@@ -78,6 +80,8 @@
 		<HeroFullHeight {section} {media} />
 	{:else if section.type === 'heroBand'}
 		<HeroBand {section} {media} />
+	{:else if section.type === 'heroSplit'}
+		<HeroSplit {section} {media} />
 	{:else if section.type === 'cardsPeelScene'}
 		<CardsPeelScene {section} {media} {band} />
 	{:else if section.type === 'cardsPeelBento'}
@@ -98,6 +102,8 @@
 		<CardsTextCards {section} {media} />
 	{:else if section.type === 'cardsSpecPanels'}
 		<CardsSpecPanels {section} {media} />
+	{:else if section.type === 'cardsSpecComparison'}
+		<CardsSpecComparison {section} {media} />
 	{:else if section.type === 'cardsComparisonCards'}
 		<CardsComparisonCards {section} {media} />
 	{:else if section.type === 'cardsComparisonTable'}

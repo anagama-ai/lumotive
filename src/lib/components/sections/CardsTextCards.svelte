@@ -16,37 +16,76 @@
 		if (!label || !href) return null;
 		return { label, href, newTab: section.linkNewTab === true || section.linkNewTab === 'true' };
 	});
+	// Small trailing line under the grid: the reference-design caveat, or the
+	// lead-in that precedes the shared action. Unset on every existing section.
+	let note = $derived(String(section.note ?? '').trim());
+	// Second trailing line, kept as its own element rather than appended to the
+	// note: the package prints two captions here and merging them into one
+	// paragraph loses which caption belongs to which panel.
+	let outro = $derived(String(section.outro ?? '').trim());
+	// `steps` renders the cards as one compact numbered list instead of a card
+	// grid, for an ordered sequence whose entries are a label and a short value.
+	let steps = $derived(String(section.designVersion ?? '') === 'steps');
+	// `casing: "exact"` prints card titles exactly as the editor typed them, for
+	// a section whose approved card wording is sentence case and must not be
+	// re-capitalised. Section headings are unaffected: the package title-cases
+	// those and sentence-cases the cards beneath them.
+	let exactCase = $derived(String(section.casing ?? '') === 'exact');
+	const cardTitle = (value?: string | null) => (exactCase ? (value ?? '') : (titleCase(value ?? '') ?? ''));
 	// Desktop column count. Default stays the three-up grid every existing
 	// section renders; `columns: "2"` opts a section into an even two-up, for a
-	// pair of cards that would otherwise leave a third of the row empty.
-	// Tablet stays two-up and mobile stays stacked either way, and the classes
-	// are written out in full so Tailwind emits them.
-	let gridClass = $derived(
-		String(section.columns ?? '') === '2'
-			? 'grid gap-6 md:grid-cols-2'
-			: 'grid gap-6 md:grid-cols-2 lg:grid-cols-3'
-	);
-	const tones: Record<string, { text: string; bar: string }> = {
-		accent1: { text: 'text-brand-blue', bar: 'bg-brand-blue' }, accent2: { text: 'text-brand-green', bar: 'bg-brand-green' }, accent3: { text: 'text-brand-amber', bar: 'bg-brand-amber' },
-		accent4: { text: 'text-brand-blue', bar: 'bg-brand-blue' }, accent5: { text: 'text-brand-green', bar: 'bg-brand-green' }, accent6: { text: 'text-brand-amber', bar: 'bg-brand-amber' }
+	// pair of cards that would otherwise leave a third of the row empty, and
+	// `columns: "5"` into a single wide row of five, stepping 1 → 2 → 3 → 5 so
+	// no breakpoint leaves a short orphan row. The classes are written out in
+	// full so Tailwind emits them.
+	let gridClass = $derived.by(() => {
+		const columns = String(section.columns ?? '');
+		if (columns === '2') return 'grid gap-6 md:grid-cols-2';
+		if (columns === '5') return 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5';
+		return 'grid gap-6 md:grid-cols-2 lg:grid-cols-3';
+	});
+	// The accent cycle distinguishes adjacent cards on the decorative bar only.
+	// Text keeps Laser Blue: green and amber fall under 4.5:1 on the white card,
+	// and DESIGN.md reserves the primary action colour for actions anyway.
+	const bars: Record<string, string> = {
+		accent1: 'bg-brand-blue', accent2: 'bg-brand-green', accent3: 'bg-brand-amber',
+		accent4: 'bg-brand-blue', accent5: 'bg-brand-green', accent6: 'bg-brand-amber'
 	};
-	const tone = (accent?: string) => tones[accent ?? ''] ?? tones.accent1;
+	const bar = (accent?: string) => bars[accent ?? ''] ?? bars.accent1;
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
 </script>
 
-<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')}>
+<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal><div class="mb-12 max-w-4xl">
-				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
+				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
 				{#if section.heading}<h2 class="font-display text-statement text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 			</div></Reveal>
 		{/if}
+		{#if steps}
+			<!-- One compact list, not four cards: the entries are an ordered
+			     sequence of short label/value pairs, and a card each would spread
+			     a signal path over a full-width row of mostly empty boxes. -->
+			<Reveal>
+				<ol class="step-list rounded-card border-border bg-surface divide-border max-w-3xl list-none divide-y border p-0">
+					{#each cards as card, index (index)}
+						<li class="flex items-baseline gap-4 px-6 py-4">
+							{#if card.eyebrow}<span class="font-display text-subheading text-brand-blue shrink-0 tabular-nums">{card.eyebrow}</span>{/if}
+							<span class="min-w-0">
+								<span class="font-display text-subheading text-ink">{cardTitle(card.title)}</span>
+								{#if card.body}<span class="step-value text-base leading-relaxed">{@html card.body}</span>{/if}
+							</span>
+						</li>
+					{/each}
+				</ol>
+			</Reveal>
+		{:else}
 		<Reveal stagger class={gridClass}>
 			{#each cards as card, index (index)}
 				{@const link = linkFor(card)}
-				{@const colors = tone(card.accent)}
+				{@const barClass = bar(card.accent)}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
 					class={`rounded-card bg-surface hover:shadow-card group flex flex-col p-8 transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
@@ -54,32 +93,56 @@
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
 				>
-					<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${colors.bar}`}></span>
-					{#if card.eyebrow}<p class={`text-eyebrow uppercase ${colors.text}`}>{card.eyebrow}</p>{/if}
-					<h3 class="font-display text-subheading text-ink mt-3 mb-0">{titleCase(card.title ?? '')}</h3>
+					<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
+					{#if card.eyebrow}<p class="text-eyebrow text-ink uppercase">{card.eyebrow}</p>{/if}
+					<h3 class="font-display text-subheading text-ink mt-3 mb-0">{cardTitle(card.title)}</h3>
 					{#if card.body}<div class="mt-2 text-base leading-relaxed [&_p]:my-0 [&_p+p]:mt-2">{@html card.body}</div>{/if}
 					{#if card.badge}<span class="text-spec bg-background text-ink mt-4 self-start rounded-full px-3 py-1">{card.badge}</span>{/if}
-					{#if link.href && link.label}<span class={`mt-auto inline-flex items-center gap-2 self-start pt-6 text-base font-medium ${colors.text}`}>{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
+					{#if link.href && link.label}<span class="text-brand-blue mt-auto inline-flex items-center gap-2 self-start pt-6 text-base font-medium">{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
 				</svelte:element>
 			{/each}
 		</Reveal>
-		{#if sectionLink}
+		{/if}
+		{#if note || sectionLink}
 			<Reveal delay={0.12}>
-				<a
-					class="section-link"
-					href={sectionLink.href}
-					target={sectionLink.newTab ? '_blank' : undefined}
-					rel={sectionLink.newTab ? 'noreferrer' : undefined}
-				>{sectionLink.label} <span aria-hidden="true">→</span></a>
+				<div class="section-foot">
+					{#if note}<span class="section-note">{note}</span>{/if}
+					{#if sectionLink}
+						<a
+							class="section-link"
+							href={sectionLink.href}
+							target={sectionLink.newTab ? '_blank' : undefined}
+							rel={sectionLink.newTab ? 'noreferrer' : undefined}
+						>{sectionLink.label} <span aria-hidden="true">→</span></a>
+					{/if}
+				</div>
 			</Reveal>
+		{/if}
+		{#if outro}
+			<Reveal delay={0.16}><p class="section-note mt-6 block max-w-3xl">{outro}</p></Reveal>
 		{/if}
 	</div>
 </section>
 
 <style>
-	/* A bare `text-brand-blue` utility loses to the global anchor colour, so the
-	   section action is coloured the same scoped way `.split-link` is. */
-	.section-link { display: inline-flex; gap: .5rem; margin-top: 2.5rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
+	/* The trailing row carries the gap, so a note and the shared action sit on
+	   one line with the same 2.5rem above the pair that the action alone used
+	   to set on itself. A bare `text-brand-blue` utility loses to the global
+	   anchor colour, so the action is coloured the same scoped way
+	   `.split-link` is, and it takes `.split-link`'s 2.75rem minimum height:
+	   at the body line-height alone the link was a 25px tap target, the only
+	   standalone action on the page under the 44px floor the rest of the site
+	   already meets. */
+	.section-foot { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1rem; margin-top: 2.5rem; }
+	/* Slate, not muted: at the spec size muted slate falls under 4.5:1 on both
+	   the page field and the white card, and a caption is still body text. */
+	.section-note { color: var(--color-text); font-size: var(--text-spec); line-height: 1.5; }
+	/* The step value sits on the same line as its label where there is room and
+	   wraps under it where there is not, so the list stays one compact block. */
+	.step-list .step-value { color: var(--color-text); }
+	.step-list .step-value::before { content: ' — '; color: var(--color-muted); }
+	.step-list .step-value :global(p) { display: inline; margin: 0; }
+	.section-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; color: var(--color-brand-blue-dark); font-weight: 650; text-decoration: none; }
 	.section-link span { transition: transform 200ms ease; }
 	.section-link:hover span { transform: translateX(.25rem); }
 	@media (prefers-reduced-motion: reduce) {

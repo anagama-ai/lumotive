@@ -26,6 +26,10 @@
 		return values.includes(candidate) ? candidate : fallback;
 	};
 	const numeric = (stat: Stat) => Number.parseFloat(String(stat.value ?? ''));
+	// Spec tiles keep the spectral accent cycle on a decorative rule rather than
+	// on the value, so the figure can take an accessible foreground.
+	const accentBars = ['bg-brand-blue', 'bg-brand-green', 'bg-brand-amber'];
+	const accentBar = (index: number) => accentBars[index % 3];
 </script>
 
 {#if stats.length}
@@ -37,6 +41,7 @@
 		data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
 		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg'], 'md')}
 		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
+		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		{#if variant === 'statsLightTraits' && section.designVersion === 'specTable' && image}
 			<img class="absolute inset-0 size-full object-cover" src={image.src} srcset={image.srcset} sizes="100vw" alt="" aria-hidden="true" width={image.width ?? 1600} height={image.height ?? 900} />
@@ -118,6 +123,42 @@
 						</table>
 					</div>
 					{#if section.intro}<p class={`mx-auto mt-5 max-w-4xl text-sm whitespace-pre-line ${image ? 'text-white/65' : 'opacity-65'}`}>{String(section.intro)}</p>{/if}
+				</Reveal>
+			{:else if variant === 'statsLightTraits' && section.designVersion === 'specTiles'}
+				<!-- The approved spec tiles: each measurement in its own compact
+				     card, label above, value carrying the weight, qualifier under
+				     it. The default lightTraits order is the same, but it sets the
+				     values loose on the page field at the compact spec size, so
+				     they read as metadata rather than as the four distinct figures
+				     the mockup makes them. Card geometry, surface and border are
+				     the standard card tokens, with the 2rem padding tightened to
+				     1.5rem for a tile that holds three short lines. -->
+				<Reveal>
+					<div class="max-w-4xl">
+						{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-blue-dark">{String(section.eyebrow)}</p>{/if}
+						{#if heading}<h2 class="font-display text-statement text-ink">{heading}</h2>{/if}
+						{#if body}<div class="prose mt-5 text-lead">{@html body}</div>{/if}
+						{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
+					</div>
+					<Reveal stagger="dl > *" delay={0.1}>
+						<dl class={`mt-12 grid gap-6 sm:grid-cols-2 ${traitColumns}`}>
+							{#each stats as stat, index (index)}
+								<div class="rounded-card border-border bg-surface flex flex-col border p-6">
+									<!-- The accent cycle lives on the rule, which is decorative and
+									     carries no contrast requirement. Optical Amber on white is
+									     1.8:1 and Signal Green 3.4:1, so a coloured value would put
+									     the one number that matters below the floor; the value takes
+									     Optical Ink at 18:1 instead. -->
+									<span aria-hidden="true" class={`mb-5 block h-1 w-8 rounded-full ${accentBar(index)}`}></span>
+									<dt class="text-eyebrow text-ink uppercase">{String(stat.label ?? '')}</dt>
+									<dd class="font-display text-heading text-ink mt-3 ml-0">
+										{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
+									</dd>
+									{#if stat.description}<dd class="text-spec text-text mt-2 ml-0">{String(stat.description)}</dd>{/if}
+								</div>
+							{/each}
+						</dl>
+					</Reveal>
 				</Reveal>
 			{:else if variant === 'statsLightTraits'}
 				<Reveal>
