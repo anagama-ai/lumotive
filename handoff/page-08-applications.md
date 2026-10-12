@@ -1,12 +1,86 @@
-# Page 08 — /applications (review only, not implemented)
+# Page 08 — /applications
 
 Approved content package rev. 2026-10-07 (v2), page 08 of 21,
 "Platform › Applications". Branch `feedback-20261007-v2`.
 
-This is the pre-implementation review requested before any edits. **No migration
-has been written and nothing on `/applications` has changed.**
+**Status: implemented and QA-verified**, as
+`1787709500_applications_page8.js`, except the "Programmable Optics in Motion"
+video pair, which waits on an unconfirmed asset (below). The review that
+preceded implementation is kept below the "What shipped" section, because its
+copy reconstruction and missing-asset list are still the reference.
 
-## Current state
+## What shipped
+
+One reversible migration, round-tripped down and up and verified to restore the
+page exactly:
+
+1. **Hero** (`acb2f280`) — approved body "One semiconductor platform. Many ways
+   to put light to work." and the single approved action "Talk to our team" →
+   `/contact`. The staging "Explore Lumotive Sense" action, which the package
+   does not print, is gone. Eyebrow, heading and the existing hero image are
+   unchanged.
+2. **Eight application areas** (`91a455fe`) — the five-card bento becomes the
+   package's eight areas. Section type changes from `cardsApplicationBento` to
+   `cardsMediaCards` with the new `columns: "4"`, so the eight set as two even
+   rows of four; the bento's tiling is built for a five-card feature block and
+   has no eight-card arrangement. Approved heading "One platform, many
+   applications" and the approved introduction. Four cards carry their approved
+   links: Explore Sense → `/sense`, Explore Connect → `/connect` (twice), and
+   Talk to us → `/contact`.
+3. **Four sections removed** and their copy preserved in the migration's down
+   path, because it is the source for pages 09 and 11:
+   `ebb6cf90` "Software-defined 3D sensing for Physical AI" → Sense;
+   `b3ce5d47` "Automotive Safety Cocoon" → Automotive;
+   `357cf90c` "Scalable across 3D sensing markets" → Sense;
+   `60dd50fb` "The Lumotive advantage" → Sense.
+   This also clears global rule 9: "Physical AI" now appears **0** times on the
+   page, where it had been in an `h2`.
+4. **Closing CTA** (`9a19b24a`) — approved body "Tell us the problem. We will
+   show you where programmable light fits." and the single action "Talk to our
+   team". The secondary "Explore Lumotive Sense" is gone.
+5. **Container alignment** — the three surviving sections take
+   `align: "container"`, matching pages 05, 06 and 07, so the page does not sit
+   on a different edge to its neighbours in the navigation.
+
+### Rendering changes
+
+- `CardsMediaCards` gains `columns: "4"` (1 → 2 → 4 across the breakpoints) and,
+  at four-up only, reserves two lines for the card title so a wrapping title
+  does not drop its body below its siblings'.
+- Card eyebrows take Optical Ink and card links Laser Blue. The accent cycle had
+  been colouring both: Signal Green measured **3.19:1** on the white card,
+  Optical Amber less still. Existing tokens only, no new colours.
+
+### Deliberate omissions
+
+- **Status labels — omitted. Q19 remains open.** See "Carried forward".
+- **Card images — omitted, all eight.** Three of the eight photographs exist in
+  this repository and five do not. Shipping three photographed cards beside five
+  blank ones reads worse than a uniform text grid; this is the same call already
+  taken and accepted for the LM10/LS20 column photos on page 07. Adding `media`
+  per card later is data-only.
+- **"Programmable Optics in Motion" — not built.** See "Missing inputs".
+
+### QA
+
+- 390 / 768 / 1024 / 1280 / 1440 / 1920: grid steps 1 → 2 → 4, no horizontal
+  overflow, no broken image, no tap target under 44px, **zero contrast
+  failures**, every inner column on one edge, card bodies aligned per row.
+- Rendered headings match the package: "Programmable Optics Across
+  Applications", "One Platform, Many Applications", "Build With Programmable
+  Optics". All eight card titles render as the package prints them.
+- Status-label elements on the section: **0**. "Physical AI" on the page: **0**.
+- Links: `/contact`, `/sense`, `/connect` all 200.
+- `/platform`, `/lcm-chips` and `/dev-kits` re-checked for regression from the
+  shared card changes: clean at 390 and 1440.
+- `svelte-check` and the production build both clean.
+
+## Original review (reference)
+
+The copy reconstruction, the missing-image table and the Q19 analysis below are
+unchanged and still govern the outstanding work.
+
+### Previous state
 
 Seven sections, verified in the browser:
 
@@ -170,14 +244,24 @@ by side | New", so the AMR animation is itself a new asset request:
 ## Dependencies on other pages
 
 - The four removed sections are the source copy for **pages 09 (Sense) and 11
-  (Automotive)**. Remove them here only once that copy is captured, or keep the
-  migration's down path as the record of it.
+  (Automotive)**. They are preserved verbatim in
+  `1787709500_applications_page8.js`'s down path, which is now the record of
+  that copy until those pages are built. Do not drop that migration.
 - `/sense`, `/connect` and `/contact` all resolve 200 today, so every link this
   page needs already works.
 - Page 06's "See all applications" action points here and is unaffected.
 
 ## Status
 
-Reviewed, not implemented. Blocking before build: the five missing card images
-and the AMR animation confirmation. Q19 stays open with the status labels
-omitted.
+Implemented and QA-verified. The page ships approved copy and layout with no
+placeholders and no unapproved imagery.
+
+Outstanding, none of which blocks review:
+
+- **"Programmable Optics in Motion" is not built**, pending confirmation that
+  `vimeo.com/1174547871` is the AMR animation. The Connect half
+  (`vimeo.com/1227505713`) is supplied and ready. Batch the confirmation with
+  the page-06 Vimeo playback check; both need a normal network.
+- **Five of eight card images** are missing, so all eight ship without
+  photographs. Adding them is data-only, per card.
+- **Q19 is open** and the status labels stay omitted until Apurva settles it.

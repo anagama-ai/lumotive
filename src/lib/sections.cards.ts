@@ -123,6 +123,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
 			{ name: 'density', label: 'Card density (compact)', type: 'text' },
+			{ name: 'columns', label: 'Desktop columns (4; default is 2, or 3 for three cards)', type: 'text' },
 			cardsField([
 				...fullCardFields,
 				{ name: 'anchor', label: 'Card anchor', type: 'text' }
