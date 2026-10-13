@@ -31,6 +31,7 @@
 	import Form from './Form.svelte';
 	import FormPipedrive from './FormPipedrive.svelte';
 	import Hero from './Hero.svelte';
+	import OpenRoles from './OpenRoles.svelte';
 	import HeroBand from './HeroBand.svelte';
 	import HeroFullHeight from './HeroFullHeight.svelte';
 	import HeroSplit from './HeroSplit.svelte';
@@ -138,6 +139,8 @@
 		<StatsDarkTraits {section} {media} />
 	{:else if section.type === 'statsLightTraits'}
 		<StatsLightTraits {section} {media} />
+	{:else if section.type === 'openRoles'}
+		<OpenRoles {section} {media} />
 	{:else if section.type === 'statsSpecPills'}
 		<StatsSpecPills {section} {media} />
 	{:else if section.type === 'statsPeelScene'}

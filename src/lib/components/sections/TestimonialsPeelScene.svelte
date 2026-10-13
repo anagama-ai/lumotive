@@ -1,6 +1,7 @@
 <script lang="ts">
 	import PeelScene from '$lib/components/lumotive/peel/PeelScene.svelte';
 	import { resolveMedia, type MediaMap } from '$lib/media';
+	import { titleCase } from '$lib/titlecase';
 	import type { Section } from '$lib/sections';
 
 	type Quote = {
@@ -13,6 +14,7 @@
 
 	let { section, media, band }: { section: Section; media: MediaMap; band?: Section } = $props();
 	let quotes = $derived((Array.isArray(section.quotes) ? section.quotes : []) as Quote[]);
+	let heading = $derived(titleCase(section.heading == null ? null : String(section.heading)));
 	let track = $state<HTMLDivElement>();
 
 	const enumValue = (value: unknown, values: string[], fallback: string) => {
@@ -38,8 +40,12 @@
 			data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
 			data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg'], 'md')}
 			data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
+			data-align={section.align === 'container' ? 'container' : undefined}
 		>
 			<div class="lumo-inner relative flex min-h-[70dvh] flex-col justify-center py-10">
+				{#if heading}
+					<h2 class="font-display text-statement text-ink mb-10">{heading}</h2>
+				{/if}
 				<div
 					bind:this={track}
 					class="flex snap-x snap-mandatory items-center overflow-x-auto [scrollbar-width:none]"

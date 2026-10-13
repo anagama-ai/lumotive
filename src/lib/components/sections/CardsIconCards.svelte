@@ -17,7 +17,9 @@
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal><div class="mb-12 max-w-4xl">
-				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
+				<!-- Deep Laser Blue: at the eyebrow's 12px the lighter blue measures
+				     4.15:1 on the page field, under the 4.5:1 floor. -->
+				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
 				{#if section.heading}<h2 class="font-display text-statement text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 			</div></Reveal>

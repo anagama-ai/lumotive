@@ -108,6 +108,20 @@ export const statsCtaSpecs: Record<string, SectionSpec> = {
 			...presentationFields
 		]
 	},
+	// Live roles from the Lever careers board, fetched through /api/open-roles.
+	// The board button is server-rendered; the roles enhance it when the feed
+	// answers, which is what package page 18's dev note asks for.
+	openRoles: {
+		label: 'Open roles — live from Lever',
+		fields: [
+			{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
+			{ name: 'heading', label: 'Heading', type: 'text' },
+			{ name: 'intro', label: 'Introduction', type: 'textarea' },
+			{ name: 'linkLabel', label: 'Board link label', type: 'text' },
+			{ name: 'linkUrl', label: 'Board link URL', type: 'url' },
+			...presentationFields
+		]
+	},
 	mediaVideoEmbed: {
 		label: 'Media — video embed',
 		fields: [
