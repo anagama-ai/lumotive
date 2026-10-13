@@ -22,7 +22,7 @@
 	}
 </script>
 
-<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')}>
+<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal><div class="mb-12 max-w-4xl">

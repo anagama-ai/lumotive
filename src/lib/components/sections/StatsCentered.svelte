@@ -22,7 +22,7 @@
 	// An explicit `columns` pins the tile grid, which is how the package sets a
 	// six-figure spec block: three and three, not six across. The count-derived
 	// default below is unchanged for every section that does not ask.
-	const PINNED: Record<string, string> = { '3': 'lg:grid-cols-3', '4': 'lg:grid-cols-4' };
+	const PINNED: Record<string, string> = { '2': 'lg:grid-cols-2', '3': 'lg:grid-cols-3', '4': 'lg:grid-cols-4' };
 	let traitColumns = $derived(
 		PINNED[String(section.columns ?? '')] ??
 			(stats.length === 9
