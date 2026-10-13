@@ -45,6 +45,8 @@ const splitFields: FieldSpec[] = [
 const logosFields: FieldSpec[] = [
 	{ name: 'heading', label: 'Heading', type: 'text' },
 	{ name: 'intro', label: 'Intro', type: 'textarea' },
+	// Wrap the marks in a centred row instead of a fixed column grid.
+	{ name: 'layout', label: 'Logo layout (centered)', type: 'text' },
 	{
 		name: 'logos',
 		label: 'Logos',

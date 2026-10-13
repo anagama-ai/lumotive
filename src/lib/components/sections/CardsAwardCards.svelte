@@ -28,13 +28,14 @@
 		{/if}
 		<Reveal><div class={gridClass}>
 			{#each cards as card, index (`${card.title ?? ''}:${card.year ?? ''}:${card.linkUrl ?? ''}:${index}`)}
-				<article class="border-border flex flex-col border-t py-5">
+				<article class="border-border flex flex-col border-t py-4">
 					<!-- A card with no year prints no year line: the approved strip
 					     carries no years in copy, and an empty eyebrow would leave a
-					     blank row above every title. -->
+					     blank row above every title. Without it the title leads the
+					     card, so it drops its own top margin too. -->
 					{#if card.year}<p class="text-eyebrow text-muted uppercase">{String(card.year)}</p>{/if}
-					<h3 class="font-display text-ink mt-2 text-base">{card.title ?? ''}</h3>
-					{#if card.linkUrl}<a class="text-brand-blue hover:text-brand-blue-dark mt-4 inline-flex min-h-11 items-center gap-2 self-start font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none" href={card.linkUrl} target="_blank" rel="noopener noreferrer">Learn more<span class="sr-only"> about {card.title ?? 'this award'}</span><svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></a>{/if}
+					<h3 class={`font-display text-ink text-base ${card.year ? 'mt-2' : ''}`}>{card.title ?? ''}</h3>
+					{#if card.linkUrl}<a class="text-brand-blue hover:text-brand-blue-dark mt-2 inline-flex min-h-11 items-center gap-2 self-start font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transition-none" href={card.linkUrl} target="_blank" rel="noopener noreferrer">Learn more<span class="sr-only"> about {card.title ?? 'this award'}</span><svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></a>{/if}
 				</article>
 			{/each}
 		</div></Reveal>

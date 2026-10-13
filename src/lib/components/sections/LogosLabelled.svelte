@@ -11,6 +11,11 @@
 		dark = false
 	}: { section: Section; media: MediaMap; dark?: boolean } = $props();
 	let heading = $derived(titleCase(section.heading == null ? null : String(section.heading)));
+	// `layout: "centered"` wraps the marks in a centred row instead of a fixed
+	// column grid, for a set whose count does not divide evenly and would
+	// otherwise leave a hole at the end of its last row. Opt-in per section, so
+	// every existing logo strip keeps the grid it has.
+	let centered = $derived(String(section.layout ?? '') === 'centered');
 	let logos = $derived(
 		(Array.isArray(section.logos) ? section.logos : []).flatMap((raw): Logo[] => {
 			if (!raw || typeof raw !== 'object') return [];
@@ -30,7 +35,7 @@
 </script>
 
 {#snippet logoList()}
-	<ul>
+	<ul class:centered>
 		{#each logos as logo, index (index)}
 			<li>
 				{#if logo.linkUrl}
@@ -99,16 +104,34 @@
 	li a, .logo-item { display: flex; height: 100%; min-height: 7.5rem; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; color: var(--color-ink); text-align: center; text-decoration: none; }
 	li img { width: auto; max-width: 11rem; height: auto; max-height: 3.5rem; object-fit: contain; transition: transform 250ms ease; }
 	li a:hover img { transform: scale(1.05); }
+	/* The investor marks ship with their own padding trimmed away, so the box
+	   the CSS constrains is the mark itself rather than a mostly empty canvas,
+	   and each one lands at roughly twice the size it did before. The cell, not
+	   the image, sets the width: a wordmark ten times wider than it is tall
+	   fills its cell, a near-square badge is held by the height cap, and
+	   `contain` keeps every one of them at its own proportions. */
+	.dark .centered li img { max-width: 100%; max-height: 4rem; }
 	.dark .logo-panel { color: white; background: var(--color-panel); }
 	.dark h2 { color: white; }
 	.dark .intro { color: rgb(255 255 255 / 70%); }
+	/* Nine logos in a five-column grid leave a hole at the end of the second
+	   row. A centred wrap balances the two rows instead, and the tighter row
+	   rhythm and cell height take the empty band out of the panel. */
 	.dark ul { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 3rem; }
+	.dark ul.centered { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 2rem; gap: 1.5rem 2.5rem; }
+	.dark .centered li { flex: 0 0 11rem; }
+	.dark .centered li a, .dark .centered .logo-item { min-height: 5rem; gap: .75rem; }
 	@media (max-width: 900px) {
 		ul, .dark ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 	}
 	@media (max-width: 560px) {
 		ul, .dark ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 		.logo-panel { padding-inline: 1.25rem; }
+		/* The 11rem cell does not fit twice across a phone, so the wrapped list
+		   would set one logo per row and run the panel to a thousand pixels. The
+		   cells shrink to a pair instead; the marks keep their proportions. */
+		.dark .centered li { flex: 1 1 7rem; max-width: 9.5rem; }
+		.dark .centered li a, .dark .centered .logo-item { min-height: 4rem; }
 	}
 	@media (prefers-reduced-motion: reduce) {
 		li img { transition: none; }
