@@ -30,6 +30,33 @@
 		return values.includes(candidate) ? candidate : fallback;
 	};
 
+	// Page 02 of the approved package asks every submission to carry three
+	// values: the inquiry type a CTA set through `?inquiry=`, the page the
+	// visitor came from, and any UTM campaign. The form itself lives inside
+	// Pipedrive's iframe, so the parent page cannot inject fields into it; what
+	// it can do is prefill them, which Pipedrive does from query parameters on
+	// the form URL keyed by the field's own API key.
+	//
+	// Those three keys only exist once the hidden fields are added in Pipedrive,
+	// and they are not ours to guess, so each is an editor field here. With none
+	// set — which is the state until Lumotive supplies them — nothing is
+	// appended and the embed is byte-identical to the one that ships today.
+	const trackingKeys = (section: Section) => [
+		{ key: String(section.inquiryField ?? '').trim(), kind: 'inquiry' as const },
+		{ key: String(section.sourceField ?? '').trim(), kind: 'source' as const },
+		{ key: String(section.campaignField ?? '').trim(), kind: 'campaign' as const }
+	];
+
+	const trackingValue = (kind: 'inquiry' | 'source' | 'campaign') => {
+		const params = new URLSearchParams(window.location.search);
+		if (kind === 'inquiry') return params.get('inquiry')?.trim() || 'general';
+		if (kind === 'source') return document.referrer || '';
+		return ['utm_source', 'utm_medium', 'utm_campaign']
+			.map((name) => params.get(name)?.trim() || '')
+			.filter(Boolean)
+			.join(' · ');
+	};
+
 	let host = $state<HTMLDivElement | null>(null);
 
 	// Pipedrive's loader reads the `data-pd-webforms` attribute of the element it
@@ -40,6 +67,14 @@
 		const container = host;
 		const src = formUrl;
 		if (!container || !src) return;
+
+		const url = new URL(src);
+		for (const { key, kind } of trackingKeys(section)) {
+			if (!key) continue;
+			const value = trackingValue(kind);
+			if (value) url.searchParams.set(key, value);
+		}
+		container.dataset.pdWebforms = url.href;
 
 		const script = document.createElement('script');
 		script.src = LOADER;
@@ -61,19 +96,24 @@
 		data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
 		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg'], 'md')}
 		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
+		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		<div class="lumo-inner">
-			{#if section.eyebrow || heading || section.intro}
-				<Reveal>
-					<div class="mb-10 max-w-3xl">
-						{#if section.eyebrow}<p class="text-eyebrow text-brand-blue mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
-						{#if heading}<h2 class="font-display text-statement text-ink">{heading}</h2>{/if}
-						{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
-					</div>
-				</Reveal>
-			{/if}
-			<div class="form-frame">
-				<div bind:this={host} class="pipedriveWebForms" data-pd-webforms={formUrl}></div>
+			<div class="form-column">
+				{#if section.eyebrow || heading || section.intro}
+					<Reveal>
+						<div class="mb-10">
+							<!-- Deep Laser Blue: at the eyebrow's 12px the lighter blue
+							     measures 4.15:1 on the page field, under the 4.5:1 floor. -->
+							{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
+							{#if heading}<h2 class="font-display text-statement text-ink">{heading}</h2>{/if}
+							{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
+						</div>
+					</Reveal>
+				{/if}
+				<div class="form-frame">
+					<div bind:this={host} class="pipedriveWebForms" data-pd-webforms={formUrl}></div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -81,11 +121,12 @@
 
 <style>
 	/* Pipedrive's own embed caps its iframe at 768px and never fills a wider
-	   host, so the default 82rem shell (--container-shell) left the panel with a
-	   dead column of white to the right of the fields. The form column runs at
-	   the site's narrow container instead, so the heading and the panel share an
-	   edge and the block sits centred in the section. */
-	.lumo-section > .lumo-inner { max-width: var(--container-narrow); }
+	   host, so a full-shell column left the panel with a dead column of white
+	   to the right of the fields. The cap sits on an inner column rather than
+	   on `.lumo-inner`, so the section can still opt into the header container
+	   and the heading and panel start on the same left edge as every other
+	   section instead of floating in the middle of the page. */
+	.form-column { max-width: var(--container-narrow); }
 
 	/* Match the live embed's measured height so the section does not collapse
 	   while Pipedrive loads and expands its iframe. */
