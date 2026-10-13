@@ -16,6 +16,10 @@
 	// otherwise leave a hole at the end of its last row. Opt-in per section, so
 	// every existing logo strip keeps the grid it has.
 	let centered = $derived(String(section.layout ?? '') === 'centered');
+	// How many marks a centred row holds before it wraps. Unset keeps the five
+	// the investor panel uses; a strip of seven asks for four, so it sets four
+	// and three rather than six and a stray.
+	let columns = $derived(/^[2-6]$/.test(String(section.columns ?? '')) ? String(section.columns) : '');
 	let logos = $derived(
 		(Array.isArray(section.logos) ? section.logos : []).flatMap((raw): Logo[] => {
 			if (!raw || typeof raw !== 'object') return [];
@@ -35,7 +39,7 @@
 </script>
 
 {#snippet logoList()}
-	<ul class:centered>
+	<ul class:centered style:--logo-cols={columns || undefined}>
 		{#each logos as logo, index (index)}
 			<li>
 				{#if logo.linkUrl}
@@ -126,7 +130,12 @@
 	.dark ul { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 3rem; }
 	ul.centered { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem 2.5rem; }
 	.dark ul.centered { margin-top: 2rem; }
-	.centered li { flex: 0 0 11rem; }
+	/* The cell is a share of the row, so a chosen column count decides how many
+	   marks sit on a line and the wrap falls where it should: seven logos set
+	   four and three rather than six and a stray, and the eighth joins the
+	   second row without any other change. `--logo-cols` defaults to the five
+	   the investor panel already used. */
+	.centered li { flex: 0 0 calc((100% - (var(--logo-cols, 5) - 1) * 2.5rem) / var(--logo-cols, 5)); }
 	.centered li a, .centered .logo-item { min-height: 5rem; gap: .75rem; }
 	@media (max-width: 900px) {
 		ul, .dark ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }

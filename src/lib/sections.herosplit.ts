@@ -47,6 +47,8 @@ const logosFields: FieldSpec[] = [
 	{ name: 'intro', label: 'Intro', type: 'textarea' },
 	// Wrap the marks in a centred row instead of a fixed column grid.
 	{ name: 'layout', label: 'Logo layout (centered)', type: 'text' },
+	// Marks per row in the centred layout (2-6; default 5).
+	{ name: 'columns', label: 'Logos per row (centered layout)', type: 'text' },
 	{
 		name: 'logos',
 		label: 'Logos',
