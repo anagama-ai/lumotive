@@ -113,3 +113,86 @@ has an image at all.
 1. **72 post images** — see above.
 2. **LinkedIn URL and press contact address** — the follow block waits on both.
 3. **Events posts** — the tab is live and empty until the first one is filed.
+
+## Final checklist — Page 20 assets and inputs
+
+**Page 20 is not modified by this audit.** Nothing below has been applied: the
+layout, the content, the filters, the featured story, the cards, the pagination
+and the search are all exactly as committed in `cb6fcd3` and `91cacf9`.
+
+### 1. The 72 posts with no card image, audited
+
+Every one of the 72 was checked against the 40 announcement visuals already in
+the repository, matching on the announcement each post covers. Three groups
+came out of it.
+
+**(a) 35 posts can reuse a verified Lumotive announcement visual.** These are
+media pieces covering an announcement whose own press release already carries
+its visual in `static/lumotive/news/`, so the image is Lumotive's own and
+already published on this site. The reuse pattern is one announcement visual
+serving its press release and the coverage of that same announcement, which is
+what the dev note means by "press releases use the announcement visual".
+
+| Announcement visual | Posts it would serve |
+| --- | --- |
+| $45M Series B | 7 |
+| Amazon and ITHCA investment | 5 |
+| 2D photonic beamforming semiconductor | 3 |
+| CES 2024 | 4 |
+| Hokuyo (commercial release and partnership) | 3 |
+| EDOM distribution | 2 |
+| Open Development Platform | 2 |
+| Oman and Taiwan expansion | 2 |
+| Namuga (Stella-2 and alliance) | 2 |
+| 180° dToF at 30 FPS, Electronic Photonics, MD41, SkyWater, Fast Company | 1 each |
+
+**This still needs Lumotive's sign-off**, for two reasons: reusing an
+announcement visual on third-party coverage is an editorial choice, not a
+mechanical one, and a few of the pairings are the same *story* rather than the
+same *release* (for example the CES 2024 group). The mapping is recorded here
+so it is one data edit per post once approved. **Nothing has been applied.**
+
+**(b) 24 media pieces have no Lumotive visual of their own.** These are
+opinion, interview, award-nomination and market-analysis pieces with no
+matching announcement — for example "The Programmable Optics Revolution",
+"Sam Heidari: Focus on the Journey", "The 2024 GSA Award Nominees Revealed",
+"Startups Bring Optical Metamaterials to AI Data Centers". The dev note's
+fallback is "the article image or a related product shot". **Needed from
+Lumotive:** either the publisher's article image where rights allow, or a
+nominated product photograph per piece. No product shot has been assigned,
+because choosing which product represents an unrelated opinion piece is not a
+mechanical decision and inventing the association is exactly what the package
+forbids.
+
+**(c) 13 press releases from 2019 to 2021 have no visual at all.** The oldest
+announcements predate the current visual set: Meta-Lidar platform, the
+Mini-Lidar and Early Access programmes, the JMP Efficient Fifty and Built In
+listings, the Yole webinar, Himax and TowerJazz. **Needed from Lumotive:** the
+original announcement visual for each, or a decision to let these cards run
+without one.
+
+### 2. Rules this audit held to
+
+- **No invented imagery and no placeholders.** Nothing was generated, and no
+  stock or stand-in image was assigned.
+- **No unrelated product photograph was attached** to make a card look
+  complete. A card with no image renders as type, date, title and summary, and
+  picks up the image the moment one is attached to the post.
+- **No post content changed.** Titles, excerpts, categories, publication dates,
+  slugs and source links are untouched.
+
+### 3. Inputs still owed by Lumotive
+
+| # | Input | Blocks |
+| --- | --- | --- |
+| 1 | **Official LinkedIn URL** | The "Stay Up to Date" block stays unpublished until it is confirmed. The same URL also unblocks the footer icon and the follow line on /about and /culture. |
+| 2 | **Press contact email**, or confirmation to drop the line | "Media inquiries: [press contact]" is a bracketed placeholder, which page 01 says never to publish. Either value finishes the block. |
+| 3 | **Other social channels to show**, or confirmation that LinkedIn is the only one | Named in the package's own pending box for this page. |
+| 4 | **Sign-off on the 35 announcement-visual reuses** in (a) | Applying the recorded mapping. |
+| 5 | **Article images or nominated product shots** for the 24 pieces in (b) | Those cards shipping with an image. |
+| 6 | **Original visuals for the 13 early press releases** in (c), or a decision to leave them without | Those cards shipping with an image. |
+| 7 | **First Events post** | The Events tab is live and empty until one is filed. |
+
+Items 1 to 3 are the whole of the held "Stay Up to Date" block. Items 4 to 6
+are the whole of the card-image gap: **35 solvable from assets already here,
+37 needing new material.**
