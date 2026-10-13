@@ -86,7 +86,7 @@
 						type="search"
 						maxlength="100"
 						value={data.query}
-						placeholder="Search announcements and coverage"
+						placeholder="Search news…"
 					/>
 					{#if data.category}<input name="category" type="hidden" value={data.category} />{/if}
 					<button type="submit">Search</button>
