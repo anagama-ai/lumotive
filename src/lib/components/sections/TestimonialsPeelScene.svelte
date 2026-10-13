@@ -42,9 +42,9 @@
 			data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
 			data-align={section.align === 'container' ? 'container' : undefined}
 		>
-			<div class="lumo-inner relative flex min-h-[70dvh] flex-col justify-center py-10">
+			<div class="lumo-inner quote-stage relative flex flex-col justify-center py-6">
 				{#if heading}
-					<h2 class="font-display text-statement text-ink mb-10">{heading}</h2>
+					<h2 class="font-display text-statement text-ink mb-8">{heading}</h2>
 				{/if}
 				<div
 					bind:this={track}
@@ -54,7 +54,7 @@
 				{#each quotes as quote, quoteIndex (quoteIndex)}
 					{@const avatar = resolveMedia(quote.avatar, media, 320)}
 					<div class="w-full shrink-0 snap-center px-4">
-						<figure class="mx-auto max-w-6xl text-center">
+						<figure class="mx-auto max-w-5xl text-center">
 						<blockquote data-peel="tint-each" class="text-quote text-ink">
 							<!-- The trailing space must live inside the expression: Svelte trims literal whitespace between elements, which welds the words together. -->
 							{#each `“${String(quote.quote ?? '')}”`.split(' ') as word, index (index)}<span>{word + ' '}</span>{/each}
@@ -63,7 +63,7 @@
 						{#if avatar}
 							<img
 								data-peel="rise"
-								class="mx-auto mt-10 size-20 rounded-full object-cover"
+								class="mx-auto mt-8 size-20 rounded-full object-cover"
 								src={avatar.src}
 								srcset={avatar.srcset}
 								sizes="80px"
@@ -94,3 +94,18 @@
 		</section>
 	</PeelScene>
 {/if}
+
+<style>
+	/* The stage held 70dvh of minimum height around a quote that rarely needs
+	   half of it, which left the carousel floating in its own section. A little
+	   under half a viewport still centres the quote without pinning empty space
+	   above and below it. */
+	.quote-stage { min-height: 48dvh; }
+	/* The display size the quote inherits is a page headline's. At the widest
+	   breakpoints that set it larger than the section heading above it; this
+	   keeps it the most prominent thing in the section while letting the lines
+	   settle into a comfortable measure. */
+	@media (min-width: 1024px) {
+		.quote-stage blockquote { font-size: clamp(2.5rem, 3.2vw, 3.25rem); line-height: 1.2; }
+	}
+</style>
