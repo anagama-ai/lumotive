@@ -5,6 +5,17 @@
 	let { data } = $props();
 	const dateFormat = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
 
+	// The package prints a card's type in the singular ("PRESS RELEASE") where
+	// the tab above it is plural, and renames "Media Coverage" to "In the news".
+	// Anything the map does not cover prints as the CMS stores it.
+	const TYPE_LABELS: Record<string, string> = {
+		'Press Releases': 'Press release',
+		'Media Coverage': 'In the news',
+		Events: 'Event'
+	};
+	const typeLabel = (category: string) => TYPE_LABELS[category] ?? category;
+	const published = (value: string) => dateFormat.format(new Date(value.replace(' ', 'T')));
+
 	function newsHref(page = 1, category = String(data.category), query = String(data.query)) {
 		const params = new URLSearchParams();
 		if (query) params.set('q', query);
@@ -16,8 +27,8 @@
 </script>
 
 <Seo
-	title="News | Lumotive"
-	description="News, announcements and insights from Lumotive."
+	title="News and Events | Lumotive"
+	description="Company announcements, media coverage and events from Lumotive."
 	canonical={`${page.url.origin}${page.url.pathname}`}
 />
 
@@ -27,41 +38,43 @@
 		<div aria-hidden="true" class="from-panel via-panel/90 to-brand-blue/35 absolute inset-0 bg-linear-75"></div>
 		<div class="max-w-shell relative mx-auto px-4 py-14 md:px-7 md:py-16">
 			<p class="text-eyebrow text-brand-amber mb-5 uppercase">Lumotive newsroom</p>
-			<h1 class="font-display text-statement max-w-4xl text-white">News and Insights</h1>
-			<p class="text-lead mt-5 max-w-2xl text-white/75">
-				Company announcements, technology milestones and perspectives on programmable optics.
-			</p>
+			<h1 class="font-display text-statement max-w-4xl text-white">News and Events</h1>
 		</div>
 	</section>
 
 	<section class="max-w-shell mx-auto px-4 py-16 md:px-7 md:py-24">
-		<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-			<nav aria-label="Filter by category" class="flex flex-wrap gap-3">
-				<a
-					class={[
-						'inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-sm font-medium transition-colors',
-						!data.category
-							? 'border-brand-blue bg-brand-blue text-white'
-							: 'border-border bg-surface text-text hover:border-brand-blue hover:text-brand-blue'
-					]}
-					aria-current={!data.category ? 'page' : undefined}
-					href={newsHref(1, '')}
-				>
-					All
-				</a>
-				{#each data.categories as category (category)}
+		{#if data.featured}
+			{@const post = data.featured}
+			<a class="featured" href={`/posts/${post.slug}`}>
+				{#if post.image}
+					<div class="featured-media">
+						<img src={post.image} alt="" width="1200" height="675" loading="eager" />
+					</div>
+				{/if}
+				<div class="featured-copy">
+					<div class="meta">
+						{#if post.category}<span class="type">{typeLabel(post.category)}</span>{/if}
+						{#if post.publishedAt}
+							<time datetime={post.publishedAt}>{published(post.publishedAt)}</time>
+						{/if}
+					</div>
+					<h2 class="font-display text-heading text-ink mt-4">{post.title}</h2>
+					{#if post.excerpt}<p class="mt-4 leading-relaxed">{post.excerpt}</p>{/if}
+					<span class="featured-action">Read more</span>
+				</div>
+			</a>
+		{/if}
+
+		<div class="controls">
+			<nav aria-label="Filter news by type" class="tabs">
+				{#each data.tabs as tab (tab.label)}
+					{@const active = tab.category === data.category}
 					<a
-						class={[
-							'inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-sm font-medium transition-colors',
-							category === data.category
-								? 'border-brand-blue bg-brand-blue text-white'
-								: 'border-border bg-surface text-text hover:border-brand-blue hover:text-brand-blue'
-						]}
-						aria-current={category === data.category ? 'page' : undefined}
-						href={newsHref(1, category)}
-					>
-						{category}
-					</a>
+						class="tab"
+						class:active
+						aria-current={active ? 'page' : undefined}
+						href={newsHref(1, tab.category)}
+					>{tab.label}</a>
 				{/each}
 			</nav>
 			<form class="news-search" action="/news" method="get" role="search">
@@ -82,34 +95,29 @@
 			</form>
 		</div>
 
-		<div class="news-heading">
-			<div>
-				<p class="text-eyebrow text-brand-blue uppercase">{data.category || 'All news'}</p>
-				<h2 class="font-display text-heading text-ink mt-2">
-					{data.query ? `Results for “${data.query}”` : 'Latest From Lumotive'}
-				</h2>
-			</div>
-			<p aria-live="polite" class="text-text-muted text-sm">
-				{data.totalItems} {data.totalItems === 1 ? 'post' : 'posts'}
-			</p>
-		</div>
+		<p aria-live="polite" class="count">
+			{data.totalItems} {data.totalItems === 1 ? 'post' : 'posts'}
+		</p>
 
 		{#if data.posts.length}
 			<div class="news-grid">
 				{#each data.posts as post (post.slug)}
 					<a class="news-card" href={`/posts/${post.slug}`}>
-						<div class="flex flex-1 flex-col p-7">
-							<div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-								{#if post.publishedAt}
-									<time class="text-spec text-text-muted" datetime={post.publishedAt}>
-										{dateFormat.format(new Date(post.publishedAt.replace(' ', 'T')))}
-									</time>
-								{/if}
-								{#if post.category}<span class="text-spec text-brand-blue">{post.category}</span>{/if}
+						{#if post.image}
+							<div class="card-media">
+								<img src={post.image} alt="" width="800" height="450" loading="lazy" />
 							</div>
-							<h3 class="font-display text-subheading text-ink mt-4">{post.title}</h3>
-							{#if post.excerpt}<p class="text-text mt-4 line-clamp-3 leading-relaxed">{post.excerpt}</p>{/if}
-							<span class="text-brand-blue mt-auto pt-7 text-base font-medium">Read article →</span>
+						{/if}
+						<div class="card-copy">
+							<div class="meta">
+								{#if post.category}<span class="type">{typeLabel(post.category)}</span>{/if}
+								{#if post.publishedAt}
+									<time datetime={post.publishedAt}>{published(post.publishedAt)}</time>
+								{/if}
+							</div>
+							<h3 class="font-display text-subheading text-ink mt-3">{post.title}</h3>
+							{#if post.excerpt}<p class="mt-3 line-clamp-3 leading-relaxed">{post.excerpt}</p>{/if}
+							<span class="card-action">Read more →</span>
 						</div>
 					</a>
 				{/each}
@@ -128,39 +136,73 @@
 			{/if}
 		{:else}
 			<div class="empty-state">
-				<h2>No Matching News</h2>
-				<p>Try another search or clear the category filter.</p>
-				<a class="text-brand-blue font-medium" href="/news">View all news</a>
+				<h2 class="font-display text-heading text-ink">No Matching News</h2>
+				<p class="mt-3">Try another search or choose a different type.</p>
+				<a class="empty-link" href="/news">View all news</a>
 			</div>
 		{/if}
 	</section>
 </article>
 
 <style>
+	/* Shared by the featured story and the grid cards: the type in Deep Laser
+	   Blue, the date in Slate Text, both at the spec size, which is the "Type ·
+	   date" line the package prints. */
+	.meta { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .75rem; font-size: var(--text-spec); }
+	.meta .type { color: var(--color-brand-blue-dark); font-weight: 650; text-transform: uppercase; letter-spacing: .06em; }
+	.meta time { color: var(--color-text); }
+
+	.featured { display: grid; align-items: center; gap: 2rem; margin-bottom: 4rem; border-radius: var(--radius-card); padding: 1.5rem; background: var(--color-surface); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
+	.featured:hover { transform: translateY(-.25rem); box-shadow: var(--shadow-card); }
+	@media (min-width: 768px) { .featured { grid-template-columns: 1.15fr 1fr; gap: 2.5rem; padding: 2rem; } }
+	.featured-media { overflow: hidden; border-radius: var(--radius-card); aspect-ratio: 16 / 9; background: var(--color-background); }
+	.featured-media img, .card-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+	.featured-copy p { color: var(--color-text); }
+	/* Matches the primary action elsewhere: a bare utility loses to the global
+	   anchor colour, so the pill is styled in scoped CSS. */
+	.featured-action { display: inline-flex; min-height: 2.75rem; align-items: center; margin-top: 1.75rem; padding: .75rem 1.75rem; border-radius: 999px; background: var(--color-ink); color: #fff; font-weight: 650; }
+
+	.controls { display: flex; flex-direction: column; gap: 1.5rem; }
+	@media (min-width: 900px) { .controls { align-items: center; flex-direction: row; justify-content: space-between; } }
+	.tabs { display: flex; flex-wrap: wrap; gap: .75rem; }
+	.tab { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; border: 1px solid var(--color-border); border-radius: 999px; padding: .5rem 1.1rem; background: var(--color-surface); color: var(--color-text); font-size: .875rem; font-weight: 650; text-decoration: none; transition: border-color 180ms ease, color 180ms ease; }
+	.tab:hover { border-color: var(--color-brand-blue-dark); color: var(--color-brand-blue-dark); }
+	.tab.active { border-color: var(--color-ink); background: var(--color-ink); color: #fff; }
+
+	.count { margin-top: 2rem; color: var(--color-text); font-size: var(--text-spec); }
+
 	.news-search { display: grid; gap: .6rem; max-width: 42rem; }
 	.news-search label { font-weight: 700; }
 	.news-search div { display: flex; align-items: center; gap: .75rem; }
 	.news-search input { min-width: 0; flex: 1; border: 1px solid var(--color-border); border-radius: 999px; padding: .85rem 1.1rem; background: var(--color-surface); }
-	.news-search button { border: 0; border-radius: 999px; padding: .85rem 1.25rem; color: white; background: var(--color-brand-blue); font: inherit; font-weight: 700; cursor: pointer; }
-	.news-search a { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; color: var(--color-brand-blue); font-weight: 700; }
-	.news-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-top: 3rem; }
-	.news-heading h2 { margin-bottom: 0; }
-	.news-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
-	.news-card { display: flex; min-height: 22rem; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
+	.news-search button { border: 0; border-radius: 999px; padding: .85rem 1.25rem; color: white; background: var(--color-ink); font: inherit; font-weight: 700; cursor: pointer; }
+	.news-search a { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; color: var(--color-brand-blue-dark); font-weight: 700; }
+
+	.news-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+	.news-card { display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
 	.news-card:hover { transform: translateY(-.25rem); box-shadow: var(--shadow-card); }
+	.card-media { aspect-ratio: 16 / 9; background: var(--color-background); }
+	.card-copy { display: flex; flex: 1; flex-direction: column; padding: 1.75rem; }
 	.news-card h3 { text-wrap: balance; }
 	.news-card p { color: var(--color-text); }
+	.card-action { margin-top: auto; padding-top: 1.75rem; color: var(--color-brand-blue-dark); font-weight: 650; }
+
 	.pagination { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; margin-top: 3rem; }
-	.pagination a { color: var(--color-brand-blue); font-weight: 700; }
+	.pagination a { display: inline-flex; min-height: 2.75rem; align-items: center; color: var(--color-brand-blue-dark); font-weight: 700; }
 	.pagination a:last-child { justify-self: end; }
-	.pagination span { color: var(--color-muted); }
+	.pagination span { color: var(--color-text); }
+
 	.empty-state { margin-top: 2.5rem; border-radius: var(--radius-card); padding: 4rem 1.5rem; text-align: center; background: var(--color-surface); }
+	.empty-link { display: inline-flex; min-height: 2.75rem; align-items: center; margin-top: 1rem; color: var(--color-brand-blue-dark); font-weight: 650; }
+
 	@media (max-width: 900px) { .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 	@media (max-width: 620px) {
 		.news-grid { grid-template-columns: 1fr; }
-		.news-heading { align-items: start; flex-direction: column; }
 		.news-search div { align-items: stretch; flex-direction: column; }
 		.news-search button { align-self: start; }
 	}
-	@media (prefers-reduced-motion: reduce) { .news-card { transition: none; } .news-card:hover { transform: none; } }
+	@media (prefers-reduced-motion: reduce) {
+		.news-card, .featured { transition: none; }
+		.news-card:hover, .featured:hover { transform: none; }
+	}
 </style>
