@@ -110,3 +110,51 @@ spells out. Third of the five page-02 redirects.
    arrives.
 6. **Compact M30 AMR demo clip.**
 7. **Secondary inquiry values** — see above; an open question for Apurva.
+
+## Review pass — 2026-10-13
+
+`1787710900_itof_review_pass.js`, reversible, scoped to this page.
+
+1. **Hero framing.** `mediaShift: "20%"` + `mediaScale: "1.16"` on the hero.
+   The photograph's empty white right margin was sitting under the pale end of
+   the gradient as a light blue block; it now falls outside the band and the
+   module carries the right of the frame. Desktop only, below 1024px unchanged.
+   The photograph itself is untouched and stays until the approved three-kit
+   family shot arrives.
+2. **ON140 spec tiles** pin `columns: "3"` — two even rows of three instead of
+   the count-derived six across, which wrapped "140° × 105°" and "Windows PC".
+   LI140 and M30 keep their four-across rows.
+3. **Spacing.** "Better Data, Safer Robots" takes "sm" both sides: 160px → 120px
+   above, 192px → 152px below. All three kit openers close on "none" above their
+   spec tiles: 80px → 40px, so the tiles read as part of the kit block rather
+   than a new section.
+4. **Terminology.** "beam steering" → "beamforming" in the hero body, the LI140
+   subline and the meta description. Standalone "steering" preserved — the M30
+   field-of-view tile keeps "90° steering".
+
+Component work: `heroBand` gains `mediaScale` beside `mediaShift` (the
+opt-in class is now `framed`); `statsLightTraits` `columns` accepts `3`
+as well as `4`.
+
+QA at 390 / 768 / 1024 / 1440: no overflow, no broken image, zero contrast
+failures, hero height unchanged at 612px, ON140 tiles step 1 → 2 → 3, hero
+framing applies only from 1024 up. Page 13's hero is unaffected. Migration
+round-trips. svelte-check 589 files 0 errors, build clean.
+
+### Owed: site-wide "beam steering" audit
+
+Claudia's rename was applied to page 14 only. "beam steering" still appears in
+rendered copy on:
+
+| Page | Occurrences |
+| --- | --- |
+| `/platform` | 3 |
+| `/lcm-chips` | 5 |
+| `/dev-kits/transmit-modules` | 2 |
+| `/applications` | 1 |
+| `/sense` | 1 |
+| `/dev-kits` | 1 |
+
+Thirteen in total. Each needs the same standalone-"steering" judgement call,
+and the approved PDF still prints "beam steering", so the rename should be
+confirmed as superseding the package before the site-wide pass.

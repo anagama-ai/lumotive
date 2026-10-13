@@ -14,13 +14,17 @@
 	let isVideo = $derived(Boolean(visual && /\.(mp4|webm)(?:$|\?)/i.test(visual.src)));
 	let primaryNewTab = $derived(section.primaryLinkNewTab === true || section.primaryLinkNewTab === 'true');
 	let secondaryNewTab = $derived(section.secondaryLinkNewTab === true || section.secondaryLinkNewTab === 'true');
-	// Optional desktop-only horizontal shift of the hero's media layer, for a
-	// product shot that sits centred in its own frame and would otherwise run
-	// under the headline. The asset is not rescaled or recropped: the layer is
-	// translated, and the strip it uncovers is filled with the photograph's own
-	// white backdrop so the two read as one surface under the gradient. Unset
-	// on every other hero, which is therefore untouched.
+	// Optional desktop-only framing of the hero's media layer, for a product
+	// shot whose own frame does not suit the band: `mediaShift` translates it
+	// horizontally, so a centred subject stops running under the headline, and
+	// `mediaScale` enlarges it, so an empty margin inside the photograph falls
+	// outside the band instead of reading as dead space. The strip a bare
+	// translation uncovers is filled with the photograph's own white backdrop
+	// so the two read as one surface under the gradient. Both unset on every
+	// other hero, which is therefore untouched.
 	let mediaShift = $derived(String(section.mediaShift ?? '').trim());
+	let mediaScale = $derived(String(section.mediaScale ?? '').trim());
+	let mediaFramed = $derived(Boolean(mediaShift || mediaScale));
 	function manageVideo(element: HTMLVideoElement) {
 		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const sync = () => {
@@ -49,7 +53,7 @@
 >
 	{#if visual}
 		<Reveal immediate fade={false} y={0} scale={1.06} duration={1.6} class="absolute inset-0">
-			<div class="hero-media absolute inset-0" class:shifted={mediaShift} style:--hero-media-shift={mediaShift || undefined} aria-hidden="true">
+			<div class="hero-media absolute inset-0" class:framed={mediaFramed} style:--hero-media-shift={mediaShift || undefined} style:--hero-media-scale={mediaScale || undefined} aria-hidden="true">
 				{#if isVideo}
 					<video
 						{@attach manageVideo}
@@ -121,9 +125,9 @@
 	   Translating the layer itself takes the fill with it and leaves a visible
 	   vertical edge against the panel. */
 	@media (min-width: 1024px) {
-		.hero-media.shifted { background: #fff; }
-		.hero-media.shifted > img,
-		.hero-media.shifted > video { transform: translateX(var(--hero-media-shift, 0)); }
+		.hero-media.framed { background: #fff; }
+		.hero-media.framed > img,
+		.hero-media.framed > video { transform: translateX(var(--hero-media-shift, 0)) scale(var(--hero-media-scale, 1)); }
 	}
 	.hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 20%, rgb(4 13 31 / 76%) 55%, rgb(6 101 214 / 40%)); }
 	.hero-copy { padding-block: clamp(4rem, 9vw, 7rem); }

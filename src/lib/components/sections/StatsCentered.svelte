@@ -19,17 +19,17 @@
 	let body = $derived(typeof section.body === 'string' ? section.body : '');
 	let heading = $derived(titleCase(typeof section.heading === 'string' ? section.heading : null));
 	let variant = $derived(section.type);
-	// `columns: "4"` pins a six-tile row to two rows of four, which is how the
-	// package sets a six-figure spec block. The count-derived default below is
-	// unchanged for every section that does not ask.
+	// An explicit `columns` pins the tile grid, which is how the package sets a
+	// six-figure spec block: three and three, not six across. The count-derived
+	// default below is unchanged for every section that does not ask.
+	const PINNED: Record<string, string> = { '3': 'lg:grid-cols-3', '4': 'lg:grid-cols-4' };
 	let traitColumns = $derived(
-		String(section.columns ?? '') === '4'
-			? 'lg:grid-cols-4'
-			: stats.length === 9
+		PINNED[String(section.columns ?? '')] ??
+			(stats.length === 9
 				? 'lg:grid-cols-3'
 				: stats.length === 6
 					? 'lg:grid-cols-3 xl:grid-cols-6'
-					: 'lg:grid-cols-4'
+					: 'lg:grid-cols-4')
 	);
 
 	const enumValue = (value: unknown, values: string[], fallback: string) => {

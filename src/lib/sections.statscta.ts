@@ -22,8 +22,8 @@ const statsFields: FieldSpec[] = [
 	{ name: 'intro', label: 'Introduction', type: 'textarea' },
 	{ name: 'body', label: 'Body', type: 'richtext' },
 	{ name: 'media', label: 'Media', type: 'media' },
-	// Pin the tile grid to four across instead of the count-derived default.
-	{ name: 'columns', label: 'Desktop columns (4)', type: 'text' },
+	// Pin the tile grid instead of taking the count-derived default.
+	{ name: 'columns', label: 'Desktop columns (3 | 4)', type: 'text' },
 	{
 		name: 'stats',
 		label: 'Statistics',
