@@ -49,14 +49,19 @@
 		);
 		root.style.zIndex = String(Math.max(10, 40 - siblings.indexOf(root) * 10));
 
-		const beats: { el: HTMLElement; kind: 'rise' | 'fall' | 'tint' }[] = [];
+		const beats: { el: HTMLElement; kind: 'rise' | 'fall' | 'tint'; wideOnly: boolean }[] = [];
 		for (const node of gsap.utils.toArray<HTMLElement>('[data-peel]', root)) {
+			// A beat marked `data-peel-wide` belongs to a choreography that only
+			// exists while the panel is pinned. Narrow viewports lay the same
+			// content out as a plain stack, where running the beats would leave
+			// everything but the last element faded out for good.
+			const wideOnly = node.hasAttribute('data-peel-wide');
 			for (const token of node.dataset.peel?.split(/\s+/) ?? []) {
 				const each = token.endsWith('-each');
 				const kind = each ? token.slice(0, -'-each'.length) : token;
 				if (kind !== 'rise' && kind !== 'fall' && kind !== 'tint') continue;
 				const targets = each ? (Array.from(node.children) as HTMLElement[]) : [node];
-				for (const el of targets) beats.push({ el, kind });
+				for (const el of targets) beats.push({ el, kind, wideOnly });
 			}
 		}
 
@@ -174,13 +179,22 @@
 					}
 				});
 
-				for (const { el, kind } of beats) {
+				// A card that is about to fall needs a stretch of scroll where it
+				// simply sits there and can be read. The first one needs it most:
+				// with the old 0.06 lead-in its fall began the moment the panel
+				// pinned, so it was gone within a tenth of the runway and never
+				// read at all. The rise that answers a fall then overlaps it, so
+				// the column crossfades instead of emptying between the two.
+				const DWELL = 0.9;
+				let previous: 'rise' | 'fall' | 'tint' | undefined;
+				for (const { el, kind, wideOnly } of beats) {
+					if (wideOnly && !wide) continue;
 					if (kind === 'rise') {
 						timeline.fromTo(
 							el,
 							{ opacity: 0, y: 16 },
 							{ opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' },
-							'+=0.06'
+							previous === 'fall' ? '<0.18' : '+=0.06'
 						);
 					} else if (kind === 'fall') {
 						// An element that also rises must start hidden; the fall's
@@ -189,7 +203,7 @@
 							el,
 							{ opacity: 1, y: 0 },
 							{ opacity: 0, y: -16, duration: 0.45, ease: 'power3.out', immediateRender: false },
-							'+=0.06'
+							`+=${DWELL}`
 						);
 					} else {
 						timeline.fromTo(
@@ -199,6 +213,7 @@
 							'+=0.03'
 						);
 					}
+					previous = kind;
 				}
 
 				return () => {

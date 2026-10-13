@@ -146,7 +146,12 @@
 				{#if links.length}
 					<div class="mt-9 flex flex-wrap items-center justify-center gap-4">
 						{#each links as item, index (`${item.label}:${item.href}`)}
-							<a class={`rounded-full px-7 py-3 text-base font-medium no-underline transition duration-200 hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'bg-white text-ink' : 'border border-white/30 text-white'}`} href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
+							<!-- The secondary action is outlined on the dark panel. Its
+							     colours are scoped CSS, not utilities: a bare `text-white`
+							     loses to the global anchor colour, which left the label at
+							     Slate Text on the panel, and the border colour fell back to
+							     the light `--color-border` token. -->
+							<a class={`rounded-full px-7 py-3 text-base font-medium no-underline transition duration-200 hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'bg-white text-ink' : 'cta-pill-outline'}`} href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
 						{/each}
 					</div>
 				{/if}
@@ -194,4 +199,12 @@
 	   4.15:1 on the page field, under the 4.5:1 floor. Same correction the
 	   section links elsewhere carry. */
 	.cta-light .cta-text-link { color: var(--color-brand-blue-dark); }
+	/* Outlined secondary action on the dark panel: white label at 16:1 and a
+	   border at 70% white, which clears the 3:1 floor a non-text control needs.
+	   Hover fills faintly and takes the border to solid white; focus draws a
+	   visible ring rather than relying on the default outline, which is nearly
+	   invisible against this backdrop. */
+	.cta-pill-outline { border: 1px solid rgb(255 255 255 / 70%); color: #fff; }
+	.cta-pill-outline:hover { border-color: #fff; background: rgb(255 255 255 / 12%); }
+	.cta-pill-outline:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 </style>

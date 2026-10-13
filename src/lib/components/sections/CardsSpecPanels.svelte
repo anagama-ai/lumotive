@@ -39,7 +39,9 @@
 					{#if image}<div class="bg-background relative aspect-2/1 overflow-hidden px-4 pb-2"><img class="absolute inset-0 size-full object-contain" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
 					<dl class="border-border bg-surface grid grid-cols-3 gap-4 border-t px-5 py-5">
 						{#each specPairs(card.body) as spec, index (index)}
-							<div class="min-w-0"><dt class="text-eyebrow text-muted uppercase">{spec.label}</dt><dd class="text-ink mt-2 text-sm leading-snug">{spec.value}</dd></div>
+							<!-- Slate Text, not Muted Slate: at the eyebrow's 12px the muted
+							     token measures 3.67:1 on the card, under the 4.5:1 floor. -->
+							<div class="min-w-0"><dt class="text-eyebrow text-text uppercase">{spec.label}</dt><dd class="text-ink mt-2 text-sm leading-snug">{spec.value}</dd></div>
 						{/each}
 					</dl>
 				</article>
