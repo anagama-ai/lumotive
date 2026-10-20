@@ -25,6 +25,11 @@
 	let mediaShift = $derived(String(section.mediaShift ?? '').trim());
 	let mediaScale = $derived(String(section.mediaScale ?? '').trim());
 	let mediaFramed = $derived(Boolean(mediaShift || mediaScale));
+	// Opt-in, phones only (<768px): the band drops its viewport-based minimum
+	// height and grows with its copy, with less padding above the eyebrow and
+	// below the actions and a tighter gap when the two actions stack. Text,
+	// font sizes and buttons are unchanged; desktop and tablet are untouched.
+	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
 	function manageVideo(element: HTMLVideoElement) {
 		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const sync = () => {
@@ -43,6 +48,7 @@
 <section
 	class="lumo-section hero-shell bg-panel relative isolate z-50 flex items-end overflow-hidden"
 	class:band
+	class:compact-mobile={compactMobile}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
 	data-width={section.width ?? 'contained'}
@@ -115,6 +121,11 @@
 <style>
 	.hero-shell { min-height: 100svh; }
 	.hero-shell.band { min-height: clamp(32rem, 68svh, 47rem); }
+	@media (max-width: 767px) {
+		.hero-shell.compact-mobile { min-height: 0; }
+		.compact-mobile .hero-copy { padding-block: 4rem 3.5rem; }
+		.compact-mobile .hero-actions { row-gap: 1rem; }
+	}
 	/* Desktop only. Below 1024px the hero stacks the copy over a much narrower
 	   frame, where the centred subject is already clear of the headline, so the
 	   tablet and mobile composition is deliberately left as it is.

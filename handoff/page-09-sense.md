@@ -75,6 +75,23 @@ The icons are decorative (each card's heading carries the meaning), so the amber
 
 Verified at 1440 and 390. The migration reverts to the exact prior record and reapplies to `sense` only. `npm run check` reported 0 errors and 0 warnings; `npm run build` passed with the dev server stopped.
 
+### Refinement: compact mobile hero (requested 2026-10-20)
+
+Migration `1787713300_sense_hero_compact_mobile.js` sets `compactMobile: "true"` on hero `d9bf96da` only. Below 768px, `HeroFullHeight` (the shared band hero component) then makes three changes:
+- drops the band's 68svh minimum height, so the hero grows with its copy;
+- sets copy padding to 4rem top and 3.5rem bottom;
+- tightens the vertical gap between the stacked actions from 2rem to 1rem.
+
+Text, font sizes (12 / 44 / 17 / 16px) and buttons (191×49, 164×44) are unchanged. The field is exposed in the hero editor spec.
+
+| Viewport | Before | After |
+|---|---|---|
+| 390 | 574px (153px above eyebrow, 64px below actions, 32px action gap) | **473px** (76 / 56 / 16) |
+| 430 | 634px | 413px (actions fit on one row) |
+| 1440 | 612px | 612px, unchanged |
+
+Heights exclude the 73px header. There is no clipping and no overflow. `/applications`' band hero still measures 574px at 390. The migration reverts exactly and reapplies. `npm run check` reported 0 errors; `npm run build` passed.
+
 ## What shipped in the v2 build (history)
 
 One reversible migration, `1787709700_sense_page9.js`, round-tripped down and
