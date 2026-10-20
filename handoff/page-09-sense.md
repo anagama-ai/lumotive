@@ -44,8 +44,14 @@ Approved content package rev. 2026-10-07, page 09 of 21, "Sense › Overview". F
 - **Headings and links:** one H1 and seven H2s in package order. All eight internal links answer 200: `/dev-kits`, `/lcm-chips`, the three `/dev-kits/*` pages, `/sense/robotics`, `/sense/automotive` and `/contact`. Meta and OG description both render the hero sentence. The iframe has a title. Card images are decorative (`alt=""`, titled cards).
 - **Video:**
   - The direct player loaded and played the full 14.9 s (readyState 4).
-  - Embedded from an external origin, it shows the "Lumotive HDR" poster with click-to-play, filling the 21:9 frame with no letterbox.
-  - **Embedded on `localhost` in this headless session, Vimeo shows its "We couldn't verify the security of your connection" screen**, the same environment condition seen on `/connect` and `/applications`. Confirm in-page playback in a normal browser on staging (outstanding S19).
+  - Embedded on an unrelated external page, it showed the "Lumotive HDR" poster in a 21:9 frame with no letterbox. That confirms the embed URL and the frame ratio only.
+  - **In-page playback on `/sense`: PENDING, not verified.** Embedded on `/sense` (local, headless), Vimeo showed "We couldn't verify the security of your connection". The cause is not established. Neither the direct player nor the outside-site embed verifies playback on `/sense`. Re-test on `/sense` in a normal browser (SE10 / S19).
+- **Shared-component regression (2026-10-20, 1440):**
+  - `videoAspect` is set only on `sense#f52b9a16`. Every other split video keeps an exact 16:9 frame with no inline style: `/platform` dark panel 1040582713, `/connect` 1227505713, `/culture` YouTube AcLAbtIxN64, `/dev-kits/dtof` 1102359216. No overflow on those pages.
+  - The ratio guard accepts only `N / N` values ("21 / 9", "16/9", "2.39 / 1") and rejects empty, `auto`, `calc(…)` and injected CSS such as `21/9; color:red`.
+  - The field appears in the editor spec for the four split types; all four render through `SplitDefault`, and peel-bleed never shows an iframe.
+  - `cardsTextCards` editor card fields are now `media, eyebrow, title, body, linkLabel, linkUrl, badge, accent`. The `/platform` LM10/LS20 card photos and both `/sense` perception photos still load.
+  - The editor itself was not exercised in a browser (no editor account in the local database); the check is at spec level.
 - **Migration:** revert restored every page record byte-identically to the pre-migration snapshot; reapply changed only `sense`.
 - `npm run check` 592 files, 0 errors, 0 warnings; `npm run build` clean, run with the dev server stopped.
 
@@ -185,7 +191,7 @@ touched in this pass and need no visual change.
    - The existing "≡ PHOTONICS" mark was checked on page 19 and carries no "e-Photonics" spelling. It is now a confirmation, not a blocker (outstanding PA4).
    - **Decision needed (SE6):** `/partners` already ships this strip with 3 of 4 logos. Build it here and on `/dev-kits` the same way now, or wait for Leopard?
    - Page 10 does not print this component, so it affects pages 09, 12 and 19 only. Webvizio #121/#122 stay open.
-2. **In-page Vimeo playback** of 1235957120 needs a normal-browser check on staging (environment only; see v3 QA).
+2. **In-page HDR playback on `/sense` — pending.** Not verified; the cause of the Vimeo connection screen is not established. Re-test on `/sense` in a normal browser.
 3. **KEEP AS IS copy differs from the printed text** (pre-existing since v2; not a v3 change; decision for Claudia, like `/connect` C4):
    - "The Problem" intro: live "…efficiency required for today's autonomous machines." vs printed "…efficiency today's autonomous machines need."
    - Closing CTA body: live "…designing to — field of view, range, form factor — and we will point you at…" vs printed "…designing to (field of view, range, form factor) and we will point you to…".

@@ -40,7 +40,7 @@ Unchanged and still deliberate: hero, copy, `columns: "4"`, `density: "tight"`, 
 - 1440 and 390 in Chromium: grid 4-up / 1-up, all seven card images load, video pair 2-up / stacked, no horizontal overflow, no broken image, no tap target under 44px.
 - Headings: one H1; H2 "One Platform, Many Applications", "Programmable Optics in Motion", "Build With Programmable Optics"; card and video titles as H3. Both iframes carry titles. Card photos are decorative (`alt=""`) — the card title names the area.
 - Links `/contact`, `/sense`, `/connect`: 200. "Physical AI" 0, "beam steering" 0, status labels 0.
-- Video playback: 1174547871 loads and plays in-page. **1227505713 played directly (readyState 4), but inside both this page and the existing `/connect` embed this headless session gets Vimeo's "We couldn't verify the security of your connection" challenge.** Same URL already published on `/connect`, so this is the test network, not the page; confirm in a normal browser at screenshot review.
+- Video playback: 1174547871 loads and plays in-page. **1227505713 in-page playback is unverified**: it played on the direct player, but embedded on this page (and on `/connect`) the headless session got Vimeo's "We couldn't verify the security of your connection" screen. The cause is not established; re-test in a normal browser (outstanding S19).
 - Migration rollback restored every page record exactly; reapply changed only `applications`. Pages 05–07 untouched.
 - `npm run check` 592 files, 0 errors, 0 warnings. `npm run build` passed.
 
