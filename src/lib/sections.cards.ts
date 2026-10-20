@@ -153,7 +153,9 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			// Second trailing line, kept separate from `note` where a section
 			// carries two captions that belong to different panels.
 			{ name: 'outro', label: 'Second note under the grid', type: 'text' },
-			cardsField(fullCardFields.filter((field) => field.name !== 'media'))
+			// Card media renders above the copy (/platform chip cards, /sense
+			// perception cards), so editors can manage it like any other card.
+			cardsField(fullCardFields)
 		]
 	},
 	cardsSpecPanels: {

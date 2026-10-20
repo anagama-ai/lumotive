@@ -19,6 +19,12 @@
 	// A `videoUrl` turns the art column into a real player: same frame, same
 	// radius, same column proportions as the image it replaces.
 	let embedUrl = $derived(videoEmbedUrl(section.videoUrl));
+	// Player frame ratio. 16:9 by default; a wider clip (the 21:9 HDR demo on
+	// /sense) sets its own so the player is not letterboxed inside the frame.
+	let videoAspect = $derived.by(() => {
+		const value = String(section.videoAspect ?? '').trim();
+		return /^\d+(\.\d+)?\s*\/\s*\d+(\.\d+)?$/.test(value) ? value : undefined;
+	});
 </script>
 
 {#snippet copy()}
@@ -71,6 +77,7 @@
 									src={embedUrl}
 									title={heading || 'Embedded video'}
 									class="video-embed"
+									style:aspect-ratio={videoAspect}
 									loading="lazy"
 									allow="autoplay; fullscreen; picture-in-picture"
 									allowfullscreen

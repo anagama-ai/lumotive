@@ -1,12 +1,55 @@
 # Page 09 — /sense
 
-Approved content package rev. 2026-10-07 (v2), page 09 of 21, "Sense ›
-Overview". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07, page 09 of 21, "Sense › Overview". First built against v2; **v3 pass applied 2026-10-20**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified**, except the Module and Solution
-Providers component, which is blocked on two logos.
+**Status: v3 implemented and QA-verified.** Remaining items are client inputs (the Leopard Imaging logo, plus confirmations); see "Blockers".
 
-## What shipped
+## v3 pass (2026-10-20)
+
+**Copy.** The v2→v3 diff of page 09 has one change: Start Building "Add LCM beam steering…" became "Add LCM beamforming to your own sensor design." It was already live from `1787712600`, so no copy changed in this pass. "Physical AI" still appears once (hero body, not a heading); "beam steering" appears 0 times.
+
+**Media.** Simon's six sticky notes, each mapped to the slot under it. The images were downloaded, visually checked, and saved as local WebP (≤1280 px, q80) under `static/lumotive/img`; none duplicated an existing file (perceptual-hash checked).
+
+| Slot | Simon's source | Local asset |
+| --- | --- | --- |
+| Better Perception, indoor iToF card (A1) | [Industrial-scaled.jpeg](https://lumotive.com/wp-content/uploads/2024/12/Industrial-scaled.jpeg), 2560×1350 | `sense-perception-indoor.webp`, centre-cropped to 16:9, 1280×720, 50 KB |
+| Better Perception, outdoor dToF card (A2) | [3D-Sensing.jpg](https://lumotive.com/wp-content/uploads/2024/03/3D-Sensing.jpg), 892×592 | `sense-perception-outdoor.webp`, centre-cropped to 16:9, 892×502, 52 KB (source is small; not upscaled) |
+| HDR section (A6) | [Vimeo 1235957120](https://vimeo.com/1235957120), "Lumotive HDR", 15 s, 2520×1080 | embedded, right column, 21:9 frame |
+| Applications · Robotics (A3) | [robot-conveyor 1536×864](https://lumotive.com/wp-content/uploads/2023/04/Lumotive-CES-robot-conveyor-image-ADD-1-1536x864-1.jpg) | `sense-application-robotics.webp`, 1280×720, 108 KB |
+| Applications · Automotive (A4) | [Driverless-Car.png](https://lumotive.com/wp-content/uploads/2022/12/Driverless-Car.png), 7680×4320, 27 MB | `sense-application-automotive.webp`, 1280×720, 106 KB |
+| Applications · Smart Infrastructure & Surveillance (A5) | [Robotaxi-scaled.jpeg](https://lumotive.com/wp-content/uploads/2024/12/Robotaxi-scaled.jpeg) | `sense-application-smart-infrastructure.webp`, 1280×720, 69 KB |
+
+- **Perception crop.** Text cards frame media at 16:9 with `object-contain`, so the pair is cropped to 16:9 at source; otherwise each would sit in white bars.
+- **Applications swap.** The three replace the incumbent `market-robot-dog.jpg`, `market-passenger-adas.jpg` and `market-its.jpg`. Those files stay in the repository.
+- **A5 content.** Despite the "Robotaxi" filename, A5 is an aerial view of a multi-lane road with tracked vehicles. That fits the card's printed "Image: intersection" and its "traffic and parking monitoring" copy, so the earlier fit question (SE4) is closed.
+- **HDR video.** It shows "HDR OFF" beside "HDR ON" point clouds coloured by intensity, which is the printed description. It sits on the right as the PDF prints it; on mobile it stacks above the copy, per the established split order. It plays on click, with no autoplay.
+
+**Migration** `1787713100_sense_v3_simon_media.js` (reversible, guarded on prior values):
+- card `media` on `a1d7c40e`, matched by eyebrow;
+- `videoUrl`, `videoAspect: "21 / 9"` and `mediaPosition: "right"` on `f52b9a16`;
+- the three image swaps on `2a6b5ed9`, matched by title, and restored on revert;
+- `seoDescription` from the hero sentence (global rule 14; S11/SE8 closed for this page).
+
+**Code (shared, additive).**
+- `SplitDefault` takes an optional `videoAspect` (validated `N / N`, default 16:9). The 21:9 clip would otherwise be letterboxed inside a 16:9 frame. The field is exposed in `sections.herosplit.ts`. No existing section sets it, so nothing else changes.
+- `cardsTextCards` now exposes card `media` in the editor spec. The component already rendered it (`/platform` chip cards), and the editor preserves unknown fields, so this only makes the field editable.
+
+### v3 QA
+
+- **390 / 768 / 1024 / 1440:** no horizontal overflow, all 10 images load, no tap target under 44px, every inner column on one edge (16 / 24 / 24 / 80).
+  - Perception cards: 1 → 2 columns.
+  - Applications: 1 → 2 → 3 → 3 columns. The 2+1 row at 768 and the title-driven body offset at 1024, where "Smart Infrastructure & Surveillance" wraps, are pre-existing `cardsMediaCards` behaviour, unchanged.
+  - HDR frame measures exactly 2.333 (21:9) at every width.
+- **Contrast:** automated scan of every text node in the three changed sections, zero failures. No text styling changed.
+- **Headings and links:** one H1 and seven H2s in package order. All eight internal links answer 200: `/dev-kits`, `/lcm-chips`, the three `/dev-kits/*` pages, `/sense/robotics`, `/sense/automotive` and `/contact`. Meta and OG description both render the hero sentence. The iframe has a title. Card images are decorative (`alt=""`, titled cards).
+- **Video:**
+  - The direct player loaded and played the full 14.9 s (readyState 4).
+  - Embedded from an external origin, it shows the "Lumotive HDR" poster with click-to-play, filling the 21:9 frame with no letterbox.
+  - **Embedded on `localhost` in this headless session, Vimeo shows its "We couldn't verify the security of your connection" screen**, the same environment condition seen on `/connect` and `/applications`. Confirm in-page playback in a normal browser on staging (outstanding S19).
+- **Migration:** revert restored every page record byte-identically to the pre-migration snapshot; reapply changed only `sense`.
+- `npm run check` 592 files, 0 errors, 0 warnings; `npm run build` clean, run with the dev server stopped.
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787709700_sense_page9.js`, round-tripped down and
 up. The revert restores the previous eight sections **byte-identically**.
@@ -55,21 +98,16 @@ reviews them on staging.
 
 ### New HDR section
 
-"See Bright and Dark Targets Together" with the approved paragraph. The HDR
-demo visual (main pulse vs low-power pulse, coloured by intensity) is listed as
-a new asset on package page 04 and has not been supplied, so the section ships
-copy-only. `splitDefault` holds a single reading column when its art column is
-absent, so nothing is left empty; adding `media` restores the two-column layout
-with no further change.
+"See Bright and Dark Targets Together" with the approved paragraph. Copy-only in the v2 build; the v3 pass adds the supplied "Lumotive HDR" video (above).
 
 ### Applications
 
 Three approved cards with the approved copy and the Robotics and Automotive
 links. Type changed from `cardsApplicationBento` to `cardsMediaCards`, because
 the package prints three equal cards and the bento tiles three as one feature
-plus two halves. The three images are the robot, vehicle and intersection
-photographs this site already ships, which is what the package's grey boxes
-describe. The dev note's "forward lidar beyond 200 m" does not appear in the
+plus two halves. The v2 build used the site's incumbent robot, vehicle and
+intersection photographs; the v3 pass replaces them with Simon's three
+(above). The dev note's "forward lidar beyond 200 m" does not appear in the
 approved copy and is absent from the page.
 
 ### Start Building
@@ -140,46 +178,21 @@ The hero and the closing CTA keep their own established rhythm (a band, and
 the CTA's `lg` spacing). The Start Building cards and the closing CTA were not
 touched in this pass and need no visual change.
 
-## Blockers
+## Blockers (after v3)
 
-1. **Module and Solution Providers component — not built.** Specified as logos
-   only, in order: Leopard Imaging, Namuga, Hokuyo, Electronic Photonics. Two of
-   four are unavailable:
-   - there is **no Leopard Imaging logo** in this repository;
-   - the **Electronic Photonics logo** is an open Lumotive input on package
-     page 04. The existing `ephotonics.png` carries the "e-Photonics" spelling
-     the package removes site-wide, so it cannot stand in.
+1. **Module and Solution Providers — not built on `/sense`.** Logos only, in order: Leopard Imaging, Namuga, Hokuyo, Electronic Photonics.
+   - **Leopard Imaging logo: missing (client asset).**
+   - The existing "≡ PHOTONICS" mark was checked on page 19 and carries no "e-Photonics" spelling. It is now a confirmation, not a blocker (outstanding PA4).
+   - **Decision needed (SE6):** `/partners` already ships this strip with 3 of 4 logos. Build it here and on `/dev-kits` the same way now, or wait for Leopard?
+   - Page 10 does not print this component, so it affects pages 09, 12 and 19 only. Webvizio #121/#122 stay open.
+2. **In-page Vimeo playback** of 1235957120 needs a normal-browser check on staging (environment only; see v3 QA).
+3. **KEEP AS IS copy differs from the printed text** (pre-existing since v2; not a v3 change; decision for Claudia, like `/connect` C4):
+   - "The Problem" intro: live "…efficiency required for today's autonomous machines." vs printed "…efficiency today's autonomous machines need."
+   - Closing CTA body: live "…designing to — field of view, range, form factor — and we will point you at…" vs printed "…designing to (field of view, range, form factor) and we will point you to…".
 
-   A provider strip missing half its members misstates who builds on LCM, so the
-   component waits for both logos.
+   Both keep the staging text because of the KEEP AS IS marker; switching to the printed text is a two-field change.
 
-   **It blocks four package pages, not just this one.** Package page 03 lists
-   the component as used on Sense, Dev Kits hub, Partners and Robotics, and the
-   component heading appears verbatim on each of those pages:
-
-   | Package page | Surface | State |
-   | --- | --- | --- |
-   | 09 | `/sense` | implemented except this component |
-   | 10 | `/sense/robotics` | not built yet |
-   | 12 | `/dev-kits` | not built yet |
-   | 19 | `/partners` | not built yet |
-
-   One delivery of the two logos unblocks all four. Build it once as a shared
-   component, since the package requires the copy, the order and the "no
-   external links" rule to be identical everywhere it appears. Webvizio #121
-   and #122 ("Partners: add Leopard Imaging, order") resolve through this same
-   component and must stay open until it ships.
-2. **HDR demo visual** — pending Lumotive asset; the section ships copy-only.
-3. **Section images for #119** — the package calls for "AMR or humanoid in a
-   warehouse aisle" and "vehicle or heavy equipment with a 180° coverage arc".
-   `market-agv.jpg` is a plausible match for the first, but no asset carries the
-   180° coverage arc for the second, and one illustrated card beside one blank
-   reads worse than two plain ones. Both omitted; adding `media` per card later
-   is data-only.
-4. **404 destinations**, all approved and awaiting their own pages:
-   `/sense/robotics` and `/sense/automotive` (pages 10, 11);
-   `/dev-kits/transmit-modules`, `/dev-kits/itof`, `/dev-kits/dtof`
-   (pages 13–15).
+Resolved by v3: the HDR demo visual (supplied), the #119 section images (supplied), and the five `/sense/*` and `/dev-kits/*` 404s (all pages now built).
 
 ## Open question for Apurva
 

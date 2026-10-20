@@ -34,6 +34,7 @@ const splitFields: FieldSpec[] = [
 	{ name: 'body', label: 'Body', type: 'richtext' },
 	{ name: 'media', label: 'Media', type: 'media' },
 	{ name: 'videoUrl', label: 'Video URL (Vimeo or YouTube; replaces media)', type: 'url' },
+	{ name: 'videoAspect', label: 'Video frame ratio (e.g. 21 / 9; default 16 / 9)', type: 'text' },
 	{ name: 'mediaPosition', label: 'Media position (left | right)', type: 'text' },
 	{ name: 'linkLabel', label: 'Link label', type: 'text' },
 	{ name: 'linkUrl', label: 'Link URL', type: 'url' },

@@ -1,6 +1,6 @@
 # v3 review — page checklist and Home handoff
 
-Source: `Lumotive_Website__Final_Content_Feedback_from_Apurva_20261007_v3_Simon_images.pdf`, compared with v2 and this branch. PDF page numbers below are 1-based. Comments were mapped by their on-page coordinates to the nearest labeled image/video slot; a linked image is a source, not proof that the associated post, animation or other input exists. Pages 05–08 have now been implemented locally with outstanding external inputs called out below; pages 09–21 remain for later passes. Do not infer that an item described as pending in v2 is still pending when v3 links its source.
+Source: `Lumotive_Website__Final_Content_Feedback_from_Apurva_20261007_v3_Simon_images.pdf`, compared with v2 and this branch. PDF page numbers below are 1-based. This file is now the **v3 delta log and Home record only**. Rows 09–21 below are a first-pass skim. **All outstanding items, client questions and our remaining work live in `handoff/v3-outstanding-items.md`** (audit of 2026-10-20), which supersedes the lists that used to be here.
 
 | PDF page / surface | v3 versus v2 copy | v3 comments: supplied media and intended section | Still needed / decision |
 | --- | --- | --- | --- |
@@ -26,23 +26,9 @@ Source: `Lumotive_Website__Final_Content_Feedback_from_Apurva_20261007_v3_Simon_
 | 20 / News `/news` | No visible copy change. | No annotations. | Press contact email, any social channels beyond LinkedIn, Leopard/LI140/ON140/VISION posts and post images still needed. |
 | 21 / Contact `/contact` | No visible copy change. | No annotations. | Correct office address (#137) still pending; do not guess. |
 
-## One consolidated unresolved client-input list
+## Outstanding items
 
-1. Supply approved article copy/metadata for Leopard Imaging, LI140/ON140 and VISION 2026, plus LI140/ON140 imagery. The Leopard photograph alone cannot make a News post.
-2. Confirm that the OCS-ports photo linked at the Home **2D photonic beamforming chip** card is deliberate, or supply its intended chip/beamforming visual.
-3. Resolve “In production / In development / Active programs / Exploring” application labels versus global prohibition on availability/roadmap statements (Home and Applications). v3 reprints them unchanged; they remain omitted.
-4. Supply/identify the Electronic Photonics logo, approved investor list and official award badges.
-5. Supply remaining unlinked sources: **Platform's corrected #125 mirrors/prisms/lenses graphic, “Ducky” 1D/2D animation, and Explorer HTML/poster**; LCM Chips' **“How LCM fits” system animation/GIF and scan timing/sequence**; Applications' **“Your Application” open-prompt visual** (or approval to keep the card text-only); Robotics three-panel video and LI140/ON140 photos; Automotive cocoon, Stella-180 footage and dust/rain media; Transmit flood/ROI and hero animations; iToF scan/point-cloud/warehouse media; dToF HDR demo. Resolved, not missing: Platform's LM10 photo and Dynamic Scanning video; LCM Chips' hero and both comparison photos; Applications' seven card photos and the AMR video. A separate supplied SVG is not required: authoring and synchronizing the LCM timeline are implementation work. Other linked images above are not outstanding by default.
-6. Approve Stella-120 sensor-head power figure, permission for NM120 sensor-head MIPI claim, final hidden analytics-tool name, correct Contact address, News press email and any additional social channels.
-7. Confirm whether the page-08-to-09 section moves absent from page 09 composition are still wanted. The Platform compound-term clause has been cut to “Optical beamforming with Lumotive LCMs lights the way…” per v3's site-wide rule; it is no longer held as an unanswered wording question.
-8. Supply a citable source for the Connect page’s Google energy/latency claim. The v3-linked Home hero Vimeo did not override its printed instruction to keep the existing video.
-
-## Unfinished implementation, not client dependencies
-
-- Pages 05–08 are the completed local v3 passes. Applying later pages' assets/copy and inspecting each linked file remains implementation work. The Platform Explorer integration and cross-browser/iOS tests must follow delivery of its HTML and poster. On LCM Chips, convert the delivered deck GIF to MP4/WebM with a poster, build the responsive two-panel layout and authored SVG scan timeline, synchronize it to the animation's real sequence, and verify motion/reduced-motion behavior. The corrected #125 graphic, Ducky animation, and LCM system-animation source are client dependencies, not broken URLs.
-- Applications: confirm Vimeo 1227505713 plays inside the page in a normal browser. It played directly, but its embed (here and on the existing `/connect`) hit Vimeo's connection-security challenge in the headless test session.
-- Top-level dropdown labels do not yet navigate on click; footer privacy-policy route, some meta/OG data and homepage contrast/tap-target issues are tracked in `handoff/qa-phase-1-nav-redirect-terminology.md`. Do not present these as client questions.
-- PR #1 (staging Home) is separate from this local branch; remote refs exist but GitHub API status cannot be read anonymously (private-repo 404). No push, merge or deploy in this pass.
+Moved to `handoff/v3-outstanding-items.md`. That audit re-mapped every sticky note to its slot, checked each linked asset against the repository and CMS, and removed items v3 resolved. It found that several assets earlier treated as missing were in fact supplied: the Sense HDR video, the Robotics hero, four Dev Kits photos, and the Connect 2D visual and use-case photos.
 
 ## Home implementation and verification
 
