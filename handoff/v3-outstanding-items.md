@@ -104,15 +104,21 @@ Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `
 
 Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video placed in a 21:9 frame (in-page playback still pending, SE10), SE3 application photos, SE4 (the "Robotaxi" file is an aerial traffic scene that fits "intersection"), SE8 meta description.
 
-## Page 10 — Robotics `/sense/robotics`
+## Page 10 — Robotics `/sense/robotics` (v3 pass done 2026-10-20)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| R1 | Hero | Ours | Do | Simon's AGV-AMR photo, already in the repo as `market-agv.jpg` (identical). The hero currently has no image. | Us | Yes | p10 A1; hash 1.00 |
-| R2 | One Sensor, Three Jobs | Asset | Missing | Three-panel AMR demo video (localization / cliff / full field). Simon: "Elyar's video" (lead only). Its approved caption is held with it. | Lumotive (Elyar) | Yes | p10 A4 |
-| R3 | Kits for Robotics | Ours | Do | Simon supplied M30 ([M30_thumb](https://lumotive.com/wp-content/uploads/2022/10/M30_thumb.jpg), not in repo) and NM120 (IMG_0032 = local `nm120-module.png`). | Us | Yes | p10 A2, A3 |
+| R2 | One Sensor, Three Jobs | Asset | Missing | Three-panel AMR demo video (localization / cliff / full field). Simon: "Elyar's video", a name only: no file or URL, and nothing matching in the repo or Downloads (checked 2026-10-20). Its approved caption is held with it. Then ours: printed split layout, poster plus click-to-play, in-page playback check. | Lumotive (Elyar) → Us | Yes | p10 A4 |
 | R4 | Kits for Robotics | Asset | Missing | LI140 sensor-head and ON140 photos ("from Q4 flyer"); none annotated or in the repo. | Lumotive | Yes | PDF p10 |
-| R5 | Kits for Robotics | Decision | Verify | Ship 2 of 4 kit photos now, or keep all four text-only until LI140/ON140 arrive (current rule: uniform). Same choice applies to D2/D3. | Claudia | No | `current-progress.md` conventions |
+| R3 | Kits for Robotics | Ours | Do (after R4) | Add all four photos together: M30 from [M30_thumb](https://lumotive.com/wp-content/uploads/2022/10/M30_thumb.jpg) (not in the repo), NM120 as the existing `nm120-sensor.jpg` (identical to A3). Add a contained "photo on light grey panel" frame option to `cardsMediaCards` per the p03 kit-card spec. | Us | No | p10 A2, A3 |
+
+Resolved on this page by `1787713400`:
+- R1 hero: now the existing `market-agv.jpg`, identical to A1.
+- R5: review decision on 2026-10-20 to keep all four kit cards text-only until LI140 and ON140 arrive. This decides Robotics only; page 12's D2/D3 still need their own call.
+- The Integrate copy fix ("or body").
+- The printed bullet list for the four benefits.
+- The 01–04 step numerals.
+- Virtual-sensor headings confirmed against the v3 render.
 
 ## Page 11 — Automotive `/sense/automotive`
 
@@ -232,9 +238,9 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 **Confirmed missing — client must supply:** S2 privacy policy · S3 Pipedrive keys · S6 Explorer bundle + poster · S7 analytics tool + name · P1 #125 graphic · P2 1D/2D animation · L1 "How LCM fits" animation + timing · A1 "open prompt" visual · SE5 Leopard logo · R2 three-panel AMR video · R4 LI140 + ON140 photos · AU2 cocoon graphic · AU3 180° point cloud/video · AU4 dust/rain images · D1 kit family photo · T3 two illumination animations · I1 iToF family photo · I3 clean point-cloud renders · I5 warehouse point cloud · I6 scan diagrams · F2 Stella-120 power · F3 MIPI permission · F4 NM120 internals photo · AB2 award badges · PA3 onsemi logo · N1 four News posts · N2 press email · N3 social channels · N5 first Events post · CT1 office address.
 (Several share one delivery: R4 = D3 = I7; SE5 = D4 = PA2; S1 is one URL.)
 
-**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · R5 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
+**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · R1 · R3 · AU1 · D2 · T1 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4. (Page 09's SE1–SE3 and SE8 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · AU1 · D2 · T1 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4). (Pages 09 and 10 are done.)
 
 ## One request for Claudia and Josh
 
@@ -268,7 +274,7 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 
 **Claudia — decide or confirm**
 - Status labels: publish or drop (S8).
-- Ship the provider strip and kit rows partially now, or wait for the missing items (SE6, R5).
+- Ship the provider strip partially now, or wait for Leopard (SE6). For Robotics kit rows the review decided to wait for LI140/ON140 (R5); confirm the same holds for Dev Kits (D2/D3).
 - Hero swaps for About, Culture and Partners to Simon's photos (AB1, CU1, PA1).
 - The TX10 still versus the #129 animation (T2).
 - The new HDR video also on dToF (F5).
@@ -284,7 +290,7 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 | Platform Vimeo 1040582713 playback | Played in-page in a real Chromium session | page-06 handoff |
 | Sense HDR demo visual | Vimeo 1235957120 "Lumotive HDR" supplied and embedded (21:9) | p09 A6; `1787713100` |
 | Sense #119 section images; application photos; meta description | Supplied and integrated as local WebP; SE4 fit confirmed visually | p09 A1–A5; `1787713100` |
-| Robotics hero; M30 and NM120 kit photos | Supplied (R1, R3) | p10 A1–A3 |
+| Robotics hero; M30 and NM120 kit photos | Hero live via existing `market-agv.jpg` (`1787713400`); M30/NM120 photos supplied, held for a uniform row until LI140/ON140 arrive (R3/R4) | p10 A1–A3 |
 | Automotive hero | Supplied (AU1) | p11 A1 |
 | Dev Kits TX10, M30, NM120, MD180 photos | Supplied (D2); only ON140 and LI140 remain | p12 A1–A4 |
 | Transmit hero still image | Supplied (T1); only the #129 animation question remains | p13 A1 |

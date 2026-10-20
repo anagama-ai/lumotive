@@ -1,11 +1,45 @@
 # Page 10 — /sense/robotics
 
-Approved content package rev. 2026-10-07 (v2), page 10 of 21, "Sense ›
-Robotics". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07, page 10 of 21, "Sense › Robotics". First built against v2; **v3 pass applied 2026-10-20**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.** New page.
+**Status: v3 implemented and QA-verified.** Pending inputs: the three-panel AMR video ("Elyar's video") and the LI140/ON140 kit photos.
 
-## What shipped
+## v3 pass (2026-10-20)
+
+**Copy.** The v2→v3 text diff of page 10 is empty. Comparing the page word for word with the v3 render found one existing error from the v2 build: the Integrate step read "…compute board **or your body**…". The printed text is "…compute board **or body**, with no separate sensor box." Fixed.
+
+**Simon's four notes on page 10:**
+
+| Note | Slot | Supplied? | Action |
+| --- | --- | --- | --- |
+| A1 [AGV-AMR-scaled.jpeg](https://lumotive.com/wp-content/uploads/2024/12/AGV-AMR-scaled.jpeg) | Hero ("AMR and humanoid in a warehouse, depth overlay") | Yes. Identical to the existing local `market-agv.jpg` (perceptual match 0.99998). | Hero `4c1a8e02` now uses `/lumotive/img/market-agv.jpg`; no duplicate file. |
+| A2 [M30_thumb.jpg](https://lumotive.com/wp-content/uploads/2022/10/M30_thumb.jpg) | M30 kit card | Yes (537×402, not in the repo). | **Not added** (see Kits). |
+| A3 [IMG_0032-1-copy.png](https://lumotive.com/wp-content/uploads/2026/04/IMG_0032-1-copy.png) | NM120 kit card | Yes. Visually identical to the existing `nm120-sensor.jpg`, already used on `/dev-kits/dtof`. | **Not added** (see Kits). |
+| A4 "Elyar's video" | One Sensor, Three Jobs, the three-panel AMR demo | **No.** A name only, no file or URL. Nothing matching is in the repo, `static/lumotive/video` (only `hero.mp4` and `beam-steering.mp4`) or Downloads. | **Pending.** No substitute: the AGV AMR animation (Vimeo 1174547871) is a different, separately annotated asset. |
+
+**Kits for Robotics: all four cards stay text-only**, on review instruction. Only M30 and NM120 have photos; LI140 and ON140 have none. When those two arrive, add all four as one data change: M30 from A2, NM120 as the existing `nm120-sensor.jpg`. The kit-card spec on PDF p03 prints "Photo on light grey panel", so those product shots will want a contained-on-Cool-Field frame rather than the current full-bleed `object-cover`. That is a small `cardsMediaCards` option to add at that point.
+
+**Two layout corrections against the printed page** (approved on review; both existed since the v2 build):
+1. **The four closing benefits** under "One Sensor, Three Jobs" ("Fewer sensors to buy" … "Lower total power") are a bullet list, as printed, not four title-only cards. Section `2e6c48da` changes from `cardsTextCards` to a media-less `splitDefault` whose body is that list (same id, spacing and container alignment).
+2. **Design Your Own Sensor** steps show the printed 01–04 numerals in Laser Blue display type, in place of the accent bars. A new opt-in `numbered: "true"` on `cardsTextCards`, set only on `6f24b8c1`, is exposed in the editor spec.
+
+**Migration** `1787713400_robotics_v3.js` (reversible, guarded on prior values) covers the hero media, the bullet list, the numerals and the Integrate copy fix.
+
+### v3 QA
+
+- **390 / 768 / 1024 / 1440:** no horizontal overflow, no broken image, every inner column on one edge (16 / 24 / 24 / 80).
+  - Grids: virtual sensors and robot types 1 → 2 → 3; proof, kits and design steps 1 → 2 → 4.
+  - Hero heights 593 / 696 / 612 / 612px (default band; the `/sense` compact-mobile option is not applied here).
+  - The only tap target under 44px is the 23px "Sense" breadcrumb, the accepted condition recorded below.
+- **Hero crop:** at 1440 the warehouse, AMRs and arm sit right of the headline under the established gradient. At 390 the frame shows the racking behind the copy; the text stays on the dark side of the shade.
+- **Contrast:** automated scan of the bullet list and design steps, zero failures. Numerals are Laser Blue at 24px, 4.57:1.
+- **Links:** `/sense`, `/contact?inquiry=robotics`, `/dev-kits/itof` and `/dev-kits/dtof` answer 200; `#kits` resolves.
+- **Shared-component regression:** no other page renders numerals. `/sense` (11 bars), `/platform` (2) and `/lcm-chips` (11) keep their accent bars; `/lcm-chips`' `steps` list is unaffected; no overflow on any of them.
+- **Migration:** revert restored every page record byte-identically to the pre-migration snapshot; reapply changed only `robotics`.
+- `npm run check` 592 files, 0 errors, 0 warnings; `npm run build` passed with the dev server stopped.
+- **Screenshots** (outside the project): `%TEMP%\lumotive-review\robotics\` (`desktop-1440-01…08`, `mobile-390-01…08`, `contact-desktop.png`, `contact-mobile.png`).
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787709900_sense_robotics_page10.js`. The page is
 created as a child of `/sense`, so `computePath` resolves it to
@@ -70,43 +104,17 @@ in a list with a 0.5rem gap, giving 31px centre-to-centre, which clears WCAG
 page. Left as is rather than restyled from inside a page task; raise it if the
 client wants a larger breadcrumb target.
 
-## Blockers
+## Blockers (after v3)
 
-1. **Hero image** — "AMR and humanoid in a warehouse, depth overlay". Not
-   supplied; the band ships without one rather than with a stand-in. Adding
-   `media` to `4c1a8e02` restores the image band with no further change.
-2. **Three-panel AMR demo video** beside the virtual sensors. Package page 04
-   lists the clean flash / LCM / stereo point-cloud renders and Vimeo
-   1053591397 as new assets for Robotics; none is in this repository. The
-   approved caption that belongs to it is held back with it, rather than
-   published as a caption for nothing.
-3. **All four kit photographs** — the package marks them "from the Q4 flyer",
-   and page 04 lists the kit photos at full resolution as a new asset. Two of
-   the four products, **LI140 and ON140, have no photograph here at all**, so a
-   half-illustrated kit row would read worse than a uniform one. All four
-   omitted; adding `media` per card later is data-only.
-4. **Module and Solution Providers component** — still pending across package
-   pages **09, 10, 12 and 19** until the Leopard Imaging and Electronic
-   Photonics logos arrive. See `handoff/page-09-sense.md` for the full scope.
-   The approved sentence naming those four providers is copy, not the logo
-   component, and does ship, on section `6f24b8c1`.
-5. **`/dev-kits/itof` and `/dev-kits/dtof`** 404 until pages 14 and 15 are
-   built. The links carry the approved destinations and need no change.
+1. **Three-panel AMR demo video ("Elyar's video") — pending, client asset.**
+   - Not supplied or identified; Simon's note names a person, not a file.
+   - The approved caption ("Three-panel AMR demo video: localization, cliff detection, full-field avoidance") stays held with it.
+   - **Our follow-on** once it arrives: turn "One Sensor, Three Jobs" into the printed split (cards and bullets left, video right), poster plus click-to-play, and an in-page playback check.
+2. **LI140 and ON140 kit photos — pending, client asset.** Until they arrive, all four kit cards stay text-only (review decision). M30 (A2) and NM120 (existing `nm120-sensor.jpg`) are ready to add with them.
+3. The **Module and Solution Providers logo strip is not printed on page 10**. Only the approved provider sentence is, and it ships on `6f24b8c1`. This page is no longer counted among the strip's blockers.
 
-## Copy reconstruction to confirm
+Resolved by v3: the hero image (supplied and live) and the `/dev-kits/itof`/`/dev-kits/dtof` 404s (both pages built).
 
-The package prints several of this page's blocks as multi-column layouts, and
-the PDF text layer extracts them column-interleaved. Every fragment is
-accounted for exactly once and each result reads as a complete sentence, but
-two headings are worth eyeballing against the rendered page before sign-off:
+## Copy reconstruction (resolved)
 
-- The three virtual sensors read **"Localization"**, **"Cliff and obstacle"**
-  and **"Object avoidance"**. Reading the extraction row-major across three
-  columns gives exactly that split, and each pairs with the right body (centre
-  slice, ledges and low obstacles, everything else). The alternative reading,
-  "Cliff and obstacle avoidance" plus a bare "Object", leaves the third card
-  with a heading that does not match its body.
-- The kit card order is **M30, NM120, LI140, ON140**, taken from the heading
-  row. The photo captions above them are listed in a different order
-  (NM120, LI140, ON140, M30), which is why the photographs, when they arrive,
-  must be matched to products by name rather than by position.
+The v3 render shows the three virtual-sensor headings as **"Localization"**, **"Cliff and obstacle"** and **"Object avoidance"**, exactly as built. Kit card order is M30, NM120, LI140, ON140. The photo captions above them in the mock list a different order, so photos must be matched by product name, not position.

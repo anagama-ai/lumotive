@@ -150,6 +150,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
 			{ name: 'columns', label: 'Desktop columns (2 | 3 | 4 | 5, default 3)', type: 'text' },
+			{ name: 'numbered', label: 'Number the cards 01, 02 … (true | false)', type: 'text' },
 			// Print card titles exactly as typed, for a section whose approved
 			// card wording is sentence case. Section headings are unaffected.
 			{ name: 'casing', label: 'Card title casing (exact)', type: 'text' },

@@ -26,6 +26,10 @@
 	// `steps` renders the cards as one compact numbered list instead of a card
 	// grid, for an ordered sequence whose entries are a label and a short value.
 	let steps = $derived(String(section.designVersion ?? '') === 'steps');
+	// `numbered: "true"` keeps the card grid but marks each card with its
+	// two-digit position (01, 02 …) in place of the accent bar, for a sequence
+	// the package prints as numbered cards. Unset on every existing section.
+	let numbered = $derived(section.numbered === true || section.numbered === 'true');
 	// Two optional emphasised lines the package uses around a card grid: a
 	// proposition under the introduction, and a closing result under the cards.
 	// Both are plain sentences set in the lead size at medium weight, which is
@@ -107,7 +111,11 @@
 							<img class="size-full object-contain" src={image.src} srcset={image.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt="" width={image.width ?? 960} height={image.height ?? 540} loading="lazy" />
 						</div>
 					{/if}
-					<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
+					{#if numbered}
+						<p class="font-display text-subheading text-brand-blue m-0 tabular-nums">{String(index + 1).padStart(2, '0')}</p>
+					{:else}
+						<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
+					{/if}
 					{#if card.eyebrow}<p class="text-eyebrow text-ink uppercase">{card.eyebrow}</p>{/if}
 					{#if card.title}<h3 class="font-display text-subheading text-ink mt-3 mb-0">{cardTitle(card.title)}</h3>{/if}
 					{#if card.body}<div class="card-copy mt-2 text-base leading-relaxed [&_p]:my-0 [&_p+p]:mt-2">{@html card.body}</div>{/if}
