@@ -1,9 +1,19 @@
 # Page 06 — /platform
 
-Approved content package rev. 2026-10-07 (v2), page 06 of 21.
-Branch `feedback-20261007-v2`. Not committed, not pushed, not deployed.
+Approved content package rev. 2026-10-07 (v3), PDF page 06 of 21.
+Branch `feedback-20261007-v2`. Local changes only; not pushed, merged or deployed. Existing Home v3 work and the unrelated `vite.config.ts` change remain untouched.
 
 ## Completed
+
+## v3 delta and annotated placements
+
+Visible v2→v3 copy changes only “Beam steering module” to “Beamforming module” on LM10. Migration `1787712600_beamforming_terminology.js` had already applied that exact phrase. Standalone “160° native steering” remains approved. The global v3 naming rule also supersedes the pre-existing dark-panel clause “Digital beam steering, enabled by optical beamforming…”; `1787712800_platform_v3_simon_media.js` removes only the redundant opening phrase, leaving “Optical beamforming with Lumotive LCMs lights the way…” and the rest of the paragraph intact. This is a minimal editorial cutover, not a new specification.
+
+Simon placed [Vimeo 1040214357](https://vimeo.com/1040214357) beside the hero image. The PDF prints **KEEP AS IS · Existing hero image**, and the current `hero-platform.jpg` depicts the LCM surface, so the hero was **not** replaced by a one-minute video. The Vimeo title is “Beam Steering with Lumotive's Light Control Metasurface”; its title is external metadata, not site copy. The “Two Chips, One Platform” LM10 photo comment supplies [LM10-thumb2.jpg](https://lumotive.com/wp-content/uploads/2023/08/LM10-thumb2.jpg), visually inspected as an exposed yellow LCM assembly, exactly at the LM10 slot. The LS20 source is [LS20-web.jpg](https://lumotive.com/wp-content/uploads/2026/10/LS20-web.jpg), annotated on PDF page 07 and visually inspected as a hand-held chip; it is reused for the LS20 photo slot on page 06, not misidentified from an existing generic chip asset. Both were fetched, converted to local WebP and recorded under `static/lumotive/img/platform-lm10.webp` and `platform-ls20.webp`, respectively.
+
+The comment “Ducky video” sits at the **From 1D to 2D Beamforming** animation, but supplies no URL/file. No comment supplies #125's mirrors-and-prisms replacement or the Explorer bundle/poster. A scan of the repository and Downloads found no Explorer HTML matching Lumotive; the generic Downloads `index.html` belongs to another project. Do not interpret the existing lens-only graphic's successful load as the requested correction.
+
+`CardsTextCards.svelte` now renders optional card media above card copy with the same card, accent, grid and reveal behavior; sections without media are unchanged. The reversible migration adds the two photo references only to Platform's two chip cards and updates that one held phrase. No Home record or Home component was changed.
 
 | Item | Where | Evidence |
 | --- | --- | --- |
@@ -26,52 +36,15 @@ nothing in either touched component. Desktop 1440, tablet 768, mobile 390 and
 `prefers-reduced-motion: reduce` all checked in a live browser; no horizontal overflow;
 CTA contrast 4.57:1, body 7.54:1, headings 18.22:1.
 
-## Pending assets
+## Outstanding source assets and integration
 
-All four are Lumotive inputs. Each slot is wired and takes the asset as a data-only
-change — none ships a placeholder.
+**Client dependencies:** (1) A corrected #125 traditional-optics graphic that visibly includes mirrors and prisms as well as lenses. The current `flow-traditional-optics.png` loads, but is lens-only and remains knowingly wrong. (2) The actual “Ducky video” or another approved 1D-line/2D-spot animation for the `b2d10f47` split; the absence of media currently retains its approved one-column fallback. (3) The approved self-contained Explorer HTML/WebGL bundle and 16:9 poster frame. None is supplied by v3 comments or in the searched local files.
 
-1. **#125 traditional-optics graphic.** `cardsFlowPanels` `cac52f89`, first card.
-   Still showing the incumbent `/lumotive/img/flow-traditional-optics.png`, a lens
-   barrel and lens stack. The correction asks for new artwork showing mirrors,
-   prisms and lenses. **Outstanding** — the slot loads, but it loads the
-   pre-correction image, so a green image request is not evidence of delivery.
-2. **1D-to-2D animation.** `splitDefault` `b2d10f47` has `media: null` and ships
-   one-column by design. Nothing matching exists under `static/lumotive/video`
-   (`beam-steering.mp4` and `hero.mp4` only). Setting `media` restores the
-   two-column layout with no further change. **Outstanding.**
-3. **Interactive LCM Explorer bundle and poster frame.** No explorer section exists
-   on the page; no bundle or poster under `static/lumotive/`. **Outstanding, and
-   unlike the other three this one is not a drop-in.** The other slots are already
-   wired and take their asset as a data-only change; the Explorer has to be built
-   and tested once its two inputs arrive:
-   - host the supplied HTML file unchanged at `/lcm-explorer/index.html` (about
-     1 MB, self-contained, WebGL), outside the CMS;
-   - add the "See LCM in Action" section: full-width 16:9 poster with a "Launch
-     interactive explorer" button, which on click replaces the poster with an
-     iframe to `/lcm-explorer/index.html` (width 100%, 16:9, no border, title
-     "Interactive LCM explorer"), plus an "Open full screen →" link to
-     `/lcm-explorer/` in a new tab;
-   - mobile keeps the same behavior, with a poster-plus-short-video fallback if
-     iOS Safari performance is poor;
-   - test in Chrome, Safari, Edge and on iOS Safari before launch.
-   Budget integration and cross-browser testing for it, not an asset swap.
-   Specification: package page 03, "Interactive LCM Explorer (Platform page)".
-4. **LM10 photo.** `cardsTextCards` `c0a71d35`, both cards carry no media. The
-   existing `lm10-*.png/.webp` files are incumbent site imagery for other pages, not
-   the package's chip-card photo. **Outstanding.**
+**Implementation after delivery, not additional client content:** host the HTML unchanged at `/lcm-explorer/index.html`, add the specified click-to-load 16:9 poster/iframe and full-screen link between 2D Beamforming and Dynamic Scanning, then test Chrome/Safari/Edge/iOS Safari. Test iOS performance before deciding whether its poster-plus-short-video fallback is needed. The graphic and animation slots need CMS media updates once real files arrive; the Explorer needs a new interactive component and browser testing. No placeholder section or fabricated graphic was added.
 
-Also outstanding and global, not page-06 specific: the LinkedIn company URL.
-`globals.seo.socialChannels` is empty; `Footer.svelte` already holds the icon path in
-`MARKS` and renders it as soon as one entry is supplied. Rationale recorded in
-`1787708000_footer_sitemap.js:19-25`.
+**Resolved locally:** LM10 photograph is no longer a pending input. The LS20 source is also available via page 07's annotation. The embedded existing Dynamic Scanning Vimeo (`1040582713`) was checked in-page: its iframe displayed the real player, play advanced to 3.9 seconds with readyState 4. A separate direct player check advanced to 9.8 seconds. Its title is “Introduction to the LCM Demonstration Kit,” consistent with the PDF's existing-video instruction. The prior sandbox 401 report is superseded for this browser/network check, not a guarantee for every visitor network.
 
-## Pending checks
-
-- **Vimeo playback.** `splitDarkPanel` `97a0771d` embeds
-  `player.vimeo.com/video/1040582713`. The sandboxed review browser returned 401 for
-  the iframe and for the Cloudflare challenge requests. That is not a diagnosis.
-  Playback must be confirmed manually on a normal network before page 06 closes.
+The shared footer LinkedIn company URL and `/privacy-policy` route remain outside this page's media change; the former is client input, the latter implementation work.
 
 ## Dependencies on other pages
 
@@ -80,14 +53,11 @@ Also outstanding and global, not page-06 specific: the LinkedIn company URL.
   chips" and the footer's Platform group entry both resolve 200. The required
   `/lm10` → `/lcm-chips` redirect is live
   (`1787709100_lm10_to_lcm_chips_redirect.js`); `/lm10` answers 308.
-- **Footer.** Global component shared by all 21 pages; rebuilt to the page-01 site
-  map in `1787708000_footer_sitemap.js`. Its `/privacy-policy` legal link still has
-  no page, and `/sense/robotics` and `/sense/automotive` in the header Applications
-  submenu resolve 404 — all three belong to their own pages in the package.
+- **Footer.** The site map was rebuilt in `1787708000_footer_sitemap.js`. The `/privacy-policy` legal link still has no page; this is separate implementation work.
 
-## Final QA (this pass)
+## Prior v2 QA (retained)
 
-Re-verified at 390, 768, 1024 and 1440 in a live browser after the page-07 work:
+The previous pass checked 390, 768, 1024 and 1440 in a live browser:
 
 - Section order matches the package: hero · manufacturing · LCM beamforming
   technology with the flow graphic · 2D beamforming · dynamic scanning · chip
@@ -115,8 +85,4 @@ Re-verified at 390, 768, 1024 and 1440 in a live browser after the page-07 work:
 
 ## Status
 
-Page 06 is implemented and QA-verified. It is complete except for its documented
-dependencies: the four pending Lumotive assets above — of which the Interactive
-LCM Explorer also needs integration and cross-browser testing once its bundle
-and poster arrive — and the manual Vimeo playback check. The `/lcm-chips`
-page-07 dependency is closed.
+Page 06 v3 was checked on desktop 1440 and mobile 390. Both chip images loaded at their intended slots; all Platform images loaded after scrolling (including the **incorrect-but-retained** #125 graphic), no horizontal overflow, and `/contact`, the 2D-chip announcement, `/lcm-chips`, and `/applications` returned 200. The embedded Vimeo player played in-page. The migration was reverted and reapplied; a database comparison proved Platform restored exactly to its pre-migration sections on rollback and Home remained unchanged both on rollback and reapply. `npm run check`: 592 files, 0 errors, 0 warnings. `npm run build`: passed after stopping the dev watcher. No Safari/Edge/iOS claim is made. No push, merge or deploy.

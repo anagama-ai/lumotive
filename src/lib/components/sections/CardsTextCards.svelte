@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { MediaMap } from '$lib/media';
+	import { resolveMedia, type MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
-	type Card = { eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
-	let { section, media: _media }: { section: Section; media: MediaMap } = $props();
+	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
+	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	// Optional single action under the grid, for a section whose cards share one
 	// destination. Unset on every existing section, so nothing else gains a link.
@@ -93,6 +93,7 @@
 		<Reveal stagger class={gridClass}>
 			{#each cards as card, index (index)}
 				{@const link = linkFor(card)}
+				{@const image = resolveMedia(card.media, media, 1024)}
 				{@const barClass = bar(card.accent)}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
@@ -101,6 +102,11 @@
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
 				>
+					{#if image}
+						<div class="mb-6 aspect-video overflow-hidden rounded-lg">
+							<img class="size-full object-contain" src={image.src} srcset={image.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt="" width={image.width ?? 960} height={image.height ?? 540} loading="lazy" />
+						</div>
+					{/if}
 					<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
 					{#if card.eyebrow}<p class="text-eyebrow text-ink uppercase">{card.eyebrow}</p>{/if}
 					{#if card.title}<h3 class="font-display text-subheading text-ink mt-3 mb-0">{cardTitle(card.title)}</h3>{/if}
