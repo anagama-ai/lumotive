@@ -55,6 +55,26 @@ Approved content package rev. 2026-10-07, page 09 of 21, "Sense › Overview". F
 - **Migration:** revert restored every page record byte-identically to the pre-migration snapshot; reapply changed only `sense`.
 - `npm run check` 592 files, 0 errors, 0 warnings; `npm run build` clean, run with the dev server stopped.
 
+### Refinement: "The Problem" icons (requested 2026-10-20)
+
+Migration `1787713200_sense_problem_icon_accents.js` changes section `9d8fe777` only.
+- **Size:** icons drop 20%, from 80px to 64px.
+- **Colour:** they take the accent sequence blue / green / amber / blue (Fixed Field of View, Multiple Sensors, Blind Spots, Poor Adaptability). The fills are the same tokens as the decorative bars on the other cards: `bg-brand-blue`, `bg-brand-green`, `bg-brand-amber`.
+
+`CardsIconCards` gains two opt-in section fields, `iconTint: "accent"` and `iconSize: "sm"`, both exposed in the editor spec.
+- When tinted, the icon renders as a decorative `aria-hidden` span: a token-coloured fill masked by the PNG's alpha. The four PNG files are untouched.
+- `/culture`'s icon cards, the only other user, set neither field; verified unchanged at 80px as `<img>`.
+
+Headings, body copy, card layout and grid are unchanged. Card height measures 266px at 1440 (4-up) and 235px at 390 (1-up), with no overflow.
+
+**Icon visibility on the white card** (graphic contrast; WCAG 1.4.11 asks 3:1 for meaningful graphics):
+- blue 4.57:1, green 3.19:1;
+- **amber 1.82:1**, the same as the amber decorative bars elsewhere.
+
+The icons are decorative (each card's heading carries the meaning), so the amber icon is legible but light. Swapping it to a darker token would break the requested accent sequence; flagged for review.
+
+Verified at 1440 and 390. The migration reverts to the exact prior record and reapplies to `sense` only. `npm run check` reported 0 errors and 0 warnings; `npm run build` passed with the dev server stopped.
+
 ## What shipped in the v2 build (history)
 
 One reversible migration, `1787709700_sense_page9.js`, round-tripped down and

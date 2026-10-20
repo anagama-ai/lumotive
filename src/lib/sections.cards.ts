@@ -109,7 +109,13 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 	},
 	cardsIconCards: {
 		label: 'Cards — icon cards',
-		fields: [...presentationFields, ...introFields, cardsField(fullCardFields)]
+		fields: [
+			...presentationFields,
+			...introFields,
+			{ name: 'iconTint', label: 'Icon colour (accent = each card’s accent)', type: 'text' },
+			{ name: 'iconSize', label: 'Icon size (sm = 4rem; default 5rem)', type: 'text' },
+			cardsField(fullCardFields)
+		]
 	},
 	cardsIconQuad: {
 		label: 'Cards — icon quad',
