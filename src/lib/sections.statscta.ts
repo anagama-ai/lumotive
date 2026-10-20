@@ -125,16 +125,22 @@ export const statsCtaSpecs: Record<string, SectionSpec> = {
 	mediaVideoEmbed: {
 		label: 'Media — video embed',
 		fields: [
+			{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
 			{ name: 'heading', label: 'Heading', type: 'text' },
 			{ name: 'intro', label: 'Introduction', type: 'textarea' },
-			{ name: 'mode', label: 'Mode (image | gallery | video)', type: 'text' },
+			{ name: 'mode', label: 'Mode (image | gallery | video | videos)', type: 'text' },
 			{
 				name: 'items',
 				label: 'Media items',
 				type: 'list',
 				fields: [
 					{ name: 'media', label: 'Media', type: 'media' },
-					{ name: 'caption', label: 'Caption', type: 'textarea' }
+					{ name: 'caption', label: 'Caption', type: 'textarea' },
+					// `videos` mode: one player per item, with its title and action.
+					{ name: 'videoUrl', label: 'Video URL (videos mode)', type: 'url' },
+					{ name: 'title', label: 'Title (videos mode)', type: 'text' },
+					{ name: 'linkLabel', label: 'Link label (videos mode)', type: 'text' },
+					{ name: 'linkUrl', label: 'Link URL (videos mode)', type: 'url' }
 				]
 			},
 			{ name: 'videoUrl', label: 'Video URL', type: 'url' },

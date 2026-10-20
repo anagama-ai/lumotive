@@ -1,343 +1,56 @@
 # Page 08 — /applications
 
-Approved content package rev. 2026-10-07 (v2), page 08 of 21,
-"Platform › Applications". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07 (v3), PDF page 08 of 21, "Platform › Applications". Branch `feedback-20261007-v2`; committed locally only — not pushed, merged or deployed.
 
-**Status: implemented and QA-verified**, as
-`1787709500_applications_page8.js`, except the "Programmable Optics in Motion"
-video pair, which waits on an unconfirmed asset (below). The review that
-preceded implementation is kept below the "What shipped" section, because its
-copy reconstruction and missing-asset list are still the reference.
+## v3 versus v2 and the existing page
 
-## What shipped
+- **Copy:** the v2→v3 text diff of page 08 has exactly one change: Optical Communications "Beam steering for satellite…" → **"Beamforming for satellite, airborne, and terrestrial links."** It was already live via `1787712600_beamforming_terminology.js`. Every other string on the page already matched v3, so no copy changed in this pass.
+- **Media:** v3 adds Simon's sticky notes — seven card photos and the AMR video. Mapped by note position to the slot under it:
 
-One reversible migration, round-tripped down and up and verified to restore the
-page exactly:
-
-1. **Hero** (`acb2f280`) — approved body "One semiconductor platform. Many ways
-   to put light to work." and the single approved action "Talk to our team" →
-   `/contact`. The staging "Explore Lumotive Sense" action, which the package
-   does not print, is gone. Eyebrow, heading and the existing hero image are
-   unchanged.
-2. **Eight application areas** (`91a455fe`) — the five-card bento becomes the
-   package's eight areas. Section type changes from `cardsApplicationBento` to
-   `cardsMediaCards` with the new `columns: "4"`, so the eight set as two even
-   rows of four; the bento's tiling is built for a five-card feature block and
-   has no eight-card arrangement. Approved heading "One platform, many
-   applications" and the approved introduction. Four cards carry their approved
-   links: Explore Sense → `/sense`, Explore Connect → `/connect` (twice), and
-   Talk to us → `/contact`.
-3. **Four sections removed** and their copy preserved in the migration's down
-   path, because it is the source for pages 09 and 11:
-   `ebb6cf90` "Software-defined 3D sensing for Physical AI" → Sense;
-   `b3ce5d47` "Automotive Safety Cocoon" → Automotive;
-   `357cf90c` "Scalable across 3D sensing markets" → Sense;
-   `60dd50fb` "The Lumotive advantage" → Sense.
-   This also clears global rule 9: "Physical AI" now appears **0** times on the
-   page, where it had been in an `h2`.
-4. **Closing CTA** (`9a19b24a`) — approved body "Tell us the problem. We will
-   show you where programmable light fits." and the single action "Talk to our
-   team". The secondary "Explore Lumotive Sense" is gone.
-5. **Container alignment** — the three surviving sections take
-   `align: "container"`, matching pages 05, 06 and 07, so the page does not sit
-   on a different edge to its neighbours in the navigation.
-
-### Rendering changes
-
-- `CardsMediaCards` gains `columns: "4"` (1 → 2 → 4 across the breakpoints) and,
-  at four-up only, reserves two lines for the card title so a wrapping title
-  does not drop its body below its siblings'.
-- Card eyebrows take Optical Ink and card links Laser Blue. The accent cycle had
-  been colouring both: Signal Green measured **3.19:1** on the white card,
-  Optical Amber less still. Existing tokens only, no new colours.
-
-### Deliberate omissions
-
-- **Status labels — omitted. Q19 remains open.** See "Carried forward".
-- **Card images — omitted, all eight.** Three of the eight photographs exist in
-  this repository and five do not. Shipping three photographed cards beside five
-  blank ones reads worse than a uniform text grid; this is the same call already
-  taken and accepted for the LM10/LS20 column photos on page 07. Adding `media`
-  per card later is data-only.
-- **"Programmable Optics in Motion" — not built.** See "Missing inputs".
-
-### QA
-
-- 390 / 768 / 1024 / 1280 / 1440 / 1920: grid steps 1 → 2 → 4, no horizontal
-  overflow, no broken image, no tap target under 44px, **zero contrast
-  failures**, every inner column on one edge, card bodies aligned per row.
-- Rendered headings match the package: "Programmable Optics Across
-  Applications", "One Platform, Many Applications", "Build With Programmable
-  Optics". All eight card titles render as the package prints them.
-- Status-label elements on the section: **0**. "Physical AI" on the page: **0**.
-- Links: `/contact`, `/sense`, `/connect` all 200.
-- `/platform`, `/lcm-chips` and `/dev-kits` re-checked for regression from the
-  shared card changes: clean at 390 and 1440.
-- `svelte-check` 589 files, 0 errors, 0 warnings; production build clean.
-- Footer verified against the page-01 site map: Platform (LCM technology, LCM
-  chips, Applications), Sense (Overview, Robotics, Automotive, Dev kits),
-  Connect (Optical circuit switching), Company (About, Culture & careers,
-  Partners, News & events, Contact), and the legal line. Correct. The LinkedIn
-  icon renders zero marks, which is expected: `globals.seo.socialChannels` is
-  still empty and the URL is an open Lumotive input.
-
-### Card refinement after visual review
-
-`1787709600_applications_cards_tight.js` sets `density: "tight"`, a new
-cardsMediaCards value, on `91a455fe` only. The default rhythm assumes a
-photograph above the text; with the eight shipping photo-less, the copy floated
-in a tall box.
-
-| Metric (1440) | Before | After |
-| --- | --- | --- |
-| Card padding | 32px | 24px |
-| Title to description | 40px | 16px |
-| Row 1 card height | 322px | 242px |
-| Row 2 card height | 374px | 268px |
-| Trailing space under a card with a link | 32px | 24px, action pinned to the foot |
-
-The heading's inherited 24px bottom margin, which had been stacking on the
-`mt-4` utility, is zeroed; padding comes in to 1.5rem; and the card action
-takes `margin-top: auto`, so the slack a row's tallest card creates is absorbed
-between copy and action rather than trailing below it.
-
-Unchanged: approved copy, typography, card surface, radius, links, the hero and
-the closing CTA, and the 1 → 2 → 4 responsive grid. Cards still equalise per
-row at every breakpoint.
-
-Scope verified: `/platform`'s solutions grid keeps `compact` at 32px padding
-and `/dev-kits`' two grids keep the default 32px. Only `/applications` is
-`tight`.
-
-### AMR animation — identified, but not confirmed as the approved asset
-
-The package's dev note is conditional: "If the existing staging video
-vimeo.com/1174547871 is the AMR animation, use it in the left slot."
-
-Queried through Vimeo's public oEmbed endpoint, which answers for the unlisted
-URL with its privacy hash:
-
-| | `1174547871/6e198e52ae` | `1227505713` |
-| --- | --- | --- |
-| Title | **"Lumotive - AGV AMR"** | "Optical Circuit Switching: Solid-state and At Scale" |
-| Duration | 57s | 72s |
-| Uploaded | 2026-03-17 | 2026-09-16 |
-| Resolution | 1280×720 | — |
-
-So the left-slot candidate is a genuine Lumotive AGV/AMR video, not an
-unrelated asset. **It is still not confirmed as the approved animation.** Its
-poster frame — fetched from the Vimeo CDN and inspected — opens on a stock
-warehouse shot with an animated caption reading "ROBOTS are becoming a COMMON
-feature in MODERN warehouses and INDUSTRIAL operations". That is a narrated
-marketing explainer with burned-in titles, whereas the package specifies
-"AMR animation (non-sequential ROI pulses, continuous point cloud)" and pairs
-it with the caption "One programmable sensor, three jobs". Package page 04 also
-lists the AMR animation as a **new** asset request, which suggests the approved
-clip is not the one already on staging.
-
-The ROI/point-cloud sequence may well appear later in the 57 seconds; only the
-poster frame is reachable here, since the player itself answers 401 to this
-sandboxed browser. **Someone has to watch it.** Two possible outcomes:
-
-- it is the approved animation, in which case the left slot takes
-  `https://vimeo.com/1174547871/6e198e52ae` and the section can be built; or
-- it is the marketing explainer and the approved animation is still pending,
-  in which case the section keeps waiting.
-
-The video section has **not** been added either way, as instructed.
-
-## Original review (reference)
-
-The copy reconstruction, the missing-image table and the Q19 analysis below are
-unchanged and still govern the outstanding work.
-
-### Previous state
-
-Seven sections, verified in the browser:
-
-| # | id | Type | Heading |
+| Card / slot | Printed description | Simon's linked source | Local asset |
 | --- | --- | --- | --- |
-| 0 | `acb2f280` | `heroBand` | Programmable Optics Across Applications |
-| 1 | `91a455fe` | `cardsApplicationBento` | One Platform. Many Optical Applications. |
-| 2 | `ebb6cf90` | `splitDefault` | Software-Defined 3D Sensing for Physical AI |
-| 3 | `b3ce5d47` | `splitDefault` | Automotive Safety Cocoon |
-| 4 | `357cf90c` | `cardsMediaCards` | Scalable Across 3D Sensing Markets |
-| 5 | `60dd50fb` | `statsDarkTraits` | The Lumotive Advantage |
-| 6 | `9a19b24a` | `ctaLightField` | Build With Programmable Optics |
+| 3D Sensing | quadruped robot and delivery robot | [AGV-AMR-scaled.jpeg](https://lumotive.com/wp-content/uploads/2024/12/AGV-AMR-scaled.jpeg) (warehouse AMRs) | `applications-3d-sensing.webp` |
+| Optical Circuit Switching | data center | [Optical-Communications_2.jpg](https://lumotive.com/wp-content/uploads/2024/12/Optical-Communications_2.jpg) (fiber patch panel) | `applications-optical-circuit-switching.webp` |
+| Defense | drones and vessel | [Defense-Technologies.jpg](https://lumotive.com/wp-content/uploads/2024/12/Defense-Technologies.jpg) (quadruped robot with soldiers) | `applications-defense.webp` |
+| Optical Communications | satellite link | [Optical-Communications.jpg](https://lumotive.com/wp-content/uploads/2024/03/Optical-Communications.jpg) (satellite network over Earth) | `applications-optical-communications.webp` |
+| Medical | lab instrument | [3D-Inspection-scaled.jpeg](https://lumotive.com/wp-content/uploads/2024/12/3D-Inspection-scaled.jpeg) (robot-arm 3D inspection) | `applications-medical.webp` |
+| AI Computing | optical chip | [LM10-chip.png](https://lumotive.com/wp-content/uploads/2024/10/LM10-chip.png) (transparent PNG, flattened on white, top-aligned 16:9 crop so the chip is not clipped) | `applications-ai-computing.webp` |
+| AR & Holographic Displays | AR headset | [AR.jpg](https://lumotive.com/wp-content/uploads/2024/03/AR.jpg) | `applications-ar-displays.webp` |
+| Your Application | open prompt | **none** | — |
+| Motion, left | AMR animation | [vimeo.com/1174547871/6e198e52ae](https://vimeo.com/1174547871/6e198e52ae) | Vimeo embed |
+| Motion, right | Connect (vimeo.com/1227505713) | printed in the PDF | Vimeo embed |
 
-## Required changes
+All seven photos returned HTTP 200, were visually inspected, and were saved as local WebP (≤1280px wide, 39–114 KB) under `static/lumotive/img`, so they ship with the code rather than hotlinking. Where Simon's photo differs from the grey-box description (3D Sensing, Defense), the supplied asset wins; this is noted, not changed.
 
-### 1. Hero — CHANGE (`acb2f280`)
+## What changed
 
-- Body replaced with "One semiconductor platform. Many ways to put light to work."
-  (currently a longer LCM platform sentence).
-- **One** action only, "Talk to our team" → `/contact`. The current single action
-  is "Explore Lumotive Sense" → `/sense`, which the package drops.
-- Eyebrow "Applications" and the existing hero image are unchanged; the package
-  marks the image "Existing hero image".
-- Heading unchanged.
+Migration `1787713000_applications_v3_simon_media.js` (reversible, guarded):
 
-### 2. Eight LCM application areas — CHANGE (`91a455fe`)
+1. Sets `media` on seven of the eight `91a455fe` cards. Rollback removes only those exact values.
+2. Adds **"Programmable Optics in Motion"** (`e4c27b19`, eyebrow "See it in action") between the application grid and the closing CTA, as the PDF places it: two players, "One programmable sensor, three jobs" → Explore Sense (`/sense`) and "Send light, not signals" → Explore Connect (`/connect`). Titles print in the package's sentence case.
 
-The five-card bento becomes eight cards in two rows of four. Heading changes from
-"One platform. Many optical applications." to **"One Platform, Many
-Applications"** (comma, not a full stop), and the intro is replaced.
+**AMR conditional resolved.** The dev note said to use 1174547871 only if it is the AMR animation. Simon's note now links it at that slot, and frames sampled at 3/12/22/32/42/52 s show an animated AMR with segmented ROI point clouds and LCM ROI pulses — it matches the description. It opens with burned-in narrative captions ("ROBOTS are becoming a COMMON feature…"); that is the supplied video, unedited.
 
-New intro: "LCM brings software control to light. The same chip technology that
-steers lidar beams can route light in data centers, link satellites, and shape
-light for displays and instruments."
+Code: `MediaVideoEmbed` gains `mode: "videos"` — a 1→2 column grid of white cards, each an iframe (16:9, titled, lazy, poster + click to play, no autoplay) with its title and a 44px-tall Laser Blue action. It also emits `data-align` and an optional `eyebrow`. The other modes are unchanged; no other page uses this section type. The editor spec (`sections.statscta.ts`) exposes the new item fields.
 
-Row 1:
+Unchanged and still deliberate: hero, copy, `columns: "4"`, `density: "tight"`, closing CTA, no status labels.
 
-| Title | Body | Link | Image |
-| --- | --- | --- | --- |
-| 3D Sensing | Programmable 3D sensing for robots, vehicles, and smart infrastructure. | Explore Sense → `/sense` | quadruped robot |
-| Optical Circuit Switching | Solid-state switching for AI data center networks. | Explore Connect → `/connect` | data center |
-| Defense | Solid-state beam control for sensing and optical systems. | — | drones and vessel |
-| Optical Communications | Beam steering for satellite, airborne, and terrestrial links. | Explore Connect → `/connect` | satellite link and delivery robot |
+## QA
 
-Row 2:
+- 1440 and 390 in Chromium: grid 4-up / 1-up, all seven card images load, video pair 2-up / stacked, no horizontal overflow, no broken image, no tap target under 44px.
+- Headings: one H1; H2 "One Platform, Many Applications", "Programmable Optics in Motion", "Build With Programmable Optics"; card and video titles as H3. Both iframes carry titles. Card photos are decorative (`alt=""`) — the card title names the area.
+- Links `/contact`, `/sense`, `/connect`: 200. "Physical AI" 0, "beam steering" 0, status labels 0.
+- Video playback: 1174547871 loads and plays in-page. **1227505713 played directly (readyState 4), but inside both this page and the existing `/connect` embed this headless session gets Vimeo's "We couldn't verify the security of your connection" challenge.** Same URL already published on `/connect`, so this is the test network, not the page; confirm in a normal browser at screenshot review.
+- Migration rollback restored every page record exactly; reapply changed only `applications`. Pages 05–07 untouched.
+- `npm run check` 592 files, 0 errors, 0 warnings. `npm run build` passed.
 
-| Title | Body | Link | Image |
-| --- | --- | --- | --- |
-| Medical | Programmable illumination for imaging and instrumentation. | — | lab instrument |
-| AI Computing | Light-speed optical computing with programmable phase control. | — | optical chip |
-| AR & Holographic Displays | Flat, programmable optics for near-eye and holographic displays. | — | AR headset |
-| Your Application | Applications yet to be created, built on innovations today. Tell us what you would build with programmable light. | Talk to us → `/contact` | open prompt |
+## Outstanding
 
-Status labels above each title are **omitted** — see Q19 below.
-
-> The package prints these eight cards as two four-column blocks. The text layer
-> extracts them interleaved column-by-column, so the body copy above was
-> reconstructed from the fragments; every fragment is accounted for exactly once
-> and each reads as a complete sentence. **Confirm the pairing against the
-> rendered PDF page before publishing**, since a mis-paired body would be a copy
-> error, not a layout one.
-
-### 3. Programmable Optics in Motion — NEW section
-
-"CHANGE · REPLACES SINGLE VIDEO". Eyebrow "SEE IT IN ACTION", heading
-"Programmable Optics in Motion". Two videos side by side:
-
-| Slot | Video | Title | Link |
-| --- | --- | --- | --- |
-| Left | AMR animation (non-sequential ROI pulses, continuous point cloud) | One programmable sensor, three jobs | Explore Sense → `/sense` |
-| Right | `vimeo.com/1227505713` | Send light, not signals | Explore Connect → `/connect` |
-
-No existing section type renders a two-video pair with a caption and link under
-each. `mediaVideoEmbed` is single-video; `splitDefault` holds one media column
-beside copy. A small new design version or component will be needed, in the same
-way `cardsSpecComparison` was for page 07.
-
-### 4. Removals — REMOVE · MOVE OFF THIS PAGE
-
-| Section | Destination page |
-| --- | --- |
-| `ebb6cf90` "Software-Defined 3D Sensing for Physical AI" | Sense (page 09) |
-| `b3ce5d47` "Automotive Safety Cocoon" | Automotive (page 11) |
-| `357cf90c` "Scalable Across 3D Sensing Markets" | Sense (page 09) |
-| `60dd50fb` "The Lumotive Advantage" | Sense (page 09) |
-
-The package also lists the 3D-sensing sub-sections for Mobility, Smart
-Infrastructure & Surveillance and Robotics as moving to Sense, Robotics and
-Automotive. On this build those three are the `Mobility` and
-`Smart infrastructure & surveillance` bento cards in `91a455fe` plus the
-`357cf90c` market cards, all of which the rebuild above already removes.
-
-Removing `ebb6cf90` also clears global rule 9: "Physical AI" currently appears in
-an `h2` on this page, which the rule forbids.
-
-The down path of the migration must restore all four sections verbatim, since
-their copy is the source for pages 09 and 11.
-
-### 5. Closing CTA — CHANGE (`9a19b24a`)
-
-- Heading "Build With Programmable Optics" — already correct.
-- Body replaced with "Tell us the problem. We will show you where programmable
-  light fits."
-- **One** action, "Talk to our team" → `/contact`. The current section has two
-  ("Contact Lumotive" → `/contact` and "Explore Lumotive Sense" → `/sense`); the
-  secondary one goes and the primary is relabelled.
-
-### 6. Footer
-
-Already follows the new site map (`1787708000_footer_sitemap.js`). No change.
-
-## Missing inputs
-
-Five of the eight card images do not exist in this repository and the media
-library is empty, so those cards cannot ship with imagery.
-
-| Card | Image called for | Status |
-| --- | --- | --- |
-| 3D Sensing | quadruped robot | **Available** — `/lumotive/img/market-robot-dog.jpg`, already used by the current bento |
-| Optical Circuit Switching | data center | **Available** — `/lumotive/img/connect-optical.jpg` (`ocs-fabric.png` is an alternative) |
-| Defense | drones and vessel | **Missing** |
-| Optical Communications | satellite link and delivery robot | **Missing** |
-| Medical | lab instrument | **Missing** |
-| AI Computing | optical chip | **Available** — `/lumotive/img/lm10-chip-clean.png` or `lcm-platform-chip.jpg` |
-| AR & Holographic Displays | AR headset | **Missing** |
-| Your Application | open prompt | **Missing**, and ambiguous: "open prompt" may be a graphic treatment rather than a photograph. Needs clarification with the other five. |
-
-Package page 04 lists "Applications | AMR animation video and Connect video side
-by side | New", so the AMR animation is itself a new asset request:
-
-- **AMR animation — unconfirmed.** The package dev note says "If the existing
-  staging video vimeo.com/1174547871 is the AMR animation, use it in the left
-  slot." That video is on this site today, on the section being removed
-  (`ebb6cf90`, as `https://vimeo.com/1174547871/6e198e52ae`, with a privacy
-  hash). Whether it is the AMR animation cannot be determined here: Vimeo returns
-  401 to this sandboxed browser, the same condition still open on page 06.
-  **Someone must watch it on a normal network and confirm** before it is reused;
-  if it is not the AMR animation, the animation is a pending Lumotive asset.
-- **Connect video — available.** `vimeo.com/1227505713` is already published on
-  `/connect` (`f4b9c1d7`), so the right slot needs no new input.
-
-## Carried forward
-
-- **Q19 — application status labels. Open, labels omitted.** The package shows a
-  small accent label above each card title: "In production", "In development",
-  "Active programs", "Exploring", with the dev note "Use these labels only, never
-  'In deployment.'" Global rule 1 on package page 01 says "No product
-  availability, launch timing, roadmap, or generation dates anywhere on the
-  site." "In production" and "In development" read as availability and roadmap
-  state, so the two directions conflict.
-
-  Until Apurva clarifies, **the eight cards ship with no status label.** Adding
-  them later is a data-only change: one `eyebrow` per card, which the bento card
-  already renders. Do not substitute different wording and do not infer a label
-  for a card the package does not label — "Your Application" carries none.
-
-- **Vimeo playback check** (page 06, `/platform` `97a0771d`,
-  `player.vimeo.com/video/1040582713`) is still open and needs the same normal-
-  network pass as the AMR confirmation above. Batch the two.
+- **"Your Application" image.** The PDF prints "Image: open prompt" with no linked asset. The card ships without media, so on desktop its title sits higher than the three photographed cards beside it. Lumotive to supply the visual, or approve the text-only card. No substitute was made.
+- **Q19 — status labels** ("In production / In development / Active programs / Exploring") still conflict with global rule 1 (no availability/roadmap). v3 reprints them unchanged. Labels stay omitted; adding them later is one `eyebrow` per card.
+- **Connect video in-page playback** — confirm in a normal browser (above).
 
 ## Dependencies on other pages
 
-- The four removed sections are the source copy for **pages 09 (Sense) and 11
-  (Automotive)**. They are preserved verbatim in
-  `1787709500_applications_page8.js`'s down path, which is now the record of
-  that copy until those pages are built. Do not drop that migration.
-- `/sense`, `/connect` and `/contact` all resolve 200 today, so every link this
-  page needs already works.
-- Page 06's "See all applications" action points here and is unaffected.
-
-## Status
-
-Implemented and QA-verified. The page ships approved copy and layout with no
-placeholders and no unapproved imagery.
-
-Outstanding, none of which blocks review:
-
-- **"Programmable Optics in Motion" is not built.** The left-slot candidate is
-  now identified as "Lumotive - AGV AMR" (57s), a genuine Lumotive AGV/AMR
-  video, but its poster frame is a captioned marketing explainer rather than
-  the "non-sequential ROI pulses, continuous point cloud" animation the package
-  describes, and package page 04 lists the AMR animation as a new asset
-  request. Someone must watch the 57 seconds on a normal network and confirm or
-  reject it; see the AMR section above. The Connect half
-  (`vimeo.com/1227505713`) is supplied and ready. Batch the confirmation with
-  the page-06 Vimeo playback check.
-- **Five of eight card images** are missing, so all eight ship without
-  photographs. Adding them is data-only, per card.
-- **Q19 is open** and the status labels stay omitted until Apurva settles it.
+- The four sections removed in v2 (`ebb6cf90`, `b3ce5d47`, `357cf90c`, `60dd50fb`) live on in the down path of `1787709500_applications_page8.js` as source copy for pages 09 and 11. Do not drop that migration.
+- Page 06's "See all applications" points here and is unaffected.
