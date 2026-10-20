@@ -63,6 +63,12 @@
 		accent4: 'bg-brand-blue', accent5: 'bg-brand-green', accent6: 'bg-brand-amber'
 	};
 	const bar = (accent?: string) => bars[accent ?? ''] ?? bars.accent1;
+	// Numerals (`numbered`) follow the card's accent in its text-safe variant.
+	const numerals: Record<string, string> = {
+		accent1: 'text-brand-blue', accent2: 'text-brand-green-text', accent3: 'text-brand-amber-text',
+		accent4: 'text-brand-blue', accent5: 'text-brand-green-text', accent6: 'text-brand-amber-text'
+	};
+	const numeral = (accent?: string) => numerals[accent ?? ''] ?? numerals.accent1;
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
 </script>
 
@@ -112,7 +118,7 @@
 						</div>
 					{/if}
 					{#if numbered}
-						<p class="font-display text-subheading text-brand-blue m-0 tabular-nums">{String(index + 1).padStart(2, '0')}</p>
+						<p class={`font-display text-subheading m-0 tabular-nums ${numeral(card.accent)}`}>{String(index + 1).padStart(2, '0')}</p>
 					{:else}
 						<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
 					{/if}

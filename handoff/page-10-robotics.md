@@ -32,7 +32,16 @@ Approved content package rev. 2026-10-07, page 10 of 21, "Sense › Robotics". F
   - Hero heights 593 / 696 / 612 / 612px (default band; the `/sense` compact-mobile option is not applied here).
   - The only tap target under 44px is the 23px "Sense" breadcrumb, the accepted condition recorded below.
 - **Hero crop:** at 1440 the warehouse, AMRs and arm sit right of the headline under the established gradient. At 390 the frame shows the racking behind the copy; the text stays on the dark side of the shade.
-- **Contrast:** automated scan of the bullet list and design steps, zero failures. Numerals are Laser Blue at 24px, 4.57:1.
+- **Contrast:** automated scan of the bullet list and design steps, zero failures.
+- **Step numerals refinement (requested 2026-10-20):**
+  - The 01–04 numerals follow the cards' existing accent sequence: 01 blue, 02 green, 03 amber, 04 blue.
+  - They use text-safe variants, because the bright accents fail as text (green 3.19:1, amber 1.82:1). Two new tokens hold the same hue darkened to clear 4.5:1 on white: `--color-brand-green-text` `#008742` and `--color-brand-amber-text` `#9f6a00`.
+  - Laser Blue already passes and is reused. The tokens are recorded in DESIGN.md.
+  - Measured on the white cards: blue 4.57:1, green 4.62:1, amber 4.63:1, at 24px (desktop) and 20px (mobile), weight 600. That passes AA even under the 4.5:1 body-text bar.
+  - Data, copy, typography, spacing and layout are unchanged; desktop card height stays 269px.
+  - Only `numbered` sections render numerals, and `6f24b8c1` is the only one, so no other page changes.
+  - 1440 and 390 checked, no overflow. `npm run check` reported 0 errors; `npm run build` passed.
+  - Screenshots: `%TEMP%\lumotive-review\robotics\*-design-steps-accents*.webp`.
 - **Links:** `/sense`, `/contact?inquiry=robotics`, `/dev-kits/itof` and `/dev-kits/dtof` answer 200; `#kits` resolves.
 - **Shared-component regression:** no other page renders numerals. `/sense` (11 bars), `/platform` (2) and `/lcm-chips` (11) keep their accent bars; `/lcm-chips`' `steps` list is unaffected; no overflow on any of them.
 - **Migration:** revert restored every page record byte-identically to the pre-migration snapshot; reapply changed only `robotics`.

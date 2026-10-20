@@ -7,6 +7,8 @@ colors:
   brand-green: "#00a651"
   brand-amber: "#ffb114"
   brand-red: "#ee0000"
+  brand-green-text: "#008742"
+  brand-amber-text: "#9f6a00"
   ink: "#0d1526"
   panel: "#0a1226"
   background: "#f3f4f7"
@@ -159,7 +161,7 @@ The palette moves between cool laboratory neutrals and saturated optical signals
 
 **The Laser Is Rare Rule.** Blue marks the route, action, or measurement; do not turn it into ambient decoration across an entire screen.
 
-**The Spectral Accent Rule.** Green, amber, and red may distinguish adjacent data or cards, but they never compete with blue for the primary action.
+**The Spectral Accent Rule.** Green, amber, and red may distinguish adjacent data or cards, but they never compete with blue for the primary action. When an accent colours **text**, use its text-safe variant — **Signal Green Text** (`colors.brand-green-text`, 4.62:1 on white) or **Optical Amber Text** (`colors.brand-amber-text`, 4.63:1); the bright accents (3.19:1 and 1.82:1) are for bars, fills, and icons only.
 
 ## Typography
 
