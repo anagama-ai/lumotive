@@ -36,13 +36,15 @@
 	<section class="bg-panel relative isolate overflow-hidden">
 		<div aria-hidden="true" class="bg-metasurface mask-hero-dots absolute inset-0"></div>
 		<div aria-hidden="true" class="from-panel via-panel/90 to-brand-blue/35 absolute inset-0 bg-linear-75"></div>
-		<div class="max-w-shell relative mx-auto px-4 py-14 md:px-7 md:py-16">
+		<!-- `container` is the header's own geometry, so the newsroom lines up
+		     with the logo at every width, as the CMS pages do. -->
+		<div class="container relative py-14 md:py-16">
 			<p class="text-eyebrow text-brand-amber mb-5 uppercase">Lumotive newsroom</p>
 			<h1 class="font-display text-statement max-w-4xl text-white">News and Events</h1>
 		</div>
 	</section>
 
-	<section class="max-w-shell mx-auto px-4 py-16 md:px-7 md:py-24">
+	<section class="container py-16 md:py-24">
 		{#if data.featured}
 			{@const post = data.featured}
 			<a class="featured" href={`/posts/${post.slug}`}>

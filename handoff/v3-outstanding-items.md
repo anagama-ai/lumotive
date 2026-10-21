@@ -51,6 +51,7 @@ Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `
 | S24 | Dokploy/GHCR secrets and variables | Tech | Verify | Confirm `DOKPLOY_URL`, `DOKPLOY_API_KEY`, `DOKPLOY_PB_APP_ID`, `DOKPLOY_WEB_APP_ID` and `ORIGIN` are set for staging and production. | Josh | Yes | `.github/workflows/publish.yml`, README |
 | S25 | Uncommitted Windows watcher fix | Ours | Do | Commit `vite.config.ts` on its own, or drop it. Never sweep it into a page commit. | Us | No | `git status` |
 | S26 | Hero text over photographs (all heroes) | Ours | Verify | Final contrast QA. Our hero figures are a screenshot measurement (text hidden; contrast against the 99th-percentile and the single brightest backdrop pixel under each line box), useful for comparing framings but **not a definitive accessibility pass**. Recheck with a manual or tool-based review in real browsers (S20), including video frames on Home. Known low spots: Transmit phone body brightest pixel 3.84–4.28:1; at 768, Home video 3.85, Transmit 3.86, Culture 4.22, Contact 4.26 (brightest pixel). | Us | Yes | Phone heroes note below; page handoffs |
+| S27 | PocketBase rate limit vs server-side rendering | Tech | Verify | A rapid local crawl of `/posts/*` returned 500s; the server log showed PocketBase answering 429 Too Many Requests to the site's own SSR calls (globals `seo`, `code_injection`, post lookups). Every SvelteKit request reaches PocketBase from one server IP, so a traffic burst or crawler could trip the same limit in production. Check the staging/production PocketBase rate-limit rules (exempt or raise for the web container) before launch. All 112 posts answer 200 at a normal pace. | Josh + Us | Yes | `page-20-news.md` v3 QA |
 
 ### Phone heroes (2026-10-21)
 
@@ -247,7 +248,7 @@ Resolved on this page by `1787714800`: hero live as `hero-culture-team.webp` fro
 
 Resolved on this page by `1787715000`: hero live as `hero-partners-lcm.webp` from Simon's Partners-Hero, which lumotive.com/partners serves today, so it is the "existing" hero the KEEP AS IS slot names. The old image's phone focal point (100%) is dropped; centred keeps the module in frame. Copy verified verbatim against v3 (empty diff); hero text measured ≥ 7.05:1 at the brightest backdrop pixel at 360–1440 (screenshot measure, see S26).
 
-## Page 20 — News & Events `/news`
+## Page 20 — News & Events `/news` (v3 pass done 2026-10-21)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
@@ -257,6 +258,9 @@ Resolved on this page by `1787715000`: hero live as `hero-partners-lcm.webp` fro
 | N4 | Card images (72 of 112 posts have none) | Decision + Asset | Verify | (a) Sign off reuse of announcement visuals on 35 coverage posts; (b) article images or nominated product shots for 24 pieces; (c) visuals for 13 press releases from 2019–21, or approval to run them without. | Lumotive | Yes | `page-20-news.md` l.117–198 |
 | N5 | Events tab | Asset | Missing | First Events post (tab is live and empty). | Lumotive | No | — |
 | N6 | Stay Up to Date | Ours | Do (after S1, N2, N3) | Publish the follow block. | Us | Yes | — |
+| N7 | Post source links | Asset | Verify | Four "Read the original article" links are dead: Invest Vancouver case-study PDF (host gone), Morningstar e-Photonics release (404), Yahoo MD41 story (404), 2cm.com.tw AGV/AMR story (404). Supply replacement URLs or approve removing the link on those posts. 18 more refuse automated checks (paywalls/bot blocks) and need a manual click-through in final QA. | Lumotive | No | `page-20-news.md` v3 QA |
+
+v3 pass 2026-10-21: empty v2→v3 diff and no Simon annotations, so no content or asset changed and nothing was invented. One layout fix: the newsroom now aligns with the header container at every width (was 28px vs 80px at 1440). Filtering, search and pagination verified; all 112 post links answer 200 at a normal pace (rate limit: S27).
 
 ## Page 21 — Contact `/contact`
 
@@ -274,9 +278,9 @@ Resolved on this page by `1787715000`: hero live as `hero-partners-lcm.webp` fro
 **Confirmed missing — client must supply:** S2 privacy policy · S3 Pipedrive keys · S6 Explorer bundle + poster · S7 analytics tool + name · P1 #125 graphic · P2 1D/2D animation · L1 "How LCM fits" animation + timing · A1 "open prompt" visual · SE5 Leopard logo · R2 three-panel AMR video · R4 LI140 + ON140 photos · AU2 cocoon graphic · AU3 180° point cloud/video · AU4 dust/rain images · D1 kit family photo · T3 two illumination animations · I1 iToF family photo · I3 clean point-cloud renders · I5 warehouse point cloud · I6 scan diagrams · F2 Stella-120 power · F3 MIPI permission · F4 NM120 internals photo · AB2 award badges · PA3 onsemi logo · N1 four News posts · N2 press email · N3 social channels · N5 first Events post · CT1 office address.
 (Several share one delivery: R4 = D3 = I7; SE5 = D4 = PA2; S1 is one URL.)
 
-**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · S26 hero contrast QA · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB3 investors · AB5 · AB6 hero framing · CU1 hero source · CU3 · PA1 hero framing · PA4 · N4.
+**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · S26 hero contrast QA · S27 PocketBase rate limit · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB3 investors · AB5 · AB6 hero framing · CU1 hero source · CU3 · PA1 hero framing · PA4 · N4 · N7 dead source links.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–19 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–20 are done.)
 
 ## One request for Claudia and Josh
 

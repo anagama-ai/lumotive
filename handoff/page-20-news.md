@@ -1,13 +1,57 @@
 # Page 20 — /news
 
-Approved content package rev. 2026-10-07 (v2), page 20 of 21, "Company › News &
-Events". URL confirmed from the page header and the page-01 site map:
-**/news**, unchanged.
+Approved content package rev. 2026-10-07, page 20 of 21, "Company › News &
+Events". URL **/news**, unchanged. First built against v2; **v3 pass applied
+2026-10-21**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.** Awaiting screenshot review before
-page 21.
+**Status: v3 implemented; focused checks run.** Open: card images, the follow
+block inputs, Events posts and the four News posts (N1–N5), four dead source
+links (N7), and the PocketBase rate limit (S27).
 
-## What shipped
+## v3 pass (2026-10-21)
+
+**Copy and assets.** The v2→v3 text diff of page 20 is empty and Simon left
+**no annotations** on it, so no content or asset is supplied for this page.
+Nothing was added: no Leopard, LI140/ON140 or VISION 2026 post (N1), no card
+image, no follow block. The page's printed placeholders (`[Date]`,
+`[Post title]`, `[press contact]`) are not published.
+
+**One layout fix.** The newsroom hero and the post column used the wider
+shell with their own gutters, so at 1440 they sat at 28px while the header
+logo (and every other page) aligns at 80px; at 768/1024 they were 4px off.
+Both now use the header's `container`: logo, heading, featured story, tabs
+and grid share one edge at every width (16 / 24 / 24 / 80 / 210 at 390 /
+768 / 1024 / 1440 / 1920). At 1440 the column narrows from 1384 to 1280px,
+as on the CMS pages. No other change.
+
+### v3 QA (focused)
+
+- **Layout, 360 / 390 / 430 / 768 / 1024 / 1440 / 1920:** no overflow, no
+  broken image, no tap target under 44px; grid 1 → 2 → 3 columns.
+- **Filtering:** All 112 posts (13 pages), Press releases 53 (6), In the news
+  59 (7), Events 0, which lands on the "No Matching News" empty state. Active
+  tab carries `aria-current`. Search `q=Hokuyo` returns 6. `page=2`, `page=13`
+  and `category=Media Coverage&page=7` render; an out-of-range `page=99`
+  shows the empty state rather than an error.
+- **Post links:** all 112 `/posts/…` answer 200 when requested at a normal
+  pace. A rapid crawl returned 500s: the server log showed PocketBase
+  answering **429 Too Many Requests** to the site's own server-side calls
+  (see S27). Not a page defect, but a deployment risk.
+- **Source links** ("Read the original article at …", 112 posts): 91 answer
+  200; 18 refuse automated checks (403/401/timeouts from Forbes, WSJ,
+  bizjournals, photonics.com, EE Times and similar), so they are unverified
+  rather than broken; **4 are dead** (N7):
+  - `media-company-case-study-lumotive` → investvancouver.ca PDF (host does
+    not resolve)
+  - `media-lumotive-powers-e-photonics-launch-…-spain` → morningstar.com (404)
+  - `media-lumotive-unveils-md41-development-kit-…` → finance.yahoo.com (404)
+  - `media-newest-breakthrough-in-agv-amr-3d-sensing-…-chinese` →
+    2cm.com.tw (404)
+  Not changed: replacing or removing a source link is a content decision.
+- `npm run check` 0 errors, 0 warnings. Screenshots:
+  `%TEMP%\lumotive-review\news\news-{390,768,1440}.png`.
+
+## What shipped in the v2 build (history)
 
 `/news` is a route, not a CMS sections page, so **no migration was needed** —
 no PocketBase data changed. The 112 published posts, their categories,
