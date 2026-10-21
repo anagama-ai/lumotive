@@ -49,6 +49,14 @@ shirt with the standard shade. No component change.
   build was run.
 - **Screenshots:** `%TEMP%\lumotive-review\about\hero-390…1920.png`.
 
+- **"Learn more" (Leadership and Board, 13 controls):** the bio buttons
+  rendered with the browser's grey fill, outset border and 400 weight. Now
+  the text-card arrow action (Deep Laser Blue, 650, "→" that nudges on
+  hover) with the button chrome reset in `CardsTeamCards.svelte` (used only
+  here). Verified at 390 and 1440: all 44px tall, transparent, no border;
+  Enter and click open the right biography, Escape closes it and focus
+  returns to the trigger; focus ring 2px solid at 4px offset.
+
 ### Outstanding (after v3)
 
 1. **AB2** — official award badges (names and links are live).
