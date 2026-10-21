@@ -1,13 +1,13 @@
 <script lang="ts">
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
-	import type { MediaMap } from '$lib/media';
+	import { resolveMedia, type MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
 
 	type RawLink = { label?: unknown; url?: unknown; newTab?: unknown; link?: RawLink };
 	type Link = { label: string; href: string; newTab: boolean };
 
-	let { section, media: _media }: { section: Section; media: MediaMap } = $props();
+	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let body = $derived(typeof section.body === 'string' ? section.body : '');
 	let heading = $derived(titleCase(typeof section.heading === 'string' ? section.heading : null));
 	// `mode: "stacked"` turns the split CTA into one left-aligned column with a
@@ -30,6 +30,11 @@
 	// above it. Text, buttons, links and the caveat are unchanged; tablet and
 	// desktop use the section spacing.
 	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
+	// Stacked only: an optional image beside the copy (right from 768px,
+	// above the copy on phones, as split sections set it), for a block the
+	// package prints with a visual next to its two actions. Unset elsewhere,
+	// where the stacked markup is unchanged.
+	let visual = $derived(stacked ? resolveMedia(section.media, media, 1024) : null);
 
 	const backdrops: Record<string, { src: string; position: string }> = {
 		ctaDefault: { src: '/lumotive/img/cta-glow.jpg', position: 'right center' },
@@ -123,27 +128,16 @@
 				</Reveal>
 			</div>
 		{:else if stacked}
-			<Reveal stagger class="max-w-3xl">
-				{#if section.eyebrow}<p class="text-eyebrow mb-5 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
-				{#if heading}<h2 class={`font-display text-white ${enumValue(section.headingSize, ['heading', 'statement'], 'heading') === 'statement' ? 'text-statement' : 'text-heading'}`}>{heading}</h2>{/if}
-				{#if body}<div class="prose mt-5 text-lead text-white/75">{@html body}</div>{/if}
-				{#if links.length}
-					<div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-						{#each links as item, index (`${item.label}:${item.href}`)}
-							<!-- The package prints a lead-in before the secondary action
-							     ("Designing at the chip level? Explore LCM chips →"), so the
-							     note sits with that link rather than under the pair. -->
-							{#if index === 1 && note}<span class="cta-note">{note}</span>{/if}
-							{#if index === 0}
-								<a class="cta-button" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
-							{:else}
-								<a class="cta-text-link" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label} <span aria-hidden="true">→</span></a>
-							{/if}
-						{/each}
-					</div>
-				{/if}
-				{#if caveat}<p class="cta-caveat">{caveat}</p>{/if}
-			</Reveal>
+			{#if visual}
+				<div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
+					<Reveal x={24} y={12} duration={1.1} class="md:order-2">
+						<img class="rounded-card block h-auto w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={visual.alt} width={visual.width ?? 1600} height={visual.height ?? 900} loading="lazy" />
+					</Reveal>
+					{@render stackedCopy()}
+				</div>
+			{:else}
+				{@render stackedCopy()}
+			{/if}
 		{:else}
 			<Reveal stagger class="mx-auto max-w-3xl text-center">
 				{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
@@ -165,6 +159,30 @@
 		{/if}
 	</div>
 </section>
+
+{#snippet stackedCopy()}
+	<Reveal stagger class="max-w-3xl">
+		{#if section.eyebrow}<p class="text-eyebrow mb-5 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
+		{#if heading}<h2 class={`font-display text-white ${enumValue(section.headingSize, ['heading', 'statement'], 'heading') === 'statement' ? 'text-statement' : 'text-heading'}`}>{heading}</h2>{/if}
+		{#if body}<div class="prose mt-5 text-lead text-white/75">{@html body}</div>{/if}
+		{#if links.length}
+			<div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+				{#each links as item, index (`${item.label}:${item.href}`)}
+					<!-- The package prints a lead-in before the secondary action
+					     ("Designing at the chip level? Explore LCM chips →"), so the
+					     note sits with that link rather than under the pair. -->
+					{#if index === 1 && note}<span class="cta-note">{note}</span>{/if}
+					{#if index === 0}
+						<a class="cta-button" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
+					{:else}
+						<a class="cta-text-link" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label} <span aria-hidden="true">→</span></a>
+					{/if}
+				{/each}
+			</div>
+		{/if}
+		{#if caveat}<p class="cta-caveat">{caveat}</p>{/if}
+	</Reveal>
+{/snippet}
 
 <style>
 	/* Matches the hero's primary button: a bare `text-ink` utility loses to the

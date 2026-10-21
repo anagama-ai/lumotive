@@ -182,17 +182,16 @@ Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1
 
 Resolved on this page by `1787714400`: F1, Simon's IMG_0031 (NM120 with heatsink) is the hero as `hero-nm120-heatsink.webp`, whole and right of the copy from 1024px, whole at 768px, a full-band backdrop on phones (new `mediaAnchor`, plus the page-14 phone options). A2 "NM120 enclosed unit" now uses the transparent original (`nm120-sensor.webp`, from the existing `nm120-module.png`) on the approved panel frame. Copy verified verbatim against v3; pending tiles and "Modular by Design" still held.
 
-## Page 16 — Connect `/connect`
+## Page 16 — Connect `/connect` (v3 pass done 2026-10-21)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| C1 | Hero | Ours | Do | Swap to Simon's OCS ports-and-lasers image (the current lumotive.com hero; 1920 px version already local as the 2D-photonic news visual). Live `hero-connect.jpg` is a different server-rack photo. | Us | Yes | p16 A1; hash |
-| C2 | 2D Beamforming for High-Port-Count Switching | Ours | Do | Simon linked Lumotive_OCS (= local `ocs-fabric.png`, unused) for the "2D beamforming visual". The earlier "missing visual" is resolved for this page. | Us | Yes | p16 A2; hash 1.00 |
-| C3 | From Compact to Hyperscale | Ours | Verify | Simon linked the existing combined graphic [OCS-Reference-Designs](https://lumotive.com/wp-content/uploads/2026/05/OCS-Reference-Designs-1024x451.png); live uses two separate panels. Swap if legible at 1024 px, or ask for a larger file. | Us (+ Lumotive) | No | p16 A3 |
+| C3 | From Compact to Hyperscale | Decision | Verify | Simon linked the lumotive.com combined graphic [OCS-Reference-Designs](https://lumotive.com/wp-content/uploads/2026/05/OCS-Reference-Designs.png) (largest is 1209×532). The section is KEEP AS IS and the live panels already show both designs with real text, so it was not swapped. The graphic bakes its spec text into pixels and adds "Control: Industry-standard SDN" and "Variants: O-band & C-band". Keep the panels, or use the graphic? | Lumotive / Claudia | No | p16 A3 |
 | C4 | From Compact to Hyperscale — copy | Decision | Verify | Marked KEEP AS IS, yet the PDF prints a different heading and intro; printed copy is live. Confirm. | Claudia | No | `page-16-connect.md` l.65 |
-| C5 | Where Lumotive Connect Applies | Ours | Do | Integrate Simon's two: Optical-Communications_2 (= local `connect-optical.jpg`) → AI data centers; Optical-Communications (= local `applications-optical-communications.webp`) → Optical communications. | Us | Yes | p16 A4, A5 |
 | C6 | Optical Matters Now — Google 40% / 30% figures | Decision | Verify | Dev note asks to cite Google's publication. Candidate: Google "Jupiter Evolving" (SIGCOMM 2022) / Google Cloud Jupiter blog; Lumotive must confirm source and that the figures match. | Lumotive | Yes | PDF p16 dev note |
 | C7 | Send Light / Switching at Semiconductor Scale icons | Asset | Verify | Existing icons no longer match approved titles (none for "Compact"). Supply icons, or approve text cards. | Lumotive | No | `page-16-connect.md` l.105 |
+
+Resolved on this page by `1787714600`: C1 hero (Simon's OCS ports-and-lasers, local `home-2d-photonic-news.webp`), C2 2D beamforming visual beside block 7 (`ocs-fabric.webp`; new optional `media` on stacked CTAs), C5 use-case photos as 16:9 crops of the existing local copies. Copy verified verbatim against v3. In-page playback of Vimeo 1227505713 remains S19.
 
 ## Page 17 — About `/about`
 
@@ -250,7 +249,7 @@ Resolved on this page by `1787714400`: F1, Simon's IMG_0031 (NM120 with heatsink
 
 **Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–15 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–16 are done.)
 
 ## One request for Claudia and Josh
 
@@ -308,7 +307,7 @@ Resolved on this page by `1787714400`: F1, Simon's IMG_0031 (NM120 with heatsink
 | iToF compact M30 AMR demo clip | Live: Vimeo 1174547871 in "See It on Your Bench" (`1787714100`); in-page playback confirmed | p14 A2 |
 | dToF hero banner (#161) | Live as `hero-nm120-heatsink.webp` from Simon's IMG_0031 (`1787714400`) | p15 A1 |
 | dToF "NM120 enclosed unit" photo | Live as transparent `nm120-sensor.webp` on the panel frame (`1787714400`); the existing `nm120-module.png` is identical to Simon's IMG_0032 | p15 A2 |
-| Connect 2D beamforming visual; use-case images | Supplied (C2, C5) | p16 A2, A4, A5 |
+| Connect hero, 2D beamforming visual, use-case images | Live (`1787714600`): C1, C2, C5 | p16 A1, A2, A4, A5 |
 | Culture "The Lumotive Way" video | Already embedded; oEmbed title confirmed | `culture#979b8fc6` |
 | Robotics virtual-sensor headings reconstruction | The v3 render reads "Localization", "Cliff and obstacle", "Object avoidance", as built | p10 render |
 | Robotics "Module and Solution Providers" logo strip | Not on page 10's composition (only the approved sentence, which ships); not a page-10 blocker | PDF p10 text |

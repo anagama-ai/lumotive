@@ -1,12 +1,74 @@
 # Page 16 — /connect
 
-Approved content package rev. 2026-10-07 (v2), page 16 of 21, "Connect ›
-Optical Circuit Switching". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07, page 16 of 21, "Connect ›
+Optical Circuit Switching". First built against v2; **v3 pass applied
+2026-10-21**. Branch `feedback-20261007-v2`, local only.
 
-**Status: rebuilt in place and QA-verified.** Awaiting screenshot review before
-page 17.
+**Status: v3 implemented and QA-verified.** Open: the reference-designs
+graphic decision (C3) and copy confirmation (C4), the Google citation (C6),
+icons (C7), and in-page playback of Vimeo 1227505713 (S19).
 
-## What shipped
+## v3 pass (2026-10-21)
+
+**Copy.** The v2→v3 text diff of page 16 is empty; every live heading,
+card, stat, list item, action and caption matches v3 in the printed order.
+Two typographic differences are left as they are: the site sets
+apostrophes as ’ where the PDF has ' (site-wide convention), and "50 μs"
+uses Greek mu where the PDF has the micro sign (µ). Same text; change only
+if you want the code point to match.
+
+**Simon's annotations, all five already in the repo:**
+
+| # | Position | Simon's file | Local copy | Outcome |
+| --- | --- | --- | --- | --- |
+| A1 | Hero "OCS ports and lasers" | OCS-small-ports-v4-n-lasers (1920×1080 original) | `home-2d-photonic-news.webp`, identical | **Hero**, replaces the server-rack `hero-connect.jpg` |
+| A2 | "2D beamforming visual" | Lumotive_OCS (2000×1125) | `ocs-fabric.png`, identical, unused | **Beside the copy of block 7**, as `ocs-fabric.webp` (1600×900, 52 KB) |
+| A3 | "Existing graphic: OCS reference designs" | OCS-Reference-Designs (1209×532, a screenshot of two spec cards) | none | Not used: section is KEEP AS IS and already renders both designs as panels with live text. Open as C3. |
+| A4 | "Image: AI data center" | Optical-Communications_2 | `connect-optical.jpg`, identical | **AI data centers card**, centre-cropped 16:9 as `connect-use-ai-data-centers.webp` |
+| A5 | "Image: satellite and airborne links" | Optical-Communications | `applications-optical-communications.webp`, identical | **Optical communications card**, 16:9 crop `connect-use-optical-communications.webp` |
+
+**Migration** `1787714600_connect_v3.js` (hero media; block 7 media; two
+card media). **One shared-component change:** stacked `ctaSplitLinks` takes
+an optional `media`, set beside the copy (right from 768px, above it on
+phones, as split sections do). Without media the stacked markup is the same
+as before. Exposed in the editor as "Image beside the copy".
+
+### v3 QA
+
+- **390 / 430 / 768 / 1024 / 1440:** no horizontal overflow, no broken
+  image. Block 7 visual 608×342 at 1440 (16:9), 358×201 at 390; use-case
+  photos fill their 16:9 frames (564×317 at 1440, 294×165 at 390).
+- **Hero contrast** (text hidden, 99th percentile / brightest pixel): body
+  6.25/5.27 (390), 5.59/5.26 (430), 8.06 (768), 8.86 (1024), 9.04 (1440),
+  9.88 (1920); headline ≥ 7.98; eyebrow ≥ 7.16; "Learn about LCM" ≥ 15.6.
+- **Links:** `/contact?inquiry=ocs`, `/platform` and the announcement post
+  answer 200. Block 7 shows no date and no generation label (dev note).
+- **Light-section contrast:** 71 elements, 0 failures at 1440 and 390.
+- **Video 1227505713:** in-page playback still unverified (the headless
+  frame stalled; cause not established). S19.
+- **Migration:** revert restored every page record byte-identically;
+  re-apply changed only `connect`. `npm run check` 0 errors, 0 warnings;
+  `npm run build` passed, dev server stopped.
+- **Screenshots:** `%TEMP%\lumotive-review\connect\` — `desktop-1440-01…09`,
+  `mobile-390-01…09`, `tablet-1024-`/`tablet-768-`/`mobile-430-`
+  `01-hero`, `06-2d-beamforming`, `08-use-cases`; `before\` for the hero,
+  block 7 and use cases at 1440 and 390.
+
+### Outstanding (after v3)
+
+1. **C3** — use Simon's combined reference-designs image instead of the live
+   panels? The image bakes its spec text into pixels (small on phones, not
+   selectable) and adds "Control: Industry-standard SDN" and "Variants:
+   O-band & C-band", which the live panels do not list.
+2. **C4** — KEEP AS IS vs the printed heading and intro (printed copy live).
+3. **C6** — Google publication URL for the 40% / 30% figures.
+4. **C7** — icons for the two card sets, or approval of text cards.
+5. **S19** — in-page playback of Vimeo 1227505713 in a normal browser.
+
+Resolved by v3: the hero (C1), the 2D beamforming visual (C2) and the two
+use-case images (C5).
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787711400_connect_page16.js`. **The route and the
 record are unchanged** — this is "CHANGE · REBUILT ON THE CURRENT LUMOTIVE.COM
