@@ -111,6 +111,7 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 | R2 | One Sensor, Three Jobs | Asset | Missing | Three-panel AMR demo video (localization / cliff / full field). Simon: "Elyar's video", a name only: no file or URL, and nothing matching in the repo or Downloads (checked 2026-10-20). Its approved caption is held with it. Then ours: printed split layout, poster plus click-to-play, in-page playback check. | Lumotive (Elyar) → Us | Yes | p10 A4 |
 | R4 | Kits for Robotics | Asset | Missing | LI140 sensor-head and ON140 photos ("from Q4 flyer"); none annotated or in the repo. | Lumotive | Yes | PDF p10 |
 | R3 | Kits for Robotics | Ours | Do (after R4) | Add all four photos together: M30 from [M30_thumb](https://lumotive.com/wp-content/uploads/2022/10/M30_thumb.jpg) (not in the repo), NM120 as the existing `nm120-sensor.jpg` (identical to A3). Add a contained "photo on light grey panel" frame option to `cardsMediaCards` per the p03 kit-card spec. | Us | No | p10 A2, A3 |
+| R6 | Hero on phones | Ours | Do | Found during the Page 11 QA: at 390px the hero body text (white 75%) measures **4.05:1** against the 99th-percentile background of the warehouse photo, under 4.5:1. The headline passes as large text (4.71:1). Fix at review: for example a stronger mobile shade or a mobile-only image position. | Us | Yes | `page-11-automotive.md` v3 QA |
 
 Resolved on this page by `1787713400`:
 - R1 hero: now the existing `market-agv.jpg`, identical to A1.
@@ -120,14 +121,16 @@ Resolved on this page by `1787713400`:
 - The 01–04 step numerals.
 - Virtual-sensor headings confirmed against the v3 render.
 
-## Page 11 — Automotive `/sense/automotive`
+## Page 11 — Automotive `/sense/automotive` (v3 pass done 2026-10-20)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| AU1 | Hero | Ours | Do | Simon's [media.jpg](https://lumotive.com/wp-content/uploads/2023/05/media.jpg) (wireframe car with sensing field; fits). Hero currently has no image. | Us | Yes | p11 A1 |
-| AU2 | A Programmable Cocoon Around the Vehicle | Asset | Missing | Top-down graphic, vehicle with 10/20/50 m rings from corner sensors. Simon: "Automotive deck" (lead). | Lumotive | Yes | p11 A2 |
-| AU3 | First Solid-State 180° dToF Lidar at 30 FPS | Asset | Missing | 180° point cloud or video. Simon: "Stella-180 video from tradeshows? (talk to Calvin & Sam)". | Lumotive (Calvin, Sam) | Yes | p11 A3 |
-| AU4 | Built for Real-World Conditions | Asset | Missing | Heavy-dust and rain multi-return images (first, second, combined). Simon: "Aramco rain testing – ask Calvin". | Lumotive (Calvin) | Yes | p11 A4 |
+| AU2 | A Programmable Cocoon Around the Vehicle | Asset | Missing | Top-down graphic, vehicle with 10/20/50 m rings from corner sensors. Simon: "Automotive deck", a lead only; nothing matching in the repo or Downloads (checked 2026-10-20). | Lumotive | Yes | p11 A2 |
+| AU3 | First Solid-State 180° dToF Lidar at 30 FPS | Asset | Missing | 180° point cloud or video. Simon: "Stella-180 video from tradeshows? (talk to Calvin & Sam)", a question and lead, not a file. If it arrives as video: poster plus click-to-play, then verify in-page playback. | Lumotive (Calvin, Sam) | Yes | p11 A3 |
+| AU4 | Built for Real-World Conditions | Asset | Missing | Heavy-dust and rain multi-return images (first, second, combined). Simon: "Aramco rain testing – ask Calvin", a lead only. | Lumotive (Calvin) | Yes | p11 A4 |
+| AU5 | Hero | Asset | Verify (optional) | The supplied render is 1280×719 (the original upload) and is upscaled about 1.6× by the desktop framing. A larger original would sharpen it. | Lumotive | No | `page-11-automotive.md` |
+
+Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` with desktop framing (`mediaShift 20%`, `mediaScale 1.4`) so the car clears the headline. Copy verified verbatim against v3.
 
 ## Page 12 — Dev Kits `/dev-kits`
 
@@ -240,7 +243,7 @@ Resolved on this page by `1787713400`:
 
 **Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · AU1 · D2 · T1 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4). (Pages 09 and 10 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · R6 Robotics mobile hero contrast · D2 · T1 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media. (Pages 09–11 are done.)
 
 ## One request for Claudia and Josh
 
@@ -291,7 +294,7 @@ Resolved on this page by `1787713400`:
 | Sense HDR demo visual | Vimeo 1235957120 "Lumotive HDR" supplied and embedded (21:9) | p09 A6; `1787713100` |
 | Sense #119 section images; application photos; meta description | Supplied and integrated as local WebP; SE4 fit confirmed visually | p09 A1–A5; `1787713100` |
 | Robotics hero; M30 and NM120 kit photos | Hero live via existing `market-agv.jpg` (`1787713400`); M30/NM120 photos supplied, held for a uniform row until LI140/ON140 arrive (R3/R4) | p10 A1–A3 |
-| Automotive hero | Supplied (AU1) | p11 A1 |
+| Automotive hero | Live as `hero-automotive.webp` with desktop framing (`1787713500`) | p11 A1 |
 | Dev Kits TX10, M30, NM120, MD180 photos | Supplied (D2); only ON140 and LI140 remain | p12 A1–A4 |
 | Transmit hero still image | Supplied (T1); only the #129 animation question remains | p13 A1 |
 | iToF "Photo: M30 with kit contents" | Already live: `m30-dev-kit-contents.jpg` is identical to Simon's IMG_7224 | `itof#6e81d47c`; hash 1.00 |

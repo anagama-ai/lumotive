@@ -1,12 +1,60 @@
 # Page 11 — /sense/automotive
 
-Approved content package rev. 2026-10-07 (v2), page 11 of 21, "Sense ›
-Automotive". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07, page 11 of 21, "Sense › Automotive". First built against v2; **v3 pass applied 2026-10-20**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.** New page, plus the two navigation
-entries that were waiting on it.
+**Status: v3 implemented and QA-verified.** The hero image is live. Three section visuals are pending client inputs (cocoon graphic, 180° point cloud or video, dust/rain images).
 
-## What shipped
+## v3 pass (2026-10-20)
+
+**Copy.** The v2→v3 text diff of page 11 is empty. Every live string (headings, bodies, bullets, card titles, links) was matched programmatically against the v3 page text and found verbatim: no copy change was needed. Section order matches the PDF.
+
+**Simon's four notes on page 11:**
+
+| Note | Slot | Status |
+| --- | --- | --- |
+| A1 [media.jpg](https://lumotive.com/wp-content/uploads/2023/05/media.jpg) | Hero ("vehicle with near-field coverage rings") | **Supplied and live.** A wireframe car in a sensing field, matching the hero's subject. 1280×719 is the original upload; no larger WordPress rendition exists. Saved as `/lumotive/img/hero-automotive.webp` (95 KB, q85). Not a duplicate of any existing file. |
+| A2 "Automotive deck" | A Programmable Cocoon Around the Vehicle: top-down graphic, vehicle with 10/20/50 m rings from corner sensors | **Pending.** A lead, not a file. |
+| A3 "Stella-180 video from tradeshows? (talk to Calvin & Sam)" | First Solid-State 180° dToF Lidar at 30 FPS: 180° point cloud or video | **Pending.** A question and a lead, not a video. |
+| A4 "Aramco rain testing – ask Calvin" | Built for Real-World Conditions: heavy-dust and rain multi-return images (first object, second object, combined) | **Pending.** A lead, not a file. |
+
+Repository, `static/lumotive/video` and Downloads were searched for anything matching (automotive, Stella, Aramco, rain, dust, cocoon, deck). The only hit, `Downloads/automotive.json`, is an Elementor page export from an unrelated 2025 project. Nothing was substituted: the three sections keep their single reading column, and there is no video on this page, so there is no in-page playback to verify.
+
+**Hero framing.** The car sits mid-frame, and at desktop widths it ran under the headline. The hero uses the existing desktop-only framing (`mediaShift: "20%"`, `mediaScale: "1.4"`, applied from 1024px up), the same mechanism `/dev-kits/itof` uses.
+- The scale keeps the image covering the band edge to edge, with no uncovered strip, and puts the car right of the copy.
+- Tablet and mobile use the default cover crop.
+- Trade-off: on desktop the 1280px source is upscaled about 1.6×. It is a soft render behind a dark gradient, but a larger original would be sharper.
+
+**Migration** `1787713500_automotive_v3.js` (reversible, guarded) sets hero `media`, `mediaShift` and `mediaScale` on `d81f4a60` only.
+
+### v3 QA
+
+- **390 / 768 / 1024 / 1440:** no horizontal overflow, no broken image, every inner column on one edge (16 / 24 / 24 / 80).
+  - Hero heights 574 / 696 / 612 / 704px.
+  - Grids unchanged: five conditions 1 → 2 → 3 → 5, Beyond Passenger 1 → 2 → 3, Evaluate 1 → 2.
+  - The only tap target under 44px is the accepted 23px "Sense" breadcrumb.
+- **Contrast:**
+  - Light sections: automated scan, zero failures.
+  - Hero text over the photo: measured by hiding the copy, capturing the bare band and testing the text colour against the 99th-percentile-brightest background pixel under each text box.
+
+    | Width | Headline (white, large) | Body (white 75%) |
+    | --- | --- | --- |
+    | 1440 | 10.66:1 | 10.00:1 |
+    | 1024 | 11.93:1 | 8.26:1 |
+    | 390 | 4.67:1 (large text, needs 3:1) | 7.07:1 |
+
+    All pass. At 390 a few pixels of the top-right glow behind the end of the body lines reach 3.42:1 (single brightest pixel, not the 99th percentile).
+- **Links:** `/sense`, `/contact?inquiry=automotive`, `/contact?inquiry=md180`, the 180° News post, `/dev-kits/dtof` and `/lcm-chips` all answer 200.
+- **Shared components:** no component or token changed; this pass is data only.
+- **Migration:** revert restored every page record byte-identically to the pre-migration snapshot; reapply changed only `automotive`.
+- `npm run check` 592 files, 0 errors, 0 warnings; `npm run build` passed with the dev server stopped.
+- **Screenshots** (outside the project): `%TEMP%\lumotive-review\automotive\`
+  - `desktop-1440-01…08`, `mobile-390-01…08`;
+  - `tablet-1024-01-hero`, `tablet-768-01-hero`;
+  - contact sheets for desktop, mobile and tablet.
+
+**Finding on Page 10, not changed here.** The same hero measurement on `/sense/robotics` at 390 gives body text 4.05:1 at the 99th percentile, under the 4.5:1 floor; headline 4.71:1 passes as large text. The warehouse photo added in the Page 10 pass is brighter behind the copy on phones. Recorded as R6 in `handoff/v3-outstanding-items.md` for a fix at review. `/sense` (6.48:1) and `/applications` (9.02:1) pass.
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787710100_sense_automotive_page11.js`. The page is
 a child of `/sense`, so `computePath` resolves `sense/automotive`, the URL the
@@ -97,22 +145,14 @@ The down path removes the Sense entry and returns the Applications entry to
 - The CTA's secondary link was a 25px tap target, below the 44px floor the rest
   of the site meets. Fixed in `CtaDefault`, which also corrects the home page.
 
-## Blockers
+## Blockers (after v3)
 
-All four are approved visuals that have not been supplied. Each omitted visual
-leaves its section as a single reading column rather than a half-empty split;
-adding `media` later restores the two-column layout with no further change.
+Pending client visuals. Each omitted visual leaves its section as a single reading column rather than a half-empty split; adding `media` later restores the two-column layout:
 
-1. **Hero image** — vehicle with near-field coverage rings.
-2. **Safety cocoon top-down graphic** — vehicle with 10 m / 20 m / 50 m coverage
-   rings from corner sensors. Listed as a new asset on package page 04.
-3. **180° point cloud or video** beside the industry-first section.
-4. **Heavy dust and rain multi-return images** (first object, second object,
-   combined) for Built for Real-World Conditions. Also new assets on page 04.
+1. **Safety cocoon top-down graphic**: vehicle with 10 m / 20 m / 50 m coverage rings from corner sensors. Lead "Automotive deck". Listed as a new asset on package page 04.
+2. **180° point cloud or video** beside the industry-first section. Lead "Stella-180 video from tradeshows? (talk to Calvin & Sam)". If it arrives as a video, it is embedded with poster plus click-to-play and in-page playback is then verified.
+3. **Heavy dust and rain multi-return images** (first object, second object, combined) for Built for Real-World Conditions. Lead "Aramco rain testing – ask Calvin". New assets on page 04.
 
-Plus, unchanged from earlier pages:
+Optional: a larger original of the hero render, to sharpen the 1.6× desktop upscale.
 
-5. **`/dev-kits/dtof`** 404 until package page 15 is built. The link carries the
-   approved destination and needs no change.
-6. **Module and Solution Providers** still pending across pages 09, 10, 12
-   and 19. Page 11 does not use the component.
+Resolved by v3: the hero image (supplied and live) and the `/dev-kits/dtof` 404 (page built). Page 11 does not use the Module and Solution Providers strip.
