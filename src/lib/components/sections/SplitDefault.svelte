@@ -30,6 +30,17 @@
 	// instead, from 768px up; on phones the product sits on the page field
 	// with no box around it. Unset on every other section.
 	let panelFrame = $derived(String(section.mediaFrame ?? '') === 'panel' && !embedUrl);
+	// `mediaMaxHeight` (a rem length): from 768px the photograph is capped at
+	// that height and contained, so a tall product shot does not stand taller
+	// than the copy beside it; the whole product stays visible and a panel
+	// frame shrinks with it. Phones keep their own 75% / 50svh limits.
+	let mediaMaxHeight = $derived.by(() => {
+		const value = String(section.mediaMaxHeight ?? '').trim();
+		return /^\d+(\.\d+)?rem$/.test(value) ? value : '';
+	});
+	// Opt-in, phones only (<768px): 2.5rem above the section's content instead
+	// of its `spacingTop`, for a section that opens with its photograph.
+	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
 </script>
 
 {#snippet copy()}
@@ -52,6 +63,7 @@
 	class:peel-bleed={variant === 'peelBleed'}
 	class:stacked-card={variant === 'stackedCard'}
 	class:media-right={mediaRight}
+	class:compact-mobile={compactMobile}
 	class:no-media={variant === 'default' && !embedUrl && !visual}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
@@ -76,7 +88,7 @@
 			{#if variant !== 'peelBleed' && (embedUrl || visual)}
 				<div class="art-column">
 					<Reveal x={mediaRight ? 24 : -24} y={12} duration={1.1}>
-						<div class="art-frame" class:panel-frame={panelFrame}>
+						<div class="art-frame" class:panel-frame={panelFrame} class:media-capped={Boolean(mediaMaxHeight) && !embedUrl} style:--art-max-height={mediaMaxHeight || undefined}>
 							{#if embedUrl}
 								<iframe
 									src={embedUrl}
@@ -117,6 +129,12 @@
 	.video-embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
 	@media (min-width: 768px) {
 		.panel-frame { background: var(--color-surface); }
+	}
+	@media (min-width: 768px) {
+		.media-capped img { max-height: var(--art-max-height); object-fit: contain; }
+	}
+	@media (max-width: 767px) {
+		.compact-mobile > .lumo-inner { padding-top: 2.5rem; }
 	}
 	/* Deep Laser Blue on light: at the eyebrow's 12px, Laser Blue measures
 	   4.15:1 on the page field, under the 4.5:1 floor. Dark variants below

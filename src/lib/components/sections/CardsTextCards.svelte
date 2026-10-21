@@ -46,6 +46,13 @@
 	// so a row whose titles wrap differently still starts every description at
 	// the same height. Phones keep the natural title height.
 	let twoLineTitles = $derived(String(section.titleLines ?? '') === '2');
+	// `titleLines: "row"` does the same per row, at any column count: from
+	// 768px each card becomes a subgrid of the grid's rows, so a title takes
+	// the height of the tallest title in its own row and no more. Phones keep
+	// the stacked flex layout.
+	let rowAlign = $derived(String(section.titleLines ?? '') === 'row');
+	const cardRows = (card: Card, image: unknown, link: { href: string; label: string }) =>
+		[image, true, card.eyebrow, card.title, card.body, card.badge, link.href && link.label].filter(Boolean).length;
 	// Desktop column count. Default stays the three-up grid every existing
 	// section renders; `columns: "2"` opts a section into an even two-up, for a
 	// pair of cards that would otherwise leave a third of the row empty, and
@@ -111,7 +118,8 @@
 				{@const barClass = bar(card.accent)}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`rounded-card bg-surface hover:shadow-card group flex flex-col p-8 transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+					class={`rounded-card bg-surface hover:shadow-card group flex flex-col p-8 transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}${rowAlign ? ' row-card' : ''}`}
+					style:--card-rows={rowAlign ? cardRows(card, image, link) : undefined}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
@@ -190,4 +198,12 @@
 	.card-copy :global(ul) { margin: .75rem 0 0; padding-left: 1.1rem; list-style: disc; }
 	.card-copy :global(li) { margin-top: .35rem; }
 	.card-copy :global(li::marker) { color: var(--color-muted); }
+	/* `titleLines: "row"`: each card spans as many grid rows as it has
+	   children and adopts them as a subgrid, so titles in one row share a
+	   height and every description starts on the same line. The card's own
+	   margins still space its children; the grid's 1.5rem gap stays between
+	   cards only. */
+	@media (min-width: 768px) {
+		.row-card { display: grid; grid-template-rows: subgrid; grid-row: span var(--card-rows); row-gap: 0; align-content: start; }
+	}
 </style>

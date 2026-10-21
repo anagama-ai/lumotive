@@ -44,6 +44,8 @@ const splitFields: FieldSpec[] = [
 	// A transparent product cut-out on a white panel from 768px; phones show
 	// the product on the page field with no panel.
 	{ name: 'mediaFrame', label: 'Media frame (panel = product cut-out on a white panel from 768px)', type: 'text' },
+	{ name: 'mediaMaxHeight', label: 'Photo height cap from 768px (rem, e.g. 25rem; whole photo kept)', type: 'text' },
+	{ name: 'compactMobile', label: 'Less space above the section on phones (true | false)', type: 'text' },
 	{ name: 'linkLabel', label: 'Link label', type: 'text' },
 	{ name: 'linkUrl', label: 'Link URL', type: 'url' },
 	{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },

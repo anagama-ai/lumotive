@@ -96,6 +96,43 @@ photo (page 12) is not assigned here and was not added.
     `tablet-768-01-hero`/`03-nm120`, `mobile-430-01-hero`/`03-nm120`;
   - `before\` — the previous hero and NM120 photo at 1440 and 390.
 
+### Refinement: spacing (2026-10-21)
+
+Migration `1787714500_dtof_spacing.js`, this page only. Copy, colours,
+imagery and video unchanged.
+
+| Change | Setting | 390 before → after | 1440 before → after |
+| --- | --- | --- | --- |
+| Phone hero | `compactMobile` (existing); phone framing 94% → 100% | hero 574 → **413**, above eyebrow 229 → **76** (430: 634 → 413) | unchanged (612) |
+| NM120 photo panel | new split `mediaMaxHeight: "25rem"` (from 768px, `object-fit: contain`) | unchanged (268×284) | panel 600×634 → **600×400**, product 379×400, whole |
+| Before the NM120 photo | new split `compactMobile` (phone top padding 2.5rem) | 192 → **120** | unchanged (192) |
+| Before MD180 | NM120 action row `md` → `sm` bottom; MD180 opener `lg` → `md` top | 192 → **120** | 192 → **120** |
+| MD180 specs → action | specs `sm` → `none` bottom; action row `sm` → `compact` top (`CtaDefault` now accepts `compact`) | 128 → **56** | 128 → **72** |
+| Outdoor cards | new `titleLines: "row"` (CSS subgrid from 768px) | unchanged | descriptions start on one line in every row |
+| Closing CTA | `lg` → `md` | padding 112 → **80** (−29%), height 638 → 574 | 112 → **80**, 594 → 530 |
+
+- **Outdoor cards:** with `row`, each card spans its own rows of the grid as
+  a subgrid, so a title takes the height of the tallest title in its row
+  and no more: all five descriptions align at 1920, 1440 and 1280 (five
+  across); at 1024 (three, then two) each row aligns separately. Phones keep
+  the stacked cards. Shared option, set only here.
+- **Hero contrast after resizing** (text hidden, 99th percentile /
+  brightest pixel): 390 body 6.83/5.49, eyebrow 9.30, headline 3.65 (large
+  text, 3:1); 430 body 6.85/5.86, headline 4.43. Right-edge luminance on
+  phones 0.035 (94% framing would have shown 0.164 of white). 768/1024/1440
+  unchanged (body 8.84 / 5.95 / 7.38).
+- **Caveat** unchanged: 13px, white at 75% on the dark panel, verbatim, under the CTA.
+- **Checks:** no overflow at 390, 430, 768, 1024, 1280, 1440, 1920;
+  light-section contrast scan 64 elements, 0 failures at 1440 and 390. None
+  of the new options renders on `/dev-kits/itof`, `/dev-kits`,
+  `/dev-kits/transmit-modules`, `/sense`, `/sense/robotics` or
+  `/applications`. Revert restored every page record byte-identically;
+  re-apply changed only `dtof`. `npm run check` 0 errors, 0 warnings;
+  `npm run build` passed, dev server stopped.
+- **Screenshots:** `%TEMP%\lumotive-review\dtof\spacing\`
+  (`desktop-1440-01…07`, `mobile-390-01…07`, `tablet-1024-03-nm120`,
+  `tablet-1024-04-outdoor-cards`).
+
 ### Blockers (after v3)
 
 1. **Stella-120 power figure (F2) + MIPI confirmation (F3)** — restore the
