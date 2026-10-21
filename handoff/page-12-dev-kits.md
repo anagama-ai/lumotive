@@ -45,7 +45,7 @@ All actions are pages or contact requests (`kit-recommendation`, `md180`); there
 - **390 / 768 / 1024 / 1440:** no horizontal overflow, no broken image, every inner column on one edge (16 / 24 / 24 / 80), no tap target under 44px.
   - Grids: Why 1 → 2 → 4; Transmit 1 → 2 (single card, half row); iToF 1 → 2 → 3; dToF 1 → 2.
   - Equal card heights per row: dToF 542/542 at 1440, iToF 320×3 at 1440.
-- **Product crops:** all three products sit whole and centred on the grey panel at every width, with no cropping. NM120's wider footprint and MD180's taller one both fit inside the 5rem-padded panel.
+- **Product crops:** all three products sit whole and centred on the grey panel at every width, with no cropping (`object-contain` with 1.25rem inner padding). NM120's wider footprint and MD180's taller one both fit.
 - **Links and anchors:** `/dev-kits/transmit-modules`, `/dev-kits/itof`, `/dev-kits/dtof`, `/contact?inquiry=kit-recommendation` and `/contact?inquiry=md180` all answer 200. `#why`, `#find-your-dev-kit`, `#itof` and `#dtof` resolve. No `download` attribute, PDF link or "download" wording.
 - **Contrast:** automated scan of Why, Transmit, iToF and dToF, zero failures. The panel is decorative; product images carry `alt=""` and the card title names the kit.
 - **Shared-component regression:** no other page renders `.kit-panel`. The full-bleed photo grids still load: `/applications` 7, `/sense` 3, `/platform` 2. `/sense/robotics` and `/sense/automotive` media cards are unchanged and text-only. No overflow.
