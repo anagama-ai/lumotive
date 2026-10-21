@@ -1,8 +1,55 @@
-# Lumotive website — outstanding items, pages 05–21 (v3 audit)
+# Lumotive website — outstanding items, pages 05–21 (v3)
 
-Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `vite.config.ts` uncommitted by design). Audit only: no content, migration or code changed.
+First audited 2026-10-20; **last updated 2026-10-21** after the v3 passes on pages 05–21, the phone-hero pass, the release cleanup (S11, S13–S18, H6) and one consolidated QA pass. Branch `feedback-20261007-v2`, local only; `vite.config.ts` uncommitted by design.
 
-**This file is the single authoritative outstanding list.** It supersedes the client-question list in `handoff/v3-page-checklist-and-home.md` and the "Blockers" sections of the per-page handoffs where they disagree.
+**This file is the single authoritative outstanding list.** It supersedes the client-question list in `handoff/v3-page-checklist-and-home.md` and the "Blockers" sections of the per-page handoffs where they disagree. The three groups below are the working list; the tables after them keep the detail and evidence per ID.
+
+## A. Client inputs (Lumotive, routed through Claudia)
+
+Nothing here can be finished on our side without it. Each item may ship omitted under the package's "leave it out rather than publish a placeholder" rule.
+
+**Supply**
+1. **LinkedIn company URL** (S1). One URL publishes the footer icon and the follow lines on About, Culture, News and Contact (AB4, CU2, N6, CT3).
+2. **Privacy policy** text, or approval to port lumotive.com's (S2). The footer link on every page 404s until then.
+3. **Pipedrive form configuration** (S3, via Josh): three Text custom fields and three Hidden fields reading the JavaScript variables `inquiry`, `source_page`, `campaign`, published, and added to the notification email. No API keys needed.
+4. **Office address correction** (#137, CT1).
+5. **News follow block:** press contact email or drop the line (N2); other social channels, or LinkedIn only (N3).
+6. **NM120:** Stella-120 sensor-head power figure (F2); permission to state "NM120 sensor head outputs MIPI" (F3); internals photo (F4).
+7. **Logos and badges:** Leopard Imaging (SE5 = D4 = PA2), onsemi (PA3), award badges (AB2), final investor list and whether Hokuyo belongs (AB3).
+8. **Photos:** LI140 and ON140 kits (R4 = D3 = I7); kit family shots for Dev Kits and iToF (D1, I1); the "Your Application" open-prompt visual or approval to go text-only (A1).
+9. **Media**, with the leads from Simon's notes: Explorer bundle and poster (Gleb, S6); #125 optics graphic (P1); 1D/2D animation ("Ducky", P2); "How LCM fits" GIF and timing ("Robotics deck", L1); three-panel AMR video (Elyar, R2); cocoon graphic ("Automotive deck", AU2); 180° point cloud (Calvin & Sam, AU3); dust/rain images (Calvin, AU4); two illumination animations ("Older decks", T3); clean point-cloud renders (I3); warehouse point cloud and scan diagrams (Calvin, "LI deck", I5, I6); the analytics tool, content and name (S7).
+10. **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (N1 = H1); card images or approval to run without (N4); the first Events post (N5); replacement URLs for four dead source links or approval to remove them (N7).
+
+**Decide or confirm**
+- Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
+- Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). Kit rows on Robotics (R5) and the Dev Kits iToF row (D6) wait for the LI140/ON140 photos.
+- TX10 still versus the #129 animation (T2); the new HDR video also on dToF (F5); Google citation source (C6).
+- Heading tracking for Webvizio #138 (S18): band hero headlines moved from −0.055em to −0.03em to stop touching glyphs; close #138 only after review.
+- Contact: preselecting "I am interested in" is not possible from the page (S4); inquiry values (S5).
+- Smaller confirmations: H2, H3, H5, P4, P5, A3, SE7, SE9, I4, C3, C4, C7, F7, AB5, CU3, PA4, S9, S10, S12.
+
+## B. Our remaining work
+
+1. **Cross-browser and device QA** (S20): Safari, Edge, iOS Safari, Android Chrome. Include, in a real browser:
+   - in-page Vimeo playback of 1227505713 (`/applications`, `/connect`), 1235957120 (`/sense`), 1102359216 (`/dev-kits/dtof`) and 1040582713 (`/platform`) (S19, A4, SE10, F6);
+   - a manual or tool-based contrast review of hero and image-backed text (S26); our figures are a screenshot measure, not a sign-off;
+   - the new header behaviour (S16): label opens the page, arrow or hover opens the menu, keyboard Escape.
+2. **Contact form end-to-end** on staging once S3 is configured (S28).
+3. **PocketBase rate limit** (S27): implement the agreed option after Josh confirms the network layout (options and recommendation in the S27 row).
+4. **Platform swap-card band** re-check (P6).
+5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
+6. **`vite.config.ts`**: commit on its own or drop (S25).
+7. **Once inputs land:** P3/CT4 (Explorer), L2, I6, R2 layout, R3 with R4, D3 photos, AU2–AU4, T3, F2–F4 together, N6 follow block, LinkedIn wiring (S1).
+
+## C. Staging and release blockers (Josh + us)
+
+1. **PR #1** needs an approving review from someone other than the pusher; only `josh-scalestorm` can approve and merge (S21).
+2. **Ship pages 05–21**: after PR #1, rebase this branch onto `origin/main` as reviewable PRs, excluding `vite.config.ts` (S22).
+3. **Staging database backup** to dry-run every migration before deploy; most are guarded and silently no-op on edited content (S23).
+4. **Dokploy/GHCR secrets**, app IDs and `ORIGIN` for staging and production (S24).
+5. **PocketBase rate limit decision** before launch (S27).
+6. **Pipedrive configuration and one test submission** (S3, S28).
+7. **Privacy policy** page (S2) and **cross-browser QA** (S20).
 
 ## How this was checked
 
@@ -35,44 +82,48 @@ Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `
 | S8 | Application status labels "In production / In development / Active programs / Exploring" (Home, Applications) | Decision | Verify | They conflict with global rule 1 (no availability or roadmap). v3 reprints them unchanged. Publish as printed, or drop? Currently omitted. | Lumotive (Apurva) | Yes | PDF p05, p08; `1787709500` header |
 | S9 | No-contractions rule vs approved copy | Decision | Verify | Two approved strings contain contractions: Home eyebrow "What's new" (printed on PDF p05) and About mission "redefining what's possible" (KEEP AS IS). Keep, or reword? | Lumotive (Claudia) | No | CMS `home#e7b40d12`, `about#4e30aac9` |
 | S10 | Webvizio image tasks #123/#124, #126, #128, #130/#131, #152/#153 (PDF p04 "All/Various") | Decision | Verify | No handoff maps these to current pages, and the Webvizio screenshots are needed to judge them. List which are still open after the page rebuild. Do not close any task until the client verifies it on staging. | Us + Claudia | No | PDF p04 Image and Media table |
-| S11 | Meta description + social preview text (global rule 14) | Ours | Do | Add `seoDescription` (one sentence from the hero) and `seoTitle` to Home, Platform and Applications. Sense (`1787713100`) and Dev Kits (`1787713700`) are done; the other 11 records already have them. | Us | Yes | CMS `seoDescription` empty on those 3 |
+| S11 | Meta description + social preview text (global rule 14) | Ours | **Done 2026-10-21** | Home, Platform and Applications now carry their hero line as `seoDescription`; titles "Lumotive \| Programmable Optics", "LCM Technology", "Applications" (were "Home", "Platform", "Applications"). All 16 page records have a description. | Us | — | `1787715200` |
 | S12 | Social preview image | Decision | Verify | `ogImage` is null on all 16 pages and no `defaultOgImage` is set. Propose one default (or per-page hero) for approval. | Us → Claudia | No | `+layout.server.ts` l.41–46 |
-| S13 | `globals.seo` boilerplate | Ours | Do | Replace "Next.js and Payload starter" defaults and tagline with approved Home copy. `contactEmail: hello@example.com` needs a real address (reuse N2 if appropriate). Not rendered today, but editor-visible. | Us (+ Lumotive for email) | No | `globals.seo` |
-| S14 | `globals.code_injection` debug | Ours | Do | Remove `console.log('code injection: bodyEnd')` and the head comment before any deploy. | Us | No | `globals.code_injection`; `+layout.svelte` l.61 |
-| S15 | `sitemap.xml` | Ours | Do | Add `/news` (a route, not a page record, so it is never listed). | Us | No | `sitemap.xml/+server.ts` |
-| S16 | Top-level menu labels navigate on click (PDF p02) | Ours | Do | Header renders each label as `<details><summary>` with no link; desktop and mobile must open the URL on click while the arrow/hover opens the dropdown. | Us | Yes | `Header.svelte` l.53, l.119 |
-| S17 | Third-level nav rows 34px tall | Ours | Do | Raise to the 44px target. | Us | No | QA phase-1 notes |
-| S18 | Heading character spacing (#138, rule 15) | Ours | Verify | Re-audit every heading for glyph overlap at 390–1920 (heroes use −0.045em); close #138 only after client review. | Us | No | PDF p01 rule 15 |
-| S19 | Real-browser playback of all embeds | Ours | Verify | In-page playback is **unverified** for Vimeo 1227505713 (`/applications`, `/connect`), 1235957120 (`/sense`) and 1102359216 (`/dev-kits/dtof`; the direct player URL got the same screen on 2026-10-21). Embedded on the local headless site they showed Vimeo's "couldn't verify the security of your connection" screen; the cause is not established. Direct-player and outside-site checks do not count. Also untested in-page: 1053591397. 1040582713, 1174547871 and YouTube AcLAbtIxN64 (`/culture`, 2026-10-21) played in-page. | Us | No | Page 08, 09, 15 and 18 QA |
+| S13 | `globals.seo` boilerplate | Ours | **Done 2026-10-21** | Starter description, default meta description and tagline replaced with the approved Home hero line and heading; the `hello@example.com` placeholder cleared (real press contact is N2). Not rendered on pages. | Us | — | `1787715200` |
+| S14 | `globals.code_injection` debug | Ours | **Done 2026-10-21** | The `console.log` and the head comment are emptied; no page carries them. | Us | — | `1787715200` |
+| S15 | `sitemap.xml` | Ours | **Done 2026-10-21** | `/news` listed, lastmod = newest post update; 129 entries. | Us | — | `sitemap.xml/+server.ts` |
+| S16 | Top-level menu labels navigate on click (PDF p02) | Ours | **Done 2026-10-21** | Platform → /platform, Sense → /sense, Company → /about. Each group is a label link plus an arrow button (`aria-expanded`/`aria-controls`); desktop opens on hover or arrow, closes on leave, focus-out and Escape (focus returns to the arrow); mobile accordion arrow 44×44, label opens the page and closes the panel. Real-browser check under S20. | Us | — | `Header.svelte`, `app.css`, `1787715300` |
+| S17 | Third-level nav rows | Ours | **Done 2026-10-21** | Transmit modules / iToF / dToF rows 34 → 44px (desktop); mobile rows 54px. | Us | — | `Header.svelte` |
+| S18 | Heading character spacing (#138, rule 15) | Ours | Done; client review | Audit renders each adjacent glyph pair of every Oswald heading on all 17 pages at 390/768/1440/1920 and checks real ink overlap. Band hero headlines at −0.055em touched ("ra", "gn", "ta", "rt" on 10 pages); now −0.03em, which clears all but a 2px² "vy" sliver in "Heavy" (Automotive, ≥768). Remaining touches are "ff" at normal tracking, which is the typeface's own design. Some band headlines now wrap one line more (Sense from 768 up; Contact at 390). Close #138 only after Claudia reviews. | Us → Claudia | No | `HeroFullHeight.svelte` |
+| S19 | Real-browser playback of all embeds | Ours | Verify (in S20) | 2026-10-21 headless check: 1174547871 (`/applications`, `/dev-kits/itof`) and YouTube AcLAbtIxN64 (`/culture`) play in-page. 1227505713 (`/applications`, `/connect`), 1235957120 (`/sense`), 1102359216 (`/dev-kits/dtof`) and 1040582713 (`/platform`) load a blank player or Vimeo's "couldn't verify the security of your connection" screen. 1040582713 played in-page on an earlier day in the same setup, and oEmbed confirms all four exist and are public, so this reads as Vimeo's bot check on the headless session, not a site defect; a real-browser check is still required. 1053591397 is a link, not an embed. | Us | No | QA 2026-10-21 |
 | S20 | Cross-browser and device QA | Ours | Do | Safari, Edge and iOS Safari were never tested; only Chromium. Required before launch, and for the Explorer's iOS fallback decision. | Us | Yes | All handoffs |
 | S21 | PR #1 (Home to staging) | Tech | Verify | `main` ruleset needs an approving review from someone other than the pusher. Only `josh-scalestorm` can approve and merge. Current PR state cannot be read anonymously. | Josh | Yes | `page-05-home-staging-deploy.md` |
 | S22 | Ship pages 05–21 to staging | Ours | Do (after S21) | After PR #1, rebase the local branch's work onto `origin/main` as reviewable PRs. The PR #2 plan in `pr2-platform-lcm-chips-footer.md` is out of date (covers 06–07 + footer only). Exclude `vite.config.ts` unless committed on its own. | Us | Yes | `git log`; 50+ local commits |
 | S23 | Staging database vs migrations | Tech | Verify | Most migrations are guarded on prior values and silently no-op if staging content was edited. Need a recent staging `pb_data` backup to dry-run all migrations before deploy. | Josh + Us | Yes | Migration guard pattern |
 | S24 | Dokploy/GHCR secrets and variables | Tech | Verify | Confirm `DOKPLOY_URL`, `DOKPLOY_API_KEY`, `DOKPLOY_PB_APP_ID`, `DOKPLOY_WEB_APP_ID` and `ORIGIN` are set for staging and production. | Josh | Yes | `.github/workflows/publish.yml`, README |
 | S25 | Uncommitted Windows watcher fix | Ours | Do | Commit `vite.config.ts` on its own, or drop it. Never sweep it into a page commit. | Us | No | `git status` |
-| S26 | Hero text over photographs (all heroes) | Ours | Verify | Final contrast QA. Our hero figures are a screenshot measurement (text hidden; contrast against the 99th-percentile and the single brightest backdrop pixel under each line box), useful for comparing framings but **not a definitive accessibility pass**. Recheck with a manual or tool-based review in real browsers (S20), including video frames on Home. Known low spots: Transmit phone body brightest pixel 3.84–4.28:1; LCM Chips phone body 4.02:1 at 360 (client-requested band hero); at 768, Home video 3.85, Transmit 3.86, Culture 4.22, Contact 4.26 (brightest pixel). | Us | Yes | Phone heroes note below; page handoffs |
-| S27 | PocketBase rate limit vs server-side rendering | Tech | Verify | A rapid local crawl of `/posts/*` returned 500s; the server log showed PocketBase answering 429 Too Many Requests to the site's own SSR calls (globals `seo`, `code_injection`, post lookups). Every SvelteKit request reaches PocketBase from one server IP, so a traffic burst or crawler could trip the same limit in production. Check the staging/production PocketBase rate-limit rules (exempt or raise for the web container) before launch. All 112 posts answer 200 at a normal pace. | Josh + Us | Yes | `page-20-news.md` v3 QA |
+| S26 | Hero and image-backed text contrast | Ours | Fixed; manual recheck in S20 | All known low spots fixed with shade options only: new phone `mobileShade: max` (Home video, Transmit, LCM Chips, Applications, Automotive), About back to phone `strong`, new `tabletShade: strong` (768–1023: Home, Transmit, Culture, Contact). Sweep on real data: 15 photo heroes × 7 widths (360–1920) plus 29 Home video frames; every line ≥ 4.5:1 at the **brightest** backdrop pixel (body lowest 4.62), headings ≥ 3:1. Home bento photo cards were at 2.8:1 (title over the bright warehouse photo); overlay strengthened, now ≥ 5.65:1. All other image-backed text (closing CTAs, 34 blocks at 390/1440) ≥ 5.65:1. Screenshot measure, not an accessibility sign-off. | Us | Yes | `1787715400`; `HeroFullHeight.svelte`; `CardsPeelBento.svelte` |
+| S27 | PocketBase rate limit vs server-side rendering | Tech | Verify (decision) | **Cause:** `1700000250_platform_limits.js` enables PocketBase's rate limiter, which activates its default `/api/` rule: 300 requests per 10 s per client IP. Every page render makes 5–6 PocketBase calls (four globals plus the page or post lookups), all from the SvelteKit server's IP, so every visitor shares one budget of about 50–60 renders per 10 s. The local 500s were a crawl at ~36 pages/s (3,312 × 429 in the PB log). The guest rules (`editors:authWithPassword`, `form_submissions:create`) are likewise keyed on the server IP, so they are site-wide, not per visitor. **Options, not applied:** (1) cache the four globals in the SvelteKit server for ~60 s: 1–2 calls per render, editors see global edits within a minute; (2) exempt or raise the limit for the web container's address (`rateLimits.excludedIPs` or a dedicated rule) if PocketBase is reachable only through the web app; (3) forward the visitor IP (`X-Forwarded-For` from SvelteKit + `trustedProxy.headers` in PocketBase) so limits are per visitor again; only safe if PocketBase cannot be reached directly, otherwise the header can be spoofed. **Recommendation:** (1) now; (3) if staging/production PocketBase is internal-only. Josh to confirm the network layout and the staging settings. | Josh + Us | Yes | PB logs; `pb_data` settings; `+layout.server.ts` |
 | S28 | Contact form end-to-end | Ours | Do (after S3) | One real submission on staging, agreed with Lumotive and deleted afterwards, confirming the three values reach the CRM record and the notification email. Not run locally by design (no real notifications or CRM records). | Us + Lumotive | Yes | `page-21-contact.md` |
 
 ### Phone heroes (2026-10-21)
 
 Below 768px every image hero (band and Home's full-height video) now takes the compact form Sense introduced: no viewport minimum, 4rem above the eyebrow, 3.5rem below the last action, the section's own spacing dropped, wrapped actions 1rem apart. Heights follow the copy (328–581px at 360–430; Sense 413–473). `compactMobile` on heroes is gone (it is now the default); Sense, iToF and dToF render exactly as before. Tablet (768) and desktop (1024, 1440) geometry is identical before and after on every page. News (compact header) and LCM Chips (split hero) are untouched.
 
-Framing and shade per photo, migration `1787714900`, chosen so the subject stays in frame and, by our screenshot measurement (text hidden, 99th-percentile backdrop pixel under each line), every line measured at least 4.5:1 (3:1 headings) at 360/390/430, using the lighter standard shade wherever that held. This is a comparison measure, not an accessibility sign-off; see S26.
+Framing and shade per photo, migration `1787714900`, chosen so the subject stays in frame; the shades were tightened again by `1787715400` (S26) so every line holds 4.5:1 at the brightest backdrop pixel at 360–1920. A screenshot measure, not an accessibility sign-off.
 
 | Page | Phone framing | Shade |
 |---|---|---|
-| Home (video), Culture, iToF, dToF | unchanged | unchanged |
-| Platform, Applications, Automotive, Dev Kits | centre | strong (new) |
+| Home (video) | unchanged | max on phones, strong on tablets (`1787715400`) |
+| Culture | 100% on phones, 0% on tablets (page 18) | strong on phones (as before); strong on tablets (`1787715400`) |
+| iToF, dToF | unchanged | unchanged |
+| Platform, Dev Kits | centre | strong (new) |
+| Applications, Automotive | centre | max (`1787715400`; was strong) |
 | Sense | 100% (robot at the right) | strong (new) |
 | Robotics | 0% (AGV fleet) | strong (as before) |
-| Transmit | 65% (TX10 module) | strong (as before) |
+| Transmit | 65% (TX10 module) | max on phones, strong on tablets (`1787715400`) |
 | Connect | 0% (left beam fan) | standard |
-| About | 75% (optics and engineer) | standard (was strong) |
+| About | 75% (optics and engineer) | strong (`1787715400`; standard after the phone pass) |
 | Partners | centre (LCM module; was 100% for the old light-burst image, changed by `1787715000`) | standard |
-| Contact | 25% (building at the right edge) | strong (new) |
+| Contact | 25% (building at the right edge) | strong; strong on tablets (`1787715400`) |
+| LCM Chips (client-requested band hero) | 15% | max (`1787715400`; was strong) |
 
-Open for final QA (S26): Transmit body's single brightest pixel is 3.84–4.28:1 across 360–430 (99th percentile ≥ 5.00; white photo backdrop; best of 12 framings, was 3.30–3.73). At 768 (unchanged) four heroes have brightest-pixel lows under 4.5:1 with the 99th percentile ≥ 4.57: Home video 3.85, Transmit 3.86, Culture 4.22, Contact 4.26.
+The low spots previously listed here (Transmit, LCM Chips, and the 768 lows on Home, Transmit, Culture, Contact) are fixed; see S26.
 
 ## Page 05 — Home `/`
 
@@ -83,8 +134,8 @@ Open for final QA (S26): Transmit body's single brightest pixel is 3.84–4.28:1
 | H3 | Hero | Decision | Verify | Simon linked Vimeo 1040214357 at the hero, but the printed note says keep the existing video. Kept. Confirm. | Lumotive (Simon) | No | p05 A1 |
 | H4 | Application tiles | Decision | Verify | Status labels; see S8. | Lumotive | Yes | PDF p05 |
 | H5 | Investor strip heading | Decision | Verify | PDF prints "Gates Frontier, Amazon, and Samsung Ventures"; live (KEEP AS IS) has no serial comma. | Claudia | No | `home#7fa60e69` |
-| H6 | Accessibility carry-over (QA C4) | Ours | Do | `.posts-link` "All news →" has no minimum height (about 25px); `LogosMarquee` lacks `data-align`; re-measure the 6 contrast failures recorded earlier. | Us | No | `PostsFeatured.svelte` l.113; `LogosMarquee.svelte` |
-| H7 | Meta | Ours | Do | See S11. | Us | Yes | — |
+| H6 | Accessibility carry-over (QA C4) | Ours | **Done 2026-10-21** | "All news →" and "See all applications →" are 44px tall; the six contrast failures re-measured and fixed with the existing text-safe tokens: eyebrows and section links Deep Laser Blue, accent eyebrows/links Signal Green Text / Optical Amber Text (were 4.15, 3.19, 1.82:1). Bento photo-card titles fixed under S26. `LogosMarquee` now honours `data-align`; Home's marquee is full-bleed with a centred heading, so its data is left unaligned on purpose. | Us | — | `PostsFeatured`, `CardsPeelBento`, `CardsPeelScene`, `LogosMarquee` |
+| H7 | Meta | Ours | **Done** | See S11. | Us | — | `1787715200` |
 
 ## Page 06 — Platform `/platform`
 
@@ -96,7 +147,7 @@ Open for final QA (S26): Transmit body's single brightest pixel is 3.84–4.28:1
 | P4 | Hero | Decision | Verify | Simon linked Vimeo 1040214357; printed "KEEP AS IS · Existing hero image" was kept. Confirm. | Lumotive (Simon) | No | p06 A2 |
 | P5 | Dynamic Scanning body | Decision | Verify | Held clause cut to "Optical beamforming with Lumotive LCMs lights the way…" under the v3 naming rule. Confirm wording. | Claudia | No | `1787712800` |
 | P6 | Swap-card band (QA M1) | Ours | Verify | Re-check the ~100px band where both swap cards sat under 0.5 opacity; fix if still present. | Us | No | QA phase-1 M1 |
-| P7 | Meta | Ours | Do | See S11. | Us | Yes | — |
+| P7 | Meta | Ours | **Done** | See S11. | Us | — | `1787715200` |
 
 ## Page 07 — LCM Chips `/lcm-chips`
 
@@ -114,8 +165,8 @@ Client-requested change (2026-10-21, not in v3): the hero is now a full-width ba
 | A1 | One Platform, Many Applications — "Your Application" card | Asset | Missing | "Image: open prompt" has no link. Supply it, or approve the text-only card (its title sits higher than its photographed neighbours on desktop). | Lumotive | No | PDF p08 |
 | A2 | Same grid | Decision | Verify | Status labels; see S8. | Lumotive | Yes | — |
 | A3 | Same grid — 3D Sensing, Defense photos | Decision | Verify | Simon's photos (warehouse AMRs; quadruped robot with soldiers) differ from the printed descriptions (quadruped + delivery robot; drones and vessel). Applied as linked. Confirm. | Lumotive (Simon) | No | p08 A1, A3 |
-| A4 | Programmable Optics in Motion | Ours | Verify | Confirm in-page playback of Connect video 1227505713; see S19. | Us | No | — |
-| A5 | Meta | Ours | Do | See S11. | Us | Yes | — |
+| A4 | Programmable Optics in Motion | Ours | Verify (in S20) | In-page playback of 1227505713; see S19. | Us | No | — |
+| A5 | Meta | Ours | **Done** | See S11. | Us | — | `1787715200` |
 
 ## Page 09 — Sense `/sense` (v3 pass done 2026-10-20, commit below)
 
@@ -125,7 +176,7 @@ Client-requested change (2026-10-21, not in v3): the hero is now a full-width ba
 | SE6 | Same | Decision | Verify | `/partners` already ships this strip with 3 of 4 logos. Build it on `/sense` and `/dev-kits` the same way now, or wait for Leopard? | Claudia | Yes | `partners#c5fe1eab` |
 | SE7 | Page placement | Decision | Verify | PDF p08 says three Applications sections move "to Sense"; PDF p09 shows none of them. Not added; copy preserved in `1787709500` down path. Confirm. | Lumotive (Apurva) | No | `page-09-sense.md` "Open question" |
 | SE9 | The Problem intro; closing CTA body | Decision | Verify | Both are KEEP AS IS, but the PDF prints different wording ("…efficiency today's autonomous machines need."; "(field of view, range, form factor) … point you to"). Staging text kept. Switch to printed text? | Claudia | No | `page-09-sense.md` Blockers 3 |
-| SE10 | HDR video in-page | Ours | Verify | **Pending.** Confirm 1235957120 plays inside `/sense` in a normal browser. Unverified; the cause of the local Vimeo connection screen is not established. Part of S19. | Us | No | page-09 v3 QA |
+| SE10 | HDR video in-page | Ours | Verify (in S20) | Confirm 1235957120 plays inside `/sense` in a real browser; see S19. | Us | No | page-09 v3 QA |
 
 Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video placed in a 21:9 frame (in-page playback still pending, SE10), SE3 application photos, SE4 (the "Robotaxi" file is an aerial traffic scene that fits "intersection"), SE8 meta description.
 
@@ -202,7 +253,7 @@ Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1
 | F3 | NM120 spec tile INTERFACE + "Modular by Design" | Decision | Missing | Confirm "NM120 sensor head outputs MIPI" may be stated publicly; the tile and whole section rest on it. | Lumotive | Yes | PDF p04, p15 |
 | F4 | Modular by Design | Asset | Missing | NM120 internals photo, enclosure removed, head and compute board separate. | Lumotive | Yes | PDF p15 |
 | F5 | HDR Without Losing Frame Rate | Decision | Verify | Simon: "Check with Elyar for new HDR demo". The new "Lumotive HDR" Vimeo 1235957120 (2026-10-14) annotated on page 09 matches the printed description. Confirm it serves both pages. | Lumotive (Elyar) | Yes | p15 A3; p09 A6 |
-| F6 | Track Fast-Moving Objects | Ours | Verify | Content confirmed: the Vimeo thumbnail of 1102359216 shows the basketball dribble at 90°/10 fps, 40°/22 fps and 10°/80 fps, as the copy says, despite the oEmbed title "Lumotive LCM Viewing Angle Demonstration". Remaining: in-page playback. Embedded and on the direct player URL, the headless session got Vimeo's security screen; cause not established. Part of S19. | Us | No | p15 v3 QA |
+| F6 | Track Fast-Moving Objects | Ours | Verify (in S20) | Content confirmed from the Vimeo thumbnail of 1102359216 (basketball at 90°/10 fps, 40°/22 fps, 10°/80 fps). Remaining: in-page playback in a real browser; see S19. | Us | No | p15 v3 QA |
 | F7 | Outdoor application row (#160) | Asset | Verify | Icons for five use cases: supply, or approve the accent-ruled text cards. | Lumotive | No | `page-15` handoff |
 
 Resolved on this page by `1787714400`: F1, Simon's IMG_0031 (NM120 with heatsink) is the hero as `hero-nm120-heatsink.webp`, whole and right of the copy from 1024px, whole at 768px, a full-band backdrop on phones (new `mediaAnchor`, plus the page-14 phone options). A2 "NM120 enclosed unit" now uses the transparent original (`nm120-sensor.webp`, from the existing `nm120-module.png`) on the approved panel frame. Copy verified verbatim against v3; pending tiles and "Modular by Design" still held.
@@ -278,59 +329,12 @@ v3 pass 2026-10-21: empty v2→v3 diff, no Simon annotations, no content change.
 
 ---
 
-## By status
-
-**Confirmed missing — client must supply:** S2 privacy policy · S3 Pipedrive hidden-field setup · S6 Explorer bundle + poster · S7 analytics tool + name · P1 #125 graphic · P2 1D/2D animation · L1 "How LCM fits" animation + timing · A1 "open prompt" visual · SE5 Leopard logo · R2 three-panel AMR video · R4 LI140 + ON140 photos · AU2 cocoon graphic · AU3 180° point cloud/video · AU4 dust/rain images · D1 kit family photo · T3 two illumination animations · I1 iToF family photo · I3 clean point-cloud renders · I5 warehouse point cloud · I6 scan diagrams · F2 Stella-120 power · F3 MIPI permission · F4 NM120 internals photo · AB2 award badges · PA3 onsemi logo · N1 four News posts · N2 press email · N3 social channels · N5 first Events post · CT1 office address.
-(Several share one delivery: R4 = D3 = I7; SE5 = D4 = PA2; S1 is one URL.)
-
-**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 preselect · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · S26 hero contrast QA · S27 PocketBase rate limit · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB3 investors · AB5 · AB6 hero framing · CU1 hero source · CU3 · PA1 hero framing · PA4 · N4 · N7 dead source links.
-
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6. Follow-on once inputs land: S28 form test (after S3), P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–21 are done.)
-
-## One request for Claudia and Josh
-
-**Josh (repository and deployment)**
-1. Approve and merge PR #1, which needs a reviewer other than the pusher (S21).
-2. Send a recent staging `pb_data` backup so all migrations can be dry-run before deploy (S23).
-3. Confirm the Dokploy/GHCR secrets, app IDs and `ORIGIN` for staging and production (S24).
-4. Get the Pipedrive form configured: three Hidden fields reading the JavaScript variables `inquiry`, `source_page`, `campaign`, plus the notification email (S3); then agree one staging test submission (S28).
-
-**Claudia — supply (route to the named people)**
-1. LinkedIn company URL (S1); press email or drop the line (N2); other social channels, or LinkedIn only (N3).
-2. Privacy policy text, or approval to port lumotive.com's (S2).
-3. Correct office address (#137, CT1).
-4. Stella-120 sensor-head power figure and permission to state "NM120 sensor head outputs MIPI" (F2, F3); NM120 internals photo (F4).
-5. Logos: Leopard Imaging (SE5/PA2) and onsemi (PA3). Award badges (AB2). Final investor list, and whether Hokuyo belongs (AB3).
-6. Photos: LI140 and ON140 kits (R4); kit family shots for Dev Kits and iToF (D1, I1); "Your Application" open-prompt visual or approval to go text-only (A1).
-7. Media, with the leads from Simon's notes:
-   - Explorer bundle and poster (Gleb, S6).
-   - #125 optics graphic (P1).
-   - 1D/2D animation ("Ducky", P2).
-   - "How LCM fits" GIF and timing ("Robotics deck", L1).
-   - Three-panel AMR video (Elyar, R2).
-   - Cocoon graphic ("Automotive deck", AU2).
-   - 180° point cloud (Calvin & Sam, AU3).
-   - Dust/rain images (Calvin, AU4).
-   - Two illumination animations ("Older decks", T3).
-   - Clean point-cloud renders (I3).
-   - Warehouse point cloud and scan diagrams (Calvin, "LI deck", I5, I6).
-8. News: the Leopard, LI140/ON140 and VISION 2026 posts (N1); card-image decisions (N4); first Events post (N5).
-9. Analytics tool, its content and final name (S7).
-
-**Claudia — decide or confirm**
-- Status labels: publish or drop (S8).
-- Ship the provider strip partially now, or wait for Leopard (SE6, D4). Kit rows: Robotics (R5) and the Dev Kits iToF row (D6) both wait for the LI140/ON140 photos.
-- Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), and the Culture source, IMG_4516 vs lumotive.com's IMG_4575 (CU1).
-- The TX10 still versus the #129 animation (T2).
-- The new HDR video also on dToF (F5).
-- Google citation source (C6).
-- Smaller confirmations: H2, H3, H5, P4, P5, A3, SE7, SE9, I4, C4, C7, F7, AB5, CU3, PA4, S4, S5, S9, S10, S12.
-
 ## Resolved — removed from earlier lists
 
 | Item (earlier list) | Resolution | Evidence |
 |---|---|---|
 | Platform LM10 photo; LCM Chips hero, LM10/LS20 column photos | Supplied by Simon and integrated | `1787712800`, `1787712900` |
+| Release cleanup S11, S13–S18, H6; hero and image-backed contrast S26 (2026-10-21) | Done; see each row. S18 and S26 still get a client or real-browser look before they are closed | `1787715200`–`1787715400`; Header, HeroFullHeight, PostsFeatured, CardsPeelBento, CardsPeelScene, LogosMarquee, sitemap |
 | Applications card images (5 of 8 "missing"); AMR video confirmation | 7 photos integrated; AMR animation confirmed by frames | `1787713000` |
 | Platform Vimeo 1040582713 playback | Played in-page in a real Chromium session | page-06 handoff |
 | Sense HDR demo visual | Vimeo 1235957120 "Lumotive HDR" supplied and embedded (21:9) | p09 A6; `1787713100` |

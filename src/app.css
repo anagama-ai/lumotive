@@ -133,13 +133,18 @@ img, video { display: block; max-width: 100%; }
 .site-logo { display: inline-flex; min-height: 2.75rem; flex: none; align-items: center; justify-content: center; text-decoration: none; }
 .site-logo img { width: auto; height: 1.55rem; }
 .desktop-nav { display: flex; align-items: center; gap: .25rem; }
-.desktop-nav > a, .nav-group > summary { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .65rem .8rem; color: var(--color-ink); font-size: .82rem; font-weight: 500; text-decoration: none; list-style: none; transition: color 160ms ease, background 160ms ease; }
-.desktop-nav > a:hover, .nav-group > summary:hover { color: var(--color-primary); }
-.nav-group { position: relative; }
-.nav-group > summary::-webkit-details-marker { display: none; }
-.nav-group > summary::after { content: ''; width: .4rem; height: .4rem; margin: -.2rem 0 0 .55rem; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg); }
+.desktop-nav > a, .nav-label { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .65rem .8rem; color: var(--color-ink); font-size: .82rem; font-weight: 500; text-decoration: none; transition: color 160ms ease, background 160ms ease; }
+.desktop-nav > a:hover, a.nav-label:hover { color: var(--color-primary); }
+/* A group is its label link plus a separate arrow button (page 02: the label
+   goes to its page; the arrow, or hover, opens the dropdown). The two read as
+   one item, with the arrow where the summary chevron used to sit. */
+.nav-group { position: relative; display: inline-flex; align-items: center; }
+.nav-group .nav-label { padding-right: .1rem; }
+.nav-toggle { display: inline-flex; min-height: 2.75rem; align-items: center; padding: 0 .8rem 0 .45rem; border: 0; background: none; color: var(--color-ink); cursor: pointer; transition: color 160ms ease; }
+.nav-toggle:hover, .nav-group.open .nav-toggle { color: var(--color-primary); }
+.nav-toggle::after { content: ''; width: .4rem; height: .4rem; margin-top: -.2rem; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg); }
 .nav-popover { position: absolute; top: calc(100% + .4rem); left: 50%; width: min(22rem, 90vw); margin: 0; padding: .65rem; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); transform: translateX(-50%); }
-/* The popover sits .4rem below the summary; without this bridge the pointer
+/* The popover sits .4rem below the label; without this bridge the pointer
    leaves .nav-group in that gap and the menu closes on the way down. */
 .nav-popover::before { content: ''; position: absolute; right: 0; bottom: 100%; left: 0; height: .4rem; }
 .nav-popover a { display: block; padding: .8rem; border-radius: .55rem; color: var(--color-ink); font-size: .84rem; text-decoration: none; }
@@ -157,12 +162,14 @@ img, video { display: block; max-width: 100%; }
 .mobile-nav[open] > summary::after { transform: translate(-50%, -50%) rotate(-45deg); }
 .mobile-panel { position: absolute; top: 100%; right: 0; left: 0; display: flex; flex-direction: column; height: calc(100dvh - 4.5rem); overflow: auto; padding: 1.25rem max(1rem, calc((100vw - var(--container-nav)) / 2)) 1.5rem; background: var(--color-surface); animation: drawer-in 360ms cubic-bezier(.2, .8, .2, 1) both; }
 .mobile-panel > * { animation: drawer-item 480ms cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(60ms + var(--i, 0) * 40ms); }
-.mobile-panel a, .mobile-panel summary { display: block; padding: .85rem; color: var(--color-ink); font-size: 1.15rem; font-weight: 500; text-decoration: none; list-style: none; }
-.mobile-panel summary { display: flex; align-items: center; justify-content: space-between; }
-.mobile-panel summary::-webkit-details-marker { display: none; }
-.mobile-panel summary::after { content: ''; width: .55rem; height: .55rem; margin-right: .25rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform 200ms ease; }
-.mobile-panel details[open] > summary::after { transform: rotate(225deg); }
-.mobile-panel details > div, .mobile-panel details > div > div { padding-left: 1rem; }
+.mobile-panel a, .mobile-group-row > span { display: block; padding: .85rem; color: var(--color-ink); font-size: 1.15rem; font-weight: 500; text-decoration: none; }
+.mobile-group-row { display: flex; align-items: center; justify-content: space-between; }
+.mobile-group-row > a, .mobile-group-row > span { flex: 1; }
+.mobile-toggle { display: grid; width: 2.75rem; height: 2.75rem; flex: none; place-items: center; border: 0; background: none; color: var(--color-ink); cursor: pointer; }
+.mobile-toggle::after { content: ''; width: .55rem; height: .55rem; margin-top: -.2rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform 200ms ease; }
+.mobile-toggle[aria-expanded='true']::after { margin-top: .2rem; transform: rotate(225deg); }
+.mobile-group-links, .mobile-group-links > div { padding-left: 1rem; }
+@media (prefers-reduced-motion: reduce) { .mobile-toggle::after { transition: none; } }
 .mobile-panel .header-button { position: sticky; bottom: 0; display: flex; min-height: 3.75rem; margin-top: auto; padding: 1.1rem; color: #fff; font-size: 1.2rem; box-shadow: 0 -1rem 1.5rem var(--color-surface); }
 .mobile-panel > :nth-last-child(2) { margin-bottom: 1.5rem; }
 @keyframes drawer-in { from { opacity: 0; transform: translateY(-1rem); } to { opacity: 1; transform: none; } }

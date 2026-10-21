@@ -32,6 +32,13 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 		})
 	]);
 
+	// /news is a route, not a page record, so it is listed by hand; it changes
+	// whenever a post does, so its lastmod is the newest post update.
+	const newsUpdated = posts.reduce((latest, post) => {
+		const value = lastModified(post.updated);
+		return value > latest ? value : latest;
+	}, '');
+
 	const entries = [
 		...pages.map((page) => {
 			const path = String(page.path || page.slug || '');
@@ -39,6 +46,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 				path === 'home' ? '/' : `/${path.split('/').map(encodeURIComponent).join('/')}`;
 			return { location: new URL(pathname, url.origin).href, updated: lastModified(page.updated) };
 		}),
+		{ location: new URL('/news', url.origin).href, updated: newsUpdated },
 		...posts.map((post) => ({
 			location: new URL(`/posts/${encodeURIComponent(String(post.slug ?? ''))}`, url.origin).href,
 			updated: lastModified(post.updated)

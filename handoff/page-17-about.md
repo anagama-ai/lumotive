@@ -35,6 +35,8 @@ shirt with the standard shade. No component change.
 `1787714900`):** with the compact phone hero the standard shade holds, so
 About now uses it with `mobileMediaPosition: 75%` (optics and engineer in
 frame); body 4.87–5.43:1 at the 99th percentile, brightest pixel ≥ 4.47:1.
+Then S26 (`1787715400`): the phone `strong` shade is back, so the brightest
+backdrop pixel under the body also clears 4.5:1 (≥ 5.07:1); framing stays at 75%.
 
 ### v3 QA
 

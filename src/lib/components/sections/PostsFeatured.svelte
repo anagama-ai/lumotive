@@ -13,7 +13,9 @@
 
 	// Accents cycle so the three teasers read as a set, matching the other
 	// card grids on the page.
-	const TONES = ['text-brand-blue', 'text-brand-green', 'text-brand-amber'];
+	// Text-safe variants (Deep Laser Blue, Signal Green Text, Optical Amber
+	// Text): the bright accents measure 4.15, 3.19 and 1.82:1 as 12px text.
+	const TONES = ['text-brand-blue-dark', 'text-brand-green-text', 'text-brand-amber-text'];
 
 	let linkLabel = $derived(String(section.linkLabel ?? '').trim());
 	let linkUrl = $derived(String(section.linkUrl ?? '').trim());
@@ -42,7 +44,7 @@
 				<Reveal>
 					<div class="posts-head max-w-4xl">
 						{#if section.eyebrow}
-							<p class="text-eyebrow text-brand-blue mb-4 uppercase">{String(section.eyebrow)}</p>
+							<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>
 						{/if}
 						{#if section.heading}
 							<h2 class="font-display text-statement text-ink">
@@ -112,9 +114,11 @@
 	   action is coloured the same scoped way the other section links are. */
 	.posts-link {
 		display: inline-flex;
+		min-height: 2.75rem;
+		align-items: center;
 		gap: .5rem;
 		margin-top: 2.5rem;
-		color: var(--color-brand-blue);
+		color: var(--color-brand-blue-dark);
 		font-weight: 650;
 		text-decoration: none;
 	}

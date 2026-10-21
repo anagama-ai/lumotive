@@ -34,10 +34,13 @@
 		const value = String(section.mediaAnchor ?? '').trim();
 		return /^\d{1,3}(\.\d+)?%$/.test(value) ? value : '';
 	});
-	// Opt-in, phones only (<768px): a heavier shade for a bright photograph
-	// that would otherwise put the body copy under 4.5:1 once the copy spans
-	// the full width. Desktop and tablet keep the standard shade.
-	let strongMobileShade = $derived(section.mobileShade === 'strong');
+	// Opt-in shades for photographs (or video frames) bright enough to put the
+	// copy under 4.5:1. Phones (<768px), where the copy spans the full width:
+	// `mobileShade: strong`, or `max` for white-backed or bright-frame media,
+	// which also darkens the right-hand end of the gradient. Tablets
+	// (768-1023px): `tabletShade: strong`. Desktop keeps the standard shade.
+	let mobileShade = $derived(section.mobileShade === 'strong' || section.mobileShade === 'max' ? section.mobileShade : '');
+	let strongTabletShade = $derived(section.tabletShade === 'strong');
 	// Opt-in, phones only (<768px): reframe the media layer for the narrow
 	// band. `mobileMediaScale` enlarges it about its centre, so a product
 	// photograph's white margins fall outside the band instead of showing as
@@ -70,7 +73,9 @@
 <section
 	class="lumo-section hero-shell bg-panel relative isolate z-50 flex items-end overflow-hidden"
 	class:band
-	class:strong-mobile-shade={strongMobileShade}
+	class:strong-mobile-shade={mobileShade === 'strong'}
+	class:max-mobile-shade={mobileShade === 'max'}
+	class:strong-tablet-shade={strongTabletShade}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
 	data-width={section.width ?? 'contained'}
@@ -145,6 +150,10 @@
 	.hero-shell.band { min-height: clamp(32rem, 68svh, 47rem); }
 	@media (max-width: 767px) {
 		.strong-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
+		.max-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 92%) 60%, rgb(5 40 100 / 80%)); }
+	}
+	@media (min-width: 768px) and (max-width: 1023px) {
+		.strong-tablet-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
 	}
 	.hero-media.anchored > img,
 	.hero-media.anchored > video { object-position: var(--hero-media-anchor) 50%; }
@@ -169,7 +178,11 @@
 	.hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 20%, rgb(4 13 31 / 76%) 55%, rgb(6 101 214 / 40%)); }
 	.hero-copy { padding-block: clamp(4rem, 9vw, 7rem); }
 	.hero-copy h1 { max-width: 13ch; margin: 0; letter-spacing: -.055em; line-height: .9; text-transform: uppercase; text-wrap: balance; }
-	.band .hero-copy h1 { max-width: 18ch; text-transform: none; }
+	/* Webvizio #138 / rule 15: at -.055em mixed-case Oswald glyphs touch
+	   ("ra", "gn", "ta", "rt"; measured by rendering each adjacent pair).
+	   -.03em clears every pair but "vy", which keeps a 2px² sliver at 88px.
+	   The uppercase full-height heading above has no colliding pairs. */
+	.band .hero-copy h1 { max-width: 18ch; letter-spacing: -.03em; text-transform: none; }
 	/* 13ch is a two-line measure: it breaks "Programmable Optics" even where the
 	   column has room. From the tablet breakpoint up the heading gets a measure
 	   wide enough to set on one line; below it the original wrap is unchanged.
