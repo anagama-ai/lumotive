@@ -33,3 +33,33 @@ The reversible migration adds these three `media` URL values only if the respect
 Desktop 1440 and mobile 390 browser passes: the H1 and approved hero image rendered; LM10 and LS20 photos appeared above the correct comparison columns/cards; the desktop comparison had 11 rows, and each mobile card had 11 rows; no horizontal overflow or broken visible images. The “Raise…” sentence was read from the DOM and its position measured after the Decoupling table and before the next section. Both hero CTA endpoints, `/platform`, and all three dev-kit destinations returned 200. `HEAD /lm10` returned **308** with `Location: /lcm-chips`. This is a Chromium check, not a Safari/Edge/iOS claim.
 
 Migration applied to the local PocketBase database; only the `lcm-chips` page record differed from the pre-migration snapshot (`.local/lcm-v3-pre-migration.db`). Rollback restored every page record exactly to that snapshot; reapply again changed only `lcm-chips`, so Home and Platform v3 content is preserved. `npm run check`: 592 files, 0 errors, 0 warnings. `npm run build`: passed with the dev watcher stopped. No source asset remains missing for the hero or either comparison column; the animation/timeline integration is the page-07 outstanding work.
+
+## Client-requested layout change: full-width hero (2026-10-21)
+
+**Requested by the client on 2026-10-21; not part of the v3 package**, which
+shows the chip photo beside the copy. Migration
+`1787715100_lcm_chips_band_hero.js` (reversible, guarded) turns hero
+`b7c41d08` from `heroSplit` into the shared `heroBand`. No component change.
+
+- **Unchanged:** the chip-in-hand photo (`platform-ls20.webp`), eyebrow,
+  heading, body, "Talk to our team" → `/contact?inquiry=lcm-chips` and
+  "Request the LM10 and LS20 flyer" → `/contact?inquiry=chips-flyer`.
+- **Overlay and phone spacing:** the existing band overlay; phones get the
+  compact, content-driven hero shared by every band (no fixed height:
+  501 / 501 / 462px at 360 / 390 / 430).
+- **Framing:** from 1024px `mediaScale` 1.6 + `mediaShift` 25% put the chip
+  at about 72% of the band, right of the copy (the shift stays inside the
+  scaled photo's overhang, so no backdrop strip shows); tablets keep the
+  photo's left edge (`mediaAnchor` 0%), chip above and right of the heading;
+  phones `mobileMediaPosition` 15% with the existing phone-only strong shade,
+  chip in the right third beside the headline.
+- **Checks, 360 / 390 / 430 / 768 / 1024 / 1440 / 1920:** no overflow, no
+  text outside the band, both actions ≥ 44px. Screenshot contrast measure
+  (text hidden; 99th percentile / brightest backdrop pixel): body
+  6.09/4.02 (360), 6.11/4.53 (390), 7.35/6.22 (430), ≥ 8.92/7.86 from 768;
+  headline ≥ 9.94, eyebrow ≥ 10.59. Not an accessibility sign-off (S26); the
+  360px body low (4.02, where the finger edge meets the line ends) joins the
+  S26 list.
+- **Revert:** `migrate down` restores the split hero byte-identically.
+
+
