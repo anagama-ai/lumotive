@@ -34,7 +34,7 @@ All actions are pages or contact requests (`kit-recommendation`, `md180`); there
 **Image decision by row.** Page 12's own specification prints a photo on every kit card, so the Robotics text-only decision was not copied over:
 - **Transmit modules (TX10):** complete, so it has its photo.
 - **dToF (NM120, MD180):** complete, so both have photos.
-- **iToF (ON140, LI140, M30): text-only, flagged for review (D6).** Only M30 is supplied. One photo beside two bare cards would break the row (it is 1 → 2 → 3 columns), so all three stay text-only for now. If you prefer, M30 can ship now as a one-field change, with the ON140/LI140 cards keeping no panel until their photos arrive.
+- **iToF (ON140, LI140, M30): text-only — temporary layout decision (D6, 2026-10-21).** Only M30 is supplied. All three iToF cards stay text-only until the ON140 and LI140 photos arrive; then all three go on the grey panel together. The M30 photo (A2) is held, not lost.
 
 **Meta.** `seoDescription` now carries the hero sentence (global rule 14), so page 12 drops out of S11.
 
@@ -135,7 +135,7 @@ Both restored verbatim by the down path.
    - The existing "≡ PHOTONICS" mark carries no "e-Photonics" spelling (checked on page 19), so it is now a confirmation (PA4).
    - **Decision SE6/D4:** ship the strip now with 3 of 4 logos, as `/partners` already does, or wait for Leopard?
    - Webvizio #121/#122 stay open.
-2. **iToF kit photos (D3/D6).** ON140 and LI140 photos are not supplied. M30 is supplied but held, pending the image-treatment decision above.
+2. **iToF kit photos (D3).** ON140 and LI140 photos are not supplied. M30 is supplied and held under the D6 decision (above) until the other two arrive.
 3. **Hero kit family photo (D1).** Not annotated or supplied. The incumbent bench photograph `hero-devkits.jpg` stays; the PDF's grey box reads "Kit family photo".
 
 Resolved by v3:

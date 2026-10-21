@@ -138,7 +138,7 @@ Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` 
 |---|---|---|---|---|---|---|---|
 | D1 | Hero | Asset | Missing | Kit family photo; not annotated. The incumbent bench photo stays meanwhile. | Lumotive | No | PDF p12 |
 | D3 | Find Your Dev Kit · iToF | Asset | Missing | ON140 and LI140 photos (same delivery as R4/I7). | Lumotive | Yes | PDF p12 |
-| D6 | Find Your Dev Kit · iToF | Decision | Verify | Image treatment for the iToF row. Only M30 is supplied (A2), so the row stays text-only for now. Ship M30's photo alone on the grey panel now, or wait for ON140/LI140? (Robotics' R5 decision was to wait; page 12 prints a photo on every kit card.) | Claudia | No | `page-12-dev-kits.md` |
+| D6 | Find Your Dev Kit · iToF | Decision | Decided (temporary) | Review decision 2026-10-21: all three iToF cards stay text-only until ON140/LI140 photos arrive; then add all three (M30 from A2) on the grey panel. Revisit only if those photos stay unavailable. | Us (decided) | No | `page-12-dev-kits.md` |
 | D4 | Module and Solution Providers | Asset/Decision | Missing | Not built here. See SE5 (Leopard logo) and SE6 (ship 3 of 4 now?). | Lumotive / Claudia | Yes | PDF p12 |
 
 Resolved on this page by `1787713700`:
@@ -146,13 +146,14 @@ Resolved on this page by `1787713700`:
 - D5: meta description from the hero.
 - Copy verified verbatim against v3.
 
-## Page 13 — Transmit Modules `/dev-kits/transmit-modules`
+## Page 13 — Transmit Modules `/dev-kits/transmit-modules` (v3 pass done 2026-10-21)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| T1 | Hero | Ours | Do | Simon linked [IMG_5619](https://lumotive.com/wp-content/uploads/2026/05/IMG_5619-1-copy-2.png) (TX10 held in hand) at the hero; replaces `tx10-hero.jpg`. | Us | Yes | p13 A1 |
-| T2 | Hero — #129 | Decision | Verify | #129 asks for an *animation* with Tx optics labelled; Simon supplied a still. Is the still the answer (close #129), or is the animation still wanted? | Lumotive (Simon) | Yes | PDF p13, p04 |
-| T3 | Programmable Illumination for a Dynamic World | Asset | Missing | Two animations: flood illumination; non-sequential ROI pulses with a sharpening point cloud. Simon: "Older decks" (lead). | Lumotive | Yes | p13 A2 |
+| T2 | Hero — #129 | Decision | Verify | #129 asks for an *animation* labelling the Tx optics. Simon supplied a still (TX10 in hand), now live. Does the still close #129, or is the animation still wanted? #129 stays open until decided. | Lumotive (Simon) | Yes | PDF p13, p04 |
+| T3 | Programmable Illumination for a Dynamic World | Asset | Missing | Two animations: flood illumination; non-sequential ROI pulses with a sharpening point cloud. Simon: "Older decks", a lead only; nothing matching in the repo. Section ships its approved copy and five cards. | Lumotive | Yes | p13 A2 |
+
+Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp` (A1) with the phone-only strong shade so the body text clears 4.5:1. Copy verified verbatim against v3.
 
 ## Page 14 — iToF Dev Kits `/dev-kits/itof`
 
@@ -245,9 +246,9 @@ Resolved on this page by `1787713700`:
 **Confirmed missing — client must supply:** S2 privacy policy · S3 Pipedrive keys · S6 Explorer bundle + poster · S7 analytics tool + name · P1 #125 graphic · P2 1D/2D animation · L1 "How LCM fits" animation + timing · A1 "open prompt" visual · SE5 Leopard logo · R2 three-panel AMR video · R4 LI140 + ON140 photos · AU2 cocoon graphic · AU3 180° point cloud/video · AU4 dust/rain images · D1 kit family photo · T3 two illumination animations · I1 iToF family photo · I3 clean point-cloud renders · I5 warehouse point cloud · I6 scan diagrams · F2 Stella-120 power · F3 MIPI permission · F4 NM120 internals photo · AB2 award badges · PA3 onsemi logo · N1 four News posts · N2 press email · N3 social channels · N5 first Events post · CT1 office address.
 (Several share one delivery: R4 = D3 = I7; SE5 = D4 = PA2; S1 is one URL.)
 
-**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · D6 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
+**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · T1 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3/D6 iToF photos. (Pages 09–12 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations. (Pages 09–13 are done.)
 
 ## One request for Claudia and Josh
 
@@ -281,7 +282,7 @@ Resolved on this page by `1787713700`:
 
 **Claudia — decide or confirm**
 - Status labels: publish or drop (S8).
-- Ship the provider strip partially now, or wait for Leopard (SE6, D4). For Robotics kit rows the review decided to wait for LI140/ON140 (R5). On Dev Kits the TX10 and dToF rows now have photos; decide whether the iToF row shows M30 alone or waits (D6).
+- Ship the provider strip partially now, or wait for Leopard (SE6, D4). Kit rows: Robotics (R5) and the Dev Kits iToF row (D6) both wait for the LI140/ON140 photos.
 - Hero swaps for About, Culture and Partners to Simon's photos (AB1, CU1, PA1).
 - The TX10 still versus the #129 animation (T2).
 - The new HDR video also on dToF (F5).
@@ -299,8 +300,8 @@ Resolved on this page by `1787713700`:
 | Sense #119 section images; application photos; meta description | Supplied and integrated as local WebP; SE4 fit confirmed visually | p09 A1–A5; `1787713100` |
 | Robotics hero; M30 and NM120 kit photos | Hero live via existing `market-agv.jpg` (`1787713400`); M30/NM120 photos supplied, held for a uniform row until LI140/ON140 arrive (R3/R4) | p10 A1–A3 |
 | Automotive hero | Live as `hero-automotive.webp` with desktop framing (`1787713500`) | p11 A1 |
-| Dev Kits TX10, NM120, MD180 photos | Live on the p03 grey kit panel (`1787713700`); M30 supplied but held pending D6; ON140/LI140 still missing | p12 A1–A4 |
-| Transmit hero still image | Supplied (T1); only the #129 animation question remains | p13 A1 |
+| Dev Kits TX10, NM120, MD180 photos | Live on the p03 grey kit panel (`1787713700`); M30 held under D6 until ON140/LI140 arrive | p12 A1–A4 |
+| Transmit hero still image | Live as `hero-tx10-in-hand.webp` (`1787713800`); only the #129 animation question remains (T2) | p13 A1 |
 | iToF "Photo: M30 with kit contents" | Already live: `m30-dev-kit-contents.jpg` is identical to Simon's IMG_7224 | `itof#6e81d47c`; hash 1.00 |
 | iToF compact M30 AMR demo clip | Supplied: Vimeo 1174547871 (I2) | p14 A2 |
 | dToF "NM120 enclosed unit" photo | Already live: `nm120-sensor.jpg` is identical to Simon's IMG_0032 | `dtof#d903b4f2`; hash 1.00 |

@@ -1,11 +1,41 @@
 # Page 13 — /dev-kits/transmit-modules
 
-Approved content package rev. 2026-10-07 (v2), page 13 of 21, "Sense › Dev Kits
-› Transmit Modules". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07, page 13 of 21, "Sense › Dev Kits › Transmit Modules". First built against v2; **v3 pass applied 2026-10-21**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.**
+**Status: v3 implemented and QA-verified.** Pending inputs: the two illumination animations (T3), plus a decision on whether the supplied still closes #129 (T2).
 
-## What shipped
+## v3 pass (2026-10-21)
+
+**Copy.** The v2→v3 changes ("beam steering" → "beamforming" in the hero body twice, and in the meta description) were already live from `1787712600`. Every live string matches the v3 page text verbatim; the one programmatic mismatch was a soft-hyphen line break in the PDF's "Non-steering", not a copy difference. The section order matches; the three REMOVE sections stay removed. Actions remain contact requests (`tx10-datasheet`, `tx10-integration`); there are no downloads.
+
+**Simon's two notes on page 13:**
+
+| Note | Slot | Status |
+| --- | --- | --- |
+| A1 [IMG_5619](https://lumotive.com/wp-content/uploads/2026/05/IMG_5619-1-copy-2.png) | Hero (printed "Existing: tx10-hero.jpg (replace static image with animation, #129)") | **Supplied and live.** TX10 held in a hand, 1920×1811 transparent PNG. Flattened on white (the hero is full-bleed), saved as `hero-tx10-in-hand.webp` (1600px, 119 KB). Replaces the old `tx10-hero.jpg` cut-out, which stays in the repo. |
+| A2 "Older decks" | Programmable Illumination: flood vs ROI-pulse animations | **Pending.** A lead, not a file; nothing matching in the repo. The section keeps its approved copy and five benefit cards. |
+
+**Hero framing.**
+- The old hero carried `mediaShift: "22%"` to move the small cut-out clear of the headline. With the full-frame hand photo, that shift opened a visible straight seam beside the hand at desktop widths, so it is removed. The default cover crop already puts the chip right of the copy, and the hand falls under the dark side of the shade.
+- On phones the hand sits behind the body copy. Measured against the 99th-percentile background with the copy hidden, body text was 4.42:1 at 390 and 4.63:1 at 430 on the standard shade. The existing phone-only `mobileShade: "strong"` (built for R6) brings it to **6.00:1 and 6.01:1**.
+- Other hero text with the final settings: headline 13.70 / 14.22 / 13.89 / 13.37 / 15.76:1 (1440 / 1024 / 768 / 390 / 430); amber eyebrow ≥ 9.48:1 everywhere; body 9.13 / 8.65 / 5.54:1 at 1440 / 1024 / 768.
+
+**Migration** `1787713800_transmit_modules_v3.js` (reversible, guarded on prior values) touches hero `b41d7c05` only: `media` → `hero-tx10-in-hand.webp`, `mediaShift` removed, `mobileShade: "strong"`. No component or token changed; this pass is data only.
+
+### v3 QA
+
+- **390 / 430 / 768 / 1024 / 1440:** no horizontal overflow, no broken image, every inner column on one edge (16 / 16 / 24 / 24 / 80).
+  - The only tap target under 44px is the accepted 23px breadcrumb.
+  - Hero heights 612 / 612 / 696 / 612 / 680px.
+- **Image framing:** chip and LCM window fully visible right of the copy at 1024 and 1440. Thumb and board sit behind the copy on phones, under the strong shade.
+- **Links:** `/dev-kits`, `/dev-kits/itof`, `/contact?inquiry=tx10-datasheet` and `/contact?inquiry=tx10-integration` answer 200. No download link or wording.
+- **Migration:** revert restored every page record byte-identically to the pre-migration snapshot; reapply changed only `transmit-modules`.
+- `npm run check` 592 files, 0 errors, 0 warnings; `npm run build` passed with the dev server stopped.
+- **Screenshots** (outside the project): `%TEMP%\lumotive-review\transmit\`
+  - `desktop-1440-01…06`, `mobile-390-01…06`;
+  - `mobile-430-01-hero`, `tablet-1024-01-hero`, `tablet-768-01-hero`.
+
+## What shipped in the v2 build (history)
 
 Two reversible migrations.
 
@@ -77,19 +107,9 @@ redirects page 02 lists; the remaining three wait on pages 14, 15 and the
 - `svelte-check` 589 files, 0 errors; production build clean.
 - Pages 05 to 12 all still answer 200.
 
-## Blockers
+## Blockers (after v3)
 
-1. **Hero animation (Webvizio #129).** The package replaces the static hero
-   image with an animation labelling the Tx optics. The asset has not been
-   supplied, so the page keeps `tx10-hero.jpg`, which the package itself names
-   here as the existing image. Swapping `media` on `b41d7c05` is a one-field
-   change. Webvizio **#129 stays open**.
-2. **The two illumination animations** in "Programmable Illumination for a
-   Dynamic World": flood illumination beside non-sequential ROI pulses with a
-   continuously sharpening point cloud. Neither has been supplied, and one
-   panel beside an empty one reads worse than both omitted.
-3. **`/dev-kits/itof`** 404s until page 14. Both kit cards carry the approved
-   destination and need no change.
-4. **ON140 and LI140 photographs** do not exist in this repository. The kit
-   cards are text cards here, which is what the package shows on this page, so
-   nothing is missing from the approved layout.
+1. **#129 (T2), decision.** The PDF asks for an animation labelling the Tx optics in the hero. Simon supplied a still (TX10 in hand), which is now live. Lumotive to confirm whether the still answers #129 or an animation is still wanted. Webvizio **#129 stays open** until then.
+2. **The two illumination animations (T3), client asset.** Flood illumination beside non-sequential ROI pulses with a continuously sharpening point cloud. The only lead is Simon's "Older decks" note. One panel beside an empty one reads worse than both omitted, so the section ships copy and cards only. When they arrive: convert to looping MP4/WebM with posters, pair them as printed, and verify in-page playback.
+
+Not blockers: the Kits Built on TX10 cards are text cards on this page as printed, so no ON140/LI140 photos are needed here. `/dev-kits/itof` now answers 200.
