@@ -9,6 +9,11 @@ declare global {
 			editor: Record<string, unknown> | null;
 		}
 	}
+	// Pipedrive web forms read hidden fields with a "JavaScript variable"
+	// source from this object on the embedding page (see FormPipedrive).
+	interface Window {
+		pd_webform?: Record<string, string | number | boolean>;
+	}
 }
 
 export {};

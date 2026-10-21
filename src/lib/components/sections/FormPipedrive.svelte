@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { afterNavigate } from '$app/navigation';
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
@@ -32,30 +33,36 @@
 
 	// Page 02 of the approved package asks every submission to carry three
 	// values: the inquiry type a CTA set through `?inquiry=`, the page the
-	// visitor came from, and any UTM campaign. The form itself lives inside
-	// Pipedrive's iframe, so the parent page cannot inject fields into it; what
-	// it can do is prefill them, which Pipedrive does from query parameters on
-	// the form URL keyed by the field's own API key.
+	// visitor came from, and any UTM campaign. The form lives inside
+	// Pipedrive's iframe, so the page cannot write into it. Pipedrive's own
+	// mechanism is a hidden field whose value source is "JavaScript variable":
+	// the form asks the loader for the named variables and the loader answers
+	// from `window.pd_webform` on this page (REQUEST_JS_VARIABLES /
+	// JS_VARIABLES_RESPONSE in webforms.pipedrive.com/f/loader). So the three
+	// values are published there under fixed names, and the Pipedrive admin
+	// adds three hidden fields reading `inquiry`, `source_page` and
+	// `campaign`. Query parameters on the form URL are not an option: the
+	// loader appends its own `?embeded=1&uuid=…`, which an existing query
+	// string corrupts.
 	//
-	// Those three keys only exist once the hidden fields are added in Pipedrive,
-	// and they are not ours to guess, so each is an editor field here. With none
-	// set — which is the state until Lumotive supplies them — nothing is
-	// appended and the embed is byte-identical to the one that ships today.
-	const trackingKeys = (section: Section) => [
-		{ key: String(section.inquiryField ?? '').trim(), kind: 'inquiry' as const },
-		{ key: String(section.sourceField ?? '').trim(), kind: 'source' as const },
-		{ key: String(section.campaignField ?? '').trim(), kind: 'campaign' as const }
-	];
-
-	const trackingValue = (kind: 'inquiry' | 'source' | 'campaign') => {
-		const params = new URLSearchParams(window.location.search);
-		if (kind === 'inquiry') return params.get('inquiry')?.trim() || 'general';
-		if (kind === 'source') return document.referrer || '';
-		return ['utm_source', 'utm_medium', 'utm_campaign']
-			.map((name) => params.get(name)?.trim() || '')
-			.filter(Boolean)
-			.join(' · ');
-	};
+	// The source page is the page the visitor clicked from. Internal links are
+	// client-side navigations, which leave `document.referrer` at whatever
+	// brought the visitor to the site (often empty), so the previous in-app
+	// URL comes from the router; only a first, full page load falls back to
+	// the referrer. Every navigation republishes, so a new `?inquiry=` on
+	// /contact itself is picked up without reloading the form.
+	afterNavigate(({ from, to }) => {
+		const params = to?.url.searchParams ?? new URLSearchParams(window.location.search);
+		window.pd_webform = {
+			...window.pd_webform,
+			inquiry: params.get('inquiry')?.trim() || 'general',
+			source_page: from?.url.href ?? document.referrer ?? '',
+			campaign: ['utm_source', 'utm_medium', 'utm_campaign']
+				.map((name) => params.get(name)?.trim() || '')
+				.filter(Boolean)
+				.join(' · ')
+		};
+	});
 
 	let host = $state<HTMLDivElement | null>(null);
 
@@ -68,21 +75,22 @@
 		const src = formUrl;
 		if (!container || !src) return;
 
-		const url = new URL(src);
-		for (const { key, kind } of trackingKeys(section)) {
-			if (!key) continue;
-			const value = trackingValue(kind);
-			if (value) url.searchParams.set(key, value);
-		}
-		container.dataset.pdWebforms = url.href;
-
+		container.dataset.pdWebforms = src;
 		const script = document.createElement('script');
 		script.src = LOADER;
 		script.async = true;
 		container.append(script);
 
 		return () => {
+			// The loader tags the host with an `id` and skips tagged hosts, so
+			// both go, or a new form URL set in the editor would leave no form.
 			container.replaceChildren();
+			container.removeAttribute('id');
+			if (window.pd_webform) {
+				delete window.pd_webform.inquiry;
+				delete window.pd_webform.source_page;
+				delete window.pd_webform.campaign;
+			}
 		};
 	});
 </script>

@@ -1,12 +1,110 @@
 # Page 21 — /contact
 
-Approved content package rev. 2026-10-07 (v2), page 21 of 21, "Contact". URL
-confirmed from the page header and the page-01 site map: **/contact**,
-unchanged.
+Approved content package rev. 2026-10-07, page 21 of 21, "Contact". URL
+**/contact**, unchanged. First built against v2; **v3 pass applied
+2026-10-21**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.** Awaiting screenshot review.
+**Status: v3 implemented; hidden-field plumbing rebuilt and tested against
+Pipedrive's own loader.** Live capture of the three values waits on
+Pipedrive configuration by Lumotive (below).
 
-## What shipped
+## v3 pass (2026-10-21)
+
+**Copy.** The v2→v3 text diff of page 21 is empty and there are no Simon
+annotations. Live headings, hero line, offices and the three closing cards
+match v3. No content changed.
+
+### Hidden fields: the v2 approach would have broken the form
+
+Tested with probe keys (throwaway local migration, reverted and deleted):
+
+1. **Query parameters on the form URL corrupt the embed.** Pipedrive's loader
+   builds the iframe as `<data-pd-webforms>?embeded=1&uuid=<id>`, so any
+   existing query string produced `…?probe_inquiry=ocs?embeded=1&uuid=…`: the
+   inquiry value swallowed the loader's own parameters, including the `uuid`
+   it uses for resizing. Pipedrive web forms do not prefill fields from the
+   URL anyway.
+2. **Source page was empty for every internal click.** Site links are
+   client-side navigations, which never update `document.referrer`.
+3. **A new `?inquiry=` on /contact itself** kept the old value.
+
+**Rebuilt on Pipedrive's documented-by-code mechanism.** A Pipedrive hidden
+field with value source "JavaScript variable" asks the loader for named
+variables (`REQUEST_JS_VARIABLES`); the loader answers from
+`window.pd_webform` on the page (`JS_VARIABLES_RESPONSE`), at submit time.
+`FormPipedrive` now publishes, on every navigation:
+
+| Variable | Value |
+| --- | --- |
+| `inquiry` | `?inquiry=` value, default `general` |
+| `source_page` | the previous in-site URL on a click; `document.referrer` on a first load |
+| `campaign` | `utm_source · utm_medium · utm_campaign`, those present |
+
+The form URL is left untouched (clean `?embeded=1&uuid=` iframe). The three
+editor fields for Pipedrive API keys are removed: no keys are needed, and
+none were ever set in the CMS, so no data changed.
+
+**Proof, through the real loader, no submission sent.** From inside the
+Pipedrive iframe we sent the same `REQUEST_JS_VARIABLES` message the form
+sends and read the loader's reply:
+
+| Scenario | inquiry | source_page | campaign |
+| --- | --- | --- | --- |
+| Direct visit `/contact` | general | (empty) | (empty) |
+| `?inquiry=tx10-datasheet&utm_source=news&utm_medium=email&utm_campaign=spring` | tx10-datasheet | (empty, see note) | news · email · spring |
+| Click "Request the TX10 datasheet" on Transmit | tx10-datasheet | …/dev-kits/transmit-modules | (empty) |
+| Header "Contact" from /sense | general | …/sense | (empty) |
+| `/contact` → `/contact?inquiry=ocs` | ocs | …/contact | (empty) |
+
+Note: the external referrer was `https://www.google.com/` into local
+`http://`; the browser strips cross-origin referrers on an https→http
+downgrade, so empty is correct here. On the https site an external
+referrer arrives as its origin only (browser default policy).
+
+**Safety.** Every non-GET request leaving the page was intercepted and
+aborted during all tests. The only ones attempted were Pipedrive's
+analytics beacons (`/viewed`, `/interacted`) and Cloudflare challenge
+pings; no form submission was sent, no notification or CRM record created.
+
+### Form checks (Pipedrive-side, unchanged)
+
+Fields: Name*, Job title*, Email* ("work or professional email"), Phone
+(optional), Company*, Market Segment*, Region*, interest/needs*, "I am
+interested in (General)"*, "I am a potential"*, email-updates consent
+Yes/No*, reCAPTCHA. Empty submit and an invalid email both stop in the
+browser with inline errors ("Enter a valid email address"). Screenshot
+`%TEMP%\lumotive-review\contact\contact-v3-validation.png`.
+
+### Other checks
+
+- **Inquiry values:** the 17 linked values are all in the page-02 list;
+  `media` and `careers` are approved but unused (S5); `general` is the default.
+- **Layout 360 / 390 / 430 / 768 / 1024 / 1440:** no overflow, no broken
+  image, no tap target under 44px, one left edge (16 / 24 / 80), form iframe
+  mounts and sizes at every width.
+- `npm run check` 0 errors, 0 warnings; `npm run build` passes.
+
+### What Lumotive must configure (credentials / decisions, not our work)
+
+1. **Pipedrive admin:** add three custom fields (inquiry type, source page,
+   campaign; Text), then three **Hidden fields** on the web form with value
+   source "JavaScript variable" and variable names exactly `inquiry`,
+   `source_page`, `campaign`, and publish. No API keys are needed.
+2. **Email notification:** page 02 wants the values in the notification
+   email as well as the CRM; that is the form's notification settings in
+   Pipedrive.
+3. **Preselecting "I am interested in"** (page 02, optional) is not possible
+   from the page: JavaScript variables only fill hidden fields. It would need
+   Pipedrive support or separate forms per inquiry. Decision for Lumotive.
+4. Office correction (#137), LinkedIn URL, Explorer bundle: unchanged, below.
+
+### Remaining implementation on our side
+
+- After step 1: one real test submission on staging with Lumotive's consent
+  (to a test person they delete), confirming the three values land in the
+  CRM and the email. Not done here by design.
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787712200_contact_page21.js`, plus component work
 on the Pipedrive embed.

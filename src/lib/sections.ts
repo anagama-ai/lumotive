@@ -74,11 +74,6 @@ export const sectionSpecs: Record<string, SectionSpec> = {
 			{ name: 'heading', label: 'Heading', type: 'text' },
 			{ name: 'intro', label: 'Introduction', type: 'textarea' },
 			{ name: 'formUrl', label: 'Pipedrive web form URL', type: 'url' },
-			// Pipedrive field API keys for the three hidden fields page 02 asks
-			// for. Each prefills from the page when set; unset, nothing is sent.
-			{ name: 'inquiryField', label: 'Pipedrive field key — inquiry type', type: 'text' },
-			{ name: 'sourceField', label: 'Pipedrive field key — source page', type: 'text' },
-			{ name: 'campaignField', label: 'Pipedrive field key — campaign', type: 'text' },
 			{ name: 'designVersion', label: 'Design version (pipedrive)', type: 'text' },
 			{ name: 'background', label: 'Background (none | subtle | strong | inverse)', type: 'text' },
 			{ name: 'width', label: 'Width (contained | wide | full)', type: 'text' },
