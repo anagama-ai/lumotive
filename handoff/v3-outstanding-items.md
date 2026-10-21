@@ -51,6 +51,26 @@ Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `
 | S24 | Dokploy/GHCR secrets and variables | Tech | Verify | Confirm `DOKPLOY_URL`, `DOKPLOY_API_KEY`, `DOKPLOY_PB_APP_ID`, `DOKPLOY_WEB_APP_ID` and `ORIGIN` are set for staging and production. | Josh | Yes | `.github/workflows/publish.yml`, README |
 | S25 | Uncommitted Windows watcher fix | Ours | Do | Commit `vite.config.ts` on its own, or drop it. Never sweep it into a page commit. | Us | No | `git status` |
 
+### Phone heroes (2026-10-21)
+
+Below 768px every image hero (band and Home's full-height video) now takes the compact form Sense introduced: no viewport minimum, 4rem above the eyebrow, 3.5rem below the last action, the section's own spacing dropped, wrapped actions 1rem apart. Heights follow the copy (328–581px at 360–430; Sense 413–473). `compactMobile` on heroes is gone (it is now the default); Sense, iToF and dToF render exactly as before. Tablet (768) and desktop (1024, 1440) geometry is identical before and after on every page. News (compact header) and LCM Chips (split hero) are untouched.
+
+Framing and shade per photo, migration `1787714900`, chosen so the subject stays in frame and every line holds 4.5:1 against its 99th-percentile brightest backdrop pixel (3:1 headings) at 360/390/430, lighter standard shade wherever it holds:
+
+| Page | Phone framing | Shade |
+|---|---|---|
+| Home (video), Culture, iToF, dToF | unchanged | unchanged |
+| Platform, Applications, Automotive, Dev Kits | centre | strong (new) |
+| Sense | 100% (robot at the right) | strong (new) |
+| Robotics | 0% (AGV fleet) | strong (as before) |
+| Transmit | 65% (TX10 module) | strong (as before) |
+| Connect | 0% (left beam fan) | standard |
+| About | 75% (optics and engineer) | standard (was strong) |
+| Partners | 100% (light burst) | standard |
+| Contact | 25% (building at the right edge) | strong (new) |
+
+Residuals, not regressions: Transmit body's single brightest pixel is 3.84–4.28:1 across 360–430 (p99 ≥ 5.00; white photo backdrop; best of 12 framings, was 3.30–3.73). At 768 (unchanged) four heroes keep brightest-pixel lows under 4.5:1 with p99 ≥ 4.57: Home video 3.85, Transmit 3.86, Culture 4.22, Contact 4.26.
+
 ## Page 05 — Home `/`
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |

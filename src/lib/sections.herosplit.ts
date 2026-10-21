@@ -23,7 +23,6 @@ const heroFields: FieldSpec[] = [
 	{ name: 'mediaAnchor', label: 'Media horizontal position, all widths (percentage, e.g. 100% keeps the right edge)', type: 'text' },
 	{ name: 'mobileMediaScale', label: 'Media scale on phones (number, e.g. 1.2)', type: 'text' },
 	{ name: 'mobileMediaPosition', label: 'Media horizontal position on phones (percentage, e.g. 25%)', type: 'text' },
-	{ name: 'compactMobile', label: 'Compact hero on phones (true | false)', type: 'text' },
 	{ name: 'mobileShade', label: 'Hero shade on phones (strong = heavier, for bright photos)', type: 'text' },
 	{ name: 'primaryLinkLabel', label: 'Primary link label', type: 'text' },
 	{ name: 'primaryLinkUrl', label: 'Primary link URL', type: 'url' },

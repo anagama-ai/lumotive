@@ -34,11 +34,6 @@
 		const value = String(section.mediaAnchor ?? '').trim();
 		return /^\d{1,3}(\.\d+)?%$/.test(value) ? value : '';
 	});
-	// Opt-in, phones only (<768px): the band drops its viewport-based minimum
-	// height and grows with its copy, with less padding above the eyebrow and
-	// below the actions and a tighter gap when the two actions stack. Text,
-	// font sizes and buttons are unchanged; desktop and tablet are untouched.
-	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
 	// Opt-in, phones only (<768px): a heavier shade for a bright photograph
 	// that would otherwise put the body copy under 4.5:1 once the copy spans
 	// the full width. Desktop and tablet keep the standard shade.
@@ -75,7 +70,6 @@
 <section
 	class="lumo-section hero-shell bg-panel relative isolate z-50 flex items-end overflow-hidden"
 	class:band
-	class:compact-mobile={compactMobile}
 	class:strong-mobile-shade={strongMobileShade}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
@@ -150,11 +144,6 @@
 	.hero-shell { min-height: 100svh; }
 	.hero-shell.band { min-height: clamp(32rem, 68svh, 47rem); }
 	@media (max-width: 767px) {
-		.hero-shell.compact-mobile { min-height: 0; }
-		.compact-mobile .hero-copy { padding-block: 4rem 3.5rem; }
-		.compact-mobile .hero-actions { row-gap: 1rem; }
-	}
-	@media (max-width: 767px) {
 		.strong-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
 	}
 	.hero-media.anchored > img,
@@ -189,17 +178,34 @@
 		.hero-copy h1 { max-width: 20ch; }
 	}
 
-	/* Hero refinement, full-height variant only (the `.band` hero is untouched).
+	/* Hero refinement, full-height variant only (the `.band` hero is untouched),
+	   from the tablet breakpoint up; phones take the shared rhythm below.
 	   Alignment comes from the shared `data-align="container"` rule in app.css,
 	   set on the section above. */
-	/* A slightly wider measure so the copy is not boxed in. The heading keeps
-	   its own 20ch cap, so "Programmable Optics" still sets on one line. */
-	.hero-shell:not(.band) .hero-copy { max-width: 72rem; }
-	.hero-shell:not(.band) .hero-body { max-width: 40rem; margin-top: 2rem; }
-	.hero-shell:not(.band) .hero-actions { margin-top: 2.75rem; }
-	/* The shell is bottom-aligned, so extra bottom padding lifts the block.
-	   Section height is unchanged. */
-	.hero-shell:not(.band) .hero-copy { padding-bottom: calc(clamp(4rem, 9vw, 7rem) + 1rem); }
+	@media (min-width: 768px) {
+		/* A slightly wider measure so the copy is not boxed in. The heading keeps
+		   its own 20ch cap, so "Programmable Optics" still sets on one line. */
+		.hero-shell:not(.band) .hero-copy { max-width: 72rem; }
+		.hero-shell:not(.band) .hero-body { max-width: 40rem; margin-top: 2rem; }
+		.hero-shell:not(.band) .hero-actions { margin-top: 2.75rem; }
+		/* The shell is bottom-aligned, so extra bottom padding lifts the block.
+		   Section height is unchanged. */
+		.hero-shell:not(.band) .hero-copy { padding-bottom: calc(clamp(4rem, 9vw, 7rem) + 1rem); }
+	}
+	/* Phones (<768px), band and full-height heroes alike: no viewport-based
+	   minimum height, so the copy and one shared padding set the height (the
+	   compact form the Sense hero introduced). The section's own spacing is
+	   dropped, so a hero carrying `spacingTop/Bottom: md` matches the rest and
+	   the padding below is the whole gap above and below the copy. The eyebrow,
+	   heading, body and action gaps are the band's (1.25 / 1.5 / 2.25rem), and
+	   two actions that wrap stack 1rem apart. Desktop and tablet keep the
+	   minimum heights and spacing above. */
+	@media (max-width: 767px) {
+		.hero-shell, .hero-shell.band { min-height: 0; }
+		.hero-shell > .lumo-inner { padding-block: 0; }
+		.hero-copy { padding-block: 4rem 3.5rem; }
+		.hero-actions { row-gap: 1rem; }
+	}
 	.hero-body :global(p) { margin: 0; }
 	.primary-link { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: white; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.primary-link:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }

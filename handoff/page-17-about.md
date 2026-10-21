@@ -31,6 +31,11 @@ phone-only `mobileShade: "strong"`. The new photo is brighter than the old
 one; at 390px the body line measured 4.24:1 (brightest pixel) over the
 shirt with the standard shade. No component change.
 
+**Superseded on phones by the sitewide phone-hero pass (2026-10-21,
+`1787714900`):** with the compact phone hero the standard shade holds, so
+About now uses it with `mobileMediaPosition: 75%` (optics and engineer in
+frame); body 4.87–5.43:1 at the 99th percentile, brightest pixel ≥ 4.47:1.
+
 ### v3 QA
 
 - **Hero contrast** (text hidden, 99th percentile / brightest pixel, per line
