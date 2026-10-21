@@ -53,6 +53,19 @@ Gap between content groups, in page order: hero -> key numbers -> capabilities -
 
 Illumination card descriptions now start at the same offset in every card: 126px (768, 1024), 135px (1440); at 390 all five 103px, titles one line. No horizontal overflow at 390/768/1024/1440. `/sense`, `/dev-kits` and `/sense/robotics` render no `compact` section and no reserved titles. Copy, colours, imagery, button styles and the hero are unchanged. `npm run check` 0 errors, 0 warnings; `npm run build` passed, dev server stopped. Screenshots: `%TEMP%\lumotive-review\transmit\spacing\` (`mobile-390-01..07`, `desktop-1440-key-numbers`, `desktop-1440-programmable-illumination`, `tablet-1024-programmable-illumination`).
 
+### Refinement: closing CTA height (2026-10-21)
+
+Migration `1787714000_transmit_modules_cta_height.js` on `f0d3a5b8` ("Pair TX10 With Your iToF Sensor"): spacing `lg` -> `md` (112 -> 80px a side, -29%) and the new opt-in `compactMobile` on `CtaDefault` (phones below 768px: 72px a side, -36%). Heading, body, button (283x49, 16px), both `/contact?inquiry=tx10-*` links and the caveat are unchanged. Reverts exactly.
+
+| Width | Section height | Space above heading | Space below caveat |
+| --- | --- | --- | --- |
+| 390 | 698 -> **618** | 140 -> **100** | 125 -> **85** |
+| 430 | 668 -> **588** | 140 -> **100** | 125 -> **85** |
+| 768 | 531 -> **467** | 143 -> **111** | 125 -> **93** |
+| 1440 | 594 -> **530** | 162 -> **130** | 125 -> **93** |
+
+No clipping, no horizontal overflow. Other pages' closing CTAs (`/`, `/dev-kits`, `/sense/robotics`, `/sense/automotive`) keep 112px. `npm run check` 0 errors, 0 warnings; `npm run build` passed, dev server stopped. Screenshots: `%TEMP%\lumotive-review\transmit\cta\` (`mobile-390-cta`, `mobile-430-cta`, `tablet-768-cta`, `desktop-1440-cta`).
+
 ## What shipped in the v2 build (history)
 
 Two reversible migrations.

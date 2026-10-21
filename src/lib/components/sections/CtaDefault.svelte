@@ -25,6 +25,11 @@
 	// Stacked only; the page's own closing CTA keeps the dark panel.
 	let light = $derived(stacked && String(section.tone ?? '') === 'light');
 	let split = $derived(section.type === 'ctaSplitLinks' && !stacked);
+	// Opt-in, phones only (<768px): less padding above and below the content,
+	// for a closing CTA that would otherwise stand taller than the content
+	// above it. Text, buttons, links and the caveat are unchanged; tablet and
+	// desktop use the section spacing.
+	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
 
 	const backdrops: Record<string, { src: string; position: string }> = {
 		ctaDefault: { src: '/lumotive/img/cta-glow.jpg', position: 'right center' },
@@ -80,6 +85,7 @@
 	class="lumo-section relative isolate overflow-hidden"
 	class:bg-panel={!light}
 	class:cta-light={light}
+	class:compact-mobile={compactMobile}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 	data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
@@ -167,6 +173,9 @@
 	/* Same small, quiet treatment as the lead-in note, set apart from the
 	   action row above it. */
 	.cta-caveat { margin-top: 2rem; max-width: 46rem; color: rgb(255 255 255 / 75%); font-size: var(--text-spec); line-height: 1.5; }
+	@media (max-width: 767px) {
+		.compact-mobile > .lumo-inner { padding-block: 4.5rem; }
+	}
 	.cta-button { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: #fff; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.cta-button:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
 	@media (prefers-reduced-motion: reduce) {

@@ -53,6 +53,8 @@ const ctaFields: FieldSpec[] = [
 	{ name: 'caveat', label: 'Caveat under the actions', type: 'text' },
 	// Stacked split CTA only: drop the dark panel for the page field.
 	{ name: 'tone', label: 'Tone (light)', type: 'text' },
+	// Phones only: tighter padding above and below the content.
+	{ name: 'compactMobile', label: 'Compact CTA on phones (true | false)', type: 'text' },
 	{ name: 'secondaryLinkLabel', label: 'Secondary link label', type: 'text' },
 	{ name: 'secondaryLinkUrl', label: 'Secondary link URL', type: 'url' },
 	{
