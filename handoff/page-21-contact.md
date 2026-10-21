@@ -84,6 +84,37 @@ browser with inline errors ("Enter a valid email address"). Screenshot
   mounts and sizes at every width.
 - `npm run check` 0 errors, 0 warnings; `npm run build` passes.
 
+### Form panel width (2026-10-21, requested refinement)
+
+**Where the spacing came from.** Our white panel had 40px side padding
+(16px on phones), but most of the gap was inside the iframe: Pipedrive's
+renderer sets the form to `max-width: 480px; margin: 0 auto`, so inside a
+680px iframe it sat 100px from each side. At 1440 the fields were 140px from
+each panel edge. The 480px cap is in Pipedrive's own stylesheet for every
+style variant (label position, corner shape, transparent or shadowed
+background); no web-form setting changes it, and a cross-origin iframe
+cannot be restyled from our side. Widening the fields past 480px would need
+a different form (for example our own form posting to Pipedrive's API),
+which is out of scope.
+
+**Change (`FormPipedrive.svelte`, CSS only).** The panel now hugs the form:
+`max-width: 480px + 2 × gutter`, gutter 20px on phones and 36px from 768px,
+the same on both sides. Corners, background, vertical padding, the heading
+column and the section's left edge are unchanged; the Pipedrive form keeps
+its own typography and field spacing.
+
+| Width | Panel | Fields | Left / right gutter |
+| --- | --- | --- | --- |
+| 390 | 358px | 318px (full iframe width) | 20 / 20 |
+| 768 | 552px | 480px | 36 / 36 |
+| 1024 | 552px | 480px | 36 / 36 |
+| 1440 | 552px | 480px | 36 / 36 (was 140 / 140) |
+
+Checks: no page overflow; inside the iframe no horizontal overflow and no
+clipping (form 1210px in a 1226px frame at 390, 1177px frame from 768);
+heading, panel, logo and Offices section share one left edge (16 / 24 / 24 /
+80). The hidden-field script is untouched.
+
 ### What Lumotive must configure (credentials / decisions, not our work)
 
 1. **Pipedrive admin:** add three custom fields (inquiry type, source page,

@@ -128,21 +128,36 @@
 {/if}
 
 <style>
-	/* Pipedrive's own embed caps its iframe at 768px and never fills a wider
-	   host, so a full-shell column left the panel with a dead column of white
-	   to the right of the fields. The cap sits on an inner column rather than
-	   on `.lumo-inner`, so the section can still opt into the header container
-	   and the heading and panel start on the same left edge as every other
-	   section instead of floating in the middle of the page. */
+	/* The heading block keeps the narrow reading column; the panel below is
+	   sized to the form itself (see `.form-frame`). The cap sits on an inner
+	   column rather than on `.lumo-inner`, so the section can still opt into
+	   the header container and the heading and panel start on the same left
+	   edge as every other section instead of floating in the middle of the
+	   page. */
 	.form-column { max-width: var(--container-narrow); }
 
-	/* Match the live embed's measured height so the section does not collapse
-	   while Pipedrive loads and expands its iframe. */
-	.form-frame { border-radius: var(--radius-panel); background: var(--color-surface); padding: clamp(1rem, 3vw, 2.5rem); }
+	/* Pipedrive renders the form itself at most 480px wide and centres it
+	   inside its iframe (`max-width: 480px; margin: 0 auto` in its own CSS,
+	   for every style option), so a wider panel only adds empty space inside
+	   the frame: 140px a side at 1440. The panel therefore hugs that width,
+	   and its own side padding is the whole gutter: 20px on phones, 36px from
+	   768px. On phones the iframe is narrower than 480px and the fields fill
+	   it. The panel keeps the section's left edge; vertical padding is
+	   unchanged.
+	   The min-height matches the live embed's measured height so the section
+	   does not collapse while Pipedrive loads and expands its iframe. */
+	.form-frame {
+		--form-gutter: 1.25rem;
+		max-width: calc(480px + 2 * var(--form-gutter));
+		border-radius: var(--radius-panel);
+		background: var(--color-surface);
+		padding: clamp(1rem, 3vw, 2.5rem) var(--form-gutter);
+	}
 	.pipedriveWebForms { min-height: 1226px; }
 	.pipedriveWebForms :global(iframe) { display: block; width: 100%; border: 0; }
 
 	@media (min-width: 768px) {
+		.form-frame { --form-gutter: 2.25rem; }
 		.pipedriveWebForms { min-height: 1137px; }
 	}
 </style>
