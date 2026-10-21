@@ -21,6 +21,7 @@ const heroFields: FieldSpec[] = [
 	{ name: 'mediaShift', label: 'Media shift on desktop (CSS length, e.g. 30%)', type: 'text' },
 	{ name: 'mediaScale', label: 'Media scale on desktop (number, e.g. 1.16)', type: 'text' },
 	{ name: 'compactMobile', label: 'Compact hero on phones (true | false)', type: 'text' },
+	{ name: 'mobileShade', label: 'Hero shade on phones (strong = heavier, for bright photos)', type: 'text' },
 	{ name: 'primaryLinkLabel', label: 'Primary link label', type: 'text' },
 	{ name: 'primaryLinkUrl', label: 'Primary link URL', type: 'url' },
 	{ name: 'primaryLinkNewTab', label: 'Primary link opens a new tab (true | false)', type: 'text' },

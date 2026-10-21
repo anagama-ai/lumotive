@@ -111,10 +111,10 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 | R2 | One Sensor, Three Jobs | Asset | Missing | Three-panel AMR demo video (localization / cliff / full field). Simon: "Elyar's video", a name only: no file or URL, and nothing matching in the repo or Downloads (checked 2026-10-20). Its approved caption is held with it. Then ours: printed split layout, poster plus click-to-play, in-page playback check. | Lumotive (Elyar) → Us | Yes | p10 A4 |
 | R4 | Kits for Robotics | Asset | Missing | LI140 sensor-head and ON140 photos ("from Q4 flyer"); none annotated or in the repo. | Lumotive | Yes | PDF p10 |
 | R3 | Kits for Robotics | Ours | Do (after R4) | Add all four photos together: M30 from [M30_thumb](https://lumotive.com/wp-content/uploads/2022/10/M30_thumb.jpg) (not in the repo), NM120 as the existing `nm120-sensor.jpg` (identical to A3). Add a contained "photo on light grey panel" frame option to `cardsMediaCards` per the p03 kit-card spec. | Us | No | p10 A2, A3 |
-| R6 | Hero on phones | Ours | Do | Found during the Page 11 QA: at 390px the hero body text (white 75%) measures **4.05:1** against the 99th-percentile background of the warehouse photo, under 4.5:1. The headline passes as large text (4.71:1). Fix at review: for example a stronger mobile shade or a mobile-only image position. | Us | Yes | `page-11-automotive.md` v3 QA |
 
 Resolved on this page by `1787713400`:
 - R1 hero: now the existing `market-agv.jpg`, identical to A1.
+- R6 mobile hero contrast, fixed by `1787713600` (phone-only stronger shade). Body text measured 4.20 → 5.60:1 at 390 and 4.36 → 5.83:1 at 430; all hero text passes.
 - R5: review decision on 2026-10-20 to keep all four kit cards text-only until LI140 and ON140 arrive. This decides Robotics only; page 12's D2/D3 still need their own call.
 - The Integrate copy fix ("or body").
 - The printed bullet list for the four benefits.

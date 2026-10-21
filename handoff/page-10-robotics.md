@@ -48,6 +48,35 @@ Approved content package rev. 2026-10-07, page 10 of 21, "Sense › Robotics". F
 - `npm run check` 592 files, 0 errors, 0 warnings; `npm run build` passed with the dev server stopped.
 - **Screenshots** (outside the project): `%TEMP%\lumotive-review\robotics\` (`desktop-1440-01…08`, `mobile-390-01…08`, `contact-desktop.png`, `contact-mobile.png`).
 
+### Fix: mobile hero contrast, R6 (2026-10-20)
+
+**Problem.** Found during the Page 11 QA: on phones the warehouse photo sits behind the full-width hero copy, and the body text (white at 75%) dropped under 4.5:1.
+
+**Fix.** Migration `1787713600_robotics_hero_mobile_shade.js` sets `mobileShade: "strong"` on hero `4c1a8e02` only.
+- `HeroFullHeight` then swaps in a heavier shade below 768px:
+  - standard: 96% at 20% → 76% at 55% → blue 40%;
+  - strong: 96% at 25% → 90% at 60% → blue 50%.
+- The new option is exposed in the hero editor spec.
+- Image, crop, copy, typography and hero height (612px at a 900px-tall viewport, before and after) are unchanged.
+- Desktop and tablet keep the standard shade (confirmed at 1440 and 768). `/sense/automotive` and `/sense` mobile heroes are unchanged.
+
+**Method.** The hero copy is hidden, the bare band is captured, and each text colour is tested against the background behind its own glyph boxes. The table gives the 99th-percentile-brightest pixel, with the single brightest pixel in brackets.
+
+| Text (requirement) | 390 before | 390 after | 430 before | 430 after |
+|---|---|---|---|---|
+| Body, white 75% (4.5) | **4.20** (3.80) | **5.60** (5.00) | **4.36** (3.99) | **5.83** (5.29) |
+| Headline, white, large (3.0) | 7.56 (4.28) | 11.17 (7.26) | 4.76 (3.44) | 7.40 (5.20) |
+| Eyebrow, amber (4.5) | 6.22 (5.46) | 9.08 (8.75) | 8.68 (8.16) | 9.92 (9.75) |
+| "See the kits" link, white (4.5) | 17.55 | 18.40 | 17.75 | 18.40 |
+
+Every hero text now passes at both widths, including against the brightest pixel. The body text measured 4.05 in the Page 11 check because that measurement used whole text boxes; this one uses glyph-line boxes.
+
+**Checks.**
+- No horizontal overflow at 390 or 430.
+- The migration reverts to the exact prior record and reapplies to `robotics` only.
+- `npm run check` reported 0 errors; `npm run build` passed with the dev server stopped.
+- Screenshots: `%TEMP%\lumotive-review\robotics\mobile-390-hero-strong-shade.webp` and `mobile-430-hero-strong-shade.webp`.
+
 ## What shipped in the v2 build (history)
 
 One reversible migration, `1787709900_sense_robotics_page10.js`. The page is

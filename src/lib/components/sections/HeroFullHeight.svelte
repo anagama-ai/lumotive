@@ -30,6 +30,10 @@
 	// below the actions and a tighter gap when the two actions stack. Text,
 	// font sizes and buttons are unchanged; desktop and tablet are untouched.
 	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
+	// Opt-in, phones only (<768px): a heavier shade for a bright photograph
+	// that would otherwise put the body copy under 4.5:1 once the copy spans
+	// the full width. Desktop and tablet keep the standard shade.
+	let strongMobileShade = $derived(section.mobileShade === 'strong');
 	function manageVideo(element: HTMLVideoElement) {
 		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const sync = () => {
@@ -49,6 +53,7 @@
 	class="lumo-section hero-shell bg-panel relative isolate z-50 flex items-end overflow-hidden"
 	class:band
 	class:compact-mobile={compactMobile}
+	class:strong-mobile-shade={strongMobileShade}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
 	data-width={section.width ?? 'contained'}
@@ -125,6 +130,9 @@
 		.hero-shell.compact-mobile { min-height: 0; }
 		.compact-mobile .hero-copy { padding-block: 4rem 3.5rem; }
 		.compact-mobile .hero-actions { row-gap: 1rem; }
+	}
+	@media (max-width: 767px) {
+		.strong-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
 	}
 	/* Desktop only. Below 1024px the hero stacks the copy over a much narrower
 	   frame, where the centred subject is already clear of the headline, so the

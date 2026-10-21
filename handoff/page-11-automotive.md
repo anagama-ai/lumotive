@@ -52,7 +52,7 @@ Repository, `static/lumotive/video` and Downloads were searched for anything mat
   - `tablet-1024-01-hero`, `tablet-768-01-hero`;
   - contact sheets for desktop, mobile and tablet.
 
-**Finding on Page 10, not changed here.** The same hero measurement on `/sense/robotics` at 390 gives body text 4.05:1 at the 99th percentile, under the 4.5:1 floor; headline 4.71:1 passes as large text. The warehouse photo added in the Page 10 pass is brighter behind the copy on phones. Recorded as R6 in `handoff/v3-outstanding-items.md` for a fix at review. `/sense` (6.48:1) and `/applications` (9.02:1) pass.
+**Finding on Page 10, since fixed.** The same hero measurement on `/sense/robotics` at 390 showed the body text under 4.5:1 over the warehouse photo. Recorded as R6 and fixed by `1787713600`, a phone-only stronger shade; measurements are in the Page 10 handoff. `/sense` (6.48:1) and `/applications` (9.02:1) passed without changes.
 
 ## What shipped in the v2 build (history)
 
