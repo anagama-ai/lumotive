@@ -116,6 +116,56 @@ stopped. Screenshots: `%TEMP%\lumotive-review\itof\m30-cutout\`
 (`desktop-1440-`, `tablet-1024-`, `mobile-390-`, `mobile-430-` ×
 `m30-section`, `see-it-on-your-bench`).
 
+### Refinement: phone hero and M30 spacing (2026-10-21)
+
+Migration `1787714300_itof_mobile_refinements.js`. Phones only (<768px);
+tablet and desktop unchanged. The approved M30 image treatment (sizes and
+desktop white panel) is untouched.
+
+**Hero (`5a1c9f20`).**
+
+- `compactMobile: "true"` (existing option, as on `/sense`): the band drops
+  its viewport minimum and grows with the copy.
+- New opt-in `mobileMediaScale: "1.2"` on `HeroFullHeight` enlarges the
+  photograph about its centre so its white top and bottom margins (rows
+  0–75 and 944–1008 of the 1008px source) fall outside the band. They were
+  showing as light bands under the shade.
+- The shorter band lifted the copy over the lens highlight: body text fell
+  to 3.32:1 at 390. The existing strong mobile shade only reached 4.41:1, so
+  instead new opt-in `mobileMediaPosition: "25%"` moves the frame left until
+  the lens is clear of the copy, keeping the standard shade.
+
+| 390 / 430 | Before | After |
+| --- | --- | --- |
+| Hero height | 574 / 634 | **441 / 441** |
+| Space above eyebrow | 201 / 261 | **76 / 76** |
+| Space below action | 64 / 64 | 56 / 56 |
+| Top-edge luminance (right half) | 0.273 / 0.270 | **0.023 / 0.032** (median 0.019 / 0.021) |
+| Body text, 99th pct / brightest px | 7.29 / 6.87 | **6.66 / 7.24** (brightest 6.14 / 5.92) |
+| Headline | 16.66 / 16.43 | 14.31 / 15.38 |
+| Eyebrow | 10.04 / 10.13 | 8.35 / 8.46 |
+
+Contrast is measured against the photograph behind each text line with the
+text hidden. Desktop 1440 is unchanged: hero 612px, 140px above the eyebrow,
+the same framing (`translateX 288px, scale 1.04`), body 9.80:1.
+
+**M30 description to spec tiles (`0f5ab938`).** New opt-in `compactMobile`
+on spec tiles takes the grid's lead from 48px to 24px below 768px. The gap
+from the last line of the M30 description to the first tile is now **64px**
+(40px section padding + 24px) at 390 and 430, down from 88px. Desktop stays
+160px. The LI140 and ON140 tile blocks keep 48px.
+
+**Checks.** No horizontal overflow at 390, 430 or 1440. The M30 image is
+still 268×180 at 390 and 600×403 on its white panel at 1440. Other phone
+heroes are unchanged: `/sense` 473, `/sense/robotics` 593,
+`/sense/automotive` 574, `/dev-kits/transmit-modules` 589, `/dev-kits/dtof`
+574, none reframed. Revert restored every page record byte-identically;
+re-apply changed only `itof`. `npm run check` 0 errors, 0 warnings;
+`npm run build` passed, dev server stopped. Screenshots:
+`%TEMP%\lumotive-review\itof\mobile-refine\`
+(`before-mobile-390/430-hero`, `after-mobile-390/430-hero`,
+`after-desktop-1440-hero`, `after-{mobile-390,mobile-430,desktop-1440}-m30-to-specs`).
+
 ### Blockers (after v3)
 
 1. **Hero kit family photo** (I1) — not supplied; incumbent M30 photo stays.

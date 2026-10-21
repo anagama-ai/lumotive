@@ -24,6 +24,8 @@ const statsFields: FieldSpec[] = [
 	{ name: 'media', label: 'Media', type: 'media' },
 	// Pin the tile grid instead of taking the count-derived default.
 	{ name: 'columns', label: 'Desktop columns (3 | 4)', type: 'text' },
+	// Spec tiles: tighter lead above the grid on phones only.
+	{ name: 'compactMobile', label: 'Compact tiles on phones (true | false)', type: 'text' },
 	{
 		name: 'stats',
 		label: 'Statistics',

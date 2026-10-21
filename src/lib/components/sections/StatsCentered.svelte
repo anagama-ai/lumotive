@@ -31,6 +31,10 @@
 					? 'lg:grid-cols-3 xl:grid-cols-6'
 					: 'lg:grid-cols-4')
 	);
+	// Opt-in, phones only (<768px), spec tiles: the grid sits 1.5rem under
+	// whatever precedes it instead of 3rem, for a tile block that follows its
+	// kit's description directly. Tablet and desktop keep 3rem.
+	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
 
 	const enumValue = (value: unknown, values: string[], fallback: string) => {
 		const candidate = String(value ?? '');
@@ -152,7 +156,7 @@
 						{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 					</div>
 					<Reveal stagger="dl > *" delay={0.1}>
-						<dl class={`mt-12 grid gap-6 sm:grid-cols-2 ${traitColumns}`}>
+						<dl class={`${compactMobile ? 'mt-6 md:mt-12' : 'mt-12'} grid gap-6 sm:grid-cols-2 ${traitColumns}`}>
 							{#each stats as stat, index (index)}
 								<div class="rounded-card border-border bg-surface flex flex-col border p-6">
 									<!-- The accent cycle lives on the rule, which is decorative and

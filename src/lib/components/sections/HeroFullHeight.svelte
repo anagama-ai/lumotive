@@ -34,6 +34,20 @@
 	// that would otherwise put the body copy under 4.5:1 once the copy spans
 	// the full width. Desktop and tablet keep the standard shade.
 	let strongMobileShade = $derived(section.mobileShade === 'strong');
+	// Opt-in, phones only (<768px): reframe the media layer for the narrow
+	// band. `mobileMediaScale` enlarges it about its centre, so a product
+	// photograph's white margins fall outside the band instead of showing as
+	// light bands; `mobileMediaPosition` (a horizontal percentage) picks which
+	// part of a wide photograph sits behind the copy. Unset elsewhere.
+	let mobileMediaScale = $derived.by(() => {
+		const value = String(section.mobileMediaScale ?? '').trim();
+		return /^\d+(\.\d+)?$/.test(value) ? value : '';
+	});
+	let mobileMediaPosition = $derived.by(() => {
+		const value = String(section.mobileMediaPosition ?? '').trim();
+		return /^\d{1,3}(\.\d+)?%$/.test(value) ? value : '';
+	});
+	let mobileFramed = $derived(Boolean(mobileMediaScale || mobileMediaPosition));
 	function manageVideo(element: HTMLVideoElement) {
 		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const sync = () => {
@@ -64,7 +78,7 @@
 >
 	{#if visual}
 		<Reveal immediate fade={false} y={0} scale={1.06} duration={1.6} class="absolute inset-0">
-			<div class="hero-media absolute inset-0" class:framed={mediaFramed} style:--hero-media-shift={mediaShift || undefined} style:--hero-media-scale={mediaScale || undefined} aria-hidden="true">
+			<div class="hero-media absolute inset-0" class:framed={mediaFramed} class:mobile-framed={mobileFramed} style:--hero-media-shift={mediaShift || undefined} style:--hero-media-scale={mediaScale || undefined} style:--hero-media-mobile-scale={mobileMediaScale || undefined} style:--hero-media-mobile-position={mobileMediaPosition || undefined} aria-hidden="true">
 				{#if isVideo}
 					<video
 						{@attach manageVideo}
@@ -133,6 +147,10 @@
 	}
 	@media (max-width: 767px) {
 		.strong-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
+	}
+	@media (max-width: 767px) {
+		.hero-media.mobile-framed > img,
+		.hero-media.mobile-framed > video { transform: scale(var(--hero-media-mobile-scale, 1)); object-position: var(--hero-media-mobile-position, 50%) 50%; }
 	}
 	/* Desktop only. Below 1024px the hero stacks the copy over a much narrower
 	   frame, where the centred subject is already clear of the headline, so the
