@@ -77,11 +77,44 @@ Reverts exactly.
   - `desktop-1440-01-hero` … `08-cta-footer`, `mobile-390-01-hero` … `08-cta-footer`;
   - `tablet-1024-07-bench`, `tablet-768-07-bench`.
 
-**Observation, not changed:** on phones the shared split layout shows a
-product photo at 75% width, so the M30 JPG's white background reads as a
-square white box on the grey page field. Simon's original is a transparent
-cut-out, so a transparent WebP would remove the box; it would also drop the
-white card on desktop. Left as is pending your call.
+### Refinement: transparent M30 photo (2026-10-21)
+
+Problem: on phones the shared split layout shows a product photo at 75%
+width, so the M30 JPG's white background read as a square white box on the
+grey page field.
+
+Migration `1787714200_itof_m30_cutout.js` on the M30 opener (`6e81d47c`)
+only:
+
+- **Image:** Simon's transparent original (IMG_7224, A1) saved as
+  `m30-dev-kit-contents.webp`, 1200×805, 128 KB (the JPG was 236 KB). Same
+  canvas and framing as the live JPG (aspect 1.491 vs 1.490; flattened on
+  white it matches the JPG to a mean 4.8/255 per channel), so nothing moves
+  and nothing is cropped. The JPG stays in the repo for the down path.
+- **Panel:** new opt-in `mediaFrame: "panel"` on `SplitDefault` paints the
+  art frame white (`--color-surface`) from 768px up, with the frame's existing
+  16px radius. That is the desktop white panel, now drawn by the container
+  instead of the image. Below 768px there is no panel: the product sits on
+  the page field. Ignored when the section has a video. Exposed in the CMS
+  editor as "Media frame".
+
+| Width | Image box before | After | Panel |
+| --- | --- | --- | --- |
+| 1440 | 600×403 | 600×403 | white, 16px radius |
+| 1024 | 457×307 | 457×307 | white |
+| 768 | 337×226 | 337×226 | white |
+| 430 | — | 298×200 | none |
+| 390 | 268×180 | 268×180 | none |
+
+Whole product visible at every width (`height: auto`, no `object-fit`
+crop). No horizontal overflow. "See It on Your Bench" is unchanged (16:9
+player, no panel). No other page renders the panel: `/dev-kits/dtof`,
+`/platform`, `/sense`, `/culture` art frames stay transparent. Revert
+restored every page record byte-identically; re-apply changed only `itof`.
+`npm run check` 0 errors, 0 warnings; `npm run build` passed, dev server
+stopped. Screenshots: `%TEMP%\lumotive-review\itof\m30-cutout\`
+(`desktop-1440-`, `tablet-1024-`, `mobile-390-`, `mobile-430-` ×
+`m30-section`, `see-it-on-your-bench`).
 
 ### Blockers (after v3)
 

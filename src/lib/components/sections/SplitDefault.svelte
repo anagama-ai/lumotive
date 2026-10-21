@@ -25,6 +25,11 @@
 		const value = String(section.videoAspect ?? '').trim();
 		return /^\d+(\.\d+)?\s*\/\s*\d+(\.\d+)?$/.test(value) ? value : undefined;
 	});
+	// `mediaFrame: "panel"`: for a transparent product cut-out. The white panel
+	// the photo used to carry in its own background is drawn by the frame
+	// instead, from 768px up; on phones the product sits on the page field
+	// with no box around it. Unset on every other section.
+	let panelFrame = $derived(String(section.mediaFrame ?? '') === 'panel' && !embedUrl);
 </script>
 
 {#snippet copy()}
@@ -71,7 +76,7 @@
 			{#if variant !== 'peelBleed' && (embedUrl || visual)}
 				<div class="art-column">
 					<Reveal x={mediaRight ? 24 : -24} y={12} duration={1.1}>
-						<div class="art-frame">
+						<div class="art-frame" class:panel-frame={panelFrame}>
 							{#if embedUrl}
 								<iframe
 									src={embedUrl}
@@ -110,6 +115,9 @@
 	.art-frame { overflow: hidden; border-radius: var(--radius-card); }
 	.art-frame img, .art-frame video { display: block; width: 100%; height: auto; }
 	.video-embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+	@media (min-width: 768px) {
+		.panel-frame { background: var(--color-surface); }
+	}
 	/* Deep Laser Blue on light: at the eyebrow's 12px, Laser Blue measures
 	   4.15:1 on the page field, under the 4.5:1 floor. Dark variants below
 	   keep their own colours, which are measured against the navy panel. */
