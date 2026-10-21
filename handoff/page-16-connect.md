@@ -49,6 +49,12 @@ as before. Exposed in the editor as "Image beside the copy".
 - **Migration:** revert restored every page record byte-identically;
   re-apply changed only `connect`. `npm run check` 0 errors, 0 warnings;
   `npm run build` passed, dev server stopped.
+- **Stacked CTAs without media (checked 2026-10-21, page 17 pass):** with the
+  pre-change `CtaDefault.svelte` swapped back in, the server-rendered `<main>`
+  of all 16 pages was byte-identical to the current build except `/connect`
+  block 7 (the image wrapper). The eleven stacked CTAs without media (Home,
+  Culture, Automotive, Transmit, four on iToF, three on dToF; five of them
+  light tone) render the same markup as before the change.
 - **Screenshots:** `%TEMP%\lumotive-review\connect\` — `desktop-1440-01…09`,
   `mobile-390-01…09`, `tablet-1024-`/`tablet-768-`/`mobile-430-`
   `01-hero`, `06-2d-beamforming`, `08-use-cases`; `before\` for the hero,

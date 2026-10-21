@@ -1,12 +1,62 @@
 # Page 17 — /about
 
-Approved content package rev. 2026-10-07 (v2), page 17 of 21, "Company ›
-About". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07, page 17 of 21, "Company ›
+About". First built against v2; **v3 pass applied 2026-10-21**. Branch
+`feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.** Awaiting screenshot review before
-page 18.
+**Status: v3 implemented and QA-verified.** Open: award badges (AB2), the
+final investor list and Hokuyo (AB3), the LinkedIn follow line (AB4 / S1)
+and the Sajid Husain bio wording (AB5).
 
-## What shipped
+## v3 pass (2026-10-21)
+
+**Copy.** The v2→v3 text diff of page 17 is empty; every live heading,
+award, name, title, action and line matches v3 in the printed order. No
+copy changed.
+
+**Simon's one annotation:**
+
+| # | Position | Simon's file | Outcome |
+| --- | --- | --- | --- |
+| A1 | Hero, "KEEP AS IS · Existing: hero-about.jpg" | [IV2.26.18-196-scaled.jpg](https://lumotive.com/wp-content/uploads/2023/04/IV2.26.18-196-scaled.jpg) (2560×1707, engineer at an optical bench) | **Hero**, as `hero-about-bench.webp` (2400×1600, 89 KB). Replaces `hero-about.jpg`, which is kept for the down path. |
+
+Why the swap is consistent with KEEP AS IS: lumotive.com/about serves this
+exact file as its hero background today (Elementor `post-806.css`,
+element `0cffcc6`). The "existing" hero the package means is Simon's
+photograph; the local `hero-about.jpg` is a different dark-lab image. This
+closes AB1.
+
+**Migration** `1787714700_about_v3.js`: hero media, plus the existing
+phone-only `mobileShade: "strong"`. The new photo is brighter than the old
+one; at 390px the body line measured 4.24:1 (brightest pixel) over the
+shirt with the standard shade. No component change.
+
+### v3 QA
+
+- **Hero contrast** (text hidden, 99th percentile / brightest pixel, per line
+  box): body 6.94/6.38 (390), 7.90/7.53 (430), 7.32/7.05 (768), 8.79/7.95
+  (1024), 9.08/8.89 (1440), 9.07/8.91 (1920); headline ≥ 9.63; eyebrow ≥ 8.91;
+  "Meet the team" ≥ 12.62. Before the phone shade: body 4.64/4.24 at 390.
+- **Framing:** the band (about 1.9:1 at 1440, 2.5:1 at 1920) crops the 3:2
+  photo top and bottom, so desktop shows the hand, optics and shirt; the
+  face is cropped at the chin, as in the original. No overflow at 390–1920.
+- **Page:** 24 images, none broken, all load on scroll; no heading under 0.9
+  opacity with or without reduced motion; no tap target under 44px;
+  `/platform`, `/culture` and both hero images answer 200.
+- **Migration:** revert restored every page record byte-identically;
+  re-apply changed only `about` section `3998f57f` (`media`, `mobileShade`).
+  `npm run check` 592 files, 0 errors, 0 warnings. No source change, so no
+  build was run.
+- **Screenshots:** `%TEMP%\lumotive-review\about\hero-390…1920.png`.
+
+### Outstanding (after v3)
+
+1. **AB2** — official award badges (names and links are live).
+2. **AB3** — final investor list; whether Hokuyo belongs (see below).
+3. **AB4** — LinkedIn follow line, held for the URL (S1).
+4. **AB5** — "beamforming" inside Sajid Husain's bio: OK?
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787711700_about_page17.js`. Route and record
 unchanged; the page keeps its id.
