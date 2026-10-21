@@ -35,7 +35,7 @@ Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `
 | S8 | Application status labels "In production / In development / Active programs / Exploring" (Home, Applications) | Decision | Verify | They conflict with global rule 1 (no availability or roadmap). v3 reprints them unchanged. Publish as printed, or drop? Currently omitted. | Lumotive (Apurva) | Yes | PDF p05, p08; `1787709500` header |
 | S9 | No-contractions rule vs approved copy | Decision | Verify | Two approved strings contain contractions: Home eyebrow "What's new" (printed on PDF p05) and About mission "redefining what's possible" (KEEP AS IS). Keep, or reword? | Lumotive (Claudia) | No | CMS `home#e7b40d12`, `about#4e30aac9` |
 | S10 | Webvizio image tasks #123/#124, #126, #128, #130/#131, #152/#153 (PDF p04 "All/Various") | Decision | Verify | No handoff maps these to current pages, and the Webvizio screenshots are needed to judge them. List which are still open after the page rebuild. Do not close any task until the client verifies it on staging. | Us + Claudia | No | PDF p04 Image and Media table |
-| S11 | Meta description + social preview text (global rule 14) | Ours | Do | Add `seoDescription` (one sentence from the hero) and `seoTitle` to Home, Platform, Applications and Dev Kits. Sense was done in `1787713100`; the other 11 records already have them. | Us | Yes | CMS `seoDescription` empty on those 4 |
+| S11 | Meta description + social preview text (global rule 14) | Ours | Do | Add `seoDescription` (one sentence from the hero) and `seoTitle` to Home, Platform and Applications. Sense (`1787713100`) and Dev Kits (`1787713700`) are done; the other 11 records already have them. | Us | Yes | CMS `seoDescription` empty on those 3 |
 | S12 | Social preview image | Decision | Verify | `ogImage` is null on all 16 pages and no `defaultOgImage` is set. Propose one default (or per-page hero) for approval. | Us → Claudia | No | `+layout.server.ts` l.41–46 |
 | S13 | `globals.seo` boilerplate | Ours | Do | Replace "Next.js and Payload starter" defaults and tagline with approved Home copy. `contactEmail: hello@example.com` needs a real address (reuse N2 if appropriate). Not rendered today, but editor-visible. | Us (+ Lumotive for email) | No | `globals.seo` |
 | S14 | `globals.code_injection` debug | Ours | Do | Remove `console.log('code injection: bodyEnd')` and the head comment before any deploy. | Us | No | `globals.code_injection`; `+layout.svelte` l.61 |
@@ -115,7 +115,7 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 Resolved on this page by `1787713400` (and `1787713600` for R6):
 - R1 hero: now the existing `market-agv.jpg`, identical to A1.
 - R6 mobile hero contrast, fixed by `1787713600` (phone-only stronger shade). Body text measured 4.20 → 5.60:1 at 390 and 4.36 → 5.83:1 at 430; all hero text passes.
-- R5: review decision on 2026-10-20 to keep all four kit cards text-only until LI140 and ON140 arrive. This decides Robotics only; page 12's D2/D3 still need their own call.
+- R5: review decision on 2026-10-20 to keep all four kit cards text-only until LI140 and ON140 arrive. This decides Robotics only; page 12's iToF row has its own open decision (D6).
 - The Integrate copy fix ("or body").
 - The printed bullet list for the four benefits.
 - The 01–04 step numerals.
@@ -132,15 +132,19 @@ Resolved on this page by `1787713400` (and `1787713600` for R6):
 
 Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` with desktop framing (`mediaShift 20%`, `mediaScale 1.4`) so the car clears the headline. Copy verified verbatim against v3.
 
-## Page 12 — Dev Kits `/dev-kits`
+## Page 12 — Dev Kits `/dev-kits` (v3 pass done 2026-10-20)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
 | D1 | Hero | Asset | Missing | Kit family photo; not annotated. The incumbent bench photo stays meanwhile. | Lumotive | No | PDF p12 |
-| D2 | Find Your Dev Kit | Ours | Do | Integrate Simon's four: TX10 (IMG_9290 = local `tx10-module-closeup.jpg`), M30 (IMG_7224 = local `m30-dev-kit-contents.jpg`), NM120 (IMG_0032 = local `nm120-module.png`), MD180 ([IMG_9388](https://lumotive.com/wp-content/uploads/2026/04/IMG_9388-1-copy-2.png), not in repo). | Us | Yes | p12 A1–A4; hash 1.00 ×3 |
-| D3 | Find Your Dev Kit | Asset | Missing | ON140 and LI140 photos (see R4). | Lumotive | Yes | PDF p12 |
-| D4 | Module and Solution Providers | Asset/Decision | Missing | See SE5, SE6. | Lumotive / Claudia | Yes | PDF p12 |
-| D5 | Meta | Ours | Do | See S11. | Us | Yes | — |
+| D3 | Find Your Dev Kit · iToF | Asset | Missing | ON140 and LI140 photos (same delivery as R4/I7). | Lumotive | Yes | PDF p12 |
+| D6 | Find Your Dev Kit · iToF | Decision | Verify | Image treatment for the iToF row. Only M30 is supplied (A2), so the row stays text-only for now. Ship M30's photo alone on the grey panel now, or wait for ON140/LI140? (Robotics' R5 decision was to wait; page 12 prints a photo on every kit card.) | Claudia | No | `page-12-dev-kits.md` |
+| D4 | Module and Solution Providers | Asset/Decision | Missing | Not built here. See SE5 (Leopard logo) and SE6 (ship 3 of 4 now?). | Lumotive / Claudia | Yes | PDF p12 |
+
+Resolved on this page by `1787713700`:
+- D2: TX10, NM120 and MD180 photos on the p03 "photo on light grey panel" treatment (new opt-in `mediaFrame: "panel"`), as transparent WebPs.
+- D5: meta description from the hero.
+- Copy verified verbatim against v3.
 
 ## Page 13 — Transmit Modules `/dev-kits/transmit-modules`
 
@@ -243,7 +247,7 @@ Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` 
 
 **Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · D2 · T1 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media. (Pages 09–11 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · T1 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3/D6 iToF photos. (Pages 09–12 are done.)
 
 ## One request for Claudia and Josh
 
@@ -277,7 +281,7 @@ Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` 
 
 **Claudia — decide or confirm**
 - Status labels: publish or drop (S8).
-- Ship the provider strip partially now, or wait for Leopard (SE6). For Robotics kit rows the review decided to wait for LI140/ON140 (R5); confirm the same holds for Dev Kits (D2/D3).
+- Ship the provider strip partially now, or wait for Leopard (SE6, D4). For Robotics kit rows the review decided to wait for LI140/ON140 (R5). On Dev Kits the TX10 and dToF rows now have photos; decide whether the iToF row shows M30 alone or waits (D6).
 - Hero swaps for About, Culture and Partners to Simon's photos (AB1, CU1, PA1).
 - The TX10 still versus the #129 animation (T2).
 - The new HDR video also on dToF (F5).
@@ -295,7 +299,7 @@ Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` 
 | Sense #119 section images; application photos; meta description | Supplied and integrated as local WebP; SE4 fit confirmed visually | p09 A1–A5; `1787713100` |
 | Robotics hero; M30 and NM120 kit photos | Hero live via existing `market-agv.jpg` (`1787713400`); M30/NM120 photos supplied, held for a uniform row until LI140/ON140 arrive (R3/R4) | p10 A1–A3 |
 | Automotive hero | Live as `hero-automotive.webp` with desktop framing (`1787713500`) | p11 A1 |
-| Dev Kits TX10, M30, NM120, MD180 photos | Supplied (D2); only ON140 and LI140 remain | p12 A1–A4 |
+| Dev Kits TX10, NM120, MD180 photos | Live on the p03 grey kit panel (`1787713700`); M30 supplied but held pending D6; ON140/LI140 still missing | p12 A1–A4 |
 | Transmit hero still image | Supplied (T1); only the #129 animation question remains | p13 A1 |
 | iToF "Photo: M30 with kit contents" | Already live: `m30-dev-kit-contents.jpg` is identical to Simon's IMG_7224 | `itof#6e81d47c`; hash 1.00 |
 | iToF compact M30 AMR demo clip | Supplied: Vimeo 1174547871 (I2) | p14 A2 |

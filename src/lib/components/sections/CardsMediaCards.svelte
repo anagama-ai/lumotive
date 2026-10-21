@@ -31,6 +31,12 @@
 	let note = $derived(String(section.note ?? '').trim());
 	// Label for this section's own group of cards, printed above its grid.
 	let label = $derived(String(section.label ?? '').trim());
+	// `mediaFrame: "panel"` is the page-03 kit-card treatment: the product
+	// photo sits contained on a light-grey (Cool Field) panel inside the card
+	// padding, at one fixed height so every family row matches, instead of a
+	// full-bleed 16:9 crop. For transparent product cut-outs. Unset on every
+	// other section, which keeps the full-bleed photo.
+	let panel = $derived(String(section.mediaFrame ?? '') === 'panel');
 	let fourUp = $derived(String(section.columns ?? '') === '4');
 	// Desktop column count. Unset keeps the historic behaviour exactly: two-up,
 	// widening to three only for a three-card section. `columns: "4"` opts a
@@ -71,8 +77,9 @@
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
 				>
-					{#if image}<div class="relative aspect-video w-full overflow-hidden"><img class="absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
+					{#if image && !panel}<div class="relative aspect-video w-full overflow-hidden"><img class="absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
 					<div class="card-pad flex flex-1 flex-col p-8">
+						{#if image && panel}<div class="kit-panel bg-background mb-6 overflow-hidden rounded-lg"><img class="size-full object-contain p-5 motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
 						<!-- Optical Ink, and Laser Blue on the action below: at these
 						     sizes Signal Green measures 3.19:1 and Optical Amber less
 						     still on the white card. The accent cycle stays on
@@ -147,4 +154,8 @@
 	   beneath a set of cards. Slate, not muted: at the spec size muted slate
 	   falls under 4.5:1 on the page field. */
 	.section-note { color: var(--color-text); font-size: var(--text-spec); line-height: 1.5; }
+	/* Kit panel: one height across every family row, so a single TX10 card,
+	   a row of three and a row of two all frame their products alike. */
+	.kit-panel { height: 12rem; }
+	@media (min-width: 768px) { .kit-panel { height: 14rem; } }
 </style>

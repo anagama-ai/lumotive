@@ -125,6 +125,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 		label: 'Cards — media cards',
 		fields: [
 			...presentationFields,
+			{ name: 'mediaFrame', label: 'Card photo frame (panel = product on light-grey panel; default full-bleed)', type: 'text' },
 			...introFields,
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },

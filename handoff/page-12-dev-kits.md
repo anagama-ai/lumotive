@@ -1,12 +1,62 @@
 # Page 12 — /dev-kits
 
-Approved content package rev. 2026-10-07 (v2), page 12 of 21, "Sense › Dev Kits
-& Reference Designs". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07, page 12 of 21, "Sense › Dev Kits & Reference Designs". First built against v2; **v3 pass applied 2026-10-20**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified**, except the Module and Solution
-Providers component, which stays blocked on two logos.
+**Status: v3 implemented and QA-verified.** Two open items for review: the iToF row's photos (one image-treatment decision) and the Module and Solution Providers strip (a missing logo plus a decision). The hero family photo is also still to be supplied.
 
-## What shipped
+## v3 pass (2026-10-20)
+
+**Copy.** The v2→v3 diff of page 12 has one change, "Skip the beamforming design", which was already live from `1787712600`. Every live string was matched programmatically against the v3 page text and found verbatim. Section order and kit categorisation match the PDF:
+- Transmit modules: TX10.
+- iToF: ON140, LI140, M30.
+- dToF: NM120, MD180.
+- Reference-design caveat under the dToF row.
+
+All actions are pages or contact requests (`kit-recommendation`, `md180`); there are no downloads.
+
+**Simon's four notes on page 12** (all transparent PNG cut-outs, checked against the repository):
+
+| Note | Slot | Repository | Used |
+| --- | --- | --- | --- |
+| A1 [IMG_9290](https://lumotive.com/wp-content/uploads/2026/05/IMG_9290-1-copy-2.png) | TX10 | same picture as `tx10-module-closeup.jpg`, flattened on white | **Yes**, as `kit-tx10.webp` |
+| A2 [IMG_7224](https://lumotive.com/wp-content/uploads/2024/10/IMG_7224-Edit-1-copy-2.png) | M30 | same picture as `m30-dev-kit-contents.jpg` (`/dev-kits/itof`) | **No**, held (see iToF row) |
+| A3 [IMG_0032](https://lumotive.com/wp-content/uploads/2026/04/IMG_0032-1-copy-1.png) | NM120 | same picture as `nm120-sensor.jpg`, flattened on white | **Yes**, as `kit-nm120.webp` |
+| A4 [IMG_9388](https://lumotive.com/wp-content/uploads/2026/04/IMG_9388-1-copy-2.png) | MD180 | not in the repo | **Yes**, as `kit-md180.webp` |
+
+**Why new files rather than the existing JPGs.** The existing copies are flattened on white. The page-03 kit card prints "Photo on light grey panel", and a white rectangle would show inside a grey panel. So the transparent originals are kept: trimmed to their alpha bounds plus 2%, at most 900px, WebP q86 with alpha (TX10 54 KB, NM120 81 KB, MD180 47 KB). They are a different rendition of the same photos, not duplicates.
+
+**Kit-card treatment.**
+- New opt-in `mediaFrame: "panel"` on `cardsMediaCards`, exposed in the editor spec.
+- It places the product contained on a Cool Field panel inside the card padding, rather than a full-bleed 16:9 crop.
+- The panel is a fixed 224px tall (192px below 768px), so the single TX10 card and the dToF pair frame their products at one size.
+- Every other media-card grid is unchanged (checked below).
+
+**Image decision by row.** Page 12's own specification prints a photo on every kit card, so the Robotics text-only decision was not copied over:
+- **Transmit modules (TX10):** complete, so it has its photo.
+- **dToF (NM120, MD180):** complete, so both have photos.
+- **iToF (ON140, LI140, M30): text-only, flagged for review (D6).** Only M30 is supplied. One photo beside two bare cards would break the row (it is 1 → 2 → 3 columns), so all three stay text-only for now. If you prefer, M30 can ship now as a one-field change, with the ON140/LI140 cards keeping no panel until their photos arrive.
+
+**Meta.** `seoDescription` now carries the hero sentence (global rule 14), so page 12 drops out of S11.
+
+**Migration** `1787713700_dev_kits_v3.js` (reversible, guarded) sets `mediaFrame` and card `media` on `2c84f7a1` and `a90f62b3`, plus `seoDescription`.
+
+### v3 QA
+
+- **390 / 768 / 1024 / 1440:** no horizontal overflow, no broken image, every inner column on one edge (16 / 24 / 24 / 80), no tap target under 44px.
+  - Grids: Why 1 → 2 → 4; Transmit 1 → 2 (single card, half row); iToF 1 → 2 → 3; dToF 1 → 2.
+  - Equal card heights per row: dToF 542/542 at 1440, iToF 320×3 at 1440.
+- **Product crops:** all three products sit whole and centred on the grey panel at every width, with no cropping. NM120's wider footprint and MD180's taller one both fit inside the 5rem-padded panel.
+- **Links and anchors:** `/dev-kits/transmit-modules`, `/dev-kits/itof`, `/dev-kits/dtof`, `/contact?inquiry=kit-recommendation` and `/contact?inquiry=md180` all answer 200. `#why`, `#find-your-dev-kit`, `#itof` and `#dtof` resolve. No `download` attribute, PDF link or "download" wording.
+- **Contrast:** automated scan of Why, Transmit, iToF and dToF, zero failures. The panel is decorative; product images carry `alt=""` and the card title names the kit.
+- **Shared-component regression:** no other page renders `.kit-panel`. The full-bleed photo grids still load: `/applications` 7, `/sense` 3, `/platform` 2. `/sense/robotics` and `/sense/automotive` media cards are unchanged and text-only. No overflow.
+- **Migration:** revert restored every page record byte-identically to the pre-migration snapshot; reapply changed only `dev-kits`.
+- `npm run check` 592 files, 0 errors, 0 warnings; `npm run build` passed with the dev server stopped.
+- **Screenshots** (outside the project): `%TEMP%\lumotive-review\dev-kits\`
+  - `desktop-1440-01…06`, `mobile-390-01…06`;
+  - `mobile-390-05b-dtof-md180`;
+  - `tablet-1024/768-find-your-dev-kit`.
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787710200_dev_kits_page12.js`. The revert restores
 the previous four sections **byte-identically**.
@@ -78,23 +128,17 @@ Both restored verbatim by the down path.
   is byte-identical to the pre-migration record.
 - `svelte-check` and the production build both clean.
 
-## Blockers
+## Blockers (after v3)
 
-1. **Module and Solution Providers component — not built.** Still blocked on
-   the **Leopard Imaging** logo (absent from this repository) and the
-   **Electronic Photonics** logo (an open Lumotive input; the existing
-   `ephotonics.png` carries the "e-Photonics" spelling the package removes).
-   Blocks package pages **09, 10, 12 and 19**; one delivery unblocks all four.
-   Webvizio **#121 and #122** resolve through it and stay open.
-2. **Kit family photo** for the hero. The page keeps its incumbent dev kit bench
-   photograph — a real Lumotive asset showing kit hardware — rather than being
-   stripped to a bare band. The package asks for a family shot of the kits
-   together, which is an upgrade on it. Swapping `media` on `1b368f3c` is a
-   one-field change.
-3. **All six kit photographs.** Package page 04 lists the kit photos at full
-   resolution as a new asset, and **LI140, ON140 and MD180 have no photograph
-   in this repository at all**, so the rows ship uniform rather than half
-   illustrated. Adding `media` per card later is data-only.
-4. **`/dev-kits/transmit-modules`, `/dev-kits/itof`, `/dev-kits/dtof`** 404
-   until pages 13, 14 and 15 are built. The links carry the approved
-   destinations and need no change.
+1. **Module and Solution Providers — not built on `/dev-kits`.** The PDF prints it between Find Your Dev Kit and the closing CTA: Leopard Imaging, Namuga, Hokuyo, Electronic Photonics, no external links.
+   - The **Leopard Imaging logo is missing** (client asset, SE5/PA2).
+   - The existing "≡ PHOTONICS" mark carries no "e-Photonics" spelling (checked on page 19), so it is now a confirmation (PA4).
+   - **Decision SE6/D4:** ship the strip now with 3 of 4 logos, as `/partners` already does, or wait for Leopard?
+   - Webvizio #121/#122 stay open.
+2. **iToF kit photos (D3/D6).** ON140 and LI140 photos are not supplied. M30 is supplied but held, pending the image-treatment decision above.
+3. **Hero kit family photo (D1).** Not annotated or supplied. The incumbent bench photograph `hero-devkits.jpg` stays; the PDF's grey box reads "Kit family photo".
+
+Resolved by v3:
+- the TX10, NM120 and MD180 photos;
+- the meta description;
+- the `/dev-kits/*` 404s (pages 13–15 built).
