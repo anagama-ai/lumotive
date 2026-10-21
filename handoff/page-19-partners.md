@@ -1,12 +1,54 @@
 # Page 19 — /partners
 
-Approved content package rev. 2026-10-07 (v2), page 19 of 21, "Company ›
-Partners". URL confirmed as **/partners**, unchanged.
+Approved content package rev. 2026-10-07, page 19 of 21, "Company ›
+Partners". URL **/partners**, unchanged. First built against v2; **v3 pass
+applied 2026-10-21**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.** Awaiting screenshot review before
-page 20.
+**Status: v3 implemented; focused checks run.** Open: Leopard Imaging and
+onsemi logos (PA2, PA3), the Electronic Photonics mark (PA4), hero framing
+(PA1) and final hero contrast QA (S26).
 
-## What shipped
+## v3 pass (2026-10-21)
+
+**Copy.** The v2→v3 text diff of page 19 is empty. All five headings, the
+hero line and action, the logo order (Fortsense absent) and the closing CTA
+with `/contact?inquiry=partnership` match v3. No copy or logo changed.
+
+**Simon's one annotation:**
+
+| # | Position | Simon's file | Outcome |
+| --- | --- | --- | --- |
+| A1 | Hero, "KEEP AS IS · Existing: hero-partners.jpg" | [Partners-Hero-scaled.jpg](https://lumotive.com/wp-content/uploads/2024/08/Partners-Hero-scaled.jpg) (2560×1696, LCM module with circuit art) | **Hero**, as `hero-partners-lcm.webp` (2400×1590, 85 KB). Replaces the local light-burst `hero-partners.jpg`, kept for the down path. |
+
+As on About, this file is the hero lumotive.com/partners serves today
+(Elementor `post-3504.css`, first section), so it is the "existing" hero the
+KEEP AS IS slot names.
+
+**Migration** `1787715000_partners_v3.js`: hero media, and the phone focal
+point set for the old image (`mobileMediaPosition: 100%`, aimed at the light
+burst) is removed, so phones crop centred and keep the module in frame. The
+standard shade is kept. No component change.
+
+### v3 QA (focused)
+
+- **Hero text, screenshot measure** (text hidden; 99th-percentile /
+  brightest backdrop pixel under each line box): body 8.60/7.70 (360),
+  8.52/7.70 (390), 8.17/7.05 (430), 8.24/7.43 (768), 7.98/7.42 (1024),
+  8.02/7.80 (1440); headline ≥ 8.48, eyebrow ≥ 7.91. A comparison measure,
+  not an accessibility sign-off (S26).
+- **Framing (PA1, for Claudia):** from 768px the module sits on the left,
+  behind the headline under the dark side of the shade; the circuit art
+  carries the right. On phones the module is centred behind the copy.
+- **Page at 360 / 390 / 430 / 768 / 1024 / 1440:** no overflow, no broken or
+  unloaded image, no heading or logo under 0.9 opacity, no tap target under
+  44px. Headings and the 14 logo alts unchanged; main links only `/contact`
+  and `/contact?inquiry=partnership` (200).
+- **Migration:** revert restored every page record byte-identically;
+  re-apply changed only `partners` section `e95fe8b0` (`media`,
+  `mobileMediaPosition`). `npm run check` 0 errors, 0 warnings.
+- **Screenshots:** `%TEMP%\lumotive-review\partners\hero-*.png`.
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787712000_partners_page19.js`. Six staging strips
 become the five approved blocks.

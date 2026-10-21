@@ -50,12 +50,13 @@ Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `
 | S23 | Staging database vs migrations | Tech | Verify | Most migrations are guarded on prior values and silently no-op if staging content was edited. Need a recent staging `pb_data` backup to dry-run all migrations before deploy. | Josh + Us | Yes | Migration guard pattern |
 | S24 | Dokploy/GHCR secrets and variables | Tech | Verify | Confirm `DOKPLOY_URL`, `DOKPLOY_API_KEY`, `DOKPLOY_PB_APP_ID`, `DOKPLOY_WEB_APP_ID` and `ORIGIN` are set for staging and production. | Josh | Yes | `.github/workflows/publish.yml`, README |
 | S25 | Uncommitted Windows watcher fix | Ours | Do | Commit `vite.config.ts` on its own, or drop it. Never sweep it into a page commit. | Us | No | `git status` |
+| S26 | Hero text over photographs (all heroes) | Ours | Verify | Final contrast QA. Our hero figures are a screenshot measurement (text hidden; contrast against the 99th-percentile and the single brightest backdrop pixel under each line box), useful for comparing framings but **not a definitive accessibility pass**. Recheck with a manual or tool-based review in real browsers (S20), including video frames on Home. Known low spots: Transmit phone body brightest pixel 3.84–4.28:1; at 768, Home video 3.85, Transmit 3.86, Culture 4.22, Contact 4.26 (brightest pixel). | Us | Yes | Phone heroes note below; page handoffs |
 
 ### Phone heroes (2026-10-21)
 
 Below 768px every image hero (band and Home's full-height video) now takes the compact form Sense introduced: no viewport minimum, 4rem above the eyebrow, 3.5rem below the last action, the section's own spacing dropped, wrapped actions 1rem apart. Heights follow the copy (328–581px at 360–430; Sense 413–473). `compactMobile` on heroes is gone (it is now the default); Sense, iToF and dToF render exactly as before. Tablet (768) and desktop (1024, 1440) geometry is identical before and after on every page. News (compact header) and LCM Chips (split hero) are untouched.
 
-Framing and shade per photo, migration `1787714900`, chosen so the subject stays in frame and every line holds 4.5:1 against its 99th-percentile brightest backdrop pixel (3:1 headings) at 360/390/430, lighter standard shade wherever it holds:
+Framing and shade per photo, migration `1787714900`, chosen so the subject stays in frame and, by our screenshot measurement (text hidden, 99th-percentile backdrop pixel under each line), every line measured at least 4.5:1 (3:1 headings) at 360/390/430, using the lighter standard shade wherever that held. This is a comparison measure, not an accessibility sign-off; see S26.
 
 | Page | Phone framing | Shade |
 |---|---|---|
@@ -66,10 +67,10 @@ Framing and shade per photo, migration `1787714900`, chosen so the subject stays
 | Transmit | 65% (TX10 module) | strong (as before) |
 | Connect | 0% (left beam fan) | standard |
 | About | 75% (optics and engineer) | standard (was strong) |
-| Partners | 100% (light burst) | standard |
+| Partners | centre (LCM module; was 100% for the old light-burst image, changed by `1787715000`) | standard |
 | Contact | 25% (building at the right edge) | strong (new) |
 
-Residuals, not regressions: Transmit body's single brightest pixel is 3.84–4.28:1 across 360–430 (p99 ≥ 5.00; white photo backdrop; best of 12 framings, was 3.30–3.73). At 768 (unchanged) four heroes keep brightest-pixel lows under 4.5:1 with p99 ≥ 4.57: Home video 3.85, Transmit 3.86, Culture 4.22, Contact 4.26.
+Open for final QA (S26): Transmit body's single brightest pixel is 3.84–4.28:1 across 360–430 (99th percentile ≥ 5.00; white photo backdrop; best of 12 framings, was 3.30–3.73). At 768 (unchanged) four heroes have brightest-pixel lows under 4.5:1 with the 99th percentile ≥ 4.57: Home video 3.85, Transmit 3.86, Culture 4.22, Contact 4.26.
 
 ## Page 05 — Home `/`
 
@@ -173,7 +174,7 @@ Resolved on this page by `1787713700`:
 | T2 | Hero — #129 | Decision | Verify | #129 asks for an *animation* labelling the Tx optics. Simon supplied a still (TX10 in hand), now live. Does the still close #129, or is the animation still wanted? #129 stays open until decided. | Lumotive (Simon) | Yes | PDF p13, p04 |
 | T3 | Programmable Illumination for a Dynamic World | Asset | Missing | Two animations: flood illumination; non-sequential ROI pulses with a sharpening point cloud. Simon: "Older decks", a lead only; nothing matching in the repo. Section ships its approved copy and five cards. | Lumotive | Yes | p13 A2 |
 
-Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp` (A1) with the phone-only strong shade so the body text clears 4.5:1. Copy verified verbatim against v3.
+Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp` (A1) with the phone-only strong shade, which raised the measured body contrast over 4.5:1 at the 99th percentile (screenshot measure; brightest pixel still lower, see S26). Copy verified verbatim against v3.
 
 ## Page 14 — iToF Dev Kits `/dev-kits/itof` (v3 pass done 2026-10-21)
 
@@ -233,16 +234,18 @@ Resolved on this page by `1787714700`: AB1 hero, live as `hero-about-bench.webp`
 | CU2 | Help Us Make Light Programmable | Tech | Verify | LinkedIn follow line; see S1. | Lumotive | Yes | — |
 | CU3 | Open Roles | Decision | Verify | Live Lever feed shows the six newest postings. OK, or filter by team/featured? | Lumotive | No | `page-18-culture.md` l.87 |
 
-Resolved on this page by `1787714800`: hero live as `hero-culture-team.webp` from Simon's IMG_4516, framed with existing options (`mediaAnchor 0%`, `mobileMediaPosition 100%`, phone-only strong shade) so the body line clears 4.5:1 at every width (was 3.21:1 at 390, 3.96:1 at 768). "The Lumotive Way" (YouTube AcLAbtIxN64) confirmed playing in-page. Copy verified verbatim against v3 (empty diff).
+Resolved on this page by `1787714800`: hero live as `hero-culture-team.webp` from Simon's IMG_4516, framed with existing options (`mediaAnchor 0%`, `mobileMediaPosition 100%`, phone-only strong shade) so the body line measured at least 4.5:1 at the brightest backdrop pixel at every width tested (was 3.21:1 at 390, 3.96:1 at 768; screenshot measure, see S26 — at 1024px viewport height 768 later measured 4.22). "The Lumotive Way" (YouTube AcLAbtIxN64) confirmed playing in-page. Copy verified verbatim against v3 (empty diff).
 
-## Page 19 — Partners `/partners`
+## Page 19 — Partners `/partners` (v3 pass done 2026-10-21)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| PA1 | Hero | Decision | Verify | Simon linked [Partners-Hero](https://lumotive.com/wp-content/uploads/2024/08/Partners-Hero-scaled.jpg) (LCM module with circuit art) at "KEEP AS IS · Existing: hero-partners.jpg"; live differs. Swap? (Recommended: yes.) | Claudia | No | p19 A1 |
+| PA1 | Hero framing | Decision | Verify | Simon's Partners-Hero (lumotive.com's current Partners hero) is now live. From 768px the LCM module sits on the left, behind the headline under the dark side of the shade, so the circuit art carries the right; on phones the module is centred behind the copy. Acceptable, or reframe? No polish planned until Claudia reviews. | Claudia | No | `page-19-partners.md` v3 QA |
 | PA2 | Module and Solution Providers | Asset | Missing | Leopard Imaging logo (#121). | Lumotive | Yes | PDF p19 |
 | PA3 | Technology Partners | Asset | Missing | onsemi logo (first in order). | Lumotive | Yes | PDF p19 |
 | PA4 | Module and Solution Providers | Decision | Verify | The existing "≡ PHOTONICS" mark is shown as Electronic Photonics; page 04 still lists the logo as pending. Confirm it is current, or supply a new one. | Lumotive | No | `page-19-partners.md` l.77 |
+
+Resolved on this page by `1787715000`: hero live as `hero-partners-lcm.webp` from Simon's Partners-Hero, which lumotive.com/partners serves today, so it is the "existing" hero the KEEP AS IS slot names. The old image's phone focal point (100%) is dropped; centred keeps the module in frame. Copy verified verbatim against v3 (empty diff); hero text measured ≥ 7.05:1 at the brightest backdrop pixel at 360–1440 (screenshot measure, see S26).
 
 ## Page 20 — News & Events `/news`
 
@@ -271,9 +274,9 @@ Resolved on this page by `1787714800`: hero live as `hero-culture-team.webp` fro
 **Confirmed missing — client must supply:** S2 privacy policy · S3 Pipedrive keys · S6 Explorer bundle + poster · S7 analytics tool + name · P1 #125 graphic · P2 1D/2D animation · L1 "How LCM fits" animation + timing · A1 "open prompt" visual · SE5 Leopard logo · R2 three-panel AMR video · R4 LI140 + ON140 photos · AU2 cocoon graphic · AU3 180° point cloud/video · AU4 dust/rain images · D1 kit family photo · T3 two illumination animations · I1 iToF family photo · I3 clean point-cloud renders · I5 warehouse point cloud · I6 scan diagrams · F2 Stella-120 power · F3 MIPI permission · F4 NM120 internals photo · AB2 award badges · PA3 onsemi logo · N1 four News posts · N2 press email · N3 social channels · N5 first Events post · CT1 office address.
 (Several share one delivery: R4 = D3 = I7; SE5 = D4 = PA2; S1 is one URL.)
 
-**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB3 investors · AB5 · AB6 hero framing · CU1 hero source · CU3 · PA1 · PA4 · N4.
+**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · S26 hero contrast QA · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB3 investors · AB5 · AB6 hero framing · CU1 hero source · CU3 · PA1 hero framing · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–18 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–19 are done.)
 
 ## One request for Claudia and Josh
 
@@ -308,7 +311,7 @@ Resolved on this page by `1787714800`: hero live as `hero-culture-team.webp` fro
 **Claudia — decide or confirm**
 - Status labels: publish or drop (S8).
 - Ship the provider strip partially now, or wait for Leopard (SE6, D4). Kit rows: Robotics (R5) and the Dev Kits iToF row (D6) both wait for the LI140/ON140 photos.
-- Hero swap for Partners to Simon's photo (PA1). About and Culture now carry Simon's photos; confirm the About desktop crop (AB6) and the Culture source, IMG_4516 vs lumotive.com's IMG_4575 (CU1).
+- Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), and the Culture source, IMG_4516 vs lumotive.com's IMG_4575 (CU1).
 - The TX10 still versus the #129 animation (T2).
 - The new HDR video also on dToF (F5).
 - Google citation source (C6).
@@ -333,6 +336,7 @@ Resolved on this page by `1787714800`: hero live as `hero-culture-team.webp` fro
 | dToF "NM120 enclosed unit" photo | Live as transparent `nm120-sensor.webp` on the panel frame (`1787714400`); the existing `nm120-module.png` is identical to Simon's IMG_0032 | p15 A2 |
 | Connect hero, 2D beamforming visual, use-case images | Live (`1787714600`): C1, C2, C5 | p16 A1, A2, A4, A5 |
 | About hero (AB1) | Live as `hero-about-bench.webp` (`1787714700`); Simon's IV2.26.18 is lumotive.com's current About hero | p17 A1 |
+| Partners hero (former PA1 swap) | Live as `hero-partners-lcm.webp` (`1787715000`); Simon's Partners-Hero is lumotive.com's current Partners hero; framing confirmation only (PA1) | p19 A1 |
 | Culture hero | Live as `hero-culture-team.webp` (`1787714800`), Simon's IMG_4516; source confirmation only (CU1) | p18 A1 |
 | Culture "The Lumotive Way" video | Already embedded; oEmbed title confirmed | `culture#979b8fc6` |
 | Robotics virtual-sensor headings reconstruction | The v3 render reads "Localization", "Cliff and obstacle", "Object avoidance", as built | p10 render |
