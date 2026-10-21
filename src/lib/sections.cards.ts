@@ -4,8 +4,8 @@ const presentationFields: FieldSpec[] = [
 	{ name: 'designVersion', label: 'Design version', type: 'text' },
 	{ name: 'background', label: 'Background (none | subtle | strong | inverse)', type: 'text' },
 	{ name: 'width', label: 'Width (contained | wide | full)', type: 'text' },
-	{ name: 'spacingTop', label: 'Top spacing (none | sm | md | lg)', type: 'text' },
-	{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | md | lg)', type: 'text' },
+	{ name: 'spacingTop', label: 'Top spacing (none | sm | compact | md | lg)', type: 'text' },
+	{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | compact | md | lg)', type: 'text' },
 	{ name: 'anchor', label: 'Anchor', type: 'text' },
 	// Opt the section's inner column into the header container, so its
 	// content lines up with the navigation logo. Unset keeps the wider shell.
@@ -152,6 +152,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
 			{ name: 'columns', label: 'Desktop columns (2 | 3 | 4 | 5, default 3)', type: 'text' },
 			{ name: 'numbered', label: 'Number the cards 01, 02 … (true | false)', type: 'text' },
+			{ name: 'titleLines', label: 'Reserve card title lines from 768px (2)', type: 'text' },
 			// Print card titles exactly as typed, for a section whose approved
 			// card wording is sentence case. Section headings are unaffected.
 			{ name: 'casing', label: 'Card title casing (exact)', type: 'text' },

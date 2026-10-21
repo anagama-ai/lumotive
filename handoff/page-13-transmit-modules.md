@@ -35,6 +35,24 @@ Approved content package rev. 2026-10-07, page 13 of 21, "Sense › Dev Kits ›
   - `desktop-1440-01…06`, `mobile-390-01…06`;
   - `mobile-430-01-hero`, `tablet-1024-01-hero`, `tablet-768-01-hero`.
 
+### Refinement: section spacing and card titles (2026-10-21)
+
+Migration `1787713900_transmit_modules_spacing.js`. The four light sections between the hero and the closing CTA (`d25f8a16`, `c3e07b94`, `a7b91de3`, `e6482fc1`) move from `md` to a new opt-in `compact` spacing; `a7b91de3` (Programmable Illumination) also gets `titleLines: "2"`. Hero and CTA unchanged. Reverts exactly.
+
+- **`compact` spacing** (`src/app.css`): 2.5rem a side on phones, 3.5rem from 768px. It also zeroes the incidental top margin of the section's leading block (including a grid that follows an element-less header) and the bottom margin of its last block. Accepted by the shared spacing fields and `StatsCentered`'s enum. No other page uses it.
+- **`titleLines: "2"`** (`CardsTextCards`): from 768px every card title reserves two lines, so descriptions start at one height. Phones keep the natural title height.
+
+Gap between content groups, in page order: hero -> key numbers -> capabilities -> illumination -> kits -> CTA band.
+
+| Width | Before | After |
+| --- | --- | --- |
+| 390 | 128 / 188 / 172 / 188 / 220 | **40 / 80 / 80 / 80 / 40** |
+| 1440 | 128 / 188 / 232 / 210 / 242 | **56 / 112 / 112 / 112 / 56** |
+
+768 and 1024 measure the same as 1440 after the change. The before numbers for the first and last gap include the hero/CTA band edge; the CTA's own padding is untouched.
+
+Illumination card descriptions now start at the same offset in every card: 126px (768, 1024), 135px (1440); at 390 all five 103px, titles one line. No horizontal overflow at 390/768/1024/1440. `/sense`, `/dev-kits` and `/sense/robotics` render no `compact` section and no reserved titles. Copy, colours, imagery, button styles and the hero are unchanged. `npm run check` 0 errors, 0 warnings; `npm run build` passed, dev server stopped. Screenshots: `%TEMP%\lumotive-review\transmit\spacing\` (`mobile-390-01..07`, `desktop-1440-key-numbers`, `desktop-1440-programmable-illumination`, `tablet-1024-programmable-illumination`).
+
 ## What shipped in the v2 build (history)
 
 Two reversible migrations.

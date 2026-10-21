@@ -69,6 +69,28 @@ img, video { display: block; max-width: 100%; }
 .lumo-section[data-spacing-bottom='sm'] > .lumo-inner { padding-bottom: 2.5rem; }
 .lumo-section[data-spacing-bottom='lg'] > .lumo-inner { padding-bottom: 7rem; }
 .lumo-section[data-spacing-bottom='xl'] > .lumo-inner { padding-bottom: 9rem; }
+/* `compact`: a tighter section rhythm for a page whose sections stack many
+   short content groups. 2.5rem a side on phones (two compact sections meet
+   at 80px), 3.5rem from 768px up. It also drops the incidental top/bottom
+   margins of the section's outermost elements (an eyebrow's default margin,
+   a heading's, a grid's mt-12 under an absent heading), so the padding is
+   the whole gap. Opt-in per section; no other value changes. */
+.lumo-section[data-spacing-top='compact'] > .lumo-inner { padding-top: 2.5rem; }
+.lumo-section[data-spacing-bottom='compact'] > .lumo-inner { padding-bottom: 2.5rem; }
+@media (min-width: 768px) {
+	.lumo-section[data-spacing-top='compact'] > .lumo-inner { padding-top: 3.5rem; }
+	.lumo-section[data-spacing-bottom='compact'] > .lumo-inner { padding-bottom: 3.5rem; }
+}
+/* A header block rendered without any element (no eyebrow, heading or body)
+   still sits first, so the grid after it carries the leading margin. */
+.lumo-section[data-spacing-top='compact'] > .lumo-inner > :first-child,
+.lumo-section[data-spacing-top='compact'] > .lumo-inner > :first-child > :first-child,
+.lumo-section[data-spacing-top='compact'] > .lumo-inner > :first-child > :first-child > :first-child,
+.lumo-section[data-spacing-top='compact'] > .lumo-inner > :first-child > :first-child:not(:has(*)) + *,
+.lumo-section[data-spacing-top='compact'] > .lumo-inner > :first-child > :first-child:not(:has(*)) + * > :first-child { margin-top: 0; }
+.lumo-section[data-spacing-bottom='compact'] > .lumo-inner > :last-child,
+.lumo-section[data-spacing-bottom='compact'] > .lumo-inner > :last-child > :last-child,
+.lumo-section[data-spacing-bottom='compact'] > .lumo-inner > :last-child > :last-child > :last-child { margin-bottom: 0; }
 
 /* Opt a section's inner column into the header's geometry, so its content
    lines up with the nav logo instead of the wider section shell.

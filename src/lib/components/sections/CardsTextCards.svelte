@@ -42,6 +42,10 @@
 	// those and sentence-cases the cards beneath them.
 	let exactCase = $derived(String(section.casing ?? '') === 'exact');
 	const cardTitle = (value?: string | null) => (exactCase ? (value ?? '') : (titleCase(value ?? '') ?? ''));
+	// `titleLines: "2"` reserves two lines for every card title from 768px up,
+	// so a row whose titles wrap differently still starts every description at
+	// the same height. Phones keep the natural title height.
+	let twoLineTitles = $derived(String(section.titleLines ?? '') === '2');
 	// Desktop column count. Default stays the three-up grid every existing
 	// section renders; `columns: "2"` opts a section into an even two-up, for a
 	// pair of cards that would otherwise leave a third of the row empty, and
@@ -123,7 +127,7 @@
 						<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
 					{/if}
 					{#if card.eyebrow}<p class="text-eyebrow text-ink uppercase">{card.eyebrow}</p>{/if}
-					{#if card.title}<h3 class="font-display text-subheading text-ink mt-3 mb-0">{cardTitle(card.title)}</h3>{/if}
+					{#if card.title}<h3 class={`font-display text-subheading text-ink mt-3 mb-0${twoLineTitles ? ' md:min-h-[2lh]' : ''}`}>{cardTitle(card.title)}</h3>{/if}
 					{#if card.body}<div class="card-copy mt-2 text-base leading-relaxed [&_p]:my-0 [&_p+p]:mt-2">{@html card.body}</div>{/if}
 					{#if card.badge}<span class="text-spec bg-background text-ink mt-4 self-start rounded-full px-3 py-1">{card.badge}</span>{/if}
 					{#if link.href && link.label}<span class="text-brand-blue mt-auto inline-flex items-center gap-2 self-start pt-6 text-base font-medium">{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}

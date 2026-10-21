@@ -50,8 +50,8 @@
 		data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 		data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
 		data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
-		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg'], 'md')}
-		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
+		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'compact', 'md', 'lg'], 'md')}
+		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'compact', 'md', 'lg'], 'md')}
 		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		{#if variant === 'statsLightTraits' && section.designVersion === 'specTable' && image}
