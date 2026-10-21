@@ -1,11 +1,103 @@
 # Page 14 — /dev-kits/itof
 
-Approved content package rev. 2026-10-07 (v2), page 14 of 21, "Sense › Dev Kits
-› iToF Dev Kits". Branch `feedback-20261007-v2`.
+Approved content package rev. 2026-10-07, page 14 of 21, "Sense › Dev Kits
+› iToF Dev Kits". First built against v2; **v3 pass applied 2026-10-21**.
+Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.**
+**Status: v3 implemented and QA-verified.** Pending inputs: the hero kit
+family photo, LI140 and ON140 photos, the point-cloud renders, the warehouse
+point cloud and the scan diagrams (I1, I3, I5–I7), plus two confirmations
+(I4, I8). See "Blockers (after v3)".
 
-## What shipped
+## v3 pass (2026-10-21)
+
+**Copy.** The v2→v3 diff of page 14 is two words: "beam steering" →
+"beamforming" in the hero body and the LI140 subline. Both were already live
+from `1787710900`, as is the meta description. Every heading, card, tile,
+caption, action and caveat matches v3 verbatim, in the printed order: hero,
+Which iToF Kit Fits?, Better Data, Safer Robots, LI140 (opener, 8 tiles, four
+features, wide-field depth, scanning modes, actions), ON140 (opener, 6 tiles,
+three features, actions), M30 (opener, 8 tiles, See It on Your Bench, actions),
+closing CTA. Standalone "steering" stays ("90° steering" on the M30
+field-of-view tile).
+
+**Simon's annotations, mapped by position:**
+
+| # | Position | Content | Outcome |
+| --- | --- | --- | --- |
+| A1 | "Photo: M30 with kit contents" | IMG_7224 (PNG cut-out) | Already live as `m30-dev-kit-contents.jpg`; re-verified identical (correlation 0.99999). Unchanged. |
+| A2 | "Compact M30 AMR demo clip" | Vimeo `1174547871/6e198e52ae` | **Embedded** in "See It on Your Bench", right-hand as printed. oEmbed: "Lumotive - AGV AMR", Lumotive, 57 s, 16:9 (the clip `/applications` already plays). |
+| A3 | "Better Data, Safer Robots" | "Vimeo:" with no link | Nothing to embed. The approved comparison link (`vimeo.com/1053591397`) stays. Open as I4. |
+| A4 | LI140 features / wide-field depth | "LI deck (ask Calvin)" | A lead, not a file. Warehouse point cloud still missing (I5). |
+| A5 | Scan diagram | "LI deck page 2" | A lead, not a file. Diagram and five-tab selector still missing (I6). |
+
+Not annotated: the hero kit family photo (I1), the LI140 sensor-head and
+ON140 bench-top photos (I7), the clean point-cloud renders (I3). Nothing was
+substituted. The Robotics and Dev Kits hub "text-only" decisions do not apply
+here: each kit opener is its own section, so M30 keeps its photo and LI140 and
+ON140 stay text-only only because no photo exists.
+
+**Migration** `1787714100_itof_v3.js` sets `videoUrl` and
+`mediaPosition: "right"` on `ac72039e`. No component or style changed.
+Reverts exactly.
+
+### v3 QA
+
+- **390 / 768 / 1024 / 1440:** no horizontal overflow, no broken image; the
+  player is exactly 16:9 at every width (600×338 at 1440, 358×201 at 390),
+  beside the copy from 768 up and above it on phones, as the other split
+  videos do.
+- **In-page playback:** the embedded player loaded inside the page and played
+  from a click (currentTime 3.7 s, readyState 4), full frame.
+- **Anchors and redirect:** `#li140`, `#on140`, `#m30`, `#which-kit` and
+  `#better-data` resolve. `/m30` answers **308** to `/dev-kits/itof#m30`, and
+  in a browser lands with the M30 heading in view below the header.
+- **Links:** `/dev-kits`, `/sense/robotics` and all four
+  `/contact?inquiry=` targets (`itof-evaluation`, `li140-datasheet`,
+  `on140-datasheet`, `m30-datasheet`) answer 200. Datasheets stay contact
+  requests: no `download` attribute, no PDF link.
+- **Compliance:** none of "beam steering", klux, temperature, Leopard,
+  Sirius, 1550, FMCW, Tx-Rx, "A New Era", "Where M30 Fits", "Who M30 Is For",
+  "A Mature Platform", availability, download, "Physical AI" in the rendered
+  page.
+- **Contrast:** automated scan of the light sections, zero failures. Hero text
+  measured against the photo behind each text line (text hidden, 99th
+  percentile of the background): eyebrow ≥ 9.86:1, headline ≥ 13.2:1, body
+  7.29 / 6.87 / 8.49 / 7.28 / 9.80:1 at 390 / 430 / 768 / 1024 / 1440. No
+  shade change needed.
+- **Tap targets:** the only item under 44px is the 23px breadcrumb, the
+  accepted condition on every Sense page.
+- **Shared-component regression:** split-section videos elsewhere unchanged:
+  `/sense` 21:9, `/connect`, `/dev-kits/dtof` and both `/applications` players
+  16:9, no overflow.
+- **Migration:** revert restored every page record byte-identically;
+  re-apply changed only `itof`. `npm run check` 592 files, 0 errors,
+  0 warnings; `npm run build` passed, dev server stopped.
+- **Screenshots** (outside the project): `%TEMP%\lumotive-review\itof\`
+  - `desktop-1440-01-hero` … `08-cta-footer`, `mobile-390-01-hero` … `08-cta-footer`;
+  - `tablet-1024-07-bench`, `tablet-768-07-bench`.
+
+**Observation, not changed:** on phones the shared split layout shows a
+product photo at 75% width, so the M30 JPG's white background reads as a
+square white box on the grey page field. Simon's original is a transparent
+cut-out, so a transparent WebP would remove the box; it would also drop the
+white card on desktop. Left as is pending your call.
+
+### Blockers (after v3)
+
+1. **Hero kit family photo** (I1) — not supplied; incumbent M30 photo stays.
+2. **Clean point-cloud renders** for "Better Data, Safer Robots" (I3).
+3. **Simon's "Vimeo:" note** on "Better Data, Safer Robots" (I4) — no link
+   given; which video, if any beyond the approved comparison link?
+4. **Warehouse shelving point cloud** (I5) — lead: "LI deck (ask Calvin)".
+5. **Scan diagram + five-tab selector** (I6) — lead: "LI deck page 2". The
+   selector is ours once the artwork arrives.
+6. **LI140 sensor-head and ON140 bench-top photos** (I7).
+7. **Secondary inquiry values** (I8 / S5(a)).
+
+Resolved by v3: the compact M30 AMR demo clip (formerly blocker 6 below).
+
+## What shipped in the v2 build (history)
 
 Two reversible migrations.
 
@@ -141,7 +233,10 @@ failures, hero height unchanged at 612px, ON140 tiles step 1 → 2 → 3, hero
 framing applies only from 1024 up. Page 13's hero is unaffected. Migration
 round-trips. svelte-check 589 files 0 errors, build clean.
 
-### Owed: site-wide "beam steering" audit
+### Site-wide "beam steering" audit (resolved)
+
+Done in `1787712600_beamforming_terminology.js` (QA phase 1), and v3 now
+prints "beamforming" itself. The table below is the pre-audit record.
 
 Claudia's rename was applied to page 14 only. "beam steering" still appears in
 rendered copy on:

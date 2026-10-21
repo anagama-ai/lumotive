@@ -155,18 +155,19 @@ Resolved on this page by `1787713700`:
 
 Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp` (A1) with the phone-only strong shade so the body text clears 4.5:1. Copy verified verbatim against v3.
 
-## Page 14 — iToF Dev Kits `/dev-kits/itof`
+## Page 14 — iToF Dev Kits `/dev-kits/itof` (v3 pass done 2026-10-21)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
 | I1 | Hero | Asset | Missing | "Kit photos: LI140, ON140, M30" family shot; not annotated. Incumbent M30 photo stays. | Lumotive | No | PDF p14 |
-| I2 | M30 — See It on Your Bench | Ours | Do | Embed Simon's "Compact M30 AMR demo clip" = Vimeo 1174547871/6e198e52ae (same AMR animation as Applications). | Us | Yes | p14 A2 |
 | I3 | Better Data, Safer Robots | Asset | Missing | Clean flash / LCM / stereo point-cloud renders without the slide header, footer and confidentiality line. | Lumotive | Yes | PDF p04, p14 |
 | I4 | Same | Decision | Verify | Simon's note reads only "Vimeo:" with no link. Which video was meant? 1053591397 is already linked. | Lumotive (Simon) | No | p14 A3 |
 | I5 | High-Resolution Depth Across a Wide Field | Asset | Missing | Warehouse shelving point cloud, full 140° × 105°, high resolution. Simon: "LI deck (ask Calvin)". | Lumotive (Calvin) | Yes | p14 A4 |
 | I6 | Software-Defined Scanning | Asset | Missing | Top-down scan diagram artwork per mode. Simon: "LI deck page 2". Then ours: five-tab selector with animated wedge. | Lumotive (Calvin) → Us | Yes | p14 A5 |
-| I7 | LI140 and ON140 sections | Asset | Missing | LI140 sensor-head and ON140 bench-top photos (see R4). | Lumotive | Yes | PDF p14 |
+| I7 | LI140 and ON140 sections | Asset | Missing | LI140 sensor-head and ON140 bench-top photos (see R4). Not annotated in v3. The two kit openers stay text-only until they arrive; each is its own section, so the M30 opener keeps its photo. | Lumotive | Yes | PDF p14 |
 | I8 | Secondary actions | Decision | Verify | See S5(a). | Apurva | No | — |
+
+Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1174547871/6e198e52ae, "Lumotive - AGV AMR", 16:9) now plays in-page in "See It on Your Bench", right-hand as printed. A1 (M30 with kit contents) was already live as `m30-dev-kit-contents.jpg`, re-verified identical to IMG_7224. Copy verified verbatim against v3.
 
 ## Page 15 — dToF Dev Kits `/dev-kits/dtof`
 
@@ -248,7 +249,7 @@ Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp`
 
 **Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · I2 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations. (Pages 09–13 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations. (Pages 09–14 are done.)
 
 ## One request for Claudia and Josh
 
@@ -303,7 +304,7 @@ Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp`
 | Dev Kits TX10, NM120, MD180 photos | Live on the p03 grey kit panel (`1787713700`); M30 held under D6 until ON140/LI140 arrive | p12 A1–A4 |
 | Transmit hero still image | Live as `hero-tx10-in-hand.webp` (`1787713800`); only the #129 animation question remains (T2) | p13 A1 |
 | iToF "Photo: M30 with kit contents" | Already live: `m30-dev-kit-contents.jpg` is identical to Simon's IMG_7224 | `itof#6e81d47c`; hash 1.00 |
-| iToF compact M30 AMR demo clip | Supplied: Vimeo 1174547871 (I2) | p14 A2 |
+| iToF compact M30 AMR demo clip | Live: Vimeo 1174547871 in "See It on Your Bench" (`1787714100`); in-page playback confirmed | p14 A2 |
 | dToF "NM120 enclosed unit" photo | Already live: `nm120-sensor.jpg` is identical to Simon's IMG_0032 | `dtof#d903b4f2`; hash 1.00 |
 | Connect 2D beamforming visual; use-case images | Supplied (C2, C5) | p16 A2, A4, A5 |
 | Culture "The Lumotive Way" video | Already embedded; oEmbed title confirmed | `culture#979b8fc6` |
