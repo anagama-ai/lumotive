@@ -43,7 +43,7 @@ Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `
 | S16 | Top-level menu labels navigate on click (PDF p02) | Ours | Do | Header renders each label as `<details><summary>` with no link; desktop and mobile must open the URL on click while the arrow/hover opens the dropdown. | Us | Yes | `Header.svelte` l.53, l.119 |
 | S17 | Third-level nav rows 34px tall | Ours | Do | Raise to the 44px target. | Us | No | QA phase-1 notes |
 | S18 | Heading character spacing (#138, rule 15) | Ours | Verify | Re-audit every heading for glyph overlap at 390–1920 (heroes use −0.045em); close #138 only after client review. | Us | No | PDF p01 rule 15 |
-| S19 | Real-browser playback of all embeds | Ours | Verify | In-page playback is **unverified** for Vimeo 1227505713 (`/applications`, `/connect`) and 1235957120 (`/sense`). Embedded on the local headless site both showed Vimeo's "couldn't verify the security of your connection" screen; the cause is not established. Direct-player and outside-site checks do not count. Also untested in-page: 1102359216, 1053591397, YouTube AcLAbtIxN64. 1040582713 and 1174547871 played in-page. | Us | No | Page 08 and 09 QA |
+| S19 | Real-browser playback of all embeds | Ours | Verify | In-page playback is **unverified** for Vimeo 1227505713 (`/applications`, `/connect`), 1235957120 (`/sense`) and 1102359216 (`/dev-kits/dtof`; the direct player URL got the same screen on 2026-10-21). Embedded on the local headless site they showed Vimeo's "couldn't verify the security of your connection" screen; the cause is not established. Direct-player and outside-site checks do not count. Also untested in-page: 1053591397, YouTube AcLAbtIxN64. 1040582713 and 1174547871 played in-page. | Us | No | Page 08, 09 and 15 QA |
 | S20 | Cross-browser and device QA | Ours | Do | Safari, Edge and iOS Safari were never tested; only Chromium. Required before launch, and for the Explorer's iOS fallback decision. | Us | Yes | All handoffs |
 | S21 | PR #1 (Home to staging) | Tech | Verify | `main` ruleset needs an approving review from someone other than the pusher. Only `josh-scalestorm` can approve and merge. Current PR state cannot be read anonymously. | Josh | Yes | `page-05-home-staging-deploy.md` |
 | S22 | Ship pages 05–21 to staging | Ours | Do (after S21) | After PR #1, rebase the local branch's work onto `origin/main` as reviewable PRs. The PR #2 plan in `pr2-platform-lcm-chips-footer.md` is out of date (covers 06–07 + footer only). Exclude `vite.config.ts` unless committed on its own. | Us | Yes | `git log`; 50+ local commits |
@@ -169,17 +169,18 @@ Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp`
 
 Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1174547871/6e198e52ae, "Lumotive - AGV AMR", 16:9) now plays in-page in "See It on Your Bench", right-hand as printed. A1 (M30 with kit contents) was already live as `m30-dev-kit-contents.jpg`, re-verified identical to IMG_7224. Copy verified verbatim against v3.
 
-## Page 15 — dToF Dev Kits `/dev-kits/dtof`
+## Page 15 — dToF Dev Kits `/dev-kits/dtof` (v3 pass done 2026-10-21)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| F1 | Hero banner (NM120, #161) | Ours | Do | Swap to Simon's [IMG_0031](https://lumotive.com/wp-content/uploads/2026/04/IMG_0031-1-copy.png) (NM120 with heatsink; not in repo). | Us | Yes | p15 A1 |
 | F2 | NM120 spec tiles — POWER | Asset | Missing | Stella-120 sensor-head power figure (the `[X] W` placeholder is unpublishable). | Lumotive | Yes | PDF p04, p15 |
 | F3 | NM120 spec tile INTERFACE + "Modular by Design" | Decision | Missing | Confirm "NM120 sensor head outputs MIPI" may be stated publicly; the tile and whole section rest on it. | Lumotive | Yes | PDF p04, p15 |
 | F4 | Modular by Design | Asset | Missing | NM120 internals photo, enclosure removed, head and compute board separate. | Lumotive | Yes | PDF p15 |
 | F5 | HDR Without Losing Frame Rate | Decision | Verify | Simon: "Check with Elyar for new HDR demo". The new "Lumotive HDR" Vimeo 1235957120 (2026-10-14) annotated on page 09 matches the printed description. Confirm it serves both pages. | Lumotive (Elyar) | Yes | p15 A3; p09 A6 |
-| F6 | Track Fast-Moving Objects | Ours | Verify | PDF names Vimeo 1102359216, whose title is "Lumotive LCM Viewing Angle Demonstration" while the copy describes an 80 fps basketball dribble. Watch it and confirm the match; check in-page playback. | Us → Lumotive | No | oEmbed |
+| F6 | Track Fast-Moving Objects | Ours | Verify | Content confirmed: the Vimeo thumbnail of 1102359216 shows the basketball dribble at 90°/10 fps, 40°/22 fps and 10°/80 fps, as the copy says, despite the oEmbed title "Lumotive LCM Viewing Angle Demonstration". Remaining: in-page playback. Embedded and on the direct player URL, the headless session got Vimeo's security screen; cause not established. Part of S19. | Us | No | p15 v3 QA |
 | F7 | Outdoor application row (#160) | Asset | Verify | Icons for five use cases: supply, or approve the accent-ruled text cards. | Lumotive | No | `page-15` handoff |
+
+Resolved on this page by `1787714400`: F1, Simon's IMG_0031 (NM120 with heatsink) is the hero as `hero-nm120-heatsink.webp`, whole and right of the copy from 1024px, whole at 768px, a full-band backdrop on phones (new `mediaAnchor`, plus the page-14 phone options). A2 "NM120 enclosed unit" now uses the transparent original (`nm120-sensor.webp`, from the existing `nm120-module.png`) on the approved panel frame. Copy verified verbatim against v3; pending tiles and "Modular by Design" still held.
 
 ## Page 16 — Connect `/connect`
 
@@ -249,7 +250,7 @@ Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1
 
 **Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB1 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · F1 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations. (Pages 09–14 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6 · C1 · C2 · C5. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–15 are done.)
 
 ## One request for Claudia and Josh
 
@@ -303,9 +304,10 @@ Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1
 | Automotive hero | Live as `hero-automotive.webp` with desktop framing (`1787713500`) | p11 A1 |
 | Dev Kits TX10, NM120, MD180 photos | Live on the p03 grey kit panel (`1787713700`); M30 held under D6 until ON140/LI140 arrive | p12 A1–A4 |
 | Transmit hero still image | Live as `hero-tx10-in-hand.webp` (`1787713800`); only the #129 animation question remains (T2) | p13 A1 |
-| iToF "Photo: M30 with kit contents" | Already live: `m30-dev-kit-contents.jpg` is identical to Simon's IMG_7224 | `itof#6e81d47c`; hash 1.00 |
+| iToF "Photo: M30 with kit contents" | Live as transparent `m30-dev-kit-contents.webp` on the panel frame (`1787714200`), from Simon's IMG_7224 | p14 A1 |
 | iToF compact M30 AMR demo clip | Live: Vimeo 1174547871 in "See It on Your Bench" (`1787714100`); in-page playback confirmed | p14 A2 |
-| dToF "NM120 enclosed unit" photo | Already live: `nm120-sensor.jpg` is identical to Simon's IMG_0032 | `dtof#d903b4f2`; hash 1.00 |
+| dToF hero banner (#161) | Live as `hero-nm120-heatsink.webp` from Simon's IMG_0031 (`1787714400`) | p15 A1 |
+| dToF "NM120 enclosed unit" photo | Live as transparent `nm120-sensor.webp` on the panel frame (`1787714400`); the existing `nm120-module.png` is identical to Simon's IMG_0032 | p15 A2 |
 | Connect 2D beamforming visual; use-case images | Supplied (C2, C5) | p16 A2, A4, A5 |
 | Culture "The Lumotive Way" video | Already embedded; oEmbed title confirmed | `culture#979b8fc6` |
 | Robotics virtual-sensor headings reconstruction | The v3 render reads "Localization", "Cliff and obstacle", "Object avoidance", as built | p10 render |

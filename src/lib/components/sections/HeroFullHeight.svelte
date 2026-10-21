@@ -25,6 +25,15 @@
 	let mediaShift = $derived(String(section.mediaShift ?? '').trim());
 	let mediaScale = $derived(String(section.mediaScale ?? '').trim());
 	let mediaFramed = $derived(Boolean(mediaShift || mediaScale));
+	// Optional horizontal anchor for the media layer at every width (a
+	// percentage; `100%` keeps the photograph's right edge in frame). For a
+	// banner composed with its subject on the right, so the subject stays
+	// whole whatever the band's proportions. Phones use `mobileMediaPosition`
+	// when that is set. Unset elsewhere, which keeps the centred crop.
+	let mediaAnchor = $derived.by(() => {
+		const value = String(section.mediaAnchor ?? '').trim();
+		return /^\d{1,3}(\.\d+)?%$/.test(value) ? value : '';
+	});
 	// Opt-in, phones only (<768px): the band drops its viewport-based minimum
 	// height and grows with its copy, with less padding above the eyebrow and
 	// below the actions and a tighter gap when the two actions stack. Text,
@@ -78,7 +87,7 @@
 >
 	{#if visual}
 		<Reveal immediate fade={false} y={0} scale={1.06} duration={1.6} class="absolute inset-0">
-			<div class="hero-media absolute inset-0" class:framed={mediaFramed} class:mobile-framed={mobileFramed} style:--hero-media-shift={mediaShift || undefined} style:--hero-media-scale={mediaScale || undefined} style:--hero-media-mobile-scale={mobileMediaScale || undefined} style:--hero-media-mobile-position={mobileMediaPosition || undefined} aria-hidden="true">
+			<div class="hero-media absolute inset-0" class:framed={mediaFramed} class:anchored={Boolean(mediaAnchor)} class:mobile-framed={mobileFramed} style:--hero-media-shift={mediaShift || undefined} style:--hero-media-scale={mediaScale || undefined} style:--hero-media-anchor={mediaAnchor || undefined} style:--hero-media-mobile-scale={mobileMediaScale || undefined} style:--hero-media-mobile-position={mobileMediaPosition || undefined} aria-hidden="true">
 				{#if isVideo}
 					<video
 						{@attach manageVideo}
@@ -148,9 +157,11 @@
 	@media (max-width: 767px) {
 		.strong-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
 	}
+	.hero-media.anchored > img,
+	.hero-media.anchored > video { object-position: var(--hero-media-anchor) 50%; }
 	@media (max-width: 767px) {
 		.hero-media.mobile-framed > img,
-		.hero-media.mobile-framed > video { transform: scale(var(--hero-media-mobile-scale, 1)); object-position: var(--hero-media-mobile-position, 50%) 50%; }
+		.hero-media.mobile-framed > video { transform: scale(var(--hero-media-mobile-scale, 1)); object-position: var(--hero-media-mobile-position, var(--hero-media-anchor, 50%)) 50%; }
 	}
 	/* Desktop only. Below 1024px the hero stacks the copy over a much narrower
 	   frame, where the centred subject is already clear of the headline, so the
