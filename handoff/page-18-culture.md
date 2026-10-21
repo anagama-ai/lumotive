@@ -1,13 +1,56 @@
 # Page 18 — /culture
 
-Approved content package rev. 2026-10-07 (v2), page 18 of 21, "Company ›
-Culture & Careers". URL confirmed from the page header and the page-01 site map:
-**/culture**, unchanged.
+Approved content package rev. 2026-10-07, page 18 of 21, "Company ›
+Culture & Careers". URL **/culture**, unchanged. First built against v2;
+**v3 pass applied 2026-10-21**. Branch `feedback-20261007-v2`, local only.
 
-**Status: implemented and QA-verified.** Awaiting screenshot review before
-page 19.
+**Status: v3 implemented and QA-verified.** Open: the LinkedIn follow line
+(CU2 / S1), the Lever selection (CU3), and one confirmation on the hero
+source (below).
 
-## What shipped
+## v3 pass (2026-10-21)
+
+**Copy.** The v2→v3 text diff of page 18 is empty; all six headings, the
+hero line and action, the four-sites sentence, the testimonials and the
+closing CTA match v3 in the printed order. No copy changed.
+
+**Simon's annotations:**
+
+| # | Position | Simon's file | Outcome |
+| --- | --- | --- | --- |
+| A1 | Hero, "KEEP AS IS · Existing: hero-culture.jpg" | [IMG_4516-1-copy-scaled.jpg](https://lumotive.com/wp-content/uploads/2025/04/IMG_4516-1-copy-scaled.jpg) (2560×1707, team around an LCM camera on a tripod) | **Hero**, as `hero-culture-team.webp` (2400×1600, 176 KB). Replaces the local `hero-culture.jpg` (a dark office stand-in, not a Lumotive photo), which is kept for the down path. |
+| A2 | "The Lumotive Way video" | YouTube AcLAbtIxN64 | Already embedded beside block 2; unchanged. **Plays in-page**: clicking the player started it, `currentTime` 5.6 → 8.6 s, no error. |
+
+**One thing for Claudia to confirm (CU1).** Unlike About, Simon's photo is
+not lumotive.com/culture's current hero: that page's hero is
+`IMG_4575-1-scaled.jpg` (team group holding a Lumotive box), and IMG_4516 is
+its closing "Browse Open Positions" band. Simon placed IMG_4516 on the hero
+slot, so it ships there; swapping to IMG_4575 is a one-value change.
+
+**Migration** `1787714800_culture_v3.js`: hero media plus three existing
+framing options, no component change. With the standard framing the bright
+photo put the body line at 3.21:1 (390) and 3.96:1 (768). `mediaAnchor: 0%`
+moves the light-blue shirt out from under it on tablets,
+`mobileMediaPosition: 100%` and `mobileShade: strong` handle phones. From
+1024px the band is wider than the 3:2 photo, so desktop is not reframed.
+
+### v3 QA
+
+- **Hero contrast** (text hidden, 99th percentile / brightest pixel, per line
+  box), body: 9.60/9.32 (360), 9.01/8.69 (390), 8.52/7.97 (430), 8.55/6.82
+  (600), 7.33/6.74 (767), 5.52/4.55 (768), 5.87/5.12 (834), 6.30/4.55 (912),
+  6.70/4.77 (1000), 7.84/6.36 (1024), 8.46/8.06 (1440), 8.82/8.50 (1920).
+  Headline ≥ 8.40, eyebrow ≥ 8.76. 768–1000 is the tightest band.
+- **Page at 390 / 768 / 1024 / 1440:** no overflow; 9 images, none broken;
+  no heading under 0.9 opacity; no tap target under 44px; six live Lever
+  roles. `/culture`, `/api/open-roles`, both hero files and the Lever board
+  answer 200.
+- **Migration:** revert restored the record byte-identically; re-apply
+  changed only `culture` section `6c524b47`. `npm run check` 0 errors,
+  0 warnings. No source change, so no build.
+- **Screenshots:** `%TEMP%\lumotive-review\culture\hero-390…1920.png`.
+
+## What shipped in the v2 build (history)
 
 One reversible migration, `1787711900_culture_page18.js`. Route and record
 unchanged.

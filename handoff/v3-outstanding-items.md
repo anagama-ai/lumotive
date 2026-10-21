@@ -43,7 +43,7 @@ Audit date 2026-10-20. Branch `feedback-20261007-v2` at `3704933` (local only; `
 | S16 | Top-level menu labels navigate on click (PDF p02) | Ours | Do | Header renders each label as `<details><summary>` with no link; desktop and mobile must open the URL on click while the arrow/hover opens the dropdown. | Us | Yes | `Header.svelte` l.53, l.119 |
 | S17 | Third-level nav rows 34px tall | Ours | Do | Raise to the 44px target. | Us | No | QA phase-1 notes |
 | S18 | Heading character spacing (#138, rule 15) | Ours | Verify | Re-audit every heading for glyph overlap at 390–1920 (heroes use −0.045em); close #138 only after client review. | Us | No | PDF p01 rule 15 |
-| S19 | Real-browser playback of all embeds | Ours | Verify | In-page playback is **unverified** for Vimeo 1227505713 (`/applications`, `/connect`), 1235957120 (`/sense`) and 1102359216 (`/dev-kits/dtof`; the direct player URL got the same screen on 2026-10-21). Embedded on the local headless site they showed Vimeo's "couldn't verify the security of your connection" screen; the cause is not established. Direct-player and outside-site checks do not count. Also untested in-page: 1053591397, YouTube AcLAbtIxN64. 1040582713 and 1174547871 played in-page. | Us | No | Page 08, 09 and 15 QA |
+| S19 | Real-browser playback of all embeds | Ours | Verify | In-page playback is **unverified** for Vimeo 1227505713 (`/applications`, `/connect`), 1235957120 (`/sense`) and 1102359216 (`/dev-kits/dtof`; the direct player URL got the same screen on 2026-10-21). Embedded on the local headless site they showed Vimeo's "couldn't verify the security of your connection" screen; the cause is not established. Direct-player and outside-site checks do not count. Also untested in-page: 1053591397. 1040582713, 1174547871 and YouTube AcLAbtIxN64 (`/culture`, 2026-10-21) played in-page. | Us | No | Page 08, 09, 15 and 18 QA |
 | S20 | Cross-browser and device QA | Ours | Do | Safari, Edge and iOS Safari were never tested; only Chromium. Required before launch, and for the Explorer's iOS fallback decision. | Us | Yes | All handoffs |
 | S21 | PR #1 (Home to staging) | Tech | Verify | `main` ruleset needs an approving review from someone other than the pusher. Only `josh-scalestorm` can approve and merge. Current PR state cannot be read anonymously. | Josh | Yes | `page-05-home-staging-deploy.md` |
 | S22 | Ship pages 05–21 to staging | Ours | Do (after S21) | After PR #1, rebase the local branch's work onto `origin/main` as reviewable PRs. The PR #2 plan in `pr2-platform-lcm-chips-footer.md` is out of date (covers 06–07 + footer only). Exclude `vite.config.ts` unless committed on its own. | Us | Yes | `git log`; 50+ local commits |
@@ -201,16 +201,19 @@ Resolved on this page by `1787714600`: C1 hero (Simon's OCS ports-and-lasers, lo
 | AB3 | Investors | Decision | Verify | Final investor logo list (pending box: leave out until supplied). PDF lists Gates Frontier, Amazon, Samsung Ventures, Swisscom Ventures, **Hokuyo**, MetaVC + "[Full list from staging]"; live shows the 9-logo staging list without Hokuyo. Confirm the list and whether Hokuyo belongs. | Lumotive | Yes | PDF p17 |
 | AB4 | Work With Us | Tech | Verify | LinkedIn follow line; see S1. | Lumotive | Yes | — |
 | AB5 | Leadership — Sajid Husain bio | Decision | Verify | "beam steering" → "beamforming" was applied inside a personal bio. OK? | Claudia | No | QA phase-1 |
+| AB6 | Hero framing | Decision | Verify | The desktop band (about 1.9:1 at 1440, 2.5:1 at 1920) crops Simon's 3:2 photo top and bottom: hand, optics and shirt show, the face is cut at the chin (as in the original). Acceptable as is, or prefer different framing? No polish planned until Claudia reviews. | Claudia | No | `page-17-about.md` v3 QA |
 
 Resolved on this page by `1787714700`: AB1 hero, live as `hero-about-bench.webp` from Simon's IV2.26.18, which is the hero lumotive.com/about serves today, so it is the "existing" hero the KEEP AS IS slot names. Phone-only strong shade added (body 4.24 → 6.38:1 at 390). Copy verified verbatim against v3 (empty diff).
 
-## Page 18 — Culture & Careers `/culture`
+## Page 18 — Culture & Careers `/culture` (v3 pass done 2026-10-21)
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| CU1 | Hero | Decision | Verify | Simon linked [IMG_4516](https://lumotive.com/wp-content/uploads/2025/04/IMG_4516-1-copy-scaled.jpg) (team in the lab) at "KEEP AS IS · Existing: hero-culture.jpg"; live differs. Swap? (Recommended: yes.) | Claudia | No | p18 A1 |
+| CU1 | Hero source | Decision | Verify | Simon's IMG_4516 is now the hero, as placed. Note: lumotive.com/culture's current hero is [IMG_4575](https://lumotive.com/wp-content/uploads/2025/04/IMG_4575-1-scaled.jpg) (team holding a Lumotive box); IMG_4516 is that page's closing band. Keep IMG_4516, or use IMG_4575 (one-value change)? | Claudia (Simon) | No | p18 A1; `page-18-culture.md` |
 | CU2 | Help Us Make Light Programmable | Tech | Verify | LinkedIn follow line; see S1. | Lumotive | Yes | — |
 | CU3 | Open Roles | Decision | Verify | Live Lever feed shows the six newest postings. OK, or filter by team/featured? | Lumotive | No | `page-18-culture.md` l.87 |
+
+Resolved on this page by `1787714800`: hero live as `hero-culture-team.webp` from Simon's IMG_4516, framed with existing options (`mediaAnchor 0%`, `mobileMediaPosition 100%`, phone-only strong shade) so the body line clears 4.5:1 at every width (was 3.21:1 at 390, 3.96:1 at 768). "The Lumotive Way" (YouTube AcLAbtIxN64) confirmed playing in-page. Copy verified verbatim against v3 (empty diff).
 
 ## Page 19 — Partners `/partners`
 
@@ -248,9 +251,9 @@ Resolved on this page by `1787714700`: AB1 hero, live as `hero-about-bench.webp`
 **Confirmed missing — client must supply:** S2 privacy policy · S3 Pipedrive keys · S6 Explorer bundle + poster · S7 analytics tool + name · P1 #125 graphic · P2 1D/2D animation · L1 "How LCM fits" animation + timing · A1 "open prompt" visual · SE5 Leopard logo · R2 three-panel AMR video · R4 LI140 + ON140 photos · AU2 cocoon graphic · AU3 180° point cloud/video · AU4 dust/rain images · D1 kit family photo · T3 two illumination animations · I1 iToF family photo · I3 clean point-cloud renders · I5 warehouse point cloud · I6 scan diagrams · F2 Stella-120 power · F3 MIPI permission · F4 NM120 internals photo · AB2 award badges · PA3 onsemi logo · N1 four News posts · N2 press email · N3 social channels · N5 first Events post · CT1 office address.
 (Several share one delivery: R4 = D3 = I7; SE5 = D4 = PA2; S1 is one URL.)
 
-**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB3 investors · AB5 · CU1 · CU3 · PA1 · PA4 · N4.
+**Needs verification — client confirmation or human check:** S1 LinkedIn URL · S4 · S5 · S8 status labels · S9 contractions · S10 Webvizio image tasks · S12 OG image · S18 · S19 · S21 PR #1 · S23 staging DB · S24 deploy secrets · H2 · H3 · H5 · P4 · P5 · P6 · A3 · SE6 · SE7 · SE9 · SE10 · T2 · I4 · F5 · F6 · F7 · C3 · C4 · C6 Google citation · C7 · AB3 investors · AB5 · AB6 hero framing · CU1 hero source · CU3 · PA1 · PA4 · N4.
 
-**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–17 are done.)
+**We can complete now (supplied assets and our own fixes):** S11 meta · S13 · S14 · S15 · S16 menu labels · S17 · S20 cross-browser · S22 PR plan · S25 · H6. Follow-on once inputs land: P3, L2, I6, N6, CT4, R2 layout, R3 (with R4), AU2–AU4 media, D3 iToF photos (all three together, per D6), T3 animations, F2–F4 (tiles and "Modular by Design" together). (Pages 09–18 are done.)
 
 ## One request for Claudia and Josh
 
@@ -285,7 +288,7 @@ Resolved on this page by `1787714700`: AB1 hero, live as `hero-about-bench.webp`
 **Claudia — decide or confirm**
 - Status labels: publish or drop (S8).
 - Ship the provider strip partially now, or wait for Leopard (SE6, D4). Kit rows: Robotics (R5) and the Dev Kits iToF row (D6) both wait for the LI140/ON140 photos.
-- Hero swaps for Culture and Partners to Simon's photos (CU1, PA1). About is done: its linked photo is lumotive.com's current About hero.
+- Hero swap for Partners to Simon's photo (PA1). About and Culture now carry Simon's photos; confirm the About desktop crop (AB6) and the Culture source, IMG_4516 vs lumotive.com's IMG_4575 (CU1).
 - The TX10 still versus the #129 animation (T2).
 - The new HDR video also on dToF (F5).
 - Google citation source (C6).
@@ -310,6 +313,7 @@ Resolved on this page by `1787714700`: AB1 hero, live as `hero-about-bench.webp`
 | dToF "NM120 enclosed unit" photo | Live as transparent `nm120-sensor.webp` on the panel frame (`1787714400`); the existing `nm120-module.png` is identical to Simon's IMG_0032 | p15 A2 |
 | Connect hero, 2D beamforming visual, use-case images | Live (`1787714600`): C1, C2, C5 | p16 A1, A2, A4, A5 |
 | About hero (AB1) | Live as `hero-about-bench.webp` (`1787714700`); Simon's IV2.26.18 is lumotive.com's current About hero | p17 A1 |
+| Culture hero | Live as `hero-culture-team.webp` (`1787714800`), Simon's IMG_4516; source confirmation only (CU1) | p18 A1 |
 | Culture "The Lumotive Way" video | Already embedded; oEmbed title confirmed | `culture#979b8fc6` |
 | Robotics virtual-sensor headings reconstruction | The v3 render reads "Localization", "Cliff and obstacle", "Object avoidance", as built | p10 render |
 | Robotics "Module and Solution Providers" logo strip | Not on page 10's composition (only the approved sentence, which ships); not a page-10 blocker | PDF p10 text |
