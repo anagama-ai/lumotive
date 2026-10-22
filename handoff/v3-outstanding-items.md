@@ -25,7 +25,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 **Decide or confirm**
 - Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
 - Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). (The Robotics kit row R3 and the Dev Kits iToF row D6 are done with the v4 photos.)
-- TX10 still versus the #129 animation (T2); Google citation source (C6). F5 is answered in v4: the HDR video serves dToF too.
+- TX10 still versus the #129 animation (T2); Google citation source (C6).
 - v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips; on Transmit, whether the merged GIF covers both slots or a flood animation is still coming; the static scan-modes figure on iToF (shipped in place of the printed five-tab selector) and its wording; Automotive's diagram (no vehicle, shown full width, scrolls sideways on phones) and the MD180 photo in the point-cloud slot. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
 - **#125 (P1):** confirm that the v4 "Disregard" withdraws the redraw; Webvizio #125 stays open until Claudia confirms.
 - **Explorer (S6):** the intro "Change the phase pattern across the metasurface…" promises a control the supplied tool does not have (it is a guided animation with a timeline); keep or reword. (Phones are decided: they open the explorer in a new tab.)
@@ -45,7 +45,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs to implement (15):** F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3, Page 12's D1/D3/D6, Page 13's T3 ROI animation, Page 14's I1, I4, I5, I6, I7. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1), and T3's flood animation.
+7. **v4 inputs: all implemented on the local site.** Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3, Page 12's D1/D3/D6, Page 13's T3 ROI animation, Page 14's I1, I4, I5, I6, I7, Page 15's F5. Page 09 had no v4 change. **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1), and T3's flood animation.
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -259,8 +259,8 @@ Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1
 | F2 | NM120 spec tiles — POWER | Asset | Missing | Stella-120 sensor-head power figure (the `[X] W` placeholder is unpublishable). | Lumotive | Yes | PDF p04, p15 |
 | F3 | NM120 spec tile INTERFACE + "Modular by Design" | Decision | Missing | Confirm "NM120 sensor head outputs MIPI" may be stated publicly; the tile and whole section rest on it. | Lumotive | Yes | PDF p04, p15 |
 | F4 | Modular by Design | Asset | Missing | NM120 internals photo, enclosure removed, head and compute board separate. | Lumotive | Yes | PDF p15 |
-| F5 | HDR Without Losing Frame Rate | Decision | **Answered v4** | Simon linked Vimeo 1235957120 "Lumotive HDR" here too: one video serves `/sense` and `/dev-kits/dtof`. Page 15 pass: embed, then the in-page check. | Us (page 15) | Yes | v4 p15 |
-| F6 | Track Fast-Moving Objects | Ours | Verify (in S20) | Content confirmed from the Vimeo thumbnail of 1102359216 (basketball at 90°/10 fps, 40°/22 fps, 10°/80 fps). Remaining: in-page playback in a real browser; see S19. | Us | No | p15 v3 QA |
+| F5 | HDR Without Losing Frame Rate | Decision | **Done on the local site 2026-10-22** | Vimeo 1235957120 "Lumotive HDR" (21:9) plays in the page, right of the copy (`1787717300`); in-page playback verified in headed Edge at 1440 and 390. | — | No | `page-15-dtof-dev-kits.md` v4 pass |
+| F6 | Track Fast-Moving Objects | Ours | **Edge verified 2026-10-22**; other browsers in S20 | In-page playback verified in headed Edge (1.25 → 3.75 s, pause holds). Remaining: Safari, iOS and Android in S20. | Us | No | `page-15-dtof-dev-kits.md` v4 pass |
 | F7 | Outdoor application row (#160) | Asset | Verify | Icons for five use cases: supply, or approve the accent-ruled text cards. | Lumotive | No | `page-15` handoff |
 
 Resolved on this page by `1787714400`: F1, Simon's IMG_0031 (NM120 with heatsink) is the hero as `hero-nm120-heatsink.webp`, whole and right of the copy from 1024px, whole at 768px, a full-band backdrop on phones (new `mediaAnchor`, plus the page-14 phone options). A2 "NM120 enclosed unit" now uses the transparent original (`nm120-sensor.webp`, from the existing `nm120-module.png`) on the approved panel frame. Copy verified verbatim against v3; pending tiles and "Modular by Design" still held.

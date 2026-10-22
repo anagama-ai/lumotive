@@ -4,10 +4,10 @@ Approved content package rev. 2026-10-07, page 15 of 21, "Sense › Dev Kits
 › dToF Dev Kits". First built against v2; **v3 pass applied 2026-10-21**.
 Branch `feedback-20261007-v2`, local only.
 
-**Status: v3 implemented and QA-verified.** Still held for Lumotive: the
-NM120 POWER and INTERFACE tiles and "Modular by Design" (F2–F4), the HDR
-demo (F5), outdoor icons (F7). In-page playback of the tracking video is
-unverified (F6 / S19). See "Blockers (after v3)".
+**Status: v4 implemented and verified on the local site (2026-10-22).** The
+HDR demo (F5) plays in the page. Still held for Lumotive: the NM120 POWER and
+INTERFACE tiles and "Modular by Design" (F2–F4), and the outdoor icons (F7).
+See "Open after v4" in the v4 pass below.
 
 ## v3 pass (2026-10-21)
 
@@ -135,6 +135,8 @@ imagery and video unchanged.
 
 ### Blockers (after v3)
 
+> Updated by the v4 pass below: 3 (HDR demo) is done; 4 is verified in Edge, with other browsers in S20. 1, 2 and 5 stay open.
+
 1. **Stella-120 power figure (F2) + MIPI confirmation (F3)** — restore the
    POWER and INTERFACE tiles and "Modular by Design" (held copy below).
 2. **NM120 internals photo (F4)** for "Modular by Design".
@@ -148,6 +150,52 @@ imagery and video unchanged.
 Resolved by v3: the hero banner (#161, A1) and the NM120 enclosed-unit photo
 treatment (A2). The site-wide "beam steering" audit (old blocker 6) was done
 in `1787712600`.
+
+## v4 pass (2026-10-22): implemented and verified on the local site
+
+v4 has no copy change on page 15, and the orange "pending input" box is unchanged. Simon's annotations are:
+- IMG_0031: the hero, already in place since v3.
+- IMG_0032: the NM120 photo, already in place since v3.
+- Vimeo [1235957120](https://vimeo.com/1235957120) on the "HDR demo: main pulse vs low-power pulse, colored by intensity" slot: **new, F5**.
+
+**HDR Without Losing Frame Rate (`91e6c3a8`), F5.**
+- **Video:** "Lumotive HDR" (Lumotive, 0:15). oEmbed gives 426×182, i.e. 21:9; the clip plays at 2520×1080. It is the same clip `/sense` plays, in the same shared split player.
+- **Fields:** `videoUrl`, `videoAspect: "21 / 9"` (the frame keeps the clip's own proportions, so no letterboxing) and `mediaPosition: "right"`. The player sits right of the copy, as printed, in the same column as the Track Fast-Moving Objects player below it.
+- **Migration:** `1787717300_dtof_v4_hdr_video.js`, guarded and reversible. It was applied, reverted (every page record byte-identical) and re-applied; only `dtof` changes.
+- **Unchanged:** copy, the hero, the NM120 photo, cards, spacing and the CTAs. No component change.
+- **Still withheld:** the NM120 POWER / INTERFACE tiles and "Modular by Design" (F2–F4).
+
+**Layout (headless Chromium).** The player ratio is 2.333 at every width, and nothing overflows. Rendered headings, in the printed order: hero, Three Design Choices, Solid-State dToF Lidar Module, HDR, Track, 180°, closing CTA.
+
+| Width | HDR player | Copy column | Tracking player |
+| --- | --- | --- | --- |
+| 1440 | 600×257, right (x 760) | 600 wide, left | 600×338, x 760 |
+| 1024 | 457×196, right | 457 wide | 457×257 |
+| 768 | 337×144, right | 337 wide | 337×190 |
+| 390 | 358×153, above the copy | — | 358×201, above its copy |
+| 360 | 328×141, above the copy | — | 328×185 |
+
+On phones the player sits above its copy, as every split video on the site does.
+
+**In-page playback (headed Edge).** All three players played inside the page iframe after one click, and a second click paused them:
+
+| Player | Width | Playing | Source | Paused at |
+| --- | --- | --- | --- | --- |
+| HDR | 1440 | 2.90 → 5.40 s | 2520×1080, 14.9 s | 5.78 s |
+| HDR | 390 | 3.28 → 5.79 s | 2520×1080 | 5.87 s |
+| Tracking (F6) | 1440 | 1.25 → 3.75 s | 960×540, 30.1 s | 3.96 s |
+
+The first desktop attempt reported no playback. The script had clicked the HDR player while Vimeo was still loading, then clicked stale coordinates. Re-measuring the iframe immediately before the click fixed it. Headless Chromium shows only Vimeo's spinner, as on earlier pages (an observed limitation; the cause is not verified).
+
+**Screenshots:** `%TEMP%\lumotive-review\dtof-v4\`:
+- `hdr-and-tracking-{1440,1024,768,390,360}.png`;
+- `hdr-playing-edge-{1440,390}.png`.
+
+**Open after v4** (client inputs):
+1. **F2 + F3:** the Stella-120 power figure and the MIPI confirmation, which restore the POWER and INTERFACE tiles and "Modular by Design" (held copy below).
+2. **F4:** the NM120 internals photo for "Modular by Design".
+3. **F7:** the outdoor application icons (Webvizio #160), or approval of the accent-ruled text cards.
+4. **Cross-browser checks (S20):** Safari, iOS and Android. F6's in-page playback is now verified in Edge.
 
 ## What shipped in the v2 build (history)
 

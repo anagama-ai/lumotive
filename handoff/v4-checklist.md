@@ -4,7 +4,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`), Page 12's hero and iToF photos (`page-12-dev-kits.md`), Page 13's ROI animation (`page-13-transmit-modules.md`), Page 14's hero, video, kit photos, depth frames and scan-modes graphic (`page-14-itof-dev-kits.md`).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`), Page 12's hero and iToF photos (`page-12-dev-kits.md`), Page 13's ROI animation (`page-13-transmit-modules.md`), Page 14's hero, video, kit photos, depth frames and scan-modes graphic (`page-14-itof-dev-kits.md`), Page 15's HDR video (`page-15-dtof-dev-kits.md`).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -86,7 +86,7 @@ No v4 change (empty text diff; the six notes are identical to v3). Recorded in `
 ### 15 dToF Dev Kits `/dev-kits/dtof`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| NM120: HDR Without Losing Frame Rate | Vimeo 1235957120 "Lumotive HDR" (the same video as `/sense`) | Now supplied / decision answered | F5 | Supplied. It serves both pages. |
+| NM120: HDR Without Losing Frame Rate | Vimeo 1235957120 "Lumotive HDR" (the same video as `/sense`) | Now supplied / decision answered | F5 | **Implemented and verified (local site):** plays in the page right of the copy at 21:9 (headed Edge, 1440 and 390) |
 | Spec tiles, Modular by Design, outdoor row | unchanged | — | F2, F3, F4, F7 | Awaiting |
 
 ### 16–21 Connect, About, Culture, Partners, News, Contact
