@@ -45,6 +45,19 @@
 		desktopOpen = null;
 		(event.currentTarget as HTMLElement).querySelector<HTMLButtonElement>('.nav-toggle')?.focus();
 	};
+	// Phones: Escape closes the open panel, as it closes a desktop menu, and
+	// focus returns to the menu button (the panel covers the page). Attached
+	// rather than inline: Svelte's a11y lint treats <details> as
+	// non-interactive, though its <summary> and the links inside it are.
+	function closeOnEscape(menu: HTMLDetailsElement) {
+		const onKeydown = (event: KeyboardEvent) => {
+			if (event.key !== 'Escape' || !menu.open) return;
+			collapseMenus();
+			menu.querySelector('summary')?.focus();
+		};
+		menu.addEventListener('keydown', onKeydown);
+		return () => menu.removeEventListener('keydown', onKeydown);
+	}
 </script>
 
 <header class="site-header" data-lumotive-header bind:this={headerEl}>
@@ -137,7 +150,7 @@
 		{/if}
 
 		{#if data.items?.length || data.buttons?.length}
-			<details class="mobile-nav">
+			<details class="mobile-nav" {@attach closeOnEscape}>
 				<summary aria-label="Toggle navigation"></summary>
 				<nav class="mobile-panel" aria-label="Mobile navigation">
 					{#each data.items || [] as item, index (index)}
