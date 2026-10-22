@@ -50,7 +50,7 @@ No v4 change (empty text diff; the six notes are identical to v3). Recorded in `
 ### 10 Robotics `/sense/robotics`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| One Sensor, Three Jobs | Vimeo 1237762150 "Lumotive: One Sensor, Three Jobs" (16:9, 1:09) | Now supplied | R2 | **Implemented and verified (local site).** Right of the bullets in the existing split; in-page playback confirmed in Edge. |
+| One Sensor, Three Jobs | Vimeo 1237762150 "Lumotive: One Sensor, Three Jobs" (16:9, 1:09) | Now supplied | R2 | **Implemented and verified (local site).** PDF layout: cards and bullets left, video right (from 1280px; stacked below). In-page playback confirmed in Edge. |
 | Kits for Robotics: LI140 (card 3), ON140 (card 4) | `LI140.png`, `ON140.png` (2500×1667 transparent cut-outs) | Now supplied (`wscgr`) | R4 → R3 | **Implemented and verified (local site).** All four photos on the kit panel, contained and uncropped; Simon's M30 photo with its white background removed (conflict 8). |
 
 ### 11 Automotive `/sense/automotive`

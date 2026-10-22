@@ -161,7 +161,13 @@ The v3 render shows the three virtual-sensor headings as **"Localization"**, **"
 
 Inputs (PDF page 10): Simon's Vimeo [1237762150](https://vimeo.com/1237762150) ("Lumotive: One Sensor, Three Jobs", 16:9, 1:09) on the three-panel demo slot. `wscgr`'s `LI140.png` and `ON140.png` (2500×1667 transparent cut-outs) on kit cards 3 and 4. Migration `1787716100_robotics_v4_video_kits.js`, guarded and reversible.
 
-**One Sensor, Three Jobs.** The approved two-part layout stays: the heading, intro and three virtual-sensor cards (`9a0b7f31`) on top, then the benefits split (`2e6c48da`). The video now fills that split's right-hand column, beside the four bullets: the printed "video right". It uses the same click-to-play Vimeo player as every other split video, and below 768px it stacks above the bullets. The printed placeholder caption ("Three-panel AMR demo video: …") describes the asset, not page copy, so it is not shown; the player's title is the section heading.
+**One Sensor, Three Jobs (PDF layout, migration `1787716200`).**
+- **Layout:** as PDF page 10 prints it, the heading, intro, three virtual-sensor cards and four benefit bullets form the left column, with the demo video on the right.
+- **Migration:** the bullets and the video moved from the separate split `2e6c48da` into the cards section `9a0b7f31` (CardsTextCards gains opt-in `videoUrl` and `body`, unset on every other section), and `2e6c48da` was removed. The section takes back its own `md` bottom spacing.
+- **Copy:** unchanged, including the card titles' existing title case.
+- **Placeholder caption:** the printed "Three-panel AMR demo video: …" describes the asset, not page copy, so it is not shown.
+- **Side by side from 1280px**, with cards at 1.5rem padding. Below 1280 the left column would give each of three cards under 150px, so the section stacks: heading, intro, cards (3 / 2+1 / 1 columns at 1024 / 768 / 390), bullets, then the video full width.
+- **Earlier v4 pass:** it had put the video beside the bullets only, under full-width cards (`1787716100`); this supersedes that.
 
 **Kits for Robotics.** All four photos were added together, matched by product name, on the page-03 kit panel (`mediaFrame: "panel"`: Cool Field panel, `object-fit: contain`, one fixed height, so no product is cropped):
 - **M30:** `kit-m30.webp` from Simon's `M30_thumb.jpg`. Its plain white studio background was removed by an edge flood fill (light pixels connected to the border only), so it sits on the panel like the other cut-outs; the product pixels are unchanged. This settles v4 conflict 8 in favour of Simon's linked photo.
@@ -169,9 +175,20 @@ Inputs (PDF page 10): Simon's Vimeo [1237762150](https://vimeo.com/1237762150) (
 - **LI140, ON140:** `kit-li140.webp` and `kit-on140.webp`, trimmed to the product plus a small margin, ON140 resized to 900px tall.
 
 **Verification (local site).**
-- **Layout:** at 1440, 1024, 768 and 390 the four panels match within each row (254×224 at 1440), every image loads, and nothing overflows.
-- **Video position:** 600×338 on the right at 1440 (bullets on the left edge, 80px); above the bullets on phones.
-- **In-page playback:** confirmed in a visible Microsoft Edge 155 window. One click on the embedded player played it from 0.45 s to 8.45 s over 8 s (readyState 4, stream 1280×720). Headless Chromium gets Vimeo's bot check, as noted in S19.
-- **Screenshots:** `%TEMP%\lumotive-review\robotics-v4\` (`video-split-*.png`, `kits-*.png`, `video-playing-edge.png`).
+- **Kit row:** at 1440, 1024, 768 and 390 the four panels match within each row (254×224 at 1440), every image loads, and nothing overflows.
+- **One Sensor, Three Jobs:**
+  - **1440:** cards 3 × 184px and bullets (600px) in the left column, the video 600×338 on the right, vertically centred on the copy (6px off).
+  - **1280:** the same split, cards 177px, video 578×325.
+  - **1024 / 768 / 390:** stacked, with the video after the bullets at full width (976 / 720 / 358px).
+  - No overflow at any width.
+- **M30 cut-out:** checked at 2× against the original on the panel grey. Outline, lens, label text, connectors and the white stickers inside the product are intact (only light pixels connected to the image border were removed), with no visible white halo.
+- **In-page playback:**
+  - **Visible Microsoft Edge 155 window:** one click on the embedded player played it from 0.45 s to 8.45 s over 8 s (readyState 4, stream 1280×720).
+  - **Observed limitation:** in headless Chromium the player stays on a loading spinner. On `/platform` the player document answered HTTP 401 with a Cloudflare challenge script in that browser (S19). The cause was not verified further.
+- **Screenshots:** `%TEMP%\lumotive-review\robotics-v4\` (the earlier failed captures were deleted and replaced):
+  - `one-sensor-three-jobs-{1440,1280,1024,768,390}.png` (complete section);
+  - `kits-{1440,1280,1024,768,390}.png` (complete kit row);
+  - `m30-cutout-edges-2x.png`;
+  - `video-playing-edge.png`.
 
 **Still open:** none on this page from v4. Sitewide items (S1 LinkedIn, S8) are unchanged.

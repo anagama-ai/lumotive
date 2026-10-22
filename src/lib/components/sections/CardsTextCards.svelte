@@ -5,6 +5,7 @@
 	import { isStaticFileLink } from '$lib/links';
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 	import LoopVideo from '$lib/components/lumotive/LoopVideo.svelte';
+	import { videoEmbedUrl } from '$lib/video';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
 	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
@@ -101,10 +102,34 @@
 	};
 	const numeral = (accent?: string) => numerals[accent ?? ''] ?? numerals.accent1;
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
+	// `videoUrl` (Vimeo/YouTube): the section becomes a split, header, cards
+	// and `body` on the left, the click-to-play player on the right, as
+	// /sense/robotics "One Sensor, Three Jobs" prints it. From 1280px only:
+	// below that the left column is too narrow for three cards, so everything
+	// stacks with the player last. Unset on every other section.
+	let embedUrl = $derived(videoEmbedUrl(section.videoUrl));
+	// Rich text under the cards (the benefits list beside the player).
+	let body = $derived(typeof section.body === 'string' ? section.body.trim() : '');
 </script>
 
-<section class="lumo-section" class:has-visual={Boolean(visual)} class:centered id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
+<section class="lumo-section" class:has-visual={Boolean(visual)} class:has-video={Boolean(embedUrl)} class:centered id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
 	<div class="lumo-inner">
+		{#if embedUrl}
+			<div class="video-split">
+				<div class="min-w-0">{@render content()}</div>
+				<div class="video-split-media min-w-0">
+					<Reveal x={24} y={12} duration={1.1}>
+						<iframe src={embedUrl} title={titleCase(String(section.heading ?? '')) || 'Embedded video'} class="rounded-card block aspect-video w-full border-0" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+					</Reveal>
+				</div>
+			</div>
+		{:else}
+			{@render content()}
+		{/if}
+	</div>
+</section>
+
+{#snippet content()}
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal><div class="section-head mb-12 max-w-4xl">
 				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
@@ -163,7 +188,7 @@
 				{@const barClass = bar(card.accent)}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`rounded-card bg-surface hover:shadow-card group flex flex-col p-8 transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}${rowAlign ? ' row-card' : ''}${centered ? ' card-centered' : ''}`}
+					class={`rounded-card bg-surface hover:shadow-card group flex flex-col ${embedUrl ? 'p-6' : 'p-8'} transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}${rowAlign ? ' row-card' : ''}${centered ? ' card-centered' : ''}`}
 					style:--card-rows={rowAlign ? cardRows(card, image, link) : undefined}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
@@ -189,6 +214,9 @@
 			{/each}
 		</Reveal>
 		{/if}
+		{#if body}
+			<Reveal delay={0.08}><div class="cards-body text-lead">{@html body}</div></Reveal>
+		{/if}
 		{#if conclusion}
 			<Reveal delay={0.1}><p class="text-lead text-ink mt-10 max-w-3xl font-medium">{conclusion}</p></Reveal>
 		{/if}
@@ -211,8 +239,7 @@
 		{#if outro && !supportInBlock}
 			<Reveal delay={0.16}><p class="section-note mt-6 block max-w-3xl">{outro}</p></Reveal>
 		{/if}
-	</div>
-</section>
+{/snippet}
 
 <style>
 	/* The trailing row carries the gap, so a note and the shared action sit on
@@ -239,6 +266,24 @@
 	   animation so it is never upscaled, holds the visual and its support. */
 	.has-visual .section-head { margin-bottom: 2rem; }
 	.has-visual .section-head h2 { margin: 0; }
+	/* Video split (`videoUrl`). Same heading treatment as the visual layout;
+	   cards take 1.5rem padding so three fit the left column. From 1280px the
+	   copy and the player sit side by side, as SplitDefault proportions them;
+	   below, the player follows the benefits list. */
+	.has-video .section-head { margin-bottom: 2rem; }
+	.has-video .section-head h2 { margin: 0; }
+	.video-split-media { margin-top: 2.5rem; }
+	@media (min-width: 1280px) {
+		.video-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(2.5rem, 6vw, 5rem); }
+		.video-split-media { margin-top: 0; }
+	}
+	/* Rich text under the cards: the split sections' bullet list. */
+	.cards-body { margin-top: 1.75rem; color: var(--color-text); }
+	.cards-body :global(ul) { margin: 0; padding-left: 1.15rem; list-style: disc; }
+	.cards-body :global(li) { margin-top: .4rem; }
+	.cards-body :global(li:first-child) { margin-top: 0; }
+	.cards-body :global(li::marker) { color: var(--color-muted); }
+	.cards-body :global(p) { margin: 0; }
 	.visual-block { max-width: 62.5rem; }
 	.visual-support { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
 	@media (min-width: 768px) {

@@ -155,6 +155,10 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			{ name: 'mediaPoster', label: 'Visual poster frame (video)', type: 'media' },
 			{ name: 'mediaAlt', label: 'Visual description (alt text)', type: 'text' },
 			{ name: 'textAlign', label: 'Centre the composition (center)', type: 'text' },
+			// A player beside the copy: header, cards and `body` left, video right
+			// (from 1280px; stacked below). Used by /sense/robotics.
+			{ name: 'videoUrl', label: 'Video beside the cards (Vimeo or YouTube URL)', type: 'url' },
+			{ name: 'body', label: 'Text under the cards (e.g. a bullet list)', type: 'richtext' },
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
 			{ name: 'columns', label: 'Desktop columns (2 | 3 | 4 | 5, default 3)', type: 'text' },

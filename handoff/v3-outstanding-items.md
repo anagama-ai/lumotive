@@ -191,7 +191,7 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| R2 | One Sensor, Three Jobs | Asset | **Done on the local site 2026-10-22** | Vimeo 1237762150 in the benefits split, on the right of the bullets (`1787716100`); in-page playback confirmed in Edge (0.45 → 8.45 s). The printed placeholder caption describes the asset and is not shown. | Us | — | `page-10-robotics.md` v4 pass |
+| R2 | One Sensor, Three Jobs | Asset | **Done on the local site 2026-10-22** | As printed: heading, intro, three cards and bullets on the left, Vimeo 1237762150 on the right from 1280px, stacked below (`1787716200`, superseding the bullets-only split of `1787716100`). In-page playback confirmed in Edge (0.45 → 8.45 s). The printed placeholder caption describes the asset and is not shown. | Us | — | `page-10-robotics.md` v4 pass |
 | R4 | Kits for Robotics | Asset | **Done on the local site 2026-10-22** | LI140 and ON140 cut-outs added (see R3). | — | — | v4 p10 |
 | R3 | Kits for Robotics | Ours | **Done on the local site 2026-10-22** | All four photos together on the page-03 kit panel (contained, uncropped, same frame): M30 from Simon's `M30_thumb.jpg` with its white background removed, NM120 `kit-nm120.webp`, LI140, ON140. | Us | — | `page-10-robotics.md` v4 pass |
 
