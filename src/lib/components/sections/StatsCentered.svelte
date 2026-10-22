@@ -56,6 +56,7 @@
 		data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
 		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'compact', 'md', 'lg'], 'md')}
 		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'compact', 'md', 'lg'], 'md')}
+		data-phone-bottom={['xs', 'sm', 'md'].includes(String(section.phoneSpacingBottom)) ? String(section.phoneSpacingBottom) : undefined}
 		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		{#if variant === 'statsLightTraits' && section.designVersion === 'specTable' && image}
