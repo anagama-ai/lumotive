@@ -4,7 +4,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`), Page 12's hero and iToF photos (`page-12-dev-kits.md`).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -63,8 +63,8 @@ No v4 change (empty text diff; the six notes are identical to v3). Recorded in `
 ### 12 Dev Kits `/dev-kits`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| Hero (hub page) | `Lineup.png` (2500×1667 cut-out; five kits) | Now supplied (`wscgr`) | D1 | Supplied |
-| Find Your Dev Kit, iToF row: ON140 (card 1), LI140 (card 2) | `ON140.png`, `LI140.png` | Now supplied (`wscgr`) | D3 → D6 | Supplied. The decision recorded in D6 now applies: add all three iToF photos on the grey panel, with M30 as the existing `m30-dev-kit-contents.webp` (= Simon's IMG_7224). |
+| Hero (hub page) | `Lineup.png` (2500×1667 cut-out; five kits) | Now supplied (`wscgr`) | D1 | **Implemented and verified (local site).** Whole lineup on the right of a white banner; phones use the `max` shade for readability. |
+| Find Your Dev Kit, iToF row: ON140 (card 1), LI140 (card 2) | `ON140.png`, `LI140.png` | Now supplied (`wscgr`) | D3 → D6 | **Implemented and verified (local site).** ON140, LI140 and M30 (`m30-dev-kit-contents.webp` = Simon's IMG_7224) together on the grey panel, contained. |
 | TX10, NM120, MD180 photos | unchanged | — | — | On the local site |
 
 ### 13 Transmit Modules `/dev-kits/transmit-modules`

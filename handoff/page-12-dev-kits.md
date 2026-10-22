@@ -142,3 +142,37 @@ Resolved by v3:
 - the TX10, NM120 and MD180 photos;
 - the meta description;
 - the `/dev-kits/*` 404s (pages 13–15 built).
+
+## v4 pass (2026-10-22): implemented and verified on the local site
+
+v4 has no copy change on page 12. `wscgr` linked `Lineup.png` at the hub hero and `ON140.png` / `LI140.png` at iToF cards 1 and 2; Simon's M30 (IMG_7224), TX10, NM120 and MD180 notes are carried over from v3. Migration `1787716500_dev_kits_v4_media.js` is guarded and reversible. Copy, kit order, links and the compact phone hero are unchanged.
+
+**Hero (`1b368f3c`), D1.**
+- **Image:** the five-kit lineup cut-out is laid whole on the right of a white 2880×1200 banner (`hero-devkits-lineup.webp`, 74 KB), composed the way the dToF hero composes its NM120: product right, `mediaAnchor: "100%"`, phones `mobileMediaPosition: "100%"`. It replaces `hero-devkits.jpg` (dark bench photo).
+- **Placement:** at 1440 / 1024 / 768 the whole lineup sits inside the band. At 1440 it starts right of the headline. At 1024 and 768 it sits behind the copy's right-hand side under the shade, as the dToF hero's NM120 does. On phones it is a dim backdrop on the right.
+- **Phone shade:** the white banner is brighter behind the phone copy than the old photo; with the previous `strong` shade, phone body text measured 3.22–3.66:1 at the brightest backdrop pixel. Phones now take the existing `max` shade (as other white-backed heroes do, S26). Tablet and desktop shades are unchanged.
+- **Hero readability**, measured at the brightest backdrop pixel under each text line with the text hidden (a screenshot measure, not an accessibility sign-off):
+
+  | Width | Eyebrow | Heading | Body |
+  | --- | --- | --- | --- |
+  | 1440 | 8.76 | 8.49 | 7.40 |
+  | 1024 | 8.23 | 10.41 | 6.69 |
+  | 768 | 7.80 | 9.81 | 4.66 |
+  | 430 | 8.45 | 10.53 | 6.73 |
+  | 390 | 7.78 | 9.18 | 6.93 |
+  | 360 | 7.08 | 11.04 | 7.02 |
+
+- **Band heights:** 624 / 612 / 612 / 441 / 469 / 509px at 1440 / 1024 / 768 / 430 / 390 / 360. The phone compact hero is unchanged; it follows the copy.
+
+**Find Your Dev Kit, iToF row (`8d3b05e6`): D3, D6 closed.**
+- **Photos:** ON140, LI140 and M30 were added together on the light-grey kit panel (`mediaFrame: "panel"`), matching TX10 / NM120 / MD180, which ends the temporary text-only row.
+- **Reused assets:** ON140 and LI140 use the cut-outs made from `wscgr`'s files for `/sense/robotics` (`kit-on140.webp`, `kit-li140.webp`). M30 is the existing `m30-dev-kit-contents.webp`, which is Simon's IMG_7224, the photo linked on this page. Robotics uses Simon's different M30 shot (`M30_thumb`, the bare module), as linked there; each page follows its own annotation.
+
+**Verification (local site, headless Chromium).**
+- **Kit panels:** at 1440 / 1024 / 768 / 390 / 360 all six photos load and are contained (`object-fit: contain`, never cropped). Panels are one height per breakpoint (224px from 768, 192px on phones), and the panels in each row match in width.
+- **Links:** all answer 200 (`/contact?inquiry=kit-recommendation`, `/dev-kits/transmit-modules`, `/dev-kits/itof`, `/dev-kits/dtof`, `/contact?inquiry=md180`).
+- **Overflow:** none at any width.
+- **Database:** the migration was applied, reverted (all page records byte-identical) and re-applied.
+- **Screenshots:** `%TEMP%\lumotive-review\dev-kits-v4\` (`hero-{1440,1024,768,430,390,360}.png`, `find-your-dev-kit-{1440,768,390}.png`; `before-devkits-hero-*.png` and `ref-dtof-hero-*.png` for comparison).
+
+**Still open:** D4 (Module and Solution Providers: Leopard logo, SE5/SE6).

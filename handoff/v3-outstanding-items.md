@@ -24,7 +24,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 
 **Decide or confirm**
 - Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
-- Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). The LI140/ON140 photos are supplied in v4, so the Robotics kit row (R3) and the Dev Kits iToF row (D6) are now ours.
+- Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). (The Robotics kit row R3 and the Dev Kits iToF row D6 are done with the v4 photos.)
 - TX10 still versus the #129 animation (T2); Google citation source (C6). F5 is answered in v4: the HDR video serves dToF too.
 - v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips, the merged GIF on Transmit, the static scan-modes art, Automotive's diagram (no vehicle, shown full width, scrolls sideways on phones) and the MD180 photo in the point-cloud slot. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
 - **#125 (P1):** confirm that the v4 "Disregard" withdraws the redraw; Webvizio #125 stays open until Claudia confirms.
@@ -45,7 +45,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs to implement, page by page (12–15):** D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
+7. **v4 inputs to implement, page by page (13–15):** T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3, Page 12's D1/D3/D6. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -219,9 +219,9 @@ Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` 
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| D1 | Hero | Asset | **Supplied v4** | `Lineup.png` (2500×1667 cut-out, five kits), linked by `wscgr`. Page 12 pass. | Us (page 12) | No | v4 p12 |
-| D3 | Find Your Dev Kit · iToF | Asset | **Supplied v4** | `ON140.png` (card 1), `LI140.png` (card 2). | Us (page 12) | Yes | v4 p12 |
-| D6 | Find Your Dev Kit · iToF | Ours | Do (page 12) | The decision of 2026-10-21 now applies: add all three photos on the grey panel, M30 as the existing `m30-dev-kit-contents.webp`. | Us | No | `page-12-dev-kits.md` |
+| D1 | Hero | Asset | **Done on the local site 2026-10-22** | `wscgr`'s five-kit lineup laid whole on the right of a white banner (`hero-devkits-lineup.webp`), as the dToF hero composes its NM120. Phones take the existing `max` shade so the copy holds ≥ 6.73:1 at the brightest backdrop pixel (`1787716500`). | Us | — | `page-12-dev-kits.md` v4 pass |
+| D3 | Find Your Dev Kit · iToF | Asset | **Done on the local site 2026-10-22** | ON140 and LI140 cut-outs on the kit panel (reused from `/sense/robotics`). | Us | — | `page-12-dev-kits.md` v4 pass |
+| D6 | Find Your Dev Kit · iToF | Ours | **Done on the local site 2026-10-22** | All three iToF photos together on the grey panel; M30 as the existing `m30-dev-kit-contents.webp` (Simon's IMG_7224). The temporary text-only row is closed. | Us | — | `page-12-dev-kits.md` v4 pass |
 | D4 | Module and Solution Providers | Asset/Decision | Missing | Not built here. See SE5 (Leopard logo) and SE6 (ship 3 of 4 now?). | Lumotive / Claudia | Yes | PDF p12 |
 
 Resolved on this page by `1787713700`:
