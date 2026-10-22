@@ -56,6 +56,7 @@
 		data-spacing-top={String(section.spacingTop ?? 'md')}
 		data-phone-top={['xs', 'sm', 'md'].includes(String(section.phoneSpacingTop)) ? String(section.phoneSpacingTop) : undefined}
 		data-spacing-bottom={String(section.spacingBottom ?? 'md')}
+		data-phone-bottom={['xs', 'sm', 'md'].includes(String(section.phoneSpacingBottom)) ? String(section.phoneSpacingBottom) : undefined}
 		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		<div class="lumo-inner">
