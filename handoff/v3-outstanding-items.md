@@ -45,7 +45,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs to implement, page by page (08–15):** A1, R2, R3, AU2, AU3, D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Page 06's P2 and P3, Contact's CT4 and Page 07's L1/L2 are done on the local site.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
+7. **v4 inputs to implement, page by page (09–15):** R2, R3, AU2, AU3, D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2 and Page 08's A1 are done on the local site.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -169,7 +169,7 @@ Client-requested change (2026-10-21, not in v3): the hero is now a full-width ba
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| A1 | One Platform, Many Applications — "Your Application" card | Asset | **Supplied v4** | `Wireless.jpg` (892×592, the same size as the other card photos), linked by `wscgr`. Page 08 pass. | Us (page 08) | No | v4 p08 |
+| A1 | One Platform, Many Applications — "Your Application" card | Asset | **Done on the local site 2026-10-22** | `wscgr`'s `Wireless.jpg` self-hosted as `applications-your-application.webp` and set on the card (`1787715900`). The title now lines up with its neighbours. | Us | — | `page-08-applications.md` v4 pass |
 | A2 | Same grid | Decision | Verify | Status labels; see S8. | Lumotive | Yes | — |
 | A3 | Same grid — 3D Sensing, Defense photos | Decision | Verify | Simon's photos (warehouse AMRs; quadruped robot with soldiers) differ from the printed descriptions (quadruped + delivery robot; drones and vessel). Applied as linked. Confirm. | Lumotive (Simon) | No | p08 A1, A3 |
 | A4 | Programmable Optics in Motion | Ours | Verify (in S20) | In-page playback of 1227505713; see S19. | Us | No | — |

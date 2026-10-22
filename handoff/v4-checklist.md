@@ -4,7 +4,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -41,7 +41,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 ### 08 Applications `/applications`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| One Platform, Many Applications: "Your Application" (open prompt) | `Wireless.jpg` (892×592, same size as the other 2024/03 card photos) | Now supplied (`wscgr`) | A1 | Supplied. Also fixes the card's title sitting higher than its neighbours on desktop. |
+| One Platform, Many Applications: "Your Application" (open prompt) | `Wireless.jpg` (892×592, same size as the other 2024/03 card photos) | Now supplied (`wscgr`) | A1 | **Implemented and verified (local site).** Self-hosted WebP on the card; its title now aligns with the other cards at every width. |
 | Other cards, videos | unchanged | — | A3, S8, A4 | Unchanged |
 
 ### 09 Sense `/sense`

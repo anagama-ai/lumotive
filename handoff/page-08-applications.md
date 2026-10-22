@@ -1,6 +1,18 @@
 # Page 08 — /applications
 
-Approved content package rev. 2026-10-07 (v3), PDF page 08 of 21, "Platform › Applications". Branch `feedback-20261007-v2`; committed locally only — not pushed, merged or deployed.
+Approved content package rev. 2026-10-07, PDF page 08 of 21, "Platform › Applications": v3 pass, then the v4 pass below. Branch `feedback-20261007-v2`; committed locally only. Not pushed, merged or deployed; staging not updated.
+
+## v4 pass (2026-10-22): implemented and verified on the local site
+
+- **Input.** v4 has no copy change on page 08. Its one new note (by `wscgr`) sits on the "Image: open prompt" slot, the 4th card of row 2 in One Platform, Many Applications. It links [Wireless.jpg](https://lumotive.com/wp-content/uploads/2024/03/Wireless.jpg): 892×592 JPEG, HTTP 200, decodes; a night scene of people and light paths.
+- **Change.** The image is self-hosted as `static/lumotive/img/applications-your-application.webp` (892×592, 90 KB, perceptual hash identical to the source) and set as the "Your application" card's media (`91a455fe`) by `1787715900_applications_your_application_image.js`. It is guarded on the card having no media; down removes exactly that value. Title, body and "Talk to us" are unchanged, as are the other seven cards and their order, the hero, the video pair and the closing CTA. No component change.
+- **Verification (local site, headless Chromium).**
+  - **Image size:** at 1440 / 1024 / 768 / 390 all eight card images load (the new one at its full 892px). The new image renders at the same size as its row neighbour: 302×170 / 226×127 / 348×196 / 358×201.
+  - **Title alignment:** the card title now starts at the same height as its neighbour's (194 / 151 / 220 / 225px from the card top). This closes the misalignment noted in v3, where the text-only card's title sat higher.
+  - **No overflow** at any width.
+  - **Database:** the migration was applied, reverted (all page records byte-identical) and re-applied.
+  - **Screenshots:** `%TEMP%\lumotive-review\applications-v4\` (`applications-{1440,1024,768,390}.png`, `your-application-card-390.png`).
+- **Still open (unchanged by v4):** status labels (A2/S8), Simon's 3D Sensing and Defense photos versus the printed descriptions (A3), in-page playback of 1227505713 in a real browser (A4/S19).
 
 ## v3 versus v2 and the existing page
 
