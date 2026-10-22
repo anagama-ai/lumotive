@@ -1,8 +1,8 @@
 <script lang="ts">
 	// A short looping animation (a deck GIF converted to MP4, package page 03):
 	// muted, plays while on screen and pauses off screen. Reduced motion keeps
-	// it on its poster frame. The pause control is always there, so anyone can
-	// stop or start it (WCAG 2.2.2), whatever their motion setting.
+	// it on its poster frame. The labelled Play/Pause control is always there,
+	// so anyone can stop or start it (WCAG 2.2.2), whatever their motion setting.
 	let {
 		src,
 		poster,
@@ -65,23 +65,27 @@
 		onplay={() => (paused = false)}
 		onpause={() => (paused = true)}
 	></video>
-	<button type="button" class="loop-toggle" aria-label={paused ? 'Play animation' : 'Pause animation'} onclick={toggle}>
+	<button type="button" class="loop-toggle" onclick={toggle}>
 		{#if paused}
 			<svg aria-hidden="true" viewBox="0 0 16 16"><path d="M5 3.2v9.6c0 .5.6.8 1 .5l7.3-4.8c.4-.3.4-.8 0-1.1L6 2.7c-.4-.3-1 0-1 .5z" fill="currentColor" /></svg>
+			Play animation
 		{:else}
 			<svg aria-hidden="true" viewBox="0 0 16 16"><rect x="4" y="3" width="3" height="10" rx=".8" fill="currentColor" /><rect x="9" y="3" width="3" height="10" rx=".8" fill="currentColor" /></svg>
+			Pause animation
 		{/if}
 	</button>
 </figure>
 
 <style>
-	/* The control sits under the frame, right-aligned: the supplied animations
-	   carry their own labels and captions edge to edge, so nothing may cover
-	   them. */
-	.loop-video { display: grid; justify-items: end; gap: .5rem; margin: 0; }
+	/* The control sits under the frame, on the content's left edge: the
+	   supplied animations carry their own labels and captions edge to edge,
+	   so nothing may cover them. */
+	.loop-video { display: grid; justify-items: start; gap: .75rem; margin: 0; }
 	video { display: block; width: 100%; height: auto; border-radius: var(--radius-card); }
-	/* 44px target; ink on white measures well above 4.5:1 for the icon. */
-	.loop-toggle { display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid var(--color-border); border-radius: 999px; color: var(--color-ink); background: var(--color-surface); cursor: pointer; }
+	/* 44px target; ink on white well above 4.5:1. The text names the action,
+	   so the button needs no separate label. */
+	.loop-toggle { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; padding: .5rem 1.1rem .5rem .9rem; border: 1px solid var(--color-border); border-radius: 999px; color: var(--color-ink); background: var(--color-surface); font: inherit; font-size: var(--text-spec); font-weight: 600; cursor: pointer; }
+	.loop-toggle:hover { border-color: var(--color-muted); }
 	.loop-toggle svg { width: 1rem; height: 1rem; }
 	.loop-toggle:focus-visible { outline: 2px solid var(--color-brand-blue-dark); outline-offset: 2px; }
 </style>

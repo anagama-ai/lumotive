@@ -14,14 +14,21 @@ Approved content package rev. 2026-10-07, PDF page 07 of 21: v3 pass, client-req
 
 **Placement.** One visual between the introduction and the numbered steps, at most 1000px wide (its native width, so never upscaled), on the section's left edge. The approved steps 1–4, the ROI note and the "Every scan is a sequence you program…" outro are unchanged. The GIF's built-in labels repeat some of that copy (v4 conflict 2); both are kept, pending confirmation. Changes:
 - `CardsTextCards` gains an optional section visual (`media`, `mediaPoster`, `mediaAlt`, `videoAspect`), unset on every other section.
-- New `LoopVideo` component: muted and looping, it plays only while at least a quarter is on screen and pauses off screen. Reduced motion keeps it on the poster. The play/pause control (44px, below the frame, right-aligned) works for everyone and overrides scrolling.
+- New `LoopVideo` component: muted and looping, it plays only while at least a quarter is on screen and pauses off screen. Reduced motion keeps it on the poster. A labelled control below the frame ("Pause animation" / "Play animation", with an icon, 44px tall) works for everyone and overrides scrolling.
 - Migration `1787715700_lcm_chips_v4_animation.js`.
 
+**Layout refinement (2026-10-22, review request).** Only this section changed. The five capability cards and the rest of the page are untouched; the layout applies only to a `cardsTextCards` section with a visual.
+- **Header gaps.** The heading had kept the browser's default block margins (about 50px each side at the statement size), so eyebrow → heading → intro → animation measured 50 / 50 / 48px. The heading's margins are now 0, so the existing 1rem steps apply, with 2rem into the animation: 16 / 16 / 32px at every width.
+- **One content column** as wide as the animation (at most 1000px, never upscaled or cropped) holds the animation, the control and the supporting content. From 768px the supporting content is two columns (3fr / 2fr): steps 1–4 with the ROI note on the left, and "Every scan is a sequence you program…" on the right, top-aligned with the steps. The block's right edge matches the animation's (1080 at 1440, 1000 at 1024, 744 at 768).
+- **Phones** stack it: animation, control, steps, note, caption.
+- **Spacing:** control 12px under the animation; steps 24px under the control; note 16px under the steps. The list's browser default margins are removed in this layout only.
+
 **Verification (local site, headless Chromium):**
-- 1440 / 768 / 390: video 1000×604 / 720×435 / 358×216 on the same left edge as heading and steps (80 / 24 / 16); no horizontal overflow; the MP4 decodes (readyState 4, 1000×604).
-- It plays on screen (0.53 → 3.54 s over 3 s), pauses when scrolled away and resumes on return. Pause by the control holds through scrolling away and back; play resumes it.
-- Reduced motion: stays paused at 0 s on the poster; the control still plays it.
-- The control's accessible name switches between "Pause animation" and "Play animation". The video's label describes the animation in the package's own placeholder terms.
+- 1440 / 1024 / 768 / 390 / 360: video 1000×604 / 976×590 / 720×435 / 358×216 / 328×198, intrinsic 1000×604, on the same left edge as heading, control and steps (80 / 24 / 24 / 16 / 16). No horizontal overflow.
+- It plays on screen, pauses when scrolled away and resumes on return. "Pause animation" holds through scrolling away and back (2.38 s before and after); "Play animation" resumes it.
+- Reduced motion: stays paused at 0 s on the poster, with the control reading "Play animation"; Enter on the control plays it.
+- The control's visible text is its accessible name and switches between "Pause animation" and "Play animation". The video's label describes the animation in the package's own placeholder terms.
+- Screenshots: `%TEMP%\lumotive-review\lcm-chips-v4-refine\` (`section-{1440,1024,768,390,360}.png`, `capability-cards-{1440,390}.png`, `control-playing-1440.png`).
 - Migration applied, reverted (all page records byte-identical) and re-applied. `npm run check`: 0 errors, 0 warnings.
 
 **Limits.** At 390 the animation's built-in labels are too small to read (the supplied art is 1000px wide with small type); on phones the steps, note and outro below carry the content. The full-width band hero (client request) and every other section are unchanged.

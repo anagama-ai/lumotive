@@ -53,6 +53,9 @@
 		const value = String(section.videoAspect ?? '').trim();
 		return /^\d+(\.\d+)?\s*\/\s*\d+(\.\d+)?$/.test(value) ? value : undefined;
 	});
+	// With a visual, a step list, its note and the outro sit in the visual's
+	// column instead of trailing the section.
+	let supportInBlock = $derived(Boolean(visual) && steps);
 	const cardTitle = (value?: string | null) => (exactCase ? (value ?? '') : (titleCase(value ?? '') ?? ''));
 	// `titleLines: "2"` reserves two lines for every card title from 768px up,
 	// so a row whose titles wrap differently still starts every description at
@@ -95,44 +98,58 @@
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
 </script>
 
-<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
+<section class="lumo-section" class:has-visual={Boolean(visual)} id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
-			<Reveal><div class="mb-12 max-w-4xl">
+			<Reveal><div class="section-head mb-12 max-w-4xl">
 				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
 				{#if section.heading}<h2 class="font-display text-statement text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 				{#if statement}<p class="text-lead text-ink mt-4 font-medium">{statement}</p>{/if}
 			</div></Reveal>
 		{/if}
+		{#snippet stepList()}
+			<!-- One compact list, not four cards: the entries are an ordered
+			     sequence of short label/value pairs, and a card each would spread
+			     a signal path over a full-width row of mostly empty boxes. -->
+			<ol class="step-list rounded-card border-border bg-surface divide-border list-none divide-y border p-0" class:max-w-3xl={!visual} class:my-0={Boolean(visual)}>
+				{#each cards as card, index (index)}
+					<li class="flex items-baseline gap-4 px-6 py-4">
+						{#if card.eyebrow}<span class="font-display text-subheading text-brand-blue shrink-0 tabular-nums">{card.eyebrow}</span>{/if}
+						<span class="min-w-0">
+							<span class="font-display text-subheading text-ink">{cardTitle(card.title)}</span>
+							{#if card.body}<span class="step-value text-base leading-relaxed">{@html card.body}</span>{/if}
+						</span>
+					</li>
+				{/each}
+			</ol>
+		{/snippet}
 		{#if visual}
-			<Reveal>
-				<div class="section-visual">
+			<!-- The visual and everything that explains it share one column, as
+			     wide as the supplied animation (never upscaled): the steps and
+			     their note on the left, the second caption on the right. -->
+			<div class="visual-block">
+				<Reveal>
 					{#if visual.isVideo}
 						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} />
 					{:else}
 						<img class="rounded-card w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 1064px) 1000px, calc(100vw - 2rem)" alt={visualAlt || visual.alt} width={visual.width ?? 1000} height={visual.height ?? 600} />
 					{/if}
-				</div>
-			</Reveal>
-		{/if}
-		{#if steps}
-			<!-- One compact list, not four cards: the entries are an ordered
-			     sequence of short label/value pairs, and a card each would spread
-			     a signal path over a full-width row of mostly empty boxes. -->
-			<Reveal>
-				<ol class="step-list rounded-card border-border bg-surface divide-border max-w-3xl list-none divide-y border p-0">
-					{#each cards as card, index (index)}
-						<li class="flex items-baseline gap-4 px-6 py-4">
-							{#if card.eyebrow}<span class="font-display text-subheading text-brand-blue shrink-0 tabular-nums">{card.eyebrow}</span>{/if}
-							<span class="min-w-0">
-								<span class="font-display text-subheading text-ink">{cardTitle(card.title)}</span>
-								{#if card.body}<span class="step-value text-base leading-relaxed">{@html card.body}</span>{/if}
-							</span>
-						</li>
-					{/each}
-				</ol>
-			</Reveal>
+				</Reveal>
+				{#if steps}
+					<Reveal>
+						<div class="visual-support">
+							<div>
+								{@render stepList()}
+								{#if note}<p class="section-note mt-4 mb-0">{note}</p>{/if}
+							</div>
+							{#if outro}<p class="section-note visual-caption m-0">{outro}</p>{/if}
+						</div>
+					</Reveal>
+				{/if}
+			</div>
+		{:else if steps}
+			<Reveal>{@render stepList()}</Reveal>
 		{:else}
 		<Reveal stagger class={gridClass}>
 			{#each cards as card, index (index)}
@@ -170,10 +187,10 @@
 		{#if conclusion}
 			<Reveal delay={0.1}><p class="text-lead text-ink mt-10 max-w-3xl font-medium">{conclusion}</p></Reveal>
 		{/if}
-		{#if note || sectionLink}
+		{#if (note && !supportInBlock) || sectionLink}
 			<Reveal delay={0.12}>
 				<div class="section-foot">
-					{#if note}<span class="section-note">{note}</span>{/if}
+					{#if note && !supportInBlock}<span class="section-note">{note}</span>{/if}
 					{#if sectionLink}
 						<a
 							class="section-link"
@@ -186,7 +203,7 @@
 				</div>
 			</Reveal>
 		{/if}
-		{#if outro}
+		{#if outro && !supportInBlock}
 			<Reveal delay={0.16}><p class="section-note mt-6 block max-w-3xl">{outro}</p></Reveal>
 		{/if}
 	</div>
@@ -210,9 +227,18 @@
 	.step-list .step-value { color: var(--color-text); }
 	.step-list .step-value::before { content: ' — '; color: var(--color-muted); }
 	.step-list .step-value :global(p) { display: inline; margin: 0; }
-	/* No wider than the supplied 1000px animation, so it is never upscaled.
-	   The pause control under a video adds its own row, hence 1.5rem. */
-	.section-visual { max-width: 62.5rem; margin-bottom: 1.5rem; }
+	/* Visual layout (a section with `media`). The heading drops the browser's
+	   default block margins (about 50px each side at the statement size), so
+	   eyebrow, heading and introduction keep their own 1rem steps and 2rem
+	   lead into the visual. One column, as wide as the supplied 1000px
+	   animation so it is never upscaled, holds the visual and its support. */
+	.has-visual .section-head { margin-bottom: 2rem; }
+	.has-visual .section-head h2 { margin: 0; }
+	.visual-block { max-width: 62.5rem; }
+	.visual-support { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
+	@media (min-width: 768px) {
+		.visual-support { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 2.5rem; align-items: start; }
+	}
 	.section-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; color: var(--color-brand-blue-dark); font-weight: 650; text-decoration: none; }
 	.section-link span { transition: transform 200ms ease; }
 	.section-link:hover span { transform: translateX(.25rem); }
