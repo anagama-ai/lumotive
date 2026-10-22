@@ -7,7 +7,7 @@ This page is the short version. The full working list is `v3-outstanding-items.m
 ## State
 
 - **Branch:** `feedback-20261007-v2`, local only. **Nothing has been pushed, merged or deployed.** Staging still runs `origin/main` (`f203fc1`).
-- **Latest commits:** the v4 review (`0bc7fe9`) plus seven follow-up commits on top of it (`git log 0bc7fe9..`).
+- **Latest commits:** the v4 review (`0bc7fe9`) plus the follow-up commits on top of it (`git log 0bc7fe9..`).
 - **Not committed:** `vite.config.ts`, a Windows-only dev-server fix (S25), kept out of every commit on purpose.
 - **Local checks:** `npm run check` 0 errors and 0 warnings; `npm run build` exits 0.
 - **PR #1** (Home, `staging-home-page05` at `0b2ff9f`) is unchanged and not merged.
@@ -18,11 +18,12 @@ This page is the short version. The full working list is `v3-outstanding-items.m
 |---|---|---|
 | Content | Every v4 input built and checked against the PDF | group 1 |
 | Video embeds | Every Vimeo and YouTube embed plays in the page and pauses, in a visible Edge window | S19 |
-| Text over images and video | Hero text on 15 pages at 390/768/1024/1440 and Home video text over 24 frames at 390/768/1440: 496 measurements, none under 4.5:1 (body) or 3:1 (headings). Lowest 4.66:1 (Dev Kits body, 768) | S26 |
+| Text over images and video | Hero text on 15 pages at 390/768/1024/1440 and Home video text over 24 frames at 390/768/1440: 496 measurements, none under 4.5:1 (body) or 3:1 (headings). Lowest 4.66:1 (Dev Kits body, 768). **Approved 2026-10-22** | S26 |
 | Platform card swap | The stretch where both cards faded out is gone (was 96px, now 0px) | P6 |
 | Navigation | Phone menu closes on Escape and returns focus; desktop menus unchanged | S16 |
 | Server load | Site-wide settings cached for 60 s for signed-out visitors (one request a minute instead of four per page); editors always see live data; settings saves show immediately | S27 |
 | Migrations | All 100 new migrations apply to a copy of an `origin/main` database and roll back to the exact starting state | S23 |
+| Admin Site settings | Footer and Header forms now load and save what the site shows (copyright, link columns, legal and social links; menu, dropdowns with descriptions, third-level links, buttons). Saving unchanged kept the content and the public HTML identical; edits appeared for signed-out visitors on the next page load. When the LinkedIn URL arrives (S1), an editor can add it under Footer → Social links | S29 |
 | Press links | 21 checked: 12 work, 1 paywalled, 5 block automated checks, **3 dead** | N7 |
 
 These checks ran in Chromium and Edge on Windows only. The contrast figures are screenshot measurements, not an accessibility audit.
@@ -39,7 +40,8 @@ These checks ran in Chromium and Edge on Windows only. The contrast figures are 
 
 ## Before production launch (ours)
 
-- **S29, functional issue: admin Footer settings do not change the public footer.** The form edits "Footer text" and "Footer links", which the site never shows. The copyright line, footer columns, legal links and LinkedIn icon can only be changed through migrations. The save message still says "Your changes are live." The Header settings form has the same pattern. Fix: make both forms edit the fields the site renders. Details, reproduction steps and the recommended fix are in `v3-outstanding-items.md` under S29. **Until then, editors should not use Site settings → Footer or Header.**
+- **Site meta settings (S30):** business address, phone, social accounts and the light logo are saved but shown nowhere on the public site. Decide (with Claudia) whether to wire them in or remove them from the form. The footer's LinkedIn icon is set under Footer → Social links.
+- **New-tab links:** existing link settings are kept, but the Footer and Header forms cannot switch a link to open in a new tab. None do today.
 - **Safari, iOS Safari and Android Chrome (S20):** never tested. This covers the videos, the self-hosted looping animations (iOS autoplay and Low Power Mode), the LCM Explorer (including the no-WebGL-2 path), the menus, the sideways-scrolling figures, and a look at text over images on real screens.
 - **Press links (N7):** a person opens the 5 blocked links (Forbes ×2, bizjournals ×3).
 - **`vite.config.ts` (S25):** commit it on its own or drop it.
