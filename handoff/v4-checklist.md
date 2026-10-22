@@ -4,7 +4,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`), Page 12's hero and iToF photos (`page-12-dev-kits.md`), Page 13's ROI animation (`page-13-transmit-modules.md`).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`), Page 12's hero and iToF photos (`page-12-dev-kits.md`), Page 13's ROI animation (`page-13-transmit-modules.md`), Page 14's hero, video, kit photos, depth frames and scan-modes graphic (`page-14-itof-dev-kits.md`).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -76,11 +76,11 @@ No v4 change (empty text diff; the six notes are identical to v3). Recorded in `
 ### 14 iToF Dev Kits `/dev-kits/itof`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| Hero | `LI140-ON140-M30.png` (2500×1667 cut-out) | Now supplied (`wscgr`) | I1 | Supplied |
-| Better Data, Safer Robots | Vimeo 1053591397 "LCM-based iToF Sensor Performance Outdoors" (1:08), noted on the point-cloud slide | Clarification | I4, I3 | I4 is answered (this is the video meant). It is only a text link on the page today. Open: does the video replace the slide image, or do clean renders (I3) still come? |
-| LI140 opener; ON140 opener | `LI140.png`, `ON140.png` | Now supplied (`wscgr`) | I7 | Supplied |
-| High-Resolution Depth Across a Wide Field; ON140 shared point cloud | `High-Resolution-Depth-Across-a-Wide-Field.png` (1620×984; depth map and point cloud side by side, labels baked in) | Now supplied | I5 | Supplied for both slots |
-| Software-Defined Scanning | `lumotive-scan-modes-scaled.png` (2560×909) | Now supplied | I6 | Supplied as **one static strip** of all five modes with their specs baked in, not per-mode artwork (conflict 4) |
+| Hero | `LI140-ON140-M30.png` (2500×1667 cut-out) | Now supplied (`wscgr`) | I1 | **Implemented and verified (local site):** on a white banner, composed as the Dev Kits hero; phone `max` and tablet `strong` shades |
+| Better Data, Safer Robots | Vimeo 1053591397 "LCM-based iToF Sensor Performance Outdoors" (1:08), noted on the point-cloud slide | Clarification | I4, I3 | **Implemented and verified (local site):** plays in the page in the slide's place (headed Edge). The "Watch the comparison" link stays. **Awaiting:** whether the video replaces the clean renders (I3) and whether the link should stay |
+| LI140 opener; ON140 opener | `LI140.png`, `ON140.png` | Now supplied (`wscgr`) | I7 | **Implemented and verified (local site):** right-hand on the white panel, as the M30 opener |
+| High-Resolution Depth Across a Wide Field; ON140 shared point cloud | `High-Resolution-Depth-Across-a-Wide-Field.png` (1620×984; depth map and point cloud side by side, labels baked in) | Now supplied | I5 | **Implemented and verified (local site)** in both slots, 448px tall from 768px, full width on phones |
+| Software-Defined Scanning | `lumotive-scan-modes-scaled.png` (2560×909) | Now supplied | I6 | **Implemented and verified (local site)** as **one static strip** above the five mode cards (no tabs, no animation); scrolls sideways below its readable width. **Awaiting** conflict 4 |
 | M30 section | unchanged | — | — | On the local site |
 
 ### 15 dToF Dev Kits `/dev-kits/dtof`
@@ -97,7 +97,7 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 1. **LCM Chips hero.** v4 still prints the split hero with the hand-held LS20 photo. The full-width band was a later client request (`1787715100`) and v4 adds no note there, so the band stays.
 2. **"This is one visual" (p07). Applied as proposed:** the HTML copy (steps 1–4, note, outro) is kept and the animation shows above it as one visual. Still for Claudia: the GIF's built-in labels and three captions repeat parts of that copy. It also overrides the p03 "SVG scan timeline synced to the animation" spec.
 3. **"#154 + #155 merged" (p13).** There is one GIF for two printed slots. It now fills the ROI slot alone, and the flood slot is not filled with a copy. Confirm whether it covers both slots, or supply the flood animation.
-4. **Scan modes (p14).** The printed design is a five-tab selector with an animated wedge per mode. The supplied art is one static image of all modes. Proposal: show the static image and drop the animated selector, or split it into per-mode crops behind the existing tabs. Confirm.
+4. **Scan modes (p14). Applied as a static figure, pending confirmation:** the printed design is a five-tab selector with an animated wedge per mode; the supplied art is one still image of all five modes. It ships as that one image (no tabs, no animation, no per-mode crops) above the five mode cards, which keep the approved copy. The graphic's own wording differs from the copy ("High frame rate", "AMR mode", "Object interaction"; Object "~5 m" and "Not yet measured"; AMR "10 m*" with "*Preliminary"). Confirm the static figure and that wording (`page-14-itof-dev-kits.md`).
 5. **Automotive (p11). Applied as supplied, pending confirmation:** the MD180 product photo fills the "point cloud or video" slot, and the FOV diagram (no vehicle) sits full width under the copy, scrolling sideways on phones, so its labels stay readable. Nothing was added to either image.
 6. **Explorer (p06). Resolved in the Page 06 pass:** self-hosted rather than hotlinked; the "(Copy)" title dropped as a documented one-line change; phones open it in a new tab. Still pending: the missing fallback video, the poster and the intro copy (`page-06-platform.md`, "Open").
 7. **Home application tiles. Decided 2026-10-22:** keep Simon's selection (the same `connect-optical.jpg` on Optical Circuit Switching and Optical Communications). No change.
@@ -130,7 +130,7 @@ Fetched 2026-10-22 and cached outside the repo (`%TEMP%\lumotive-v4\assets`). Al
 | Lineup.png | p12 hero | PNG cut-out | 2500×1667 | none |
 | RandomScanOrderWarehouse.gif | p13 illumination | GIF | 1923×1384, 12 frames, 3.6 s | none |
 | LI140-ON140-M30.png | p14 hero | PNG cut-out | 2500×1667 | none |
-| Vimeo 1053591397 | p14 Better Data | public, 16:9 | 1:08 | linked as text today |
+| Vimeo 1053591397 | p14 Better Data | public, 16:9 | 1:08 | embedded on `/dev-kits/itof` (v4 pass) |
 | High-Resolution-Depth-Across-a-Wide-Field.png | p14 LI140 + ON140 | PNG, opaque | 1620×984 | none |
 | lumotive-scan-modes-scaled.png | p14 scanning | PNG | 2560×909 | none |
 | Vimeo 1235957120 "Lumotive HDR" | p15 HDR | public, 21:9 | 0:15 | embedded on `/sense` |

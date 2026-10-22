@@ -4,10 +4,11 @@ Approved content package rev. 2026-10-07, page 14 of 21, "Sense › Dev Kits
 › iToF Dev Kits". First built against v2; **v3 pass applied 2026-10-21**.
 Branch `feedback-20261007-v2`, local only.
 
-**Status: v3 implemented and QA-verified.** Pending inputs: the hero kit
-family photo, LI140 and ON140 photos, the point-cloud renders, the warehouse
-point cloud and the scan diagrams (I1, I3, I5–I7), plus two confirmations
-(I4, I8). See "Blockers (after v3)".
+**Status: v4 implemented and verified on the local site (2026-10-22).**
+Hero (I1), "Better Data, Safer Robots" video (I4), LI140 and ON140 photos
+(I7), the wide-field depth frame in both slots (I5) and the static
+scan-modes graphic (I6) are in. Open: client confirmations listed under
+"Open after v4" in the v4 pass below.
 
 ## v3 pass (2026-10-21)
 
@@ -168,6 +169,8 @@ re-apply changed only `itof`. `npm run check` 0 errors, 0 warnings;
 
 ### Blockers (after v3)
 
+> Superseded by the v4 pass below: 1, 4, 5 and 6 are in; 2 and 3 are answered by the in-page video (confirmation pending); 7 is still open.
+
 1. **Hero kit family photo** (I1) — not supplied; incumbent M30 photo stays.
 2. **Clean point-cloud renders** for "Better Data, Safer Robots" (I3).
 3. **Simon's "Vimeo:" note** on "Better Data, Safer Robots" (I4) — no link
@@ -179,6 +182,66 @@ re-apply changed only `itof`. `npm run check` 0 errors, 0 warnings;
 7. **Secondary inquiry values** (I8 / S5(a)).
 
 Resolved by v3: the compact M30 AMR demo clip (formerly blocker 6 below).
+
+## v4 pass (2026-10-22): implemented and verified on the local site
+
+v4 has no copy change on page 14. Inputs (PDF page 14, annotations by `wscgr` and Simon): `LI140-ON140-M30.png` at the hero, Vimeo [1053591397](https://vimeo.com/1053591397) on the comparison slide, `LI140.png` / `ON140.png` at the two kit openers, `High-Resolution-Depth-Across-a-Wide-Field.png` at the LI140 wide-field slot and the ON140 shared point-cloud slot, `lumotive-scan-modes-scaled.png` at Software-Defined Scanning. The M30 annotations (IMG_7224, Vimeo 1174547871) were already on the page and are unchanged.
+
+**Migration** `1787717100_itof_v4_media.js`: guarded on the prior value of every touched key, reversible. It touches only media, framing and alt keys on seven sections. Copy, section order, anchors, inquiry links, the M30 opener and its panel, the M30 demo video and all earlier spacing refinements are unchanged (verified key by key: only the keys listed below differ).
+
+| Section | Change | Asset |
+| --- | --- | --- |
+| Hero `5a1c9f20` (I1) | Three-kit cut-out laid whole on the right of a white 2880×1200 banner, composed and placed as the Dev Kits hero (same product box). `mediaAnchor: "100%"`, phones `mobileMediaPosition: "100%"` + `mobileShade: "max"`, tablets `tabletShade: "strong"`. The old photo's framing keys (`mediaScale`, `mediaShift`, `mobileMediaScale`, 25% phone position) are dropped. | `hero-itof-kits.webp`, 51 KB |
+| Better Data, Safer Robots `d4e09a21` (I4) | Vimeo 1053591397 ("LCM-based iToF Sensor Performance Outdoors", Lumotive, 1:08, 16:9) plays in the page between the intro and the two cards, where the package prints the comparison slide (`videoLayout: "above"`). The approved "Watch the comparison" link stays. | — |
+| LI140 opener `f27b6c40` (I7) | Photo right on the white panel, as the M30 opener. | `itof-li140-opener.webp` (the `/sense/robotics` cut-out on M30's 1200×805 opener canvas, not upscaled), 33 KB |
+| High-Resolution Depth Across a Wide Field `31ae7d06` (I5) | Depth map + point cloud under the copy, 28rem (448px) tall from 768px, its own proportions, left-aligned; full width on phones. | `itof-wide-field-depth.webp`, 1480×899, 384 KB |
+| Software-Defined Scanning `7f50b3ec` (I6) | Simon's strip (outer white margin trimmed, nothing else changed) across the container above the five mode cards. Below its 75rem readable width it scrolls sideways in its frame, keyboard-focusable, with "Scroll sideways to see all five modes." shown only while it overflows. | `itof-scan-modes.webp`, 2428×806, 75 KB |
+| ON140 opener `2b6e85d1` (I7) | Photo right on the white panel. | `itof-on140-opener.webp`, 82 KB |
+| ON140 features `5d92c6ba` (I5) | The same depth frame under the three feature cards and before "Plus everything…", as printed (`mediaPlacement: "afterGrid"`), 46rem wide (the same 448px height). | same file |
+
+**Scan modes: what ships versus the printed design.** PDF page 14 prints a five-tab selector (Balanced, High rate, Max range, AMR, Object) with a top-down diagram whose wedge animates on tab change, plus per-mode text beside it (dev note: "Interactive mode selector… Mobile: swipeable tabs"). The supplied file is **one still image of all five modes side by side**, specs baked in. It is shown as that: one static figure, no tabs, no animation, no per-mode crops. The five mode cards under it keep the approved copy (figures, the AMR line, the range note). Differences inside the graphic, for Claudia/Lumotive:
+- Mode names: "High frame rate", "AMR mode", "Object interaction" (copy: High rate, AMR, Object).
+- Object: "Very short range, Not yet measured", max range "~5 m" (copy: "scenes within 5 m").
+- AMR "10 m*" with the footnote "*Preliminary".
+- Every mode lists "Max range 30 m", the strip's own footnote: "All modes scan 105° horizontally (±52.5°). Diagrams share one distance scale."
+
+**Components** (opt-in; no other section sets them):
+- `CardsTextCards`: `videoLayout: "above"` (player in the visual slot instead of the Robotics split); `mediaPlacement: "afterGrid"`; `mediaMinWidth` + `mediaHint` (full-width image with a readable minimum width; sideways scroll and hint only while it overflows). The plain image visual now keeps its own proportions (`h-auto`; no section used an image visual before).
+- `SplitDefault` `mediaLayout: "below"`: a phone hint is now what opts the diagram into sideways scrolling (Automotive keeps it, unchanged); without a hint the image fits the phone width. With `mediaMaxHeight` the image keeps its proportions at that height, left-aligned.
+
+**Verification (local site).**
+- **Layout** (headless Chromium), no horizontal overflow and no broken image at any width:
+
+  | Width | Hero | Video | Openers (LI140 = ON140 = M30) | Depth, LI140 / ON140 | Scan strip |
+  | --- | --- | --- | --- | --- | --- |
+  | 1440 | 612 | 1000×563 | 600×403 panel | 738×448 / 736×447 | 1280×425, no scroll, no hint |
+  | 1024 | 612 | 976×549 | 457×307 | 738×448 / 736×447 | 1200 in a 976 frame, scrolls, hint |
+  | 768 | 612 | 720×405 | 337×226 | 720×437 / 720×437 | 1200 in 720, scrolls, hint |
+  | 390 | 441 | 358×201 | 268×180 (no panel) | 358×217 / 358×217 | 1200 in 358, scrolls, hint |
+  | 360 | 441 | 328×185 | 246×165 | 328×199 / 328×199 | 1200 in 328, scrolls, hint |
+
+  The compact phone hero stays 441px. ON140 order checked: cards, 40px, depth frame, 40px, "Plus everything…".
+- **Hero readability** (brightest backdrop pixel under each text line, text hidden; a screenshot measure, not an accessibility sign-off). Without the tablet shade the body measured 3.73:1 at 768; with it:
+
+  | Width | Eyebrow | Heading | Body |
+  | --- | --- | --- | --- |
+  | 1440 | 9.84 | 11.06 | 7.31 |
+  | 1024 | 9.84 | 11.93 | 6.87 |
+  | 768 | 9.84 | 16.52 | 6.23 |
+  | 430 | 9.46 | 13.79 | 6.58 |
+  | 390 | 9.36 | 12.46 | 6.92 |
+  | 360 | 9.28 | 11.39 | 6.91 |
+
+- **Playback, headed Edge:** clicking the Better Data player played it in the page (0 → 1.39 → 4.65 s, readyState 4, 960×540, 68.5 s), and a second click paused it. At 390 it played the same way (4.99 s). The M30 "See It on Your Bench" clip still plays (5.18 s). Headless Chromium shows only Vimeo's spinner (observed limitation, as on earlier pages).
+- **Shared components unchanged:** `/sense/automotive` diagram 1280×628 at 1440, 720px scrolling with its hint at 390; `/sense/robotics` split player 600×338 beside the cards; `/lcm-chips` "How LCM fits" 1000×604 with its step list; `/dev-kits/transmit-modules` animation 640×461, left-aligned (the restored `537e026` layout).
+- **Migration:** applied, reverted (every page record byte-identical), re-applied; only `itof` changes.
+- **Screenshots:** `%TEMP%\lumotive-review\itof-v4\`: `hero-{1440,1024,768,430,390,360}`, `{better,li140-opener,depth-li140,scan-modes,on140-opener,depth-on140,m30-opener}-{1440,1024,768,390,360}`, `better-data-playing-edge-{1440,390}`.
+
+**Open after v4** (client questions):
+1. **I3 / I4:** the video now fills the comparison slot. Does it replace the clean flash/LCM/stereo renders (I3), and should the "Watch the comparison" link stay now that the video plays in the page?
+2. **I6 / conflict 4:** confirm the static strip in place of the printed five-tab selector, and the naming and "Preliminary" / "Not yet measured" differences listed above.
+3. **I5:** the same depth frame appears in both slots, as annotated; confirm or supply a second frame for ON140.
+4. **I8 / S5(a):** secondary inquiry values (unchanged).
 
 ## What shipped in the v2 build (history)
 

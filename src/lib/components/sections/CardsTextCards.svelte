@@ -60,6 +60,25 @@
 		const value = String(section.mediaMaxWidth ?? '').trim();
 		return /^\d+(\.\d+)?rem$/.test(value) ? value : undefined;
 	});
+	// `mediaPlacement: "afterGrid"`: the visual follows the cards instead of
+	// leading them, where the package prints a figure under a feature row
+	// (/dev-kits/itof ON140's shared point cloud). Unset elsewhere.
+	let visualAfterGrid = $derived(String(section.mediaPlacement ?? '') === 'afterGrid' && !steps);
+	// `mediaMinWidth` (rem): an image whose baked-in labels need a readable
+	// width (/dev-kits/itof's scan-modes strip). It spans the container, never
+	// narrower than this; a narrower screen scrolls it sideways inside its
+	// frame, and `mediaHint` appears only while it actually overflows.
+	let visualMinWidth = $derived.by(() => {
+		const value = String(section.mediaMinWidth ?? '').trim();
+		return /^\d+(\.\d+)?rem$/.test(value) ? value : undefined;
+	});
+	let visualHint = $derived(String(section.mediaHint ?? '').trim());
+	let visualOverflows = $state(false);
+	function trackOverflow(node: HTMLElement) {
+		const observer = new ResizeObserver(() => (visualOverflows = node.scrollWidth > node.clientWidth + 1));
+		observer.observe(node);
+		return () => observer.disconnect();
+	}
 	// With a visual, a step list, its note and the outro sit in the visual's
 	// column instead of trailing the section.
 	let supportInBlock = $derived(Boolean(visual) && steps);
@@ -114,6 +133,11 @@
 	// below that the left column is too narrow for three cards, so everything
 	// stacks with the player last. Unset on every other section.
 	let embedUrl = $derived(videoEmbedUrl(section.videoUrl));
+	// `videoLayout: "above"`: the player takes the visual's place between the
+	// introduction and the cards, at the visual column's width, instead of the
+	// split (/dev-kits/itof "Better Data, Safer Robots"). Unset elsewhere.
+	let videoAbove = $derived(Boolean(embedUrl) && String(section.videoLayout ?? '') === 'above');
+	let videoSplit = $derived(Boolean(embedUrl) && !videoAbove);
 	// Rich text under the cards (the benefits list beside the player).
 	let body = $derived(typeof section.body === 'string' ? section.body.trim() : '');
 	// Phone-only spacing override (app.css): xs | sm | md, else unset.
@@ -122,7 +146,7 @@
 
 <section class="lumo-section" class:has-visual={Boolean(visual)} class:has-video={Boolean(embedUrl)} class:centered id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-phone-top={phoneSpacing(section.phoneSpacingTop)} data-phone-bottom={phoneSpacing(section.phoneSpacingBottom)} data-align={section.align === 'container' ? 'container' : undefined}>
 	<div class="lumo-inner">
-		{#if embedUrl}
+		{#if videoSplit}
 			<div class="video-split">
 				<div class="min-w-0">{@render content()}</div>
 				<div class="video-split-media min-w-0">
@@ -162,16 +186,23 @@
 				{/each}
 			</ol>
 		{/snippet}
-		{#if visual}
+		{#snippet visualBlock()}
 			<!-- The visual and everything that explains it share one column, as
 			     wide as the supplied animation (never upscaled): the steps and
 			     their note on the left, the second caption on the right. -->
-			<div class="visual-block" class:visual-above-grid={!steps} style:max-width={visualMaxWidth}>
+			<div class="visual-block" class:visual-above-grid={!steps && !visualAfterGrid} class:visual-below-grid={visualAfterGrid} class:visual-wide={Boolean(visualMinWidth)} style:max-width={visualMaxWidth}>
 				<Reveal>
-					{#if visual.isVideo}
+					{#if visual?.isVideo}
 						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} center={centered} />
-					{:else}
-						<img class="rounded-card w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 1064px) 1000px, calc(100vw - 2rem)" alt={visualAlt || visual.alt} width={visual.width ?? 1000} height={visual.height ?? 600} />
+					{:else if visual && visualMinWidth}
+						<!-- A scrollable region must be keyboard-focusable (WCAG 2.1.1). -->
+						<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+						<div class="visual-scroll rounded-card" {@attach trackOverflow} role="region" aria-label={titleCase(String(section.heading ?? '')) || undefined} tabindex={visualOverflows ? 0 : undefined}>
+							<img src={visual.src} srcset={visual.srcset} sizes={`(min-width: 1328px) 1280px, ${visualMinWidth}`} style:min-width={visualMinWidth} alt={visualAlt || visual.alt} width={visual.width ?? 1000} height={visual.height ?? 600} />
+						</div>
+						{#if visualHint && visualOverflows}<p class="section-note mt-3 mb-0">{visualHint}</p>{/if}
+					{:else if visual}
+						<img class="rounded-card block h-auto w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 1064px) 1000px, calc(100vw - 2rem)" alt={visualAlt || visual.alt} width={visual.width ?? 1000} height={visual.height ?? 600} />
 					{/if}
 				</Reveal>
 				{#if steps}
@@ -186,6 +217,16 @@
 					</Reveal>
 				{/if}
 			</div>
+		{/snippet}
+		{#if videoAbove}
+			<div class="visual-block visual-above-grid">
+				<Reveal>
+					<iframe src={embedUrl} title={titleCase(String(section.heading ?? '')) || 'Embedded video'} class="rounded-card block aspect-video w-full border-0" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+				</Reveal>
+			</div>
+		{/if}
+		{#if visual && !visualAfterGrid}
+			{@render visualBlock()}
 		{/if}
 		{#if steps && !visual}
 			<Reveal>{@render stepList()}</Reveal>
@@ -197,7 +238,7 @@
 				{@const barClass = bar(card.accent)}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`rounded-card bg-surface hover:shadow-card group flex flex-col ${embedUrl ? 'p-6' : 'p-8'} transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}${rowAlign ? ' row-card' : ''}${centered ? ' card-centered' : ''}`}
+					class={`rounded-card bg-surface hover:shadow-card group flex flex-col ${videoSplit ? 'p-6' : 'p-8'} transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}${rowAlign ? ' row-card' : ''}${centered ? ' card-centered' : ''}`}
 					style:--card-rows={rowAlign ? cardRows(card, image, link) : undefined}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
@@ -222,6 +263,9 @@
 				</svelte:element>
 			{/each}
 		</Reveal>
+		{/if}
+		{#if visual && visualAfterGrid}
+			{@render visualBlock()}
 		{/if}
 		{#if body}
 			<Reveal delay={0.08}><div class="cards-body text-lead">{@html body}</div></Reveal>
@@ -296,6 +340,14 @@
 	.visual-block { max-width: 62.5rem; }
 	/* A visual over a card grid (no step list): the grid's own gap below it. */
 	.visual-above-grid { margin-bottom: 2.5rem; }
+	/* A visual under the cards (`mediaPlacement: "afterGrid"`). */
+	.visual-below-grid { margin-top: 2.5rem; }
+	/* `mediaMinWidth`: the full container; the frame scrolls sideways only when
+	   the container is narrower than the image's readable width. */
+	.visual-block.visual-wide { max-width: none; }
+	.visual-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+	.visual-scroll img { display: block; width: 100%; height: auto; }
+	.visual-scroll:focus-visible { outline: 2px solid var(--color-brand-blue-dark); outline-offset: 3px; }
 	.visual-support { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
 	@media (min-width: 768px) {
 		.visual-support { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 2.5rem; align-items: start; }

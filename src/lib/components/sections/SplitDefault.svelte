@@ -44,13 +44,16 @@
 	// `mediaLayout: "below"`: one column, the copy first and the visual under
 	// it at the full container width, for a wide diagram whose own labels
 	// would be unreadable in half a row (/sense/automotive's coverage
-	// diagram). On phones the diagram keeps a readable width and scrolls
-	// sideways inside its frame rather than shrinking. Unset elsewhere.
+	// diagram). Unset elsewhere.
 	let mediaBelow = $derived(String(section.mediaLayout ?? '') === 'below' && !embedUrl);
 	// Alt text for a URL-referenced image, which carries none of its own.
 	let mediaAlt = $derived(String(section.mediaAlt ?? '').trim());
 	// Phones only: a short line under a "below" diagram that scrolls sideways.
+	// The hint is what opts the diagram into scrolling: on phones it keeps a
+	// readable 45rem width inside its frame rather than shrinking. A "below"
+	// image without a hint (large baked-in labels) fits the phone width.
 	let mediaHint = $derived(String(section.mediaHint ?? '').trim());
+	let phoneScroll = $derived(mediaBelow && Boolean(mediaHint));
 </script>
 
 {#snippet copy()}
@@ -76,6 +79,7 @@
 	class:compact-mobile={compactMobile}
 	class:no-media={variant === 'default' && !embedUrl && !visual}
 	class:media-below={mediaBelow}
+	class:phone-scroll={phoneScroll}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
 	data-width={section.width ?? 'contained'}
@@ -101,7 +105,7 @@
 					<Reveal x={mediaRight ? 24 : -24} y={12} duration={1.1}>
 						<!-- A "below" diagram scrolls sideways on phones; a scrollable region must be keyboard-focusable (WCAG 2.1.1), which is what the tabindex is for. -->
 						<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-						<div class="art-frame" class:panel-frame={panelFrame} class:media-capped={Boolean(mediaMaxHeight) && !embedUrl} style:--art-max-height={mediaMaxHeight || undefined} role={mediaBelow ? 'region' : undefined} aria-label={mediaBelow ? heading || undefined : undefined} tabindex={mediaBelow ? 0 : undefined}>
+						<div class="art-frame" class:panel-frame={panelFrame} class:media-capped={Boolean(mediaMaxHeight) && !embedUrl} style:--art-max-height={mediaMaxHeight || undefined} role={phoneScroll ? 'region' : undefined} aria-label={phoneScroll ? heading || undefined : undefined} tabindex={phoneScroll ? 0 : undefined}>
 							{#if embedUrl}
 								<iframe
 									src={embedUrl}
@@ -118,7 +122,7 @@
 								<img src={visual.src} srcset={visual.srcset} sizes={mediaBelow ? '(min-width: 1312px) 1280px, 100vw' : '(min-width: 768px) 50vw, 100vw'} alt={mediaAlt || visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
 							{/if}
 						</div>
-						{#if mediaBelow && mediaHint}<p class="swipe-hint">{mediaHint}</p>{/if}
+						{#if phoneScroll}<p class="swipe-hint">{mediaHint}</p>{/if}
 					</Reveal>
 				</div>
 			{/if}
@@ -181,15 +185,22 @@
 	.no-media .split-layout { grid-template-columns: 1fr; }
 	.no-media .copy-column { max-width: 48rem; }
 	/* `mediaLayout: "below"`: copy at the reading measure, the visual under it
-	   at the container width. Phones: a readable 45rem-wide diagram that
-	   scrolls sideways in its frame (keyboard-focusable), never cropped. */
+	   at the container width. With `mediaMaxHeight` the image keeps its own
+	   proportions at that height, left-aligned, and the frame hugs it. Phones:
+	   full width, or (with a hint) a readable 45rem-wide diagram that scrolls
+	   sideways in its frame (keyboard-focusable), never cropped. */
 	.media-below .split-layout { grid-template-columns: 1fr; gap: 2.5rem; }
 	.media-below .art-column { order: 2; }
 	.media-below .copy-column { order: 1; max-width: 48rem; }
 	.media-below .art-frame:focus-visible { outline: 2px solid var(--color-brand-blue-dark); outline-offset: 3px; }
+	@media (min-width: 768px) {
+		.media-below .media-capped { width: fit-content; max-width: 100%; }
+		.media-below .media-capped img { width: auto; max-width: 100%; }
+	}
 	@media (max-width: 767px) {
-		.media-below .art-frame { overflow-x: auto; overscroll-behavior-x: contain; }
-		.media-below .art-frame img { width: 45rem; max-width: none; max-height: none; margin: 0; }
+		.media-below .art-frame img { width: 100%; max-width: 100%; max-height: none; margin: 0; }
+		.phone-scroll .art-frame { overflow-x: auto; overscroll-behavior-x: contain; }
+		.phone-scroll .art-frame img { width: 45rem; max-width: none; }
 	}
 	/* Slate Text at the spec size (≥ 4.5:1 on the page field), phones only. */
 	.swipe-hint { display: none; margin: .75rem 0 0; color: var(--color-text); font-size: var(--text-spec); }

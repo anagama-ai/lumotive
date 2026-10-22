@@ -26,7 +26,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 - Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
 - Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). (The Robotics kit row R3 and the Dev Kits iToF row D6 are done with the v4 photos.)
 - TX10 still versus the #129 animation (T2); Google citation source (C6). F5 is answered in v4: the HDR video serves dToF too.
-- v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips; on Transmit, whether the merged GIF covers both slots or a flood animation is still coming; the static scan-modes art; Automotive's diagram (no vehicle, shown full width, scrolls sideways on phones) and the MD180 photo in the point-cloud slot. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
+- v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips; on Transmit, whether the merged GIF covers both slots or a flood animation is still coming; the static scan-modes figure on iToF (shipped in place of the printed five-tab selector) and its wording; Automotive's diagram (no vehicle, shown full width, scrolls sideways on phones) and the MD180 photo in the point-cloud slot. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
 - **#125 (P1):** confirm that the v4 "Disregard" withdraws the redraw; Webvizio #125 stays open until Claudia confirms.
 - **Explorer (S6):** the intro "Change the phase pattern across the metasurface…" promises a control the supplied tool does not have (it is a guided animation with a timeline); keep or reword. (Phones are decided: they open the explorer in a new tab.)
 - Heading tracking for Webvizio #138 (S18): band hero headlines moved from −0.055em to −0.03em to stop touching glyphs; close #138 only after review.
@@ -45,7 +45,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs to implement, page by page (14–15):** I1, I4, I5, I6, I7, F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3, Page 12's D1/D3/D6, Page 13's T3 ROI animation. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1), and T3's flood animation.
+7. **v4 inputs to implement (15):** F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3, Page 12's D1/D3/D6, Page 13's T3 ROI animation, Page 14's I1, I4, I5, I6, I7. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1), and T3's flood animation.
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -242,12 +242,12 @@ Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp`
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| I1 | Hero | Asset | **Supplied v4** | `LI140-ON140-M30.png` (2500×1667 cut-out), linked by `wscgr`. | Us (page 14) | No | v4 p14 |
-| I3 | Better Data, Safer Robots | Asset | Verify | v4 notes Vimeo 1053591397 on the slide image. Does the video replace the slide, or do clean renders still come? | Lumotive (Simon) | Yes | v4 p14 |
-| I4 | Same | Decision | **Answered v4** | The video is 1053591397 "LCM-based iToF Sensor Performance Outdoors" (1:08), today only a text link. Page 14 pass. | Us (page 14) | No | v4 p14 |
-| I5 | High-Resolution Depth Across a Wide Field | Asset | **Supplied v4** | `High-Resolution-Depth-Across-a-Wide-Field.png` (1620×984, depth map and point cloud, labels baked in); also the ON140 shared frame. | Us (page 14) | Yes | v4 p14 |
-| I6 | Software-Defined Scanning | Asset | **Supplied v4** | `lumotive-scan-modes-scaled.png` (2560×909): one static strip of all five modes with specs baked in, not per-mode art. Decide between a static image and per-mode crops behind the tabs (v4 conflict 4). | Us → Claudia | Yes | v4 p14 |
-| I7 | LI140 and ON140 sections | Asset | **Supplied v4** | `LI140.png`, `ON140.png` for the two kit openers. | Us (page 14) | Yes | v4 p14 |
+| I1 | Hero | Asset | **Done on the local site 2026-10-22** | `LI140-ON140-M30.png` on a white banner (`hero-itof-kits.webp`, `1787717100`), composed as the Dev Kits hero. | — | No | `page-14-itof-dev-kits.md` v4 pass |
+| I3 | Better Data, Safer Robots | Asset | Verify | The v4 video now plays in the slide's slot. Does it replace the clean flash/LCM/stereo renders, and should the "Watch the comparison" link stay beside it? | Lumotive (Simon) | No | v4 p14 |
+| I4 | Same | Decision | **Done on the local site 2026-10-22** | Vimeo 1053591397 plays in the page between the intro and the cards (verified in headed Edge). | — | No | `page-14-itof-dev-kits.md` v4 pass |
+| I5 | High-Resolution Depth Across a Wide Field | Asset | **Done on the local site 2026-10-22** | The depth map + point cloud frame in both annotated slots (LI140 wide field; ON140 under its features). Confirm the shared frame for ON140 or supply a second one. | Lumotive (Simon) | No | `page-14-itof-dev-kits.md` v4 pass |
+| I6 | Software-Defined Scanning | Asset | **Done as a static figure; confirm** | The one supplied still of all five modes, above the five mode cards; no tabs or animation (v4 conflict 4). Confirm, and confirm the graphic's wording ("High frame rate", "AMR mode", "Object interaction", "Not yet measured", "*Preliminary"). | Claudia / Lumotive | No | `page-14-itof-dev-kits.md` v4 pass |
+| I7 | LI140 and ON140 sections | Asset | **Done on the local site 2026-10-22** | Both openers carry their photo on the white panel, as M30. | — | No | `page-14-itof-dev-kits.md` v4 pass |
 | I8 | Secondary actions | Decision | Verify | See S5(a). | Apurva | No | — |
 
 Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1174547871/6e198e52ae, "Lumotive - AGV AMR", 16:9) now plays in-page in "See It on Your Bench", right-hand as printed. A1 (M30 with kit contents) was already live as `m30-dev-kit-contents.jpg`, re-verified identical to IMG_7224. Copy verified verbatim against v3.

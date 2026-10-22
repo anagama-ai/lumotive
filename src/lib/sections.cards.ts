@@ -162,12 +162,16 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			// with a pause control; an image renders as a plain figure.
 			{ name: 'media', label: 'Visual under the introduction (image or MP4)', type: 'media' },
 			{ name: 'mediaMaxWidth', label: 'Visual width cap (rem, e.g. 40rem; default 1000px)', type: 'text' },
+			{ name: 'mediaMinWidth', label: 'Visual readable width (rem): full container, scrolls sideways when narrower', type: 'text' },
+			{ name: 'mediaHint', label: 'Hint shown while the visual scrolls sideways', type: 'text' },
+			{ name: 'mediaPlacement', label: 'Visual after the cards (afterGrid)', type: 'text' },
 			{ name: 'mediaPoster', label: 'Visual poster frame (video)', type: 'media' },
 			{ name: 'mediaAlt', label: 'Visual description (alt text)', type: 'text' },
 			{ name: 'textAlign', label: 'Centre the composition (center)', type: 'text' },
 			// A player beside the copy: header, cards and `body` left, video right
 			// (from 1280px; stacked below). Used by /sense/robotics.
 			{ name: 'videoUrl', label: 'Video beside the cards (Vimeo or YouTube URL)', type: 'url' },
+			{ name: 'videoLayout', label: 'Video above the cards instead of beside them (above)', type: 'text' },
 			{ name: 'body', label: 'Text under the cards (e.g. a bullet list)', type: 'richtext' },
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
