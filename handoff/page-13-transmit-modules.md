@@ -156,7 +156,7 @@ v4 has no copy change on page 13. Simon's note "#154 + #155 merged" links [Rando
 
 **Placement** (`a7b91de3`, migration `1787716900_transmit_v4_roi_animation.js`, guarded and reversible):
 - **Position:** one visual between the intro and the five capability cards, using the visual layout built for `/lcm-chips` (shared LoopVideo: plays on screen, pauses off screen, reduced motion keeps the poster, labelled Play/Pause control below).
-- **Size:** capped at 40rem (new opt-in `mediaMaxWidth`), about the printed half-width slot.
+- **Size:** first capped at a 40rem column (about the printed half-width slot); superseded by the review change below.
 - **Component fix:** CardsTextCards now also renders a card grid under a visual (until now a visual only paired with a step list). `/lcm-chips` is unchanged (still one video, one step list, no card grid).
 - **Header spacing:** this section takes the visual layout's tighter header: the heading's default margins are removed, giving 16px between heading and intro and 32px from intro to animation.
 
@@ -171,3 +171,34 @@ v4 has no copy change on page 13. Simon's note "#154 + #155 merged" links [Rando
   - "Pause animation" pauses it, and the pause holds through scrolling away and back; "Play animation" resumes it, and scrolling away pauses it again.
   - Reduced motion: it stays at 0 s on the poster, and the control reads "Play animation".
 - **Screenshots:** `%TEMP%\lumotive-review\transmit-v4\` (`programmable-illumination-{1440,1024,768,390,360}.png`, `hero-390.png`).
+
+### Review change (2026-10-22): full-width animation panel
+
+Requested after the v4 screenshots: the animation's white container now spans the full width of the five-card row below it, so both outer edges line up with the cards.
+
+**Implementation**
+- **Migration:** `1787717000_transmit_roi_panel.js` is guarded and reversible. It replaces `mediaMaxWidth: "40rem"` on `a7b91de3` with `mediaPanelHeight: "28rem"`.
+- **Field:** the `mediaMaxWidth` field is removed. `mediaPanelHeight` is a new opt-in CardsTextCards field. When it is set, the visual block drops its 1000px column cap.
+- **LoopVideo:** a new `panelHeight` prop draws the frame as a white `--color-surface` panel with the card radius, padded 1.5rem from 768px and unpadded on phones. The video is centred in the panel at `min(100%, 28rem × 1280/922)` wide and keeps its own ratio, so it is never cropped or upscaled. The MP4's ground is pure white (#fff on all four edges, checked), so it blends into the panel.
+- **Unchanged:** the Play/Pause control stays under the panel on its left edge, and playback, reduced motion, copy and cards are as before. `/lcm-chips` is unchanged: it does not set the field.
+
+**Verified (local site, headless Chromium)**
+
+| Viewport | Panel edges = card row edges | Panel height | Animation size |
+|---|---|---|---|
+| 1440 | 80–1360 | 496px | 622×448 |
+| 1280 | 24–1256 | 496px | 622×448 |
+| 1024 | 24–1000 | 496px | 622×448 |
+| 768 | 24–744 | 496px | 622×448 |
+| 390 | 16–374 | 258px | 358×258 (edge to edge) |
+| 360 | 16–344 | 236px | 328×236 (edge to edge) |
+
+- **Ratio and placement:** at every width the ratio is 1.388 (= 1280/922), the animation is centred to the pixel, it sits fully inside the panel, and nothing overflows.
+- **Spacing:** the control is 12px under the panel and the cards 40px under the control (after the cards' reveal animation settles).
+- **Section height:** 1216px at 1440. The 28rem cap keeps the panel at 496px, close to the 461px of the earlier 40rem column.
+- **Playback:**
+  - It plays on screen (1.65 → 2.86 s).
+  - Pause holds through scrolling away and back; Play resumes it, and scrolling away pauses it again.
+  - Reduced motion: it stays at 0 s on the poster, and the control reads "Play animation".
+- **LCM Chips regression:** `#how-lcm-fits` has no panel class and a transparent frame. The video is still 1000×604 at 1440 and 358×216 at 390, with one step list, no card grid and the block capped at 1000px.
+- **Screenshots:** `%TEMP%\lumotive-review\transmit-panel\programmable-illumination-{1440,1280,1024,768,390,360}.png`.

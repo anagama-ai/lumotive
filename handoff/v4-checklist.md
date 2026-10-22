@@ -70,7 +70,7 @@ No v4 change (empty text diff; the six notes are identical to v3). Recorded in `
 ### 13 Transmit Modules `/dev-kits/transmit-modules`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| Programmable Illumination for a Dynamic World ("#154 + #155 merged") | `RandomScanOrderWarehouse.gif` (1923×1384, 12 frames, 3.6 s), placed between the two animation slots | Partly supplied | T3 | **ROI animation implemented and verified (local site):** looping MP4 plus poster, the section's one visual (40rem cap), shared play/pause and reduced-motion behaviour. **Awaiting:** the flood-illumination animation (not duplicated from the ROI one), or confirmation that this GIF covers both slots (conflict 3). |
+| Programmable Illumination for a Dynamic World ("#154 + #155 merged") | `RandomScanOrderWarehouse.gif` (1923×1384, 12 frames, 3.6 s), placed between the two animation slots | Partly supplied | T3 | **ROI animation implemented and verified (local site):** looping MP4 plus poster, the section's one visual, in a white panel as wide as the card row (animation centred, 28rem tall at most), with the shared play/pause and reduced-motion behaviour. **Awaiting:** the flood-illumination animation (not duplicated from the ROI one), or confirmation that this GIF covers both slots (conflict 3). |
 | Hero | unchanged | — | T2 | Unchanged |
 
 ### 14 iToF Dev Kits `/dev-kits/itof`

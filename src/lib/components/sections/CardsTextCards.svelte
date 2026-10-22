@@ -54,10 +54,11 @@
 		const value = String(section.videoAspect ?? '').trim();
 		return /^\d+(\.\d+)?\s*\/\s*\d+(\.\d+)?$/.test(value) ? value : undefined;
 	});
-	// `mediaMaxWidth` (rem): a narrower cap than the 1000px column, for a
-	// visual the package prints at half width (/dev-kits/transmit-modules).
-	let visualMaxWidth = $derived.by(() => {
-		const value = String(section.mediaMaxWidth ?? '').trim();
+	// `mediaPanelHeight` (rem): the visual spans the card grid's full width as
+	// a white panel, the animation centred in it and capped at this height
+	// (/dev-kits/transmit-modules). Without it the column caps at 1000px.
+	let visualPanelHeight = $derived.by(() => {
+		const value = String(section.mediaPanelHeight ?? '').trim();
 		return /^\d+(\.\d+)?rem$/.test(value) ? value : undefined;
 	});
 	// With a visual, a step list, its note and the outro sit in the visual's
@@ -166,10 +167,10 @@
 			<!-- The visual and everything that explains it share one column, as
 			     wide as the supplied animation (never upscaled): the steps and
 			     their note on the left, the second caption on the right. -->
-			<div class="visual-block" class:visual-above-grid={!steps} style:max-width={visualMaxWidth}>
+			<div class="visual-block" class:visual-above-grid={!steps} class:visual-panel={Boolean(visualPanelHeight)}>
 				<Reveal>
 					{#if visual.isVideo}
-						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} center={centered} />
+						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} center={centered} panelHeight={visualPanelHeight} />
 					{:else}
 						<img class="rounded-card w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 1064px) 1000px, calc(100vw - 2rem)" alt={visualAlt || visual.alt} width={visual.width ?? 1000} height={visual.height ?? 600} />
 					{/if}
@@ -294,6 +295,7 @@
 	.cards-body :global(li::marker) { color: var(--color-muted); }
 	.cards-body :global(p) { margin: 0; }
 	.visual-block { max-width: 62.5rem; }
+	.visual-block.visual-panel { max-width: none; }
 	/* A visual over a card grid (no step list): the grid's own gap below it. */
 	.visual-above-grid { margin-bottom: 2.5rem; }
 	.visual-support { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
