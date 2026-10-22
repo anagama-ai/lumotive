@@ -38,6 +38,10 @@
 	// other section, which keeps the full-bleed photo.
 	let panel = $derived(String(section.mediaFrame ?? '') === 'panel');
 	let fourUp = $derived(String(section.columns ?? '') === '4');
+	// `columns: "3"` sizes cards on the three-up track whatever the count, so
+	// a single card matches one card of a three-card row below it (the
+	// /dev-kits TX10 card under the iToF row). Unset elsewhere.
+	let threeTrack = $derived(String(section.columns ?? '') === '3');
 	// Desktop column count. Unset keeps the historic behaviour exactly: two-up,
 	// widening to three only for a three-card section. `columns: "4"` opts a
 	// section into an even four-up row, for a grid of eight that would
@@ -46,7 +50,7 @@
 	let gridClass = $derived(
 		fourUp
 			? 'grid gap-6 sm:grid-cols-2 lg:grid-cols-4'
-			: `grid gap-6 md:grid-cols-2 ${cards.length === 3 ? 'lg:grid-cols-3' : ''}`
+			: `grid gap-6 md:grid-cols-2 ${cards.length === 3 || threeTrack ? 'lg:grid-cols-3' : ''}`
 	);
 </script>
 
