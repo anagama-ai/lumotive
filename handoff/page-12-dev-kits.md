@@ -177,7 +177,9 @@ v4 has no copy change on page 12. `wscgr` linked `Lineup.png` at the hub hero an
 
 **Still open:** D4 (Module and Solution Providers: Leopard logo, SE5/SE6).
 
-## TX10 card width (2026-10-22): client-requested layout adjustment, not in the PDF
+## TX10 card width (2026-10-22): narrow-card request, superseded the same day
+
+> **Superseded** by "TX10 full width" below: the client corrected the instruction and the PDF layout is restored. The `columns: "3"` option this section describes was removed from the code; `1787716700` moves the section to `columns: "1"`.
 
 At the client's request, the single TX10 card under "Transmit modules" (`2c84f7a1`) now takes the width of one iToF card below it at every breakpoint, left-aligned with ON140. The PDF prints the TX10 card wider, across the row; this is the requested deviation. It uses a new opt-in `columns: "3"` on CardsMediaCards (the three-up track at any card count) set by `1787716600_dev_kits_tx10_card_width.js`, guarded and reversible; no other section carries it. Copy, link (`/dev-kits/transmit-modules`), spacing, the panel height and the uncropped (`contain`) photo are unchanged.
 
@@ -193,3 +195,26 @@ Measured (card left / width, local site):
 | 360 | 16 / 328 (full width) | 16 / 328 | 280×192 |
 
 The dToF cards (NM120, MD180) keep their two-up widths. No overflow at any width. Screenshots: `%TEMP%\lumotive-review\dev-kits-v4\tx10-width-{1440,1024,768,390}.png`.
+
+## TX10 full width (2026-10-22): PDF layout restored
+
+The client corrected the earlier narrow-card instruction. The single TX10 card under "Transmit modules" (`2c84f7a1`) again spans the full content width, as PDF page 12 prints it: on desktop from ON140's left edge to M30's right edge (the three iToF cards plus their gaps), and full width on tablet and phones.
+- **Supersedes** the narrow-card request (`1787716600`).
+- **Migration:** `1787716700_dev_kits_tx10_full_width.js` changes `columns: "3"` to `columns: "1"`, guarded and reversible.
+- **Code:** CardsMediaCards replaces the now-unused `columns: "3"` option with `columns: "1"` (one card per row at every width). No other section uses either value.
+- **Unchanged:** copy, link (`/dev-kits/transmit-modules`), spacing and panel height. The photo stays contained and centred.
+
+Measured on the local site:
+
+| Width | TX10 left–right | iToF row edges | Kit panel | Product drawn / centre offset |
+| --- | --- | --- | --- | --- |
+| 1440 | 80–1360 | ON140 left 80, M30 right 1360 | 1232×224 | 201×184 / 0 |
+| 1280 | 24–1256 | 24, 1256 | 1184×224 | 201×184 / 0 |
+| 1024 | 24–1000 | 24, 1000 | 928×224 | 201×184 / 0 |
+| 768 | 24–744 (full width) | iToF is two-up here; the row spans 24–744 | 672×224 | 201×184 / 0 |
+| 390 | 16–374 (full width) | 16–374 | 310×192 | 166×152 / 0 |
+| 360 | 16–344 (full width) | 16–344 | 280×192 | 166×152 / 0 |
+
+- **Other cards:** unchanged. NM120 / MD180 stay two-up (628px each at 1440).
+- **Overflow:** none at any width.
+- **Screenshots:** `%TEMP%\lumotive-review\dev-kits-v4\tx10-full-width-{1440,768,390}.png`.
