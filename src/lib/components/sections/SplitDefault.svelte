@@ -41,6 +41,14 @@
 	// Opt-in, phones only (<768px): 2.5rem above the section's content instead
 	// of its `spacingTop`, for a section that opens with its photograph.
 	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
+	// `mediaLayout: "below"`: one column, the copy first and the visual under
+	// it at the full container width, for a wide diagram whose own labels
+	// would be unreadable in half a row (/sense/automotive's coverage
+	// diagram). On phones the diagram keeps a readable width and scrolls
+	// sideways inside its frame rather than shrinking. Unset elsewhere.
+	let mediaBelow = $derived(String(section.mediaLayout ?? '') === 'below' && !embedUrl);
+	// Alt text for a URL-referenced image, which carries none of its own.
+	let mediaAlt = $derived(String(section.mediaAlt ?? '').trim());
 </script>
 
 {#snippet copy()}
@@ -65,6 +73,7 @@
 	class:media-right={mediaRight}
 	class:compact-mobile={compactMobile}
 	class:no-media={variant === 'default' && !embedUrl && !visual}
+	class:media-below={mediaBelow}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
 	data-width={section.width ?? 'contained'}
@@ -88,7 +97,9 @@
 			{#if variant !== 'peelBleed' && (embedUrl || visual)}
 				<div class="art-column">
 					<Reveal x={mediaRight ? 24 : -24} y={12} duration={1.1}>
-						<div class="art-frame" class:panel-frame={panelFrame} class:media-capped={Boolean(mediaMaxHeight) && !embedUrl} style:--art-max-height={mediaMaxHeight || undefined}>
+						<!-- A "below" diagram scrolls sideways on phones; a scrollable region must be keyboard-focusable (WCAG 2.1.1), which is what the tabindex is for. -->
+						<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+						<div class="art-frame" class:panel-frame={panelFrame} class:media-capped={Boolean(mediaMaxHeight) && !embedUrl} style:--art-max-height={mediaMaxHeight || undefined} role={mediaBelow ? 'region' : undefined} aria-label={mediaBelow ? heading || undefined : undefined} tabindex={mediaBelow ? 0 : undefined}>
 							{#if embedUrl}
 								<iframe
 									src={embedUrl}
@@ -102,7 +113,7 @@
 							{:else if visual?.isVideo}
 								<video {@attach honorReducedMotion} src={visual.src} autoplay loop muted playsinline aria-label={visual.alt || undefined}></video>
 							{:else if visual}
-								<img src={visual.src} srcset={visual.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
+								<img src={visual.src} srcset={visual.srcset} sizes={mediaBelow ? '(min-width: 1312px) 1280px, 100vw' : '(min-width: 768px) 50vw, 100vw'} alt={mediaAlt || visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
 							{/if}
 						</div>
 					</Reveal>
@@ -166,6 +177,17 @@
 	   frame, and stackedCard is single-column already. */
 	.no-media .split-layout { grid-template-columns: 1fr; }
 	.no-media .copy-column { max-width: 48rem; }
+	/* `mediaLayout: "below"`: copy at the reading measure, the visual under it
+	   at the container width. Phones: a readable 45rem-wide diagram that
+	   scrolls sideways in its frame (keyboard-focusable), never cropped. */
+	.media-below .split-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+	.media-below .art-column { order: 2; }
+	.media-below .copy-column { order: 1; max-width: 48rem; }
+	.media-below .art-frame:focus-visible { outline: 2px solid var(--color-brand-blue-dark); outline-offset: 3px; }
+	@media (max-width: 767px) {
+		.media-below .art-frame { overflow-x: auto; overscroll-behavior-x: contain; }
+		.media-below .art-frame img { width: 45rem; max-width: none; max-height: none; margin: 0; }
+	}
 	.dark-panel .split-layout, .stacked-card .split-layout { padding: clamp(2rem, 5vw, 4rem); border-radius: var(--radius-panel); }
 	.dark-panel .split-layout { color: white; background: var(--color-panel); }
 	.dark-panel h2, .peel-bleed h2 { color: white; }

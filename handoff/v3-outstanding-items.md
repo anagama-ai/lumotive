@@ -26,7 +26,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 - Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
 - Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). The LI140/ON140 photos are supplied in v4, so the Robotics kit row (R3) and the Dev Kits iToF row (D6) are now ours.
 - TX10 still versus the #129 animation (T2); Google citation source (C6). F5 is answered in v4: the HDR video serves dToF too.
-- v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips, the merged GIF on Transmit, the static scan-modes art, Automotive's photo and diagram. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
+- v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips, the merged GIF on Transmit, the static scan-modes art, Automotive's diagram (no vehicle, shown full width, scrolls sideways on phones) and the MD180 photo in the point-cloud slot. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
 - **#125 (P1):** confirm that the v4 "Disregard" withdraws the redraw; Webvizio #125 stays open until Claudia confirms.
 - **Explorer (S6):** the intro "Change the phase pattern across the metasurface…" promises a control the supplied tool does not have (it is a guided animation with a timeline); keep or reword. (Phones are decided: they open the explorer in a new tab.)
 - Heading tracking for Webvizio #138 (S18): band hero headlines moved from −0.055em to −0.03em to stop touching glyphs; close #138 only after review.
@@ -45,7 +45,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs to implement, page by page (11–15):** AU2, AU3, D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
+7. **v4 inputs to implement, page by page (12–15):** D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -208,9 +208,9 @@ Resolved on this page by `1787713400` (and `1787713600` for R6):
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| AU2 | A Programmable Cocoon Around the Vehicle | Asset | **Supplied v4** | `lumotive-fov-regions-scaled.png` (2560×1256): side and top views of near, mid and far fields (10/20/50 m) with no vehicle drawn. Applied as linked unless Lumotive objects. | Us (page 11) | Yes | v4 p11 |
-| AU3 | First Solid-State 180° dToF Lidar at 30 FPS | Asset | **Supplied v4** | `IMG_9388` (the MD180 product photo) in place of a point cloud or video; it is the same photo as the existing `kit-md180.webp`, so it is reused. | Us (page 11) | Yes | v4 p11 |
-| AU4 | Built for Real-World Conditions | Asset | **Withdrawn v4** | "Disregard" on the dust/rain image row. The section ships as it does today: copy and five cards with no images. | — | — | v4 p11 |
+| AU2 | A Programmable Cocoon Around the Vehicle | Asset | **Done on the local site 2026-10-22**; confirmation open | Simon's coverage diagram, self-hosted at full resolution (`automotive-fov-regions.webp`), shown whole under the copy at the container width; sideways scroll inside its frame on phones (`1787716300`). It differs from the printed slot: no vehicle (one sensor's side and top views with near / mid / far specs), and full width instead of the right-hand half. | Claudia | No | `page-11-automotive.md` v4 pass |
+| AU3 | First Solid-State 180° dToF Lidar at 30 FPS | Asset | **Done on the local site 2026-10-22**; confirmation open | The existing `kit-md180.webp` (Simon's IMG_9388) on the right, on the white product panel, contained. It is a product photo, not the printed "point cloud or video". | Claudia | No | `page-11-automotive.md` v4 pass |
+| AU4 | Built for Real-World Conditions | Asset | **Withdrawn v4** | "Disregard" withdraws only the dust/rain image row; the copy and five cards stay (re-checked 2026-10-22: 0 images, 5 cards). | — | — | v4 p11 |
 | AU5 | Hero | Asset | Verify (optional) | The supplied render is 1280×719 (the original upload) and is upscaled about 1.6× by the desktop framing. A larger original would sharpen it. | Lumotive | No | `page-11-automotive.md` |
 
 Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` with desktop framing (`mediaShift 20%`, `mediaScale 1.4`) so the car clears the headline. Copy verified verbatim against v3.

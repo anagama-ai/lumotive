@@ -156,3 +156,30 @@ Pending client visuals. Each omitted visual leaves its section as a single readi
 Optional: a larger original of the hero render, to sharpen the 1.6× desktop upscale.
 
 Resolved by v3: the hero image (supplied and live) and the `/dev-kits/dtof` 404 (page built). Page 11 does not use the Module and Solution Providers strip.
+
+## v4 pass (2026-10-22): implemented and verified on the local site
+
+v4 has no copy change on page 11. Simon left three notes. Migration `1787716300_automotive_v4_media.js` is guarded and reversible; copy, hero framing, mobile spacing and CTAs are unchanged.
+
+| Section | v4 input | Result | Differs from the printed slot |
+| --- | --- | --- | --- |
+| A Programmable Cocoon Around the Vehicle (`3e05d7b2`) | `lumotive-fov-regions-scaled.png` (2560×1256) | Self-hosted at full resolution as `automotive-fov-regions.webp` (117 KB; perceptual hash 1 bit from the source). Shown whole on a white panel under the copy, at the container width (new opt-in `mediaLayout: "below"` on SplitDefault). | The slot printed "Top-down graphic: vehicle with 10 m / 20 m / 50 m coverage rings from corner sensors", on the right. The supplied diagram has **no vehicle**: it shows one sensor's side and top views, with near / mid / far fields at 10 / 20 / 50 m and a spec card for each. Nothing was added to it. It is placed full width because its labels are unreadable at half width (checked at 600px). |
+| First Solid-State 180° dToF Lidar at 30 FPS (`9c2a6f85`) | `IMG_9388-1-copy-2.png` (MD180 photo) | Reuses the existing `kit-md180.webp` (same photo, trimmed cut-out). It sits on the right on the white product panel (`mediaFrame: "panel"`), capped at 22rem tall and contained, so the whole product shows. | The slot printed "180° point cloud or video". The supplied asset is a product photo; no point cloud was made. |
+| Built for Real-World Conditions (`6a1b38fc`) | "Disregard" on the dust/rain image row | No change: copy and five cards kept, no image row. | Only the image request is withdrawn. |
+
+Alt text transcribes each image (the diagram's three fields with range, field of view, frame rate and purpose; "MD180 solid-state 180° dToF lidar").
+
+**Verification (local site, headless Chromium).**
+- **Cocoon diagram:** at 1440 / 1024 / 768 it shows whole at 1280 / 976 / 720px wide, at its native 2.038 ratio, with no scroll.
+- **Phones (390):** the diagram keeps a readable 720px width and scrolls sideways inside its rounded frame (358px visible). The frame is keyboard-focusable (`role="region"`, labelled with the section heading). Nothing is cropped and the page itself does not overflow.
+- **MD180:** at 1440 / 1024 / 768 the panel is 352px tall beside the copy, with the photo contained (not stretched). At 390 the photo sits above the copy at 268×328, its native ratio.
+- **Built for Real-World Conditions:** 0 images, 5 cards, at every width.
+- **Database and checks:** the migration was applied, reverted (all page records byte-identical) and re-applied; `npm run check` reports 0 errors and 0 warnings.
+- **Screenshots:** `%TEMP%\lumotive-review\automotive-v4\` (`safety-cocoon-*.png`, `industry-first-*.png`, `field-tested-*.png` at 1440 / 1024 / 768 / 390).
+
+**For review.** Claudia to confirm:
+- the diagram without a vehicle and its full-width placement;
+- the MD180 photo in the point-cloud slot;
+- sideways scrolling as the phone treatment for the diagram.
+
+AU5 (a larger hero original) is unchanged.

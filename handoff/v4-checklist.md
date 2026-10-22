@@ -4,7 +4,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -56,8 +56,8 @@ No v4 change (empty text diff; the six notes are identical to v3). Recorded in `
 ### 11 Automotive `/sense/automotive`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| A Programmable Cocoon Around the Vehicle | `lumotive-fov-regions-scaled.png` (2560×1256) | Now supplied | AU2 | Supplied. A side and top view of near, mid and far fields (10/20/50 m) from one sensor, with no vehicle drawn; the printed placeholder describes a vehicle with corner sensors. |
-| First Solid-State 180° dToF Lidar at 30 FPS | `IMG_9388-1-copy-2.png` (MD180 product photo) | Now supplied | AU3 | Supplied: a product photo in place of the printed "180° point cloud or video". It is the same photo as our `kit-md180.webp`, so we reuse it. |
+| A Programmable Cocoon Around the Vehicle | `lumotive-fov-regions-scaled.png` (2560×1256) | Now supplied | AU2 | **Implemented and verified (local site).** Full-resolution diagram, whole, under the copy at the container width; sideways scroll on phones. It differs from the slot: no vehicle, and not half-width (conflict 5). |
+| First Solid-State 180° dToF Lidar at 30 FPS | `IMG_9388-1-copy-2.png` (MD180 product photo) | Now supplied | AU3 | **Implemented and verified (local site).** Existing `kit-md180.webp` on the right, on the white panel, contained. It is a product photo, not a point cloud (conflict 5). |
 | Built for Real-World Conditions: heavy dust and rain image row | **"Disregard"** (on the image row, where v3 said "Aramco rain testing – ask Calvin") | Disregard | AU4 | **Closed.** The section keeps its copy and five cards with no image row, which is how it ships today (verified: no images in the section). |
 
 ### 12 Dev Kits `/dev-kits`
@@ -98,7 +98,7 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 2. **"This is one visual" (p07). Applied as proposed:** the HTML copy (steps 1–4, note, outro) is kept and the animation shows above it as one visual. Still for Claudia: the GIF's built-in labels and three captions repeat parts of that copy. It also overrides the p03 "SVG scan timeline synced to the animation" spec.
 3. **"#154 + #155 merged" (p13).** There is one GIF for two printed slots. Show it alone in place of both, or wait for the flood animation?
 4. **Scan modes (p14).** The printed design is a five-tab selector with an animated wedge per mode. The supplied art is one static image of all modes. Proposal: show the static image and drop the animated selector, or split it into per-mode crops behind the existing tabs. Confirm.
-5. **Automotive (p11).** A product photo fills the "point cloud or video" slot, and the FOV diagram has no vehicle. Both are applied as linked unless Lumotive objects.
+5. **Automotive (p11). Applied as supplied, pending confirmation:** the MD180 product photo fills the "point cloud or video" slot, and the FOV diagram (no vehicle) sits full width under the copy, scrolling sideways on phones, so its labels stay readable. Nothing was added to either image.
 6. **Explorer (p06). Resolved in the Page 06 pass:** self-hosted rather than hotlinked; the "(Copy)" title dropped as a documented one-line change; phones open it in a new tab. Still pending: the missing fallback video, the poster and the intro copy (`page-06-platform.md`, "Open").
 7. **Home application tiles. Decided 2026-10-22:** keep Simon's selection (the same `connect-optical.jpg` on Optical Circuit Switching and Optical Communications). No change.
 8. **Robotics M30 photo. Decided in the Page 10 pass:** Simon's linked `M30_thumb.jpg` is used, with its white studio background removed so it matches the three cut-outs on the kit panel. The product pixels are unchanged.
