@@ -2,7 +2,7 @@
 
 First audited on 2026-10-20. **Final v4 review on 2026-10-22.** The v4 PDF changed annotations only, not copy. Branch `feedback-20261007-v2`, local only. Staging has **not** been updated. `vite.config.ts` stays uncommitted by design.
 
-**QA follow-up, 2026-10-22 (after the final review):** Edge playback finished for every embed (S19); P6 swap band fixed; mobile menu closes on Escape (S16); public-globals cache built and tested (S27, option 1); migration rehearsal against an `origin/main` baseline passes up and down after a rollback fix in `1787707500` that **PR #1 must also carry** (S21, S23); press links re-checked (N7). Evidence: `%TEMP%\lumotive-review\qa-final\` and `%TEMP%\lumotive-staging-rehearsal\run-B\`.
+**QA follow-up, 2026-10-22 (after the final review):** Edge playback finished for every embed (S19); P6 swap band fixed; mobile menu closes on Escape (S16); public-globals cache built and tested (S27, option 1); migration rehearsal against an `origin/main` baseline passes up and down after a rollback fix in `1787707500` that **PR #1 must also carry** (S21, S23); press links re-checked (N7); hero and Home video contrast rechecked, no failures (S26); **new functional issue S29** (admin Footer settings do not change the public footer; fix before production launch). Evidence: `%TEMP%\lumotive-review\qa-final\` and `%TEMP%\lumotive-staging-rehearsal\run-B\`. The handoff for Josh and Claudia is `final-qa-handoff.md`.
 
 **This is the single authoritative outstanding list.** It supersedes:
 - the client-question lists in `v3-page-checklist-and-home.md` and `v4-checklist.md`;
@@ -112,7 +112,7 @@ Each question appears once here. The package's "leave it out rather than publish
    - the Explorer, in-page and full screen, including the no-WebGL-2 path (S6 e);
    - header behaviour (S16);
    - sideways-scroll figures on touch devices (Automotive diagram; iToF scan modes);
-   - a manual or tool-based contrast review of image-backed text (S26). Our figures are a screenshot measure, not an accessibility sign-off. Fresh captures (15 heroes at 390/768/1024/1440, 24 Home video frames at 390/768/1440, with text boxes and colours in `info.json`) were taken on 2026-10-22 under `qa-final\hero\` and `qa-final\home-video\`; **they have not been measured yet**.
+   - a manual or tool-based contrast review of image-backed text (S26). Our figures are a screenshot measure, not an accessibility sign-off. The automated recheck of heroes and Home video frames was redone on 2026-10-22 and passes (see S26); a person still needs to look on real devices.
 2. ~~Platform swap-card band re-check (P6).~~ **Done 2026-10-22**, see P6.
 3. **Proposals for Claudia:** a default social preview image (S12) and the Webvizio image-task mapping (S10).
 4. **`vite.config.ts`:** commit it on its own, or drop it (S25).
@@ -124,6 +124,7 @@ Each question appears once here. The package's "leave it out rather than publish
 7. **Contact form end to end** on staging, after S3 (S28).
 8. **Staging PRs (S22):** prepare the reviewable branch for pages 06–21 after PR #1, following `v4-final-review.md`.
 9. **Press links (N7):** three dead links wait for Lumotive; five sites block automated visits and still need a click-through by a person (N7).
+10. **Admin Footer settings mismatch (S29): functional issue, fix before production launch.** Logged only; nothing changed yet.
 
 ## 4. Staging preparation requiring Josh
 
@@ -185,9 +186,45 @@ None of this has started. Nothing is marked done without evidence.
 | S23 | Staging database vs migrations | Tech | Rehearsed locally; staging data not started | Most migrations are guarded on prior values and silently no-op if staging content was edited, so a recent staging `pb_data` backup still has to be dry-run. **Done 2026-10-22:** `scripts/staging-migration-dry-run.mjs` (copies the backup, applies, compares with the local reference, rolls back, compares with the start). Against a fresh baseline built from `origin/main`'s 99 migrations (`f203fc1`, PocketBase 0.39.11): 100 applied; 0 page, globals, redirect or posts differences from the local reference; `migrate down 100` restored the start exactly. A full-database comparison (23 tables, 261 rows, SQLite schema of `data.db` and `auxiliary.db`) differs only in 16 `updated` timestamps. The first run had failed on Home (see S21). | Josh + Us | Yes | `%TEMP%\lumotive-staging-rehearsal\run-B\dry-run\report.md` |
 | S24 | Dokploy/GHCR secrets and variables | Tech | Verify | Confirm `DOKPLOY_URL`, `DOKPLOY_API_KEY`, `DOKPLOY_PB_APP_ID`, `DOKPLOY_WEB_APP_ID` and `ORIGIN` are set for staging and production. | Josh | Yes | `.github/workflows/publish.yml`, README |
 | S25 | Uncommitted Windows watcher fix | Ours | Do | Commit `vite.config.ts` on its own, or drop it. Never sweep it into a page commit. | Us | No | `git status` |
-| S26 | Hero and image-backed text contrast | Ours | Fixed; manual recheck in S20 | All known low spots fixed with shade options only: new phone `mobileShade: max` (Home video, Transmit, LCM Chips, Applications, Automotive), About back to phone `strong`, new `tabletShade: strong` (768–1023: Home, Transmit, Culture, Contact). Sweep on real data: 15 photo heroes × 7 widths (360–1920) plus 29 Home video frames; every line ≥ 4.5:1 at the **brightest** backdrop pixel (body lowest 4.62), headings ≥ 3:1. Home bento photo cards were at 2.8:1 (title over the bright warehouse photo); overlay strengthened, now ≥ 5.65:1. All other image-backed text (closing CTAs, 34 blocks at 390/1440) ≥ 5.65:1. Screenshot measure, not an accessibility sign-off. | Us | Yes | `1787715400`; `HeroFullHeight.svelte`; `CardsPeelBento.svelte` |
+| S26 | Hero and image-backed text contrast | Ours | Fixed; **recheck passed 2026-10-22**; manual look in S20 | All known low spots fixed with shade options only: new phone `mobileShade: max` (Home video, Transmit, LCM Chips, Applications, Automotive), About back to phone `strong`, new `tabletShade: strong` (768–1023: Home, Transmit, Culture, Contact). Sweep on real data: 15 photo heroes × 7 widths (360–1920) plus 29 Home video frames; every line ≥ 4.5:1 at the **brightest** backdrop pixel (body lowest 4.62), headings ≥ 3:1. Home bento photo cards were at 2.8:1 (title over the bright warehouse photo); overlay strengthened, now ≥ 5.65:1. All other image-backed text (closing CTAs, 34 blocks at 390/1440) ≥ 5.65:1. **Recheck 2026-10-22** (local site, captured after the v4 pass; no later commit touches hero or video styling): backdrops captured with the hero text hidden (15 heroes at 390/768/1024/1440; Home video at 24 frames spread over its 62 s, at 390/768/1440). For each text line box, the text colour (including the 75 % body opacity) was blended over every backdrop pixel in the box and the lowest ratio kept: 496 measurements, **0 below threshold** (4.5:1 for body, eyebrow and links; 3:1 for headings ≥ 24px). Lowest: Dev Kits body at 768, 4.66:1; Robotics body at 768, 5.19:1; lowest heading dToF at 390, 5.17:1; Home video body 7.03:1 (768, 32 s). Not re-captured: closing CTAs and Home bento cards (unchanged since the 2026-10-21 sweep), and 360/1920. Screenshot measure, not an accessibility sign-off. | Us | Yes | `1787715400`; `HeroFullHeight.svelte`; `CardsPeelBento.svelte`; `qa-final\contrast-results.json` |
 | S27 | PocketBase rate limit vs server-side rendering | Tech | Option (1) done locally; (2)/(3) need Josh | **Cause:** `1700000250_platform_limits.js` enables PocketBase's rate limiter, which activates its default `/api/` rule: 300 requests per 10 s per client IP. Every page render made 5–6 PocketBase calls (four globals plus the page or post lookups), all from the SvelteKit server's IP, so every visitor shares one budget of about 50–60 renders per 10 s. The local 500s were a crawl at ~36 pages/s (3,312 × 429 in the PB log). The guest rules (`editors:authWithPassword`, `form_submissions:create`) are likewise keyed on the server IP, so they are site-wide, not per visitor. **Option (1) built 2026-10-22** (`src/lib/server/public-globals.ts`): the four globals are read in one request through an anonymous client and cached per server process for 60 s; concurrent refreshes share one request; a failed refresh serves the last copy for up to 10 min; signed-in editors read live; every settings save (`putGlobal`) clears the cache. **Tested** on the production build against a scratch PocketBase copy: 10 anonymous renders → 1 globals request; 20 concurrent renders on an expired cache → 1; a direct database edit is visible to editors at once and to anonymous visitors only after the 60 s; an admin's code-injection save and an editor's footer save show to anonymous visitors on the next render; editor renders do not refresh the shared cache; a bad cookie is treated as anonymous and cleared. Edits made in the PocketBase admin UI bypass `putGlobal`, so they can take up to 60 s; with several web instances, a save clears only its own instance. **Still open:** (2) exempt or raise the limit for the web container's address (`rateLimits.excludedIPs` or a dedicated rule) if PocketBase is reachable only through the web app; (3) forward the visitor IP (`X-Forwarded-For` from SvelteKit + `trustedProxy.headers` in PocketBase) so limits are per visitor again; only safe if PocketBase cannot be reached directly. Josh to confirm the network layout and the staging settings. | Josh + Us | Yes | PB logs; `public-globals.ts`; `+layout.server.ts` |
 | S28 | Contact form end-to-end | Ours | Do (after S3) | One real submission on staging, agreed with Lumotive and deleted afterwards, confirming the three values reach the CRM record and the notification email. Not run locally by design (no real notifications or CRM records). | Us + Lumotive | Yes | `page-21-contact.md` |
+| S29 | Admin → Site settings → Footer | Ours | **Open: functional issue, fix before production launch** | The footer settings form reads and writes fields the public footer never renders, so editors' footer edits have no effect on the site while the form reports them live. Details, reproduction and fix below. | Us | Yes (production) | `admin/settings/footer/+page.server.ts`, `+page.svelte`; `Footer.svelte` |
+
+### S29: admin Footer settings do not drive the public footer
+
+Found 2026-10-22 while testing the S27 cache. Logged only: `Footer.svelte` and the admin settings are unchanged.
+
+**Affected fields** (`globals` record `key = "footer"`):
+
+| Public footer reads (`Footer.svelte`) | Stored today (local DB) | Admin form edits and saves |
+|---|---|---|
+| `copyright` (string, after "© {year}") | yes | — |
+| `navItems[]`: `{ title, subNavItems[]: { link: { label, url, newTab } } }` (four column groups) | yes, 4 groups | — |
+| `legalLinks[]`: `{ link: { label, url, newTab } }` (plus flat `linkLabel`/`linkUrl`/`linkNewTab` copies in the stored rows) | yes, 1 (Privacy Policy) | — |
+| `socialLinks[]`: `{ platform, url, label }` (LinkedIn icon, S1) | not set | — |
+| — | no | `text` ("Footer text") |
+| — | no | `nav[]`: `{ label, href }` ("Footer links") |
+
+**Expected:** the Footer settings page loads the current copyright, column groups, legal links and social links; a save changes what visitors see in the footer (immediately, given the S27 cache invalidation).
+
+**Actual:** the page opens with an empty "Footer text" and "No footer links yet.", although the site shows a full footer. Saving writes `text` and `nav` next to the real fields (the merge in `putGlobal` keeps them, so nothing is lost) and shows "Saved. Your changes are live.", but the public footer does not change. The copyright, column links, legal links and LinkedIn icon can only be changed through migrations or the raw PocketBase admin. The same form will also be the obvious place to add the LinkedIn URL for S1, and that would not work either.
+
+**Reproduce** (local or staging, any editor account):
+1. Open `/admin/settings/footer`. Footer text is empty and no links are listed.
+2. Enter "Test copyright" as Footer text, add a link `Test` → `/test`, save. The page reports "Saved. Your changes are live."
+3. Open `/` signed out (and signed in). The footer still reads "© {year} Lumotive, Inc. All rights reserved." with the same columns; no `Test` link.
+4. In PocketBase, `globals` → `footer` now holds `text` and `nav` beside the unchanged `copyright`, `navItems` and `legalLinks`.
+
+Seen on a scratch copy during the S27 test (an editor save added `text`/`nav`, the footer did not change). Do not repeat step 2 on staging without removing the two keys afterwards.
+
+**Recommended fix:** make the form edit the shape `Footer.svelte` renders, rather than changing the component:
+- load and save `copyright`, `navItems` (group title plus link rows), `legalLinks` and `socialLinks` (platform, URL, label), writing links as `{ link: { label, url, newTab } }` like the stored rows;
+- drop the `text`/`nav` fields, and remove any stray `text`/`nav` keys with a small reversible migration if a save has already added them;
+- keep `putGlobal` (merge plus cache invalidation);
+- check by editing each field and seeing it on a signed-out page load, then restoring.
+
+**Related, not yet logged separately:** the Header settings form has the same pattern. It saves `siteName` and `nav[]` (`{ label, href }`), while `Header.svelte` renders `items[]` (links and submenus) and `buttons[]`, which is what the database holds. Scope it with S29.
 
 ### Phone heroes (2026-10-21)
 

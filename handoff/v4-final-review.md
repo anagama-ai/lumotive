@@ -2,7 +2,7 @@
 
 2026-10-22. For Josh (staging) and Claudia (content review). Branch `feedback-20261007-v2`, local only. **Nothing here is on staging yet.** Nothing has been pushed, merged or deployed.
 
-**Follow-up the same day, after this review:** a migration rollback fix that **PR #1 must also carry** (PR dependencies, item 6), a passing migration rehearsal against an `origin/main` baseline (Migrations), the public-globals cache for the rate limit (S27), the P6 swap-band fix, Escape on the phone menu, and Edge playback on the remaining pages. Committed locally; details in `v3-outstanding-items.md`.
+**Follow-up the same day, after this review:** a migration rollback fix that **PR #1 must also carry** (PR dependencies, item 6), a passing migration rehearsal against an `origin/main` baseline (Migrations), the public-globals cache for the rate limit (S27), the P6 swap-band fix, Escape on the phone menu, Edge playback on the remaining pages, and a passing hero and video contrast recheck (S26). A new functional issue, S29 (admin Footer settings do not change the public footer), must be fixed before production launch. Committed locally; details in `v3-outstanding-items.md`. **The short handoff for Josh and Claudia is `final-qa-handoff.md`.**
 
 - **Open items:** `v3-outstanding-items.md` is the single list, in four groups.
 - **Detail and evidence:** each page has its own `page-NN-*.md` handoff.
