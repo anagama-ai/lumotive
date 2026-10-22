@@ -161,6 +161,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			// "How LCM fits" animation). A video loops muted while on screen,
 			// with a pause control; an image renders as a plain figure.
 			{ name: 'media', label: 'Visual under the introduction (image or MP4)', type: 'media' },
+			{ name: 'mediaMaxWidth', label: 'Visual width cap (rem, e.g. 40rem; default 1000px)', type: 'text' },
 			{ name: 'mediaPoster', label: 'Visual poster frame (video)', type: 'media' },
 			{ name: 'mediaAlt', label: 'Visual description (alt text)', type: 'text' },
 			{ name: 'textAlign', label: 'Centre the composition (center)', type: 'text' },

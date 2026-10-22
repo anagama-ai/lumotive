@@ -144,3 +144,30 @@ redirects page 02 lists; the remaining three wait on pages 14, 15 and the
 2. **The two illumination animations (T3), client asset.** Flood illumination beside non-sequential ROI pulses with a continuously sharpening point cloud. The only lead is Simon's "Older decks" note. One panel beside an empty one reads worse than both omitted, so the section ships copy and cards only. When they arrive: convert to looping MP4/WebM with posters, pair them as printed, and verify in-page playback.
 
 Not blockers: the Kits Built on TX10 cards are text cards on this page as printed, so no ON140/LI140 photos are needed here. `/dev-kits/itof` now answers 200.
+
+## v4 pass (2026-10-22): implemented and verified on the local site
+
+v4 has no copy change on page 13. Simon's note "#154 + #155 merged" links [RandomScanOrderWarehouse.gif](https://lumotive.com/wp-content/uploads/2026/10/RandomScanOrderWarehouse.gif) (1923×1384, 12 frames at 300 ms, 3.6 s, 708 KB). Its content (LCM steering light into regions of a warehouse scene in a non-sequential order while the point cloud fills in) is the printed "Animation: non-sequential ROI pulses (up, down, center); point cloud sharpens continuously" slot.
+
+**Conversion.**
+- **Video:** `static/lumotive/video/tx10-random-scan-order.mp4` is H.264, 1280×922, with the GIF's own frame timing (12 frames, 3.6 s), faststart and no audio: 338 KB, against the GIF's 708 KB.
+- **Fidelity:** all 12 frames come out in order, with a PSNR of 33–42 dB against the matching GIF frames.
+- **Poster:** `tx10-random-scan-order-poster.webp` (87 KB) is the final frame, so reduced-motion visitors see the completed point cloud.
+
+**Placement** (`a7b91de3`, migration `1787716900_transmit_v4_roi_animation.js`, guarded and reversible):
+- **Position:** one visual between the intro and the five capability cards, using the visual layout built for `/lcm-chips` (shared LoopVideo: plays on screen, pauses off screen, reduced motion keeps the poster, labelled Play/Pause control below).
+- **Size:** capped at 40rem (new opt-in `mediaMaxWidth`), about the printed half-width slot.
+- **Component fix:** CardsTextCards now also renders a card grid under a visual (until now a visual only paired with a step list). `/lcm-chips` is unchanged (still one video, one step list, no card grid).
+- **Header spacing:** this section takes the visual layout's tighter header: the heading's default margins are removed, giving 16px between heading and intro and 32px from intro to animation.
+
+**Flood-illumination slot: still missing.** That animation is not supplied, and the ROI animation is **not** repeated in its place; the section shows the one supplied visual. T3 stays open for the flood animation, or for confirmation that the merged GIF covers both slots.
+
+**Unchanged:** approved copy, the five cards, the accepted TX10-in-hand hero and its phone framing, and the closing CTA (72px phone padding, as before).
+
+**Verification (local site, headless Chromium).**
+- **Layout:** at 1440 / 1024 / 768 the video is 640×461 on the section's left edge; at 390 / 360 it is 358×258 / 328×236. Control 12px under it, cards 40px under the control, intro to video 32px, no overflow.
+- **Playback:**
+  - The MP4 decodes (readyState 4, 1280×922) and plays on screen: 1.64 → 3.15 s, looping.
+  - "Pause animation" pauses it, and the pause holds through scrolling away and back; "Play animation" resumes it, and scrolling away pauses it again.
+  - Reduced motion: it stays at 0 s on the poster, and the control reads "Play animation".
+- **Screenshots:** `%TEMP%\lumotive-review\transmit-v4\` (`programmable-illumination-{1440,1024,768,390,360}.png`, `hero-390.png`).

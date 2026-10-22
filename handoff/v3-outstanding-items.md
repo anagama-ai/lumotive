@@ -26,7 +26,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 - Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
 - Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). (The Robotics kit row R3 and the Dev Kits iToF row D6 are done with the v4 photos.)
 - TX10 still versus the #129 animation (T2); Google citation source (C6). F5 is answered in v4: the HDR video serves dToF too.
-- v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips, the merged GIF on Transmit, the static scan-modes art, Automotive's diagram (no vehicle, shown full width, scrolls sideways on phones) and the MD180 photo in the point-cloud slot. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
+- v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips; on Transmit, whether the merged GIF covers both slots or a flood animation is still coming; the static scan-modes art; Automotive's diagram (no vehicle, shown full width, scrolls sideways on phones) and the MD180 photo in the point-cloud slot. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
 - **#125 (P1):** confirm that the v4 "Disregard" withdraws the redraw; Webvizio #125 stays open until Claudia confirms.
 - **Explorer (S6):** the intro "Change the phase pattern across the metasurface…" promises a control the supplied tool does not have (it is a guided animation with a timeline); keep or reword. (Phones are decided: they open the explorer in a new tab.)
 - Heading tracking for Webvizio #138 (S18): band hero headlines moved from −0.055em to −0.03em to stop touching glyphs; close #138 only after review.
@@ -45,7 +45,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs to implement, page by page (13–15):** T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3, Page 12's D1/D3/D6. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
+7. **v4 inputs to implement, page by page (14–15):** I1, I4, I5, I6, I7, F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3, Page 12's D1/D3/D6, Page 13's T3 ROI animation. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1), and T3's flood animation.
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -234,7 +234,7 @@ Resolved on this page by `1787713700`:
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
 | T2 | Hero — #129 | Decision | Verify | #129 asks for an *animation* labelling the Tx optics. Simon supplied a still (TX10 in hand), now live. Does the still close #129, or is the animation still wanted? #129 stays open until decided. | Lumotive (Simon) | Yes | PDF p13, p04 |
-| T3 | Programmable Illumination for a Dynamic World | Asset | **Partly supplied v4** | `RandomScanOrderWarehouse.gif` (1923×1384, 12 frames, 3.6 s; "#154 + #155 merged") is the ROI-pulse animation. Still needed: the flood-illumination animation, or confirmation that this one GIF replaces both slots (v4 conflict 3). | Lumotive (Simon) → Us | Yes | v4 p13 |
+| T3 | Programmable Illumination for a Dynamic World | Asset | **ROI animation done on the local site 2026-10-22; flood animation missing** | Simon's `RandomScanOrderWarehouse.gif` is converted to a looping MP4 plus poster and shown as the section's one visual (`1787716900`). The flood-illumination animation is not supplied and the ROI animation is not repeated in its slot. Still needed: the flood animation, or confirmation that this one GIF replaces both slots (v4 conflict 3). | Lumotive (Simon) | Yes | `page-13-transmit-modules.md` v4 pass |
 
 Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp` (A1) with the phone-only strong shade, which raised the measured body contrast over 4.5:1 at the 99th percentile (screenshot measure; brightest pixel still lower, see S26). Copy verified verbatim against v3.
 

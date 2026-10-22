@@ -4,7 +4,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`), Page 12's hero and iToF photos (`page-12-dev-kits.md`).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`), Page 11's diagram and MD180 photo (`page-11-automotive.md`), Page 12's hero and iToF photos (`page-12-dev-kits.md`), Page 13's ROI animation (`page-13-transmit-modules.md`).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -70,7 +70,7 @@ No v4 change (empty text diff; the six notes are identical to v3). Recorded in `
 ### 13 Transmit Modules `/dev-kits/transmit-modules`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| Programmable Illumination for a Dynamic World ("#154 + #155 merged") | `RandomScanOrderWarehouse.gif` (1923×1384, 12 frames, 3.6 s), placed between the two animation slots | Partly supplied | T3 | Supplied for the ROI slot: the beam pulses through regions while a warehouse point cloud fills in. **Awaiting:** the flood-illumination animation, or confirmation that this one GIF replaces both slots (conflict 3). |
+| Programmable Illumination for a Dynamic World ("#154 + #155 merged") | `RandomScanOrderWarehouse.gif` (1923×1384, 12 frames, 3.6 s), placed between the two animation slots | Partly supplied | T3 | **ROI animation implemented and verified (local site):** looping MP4 plus poster, the section's one visual (40rem cap), shared play/pause and reduced-motion behaviour. **Awaiting:** the flood-illumination animation (not duplicated from the ROI one), or confirmation that this GIF covers both slots (conflict 3). |
 | Hero | unchanged | — | T2 | Unchanged |
 
 ### 14 iToF Dev Kits `/dev-kits/itof`
@@ -96,7 +96,7 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 
 1. **LCM Chips hero.** v4 still prints the split hero with the hand-held LS20 photo. The full-width band was a later client request (`1787715100`) and v4 adds no note there, so the band stays.
 2. **"This is one visual" (p07). Applied as proposed:** the HTML copy (steps 1–4, note, outro) is kept and the animation shows above it as one visual. Still for Claudia: the GIF's built-in labels and three captions repeat parts of that copy. It also overrides the p03 "SVG scan timeline synced to the animation" spec.
-3. **"#154 + #155 merged" (p13).** There is one GIF for two printed slots. Show it alone in place of both, or wait for the flood animation?
+3. **"#154 + #155 merged" (p13).** There is one GIF for two printed slots. It now fills the ROI slot alone, and the flood slot is not filled with a copy. Confirm whether it covers both slots, or supply the flood animation.
 4. **Scan modes (p14).** The printed design is a five-tab selector with an animated wedge per mode. The supplied art is one static image of all modes. Proposal: show the static image and drop the animated selector, or split it into per-mode crops behind the existing tabs. Confirm.
 5. **Automotive (p11). Applied as supplied, pending confirmation:** the MD180 product photo fills the "point cloud or video" slot, and the FOV diagram (no vehicle) sits full width under the copy, scrolling sideways on phones, so its labels stay readable. Nothing was added to either image.
 6. **Explorer (p06). Resolved in the Page 06 pass:** self-hosted rather than hotlinked; the "(Copy)" title dropped as a documented one-line change; phones open it in a new tab. Still pending: the missing fallback video, the poster and the intro copy (`page-06-platform.md`, "Open").

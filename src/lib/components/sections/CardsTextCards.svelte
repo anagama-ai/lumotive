@@ -54,6 +54,12 @@
 		const value = String(section.videoAspect ?? '').trim();
 		return /^\d+(\.\d+)?\s*\/\s*\d+(\.\d+)?$/.test(value) ? value : undefined;
 	});
+	// `mediaMaxWidth` (rem): a narrower cap than the 1000px column, for a
+	// visual the package prints at half width (/dev-kits/transmit-modules).
+	let visualMaxWidth = $derived.by(() => {
+		const value = String(section.mediaMaxWidth ?? '').trim();
+		return /^\d+(\.\d+)?rem$/.test(value) ? value : undefined;
+	});
 	// With a visual, a step list, its note and the outro sit in the visual's
 	// column instead of trailing the section.
 	let supportInBlock = $derived(Boolean(visual) && steps);
@@ -160,7 +166,7 @@
 			<!-- The visual and everything that explains it share one column, as
 			     wide as the supplied animation (never upscaled): the steps and
 			     their note on the left, the second caption on the right. -->
-			<div class="visual-block">
+			<div class="visual-block" class:visual-above-grid={!steps} style:max-width={visualMaxWidth}>
 				<Reveal>
 					{#if visual.isVideo}
 						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} center={centered} />
@@ -180,9 +186,10 @@
 					</Reveal>
 				{/if}
 			</div>
-		{:else if steps}
+		{/if}
+		{#if steps && !visual}
 			<Reveal>{@render stepList()}</Reveal>
-		{:else}
+		{:else if !steps}
 		<Reveal stagger class={gridClass}>
 			{#each cards as card, index (index)}
 				{@const link = linkFor(card)}
@@ -287,6 +294,8 @@
 	.cards-body :global(li::marker) { color: var(--color-muted); }
 	.cards-body :global(p) { margin: 0; }
 	.visual-block { max-width: 62.5rem; }
+	/* A visual over a card grid (no step list): the grid's own gap below it. */
+	.visual-above-grid { margin-bottom: 2.5rem; }
 	.visual-support { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
 	@media (min-width: 768px) {
 		.visual-support { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 2.5rem; align-items: start; }
