@@ -1,5 +1,7 @@
 # PR #2 — Platform + LCM Chips + footer
 
+> **Out of date (2026-10-22).** This plan covers pages 06–07 and the footer only. The current plan for shipping pages 06–21 after PR #1, with the dry-run merge evidence, is in `v4-final-review.md`.
+
 **Status: held local. Not pushed, no PR opened.**
 Reason: PR #2 cannot be based on `origin/main` until PR #1 merges. Evidence and
 the exact sequence to run afterwards are below.

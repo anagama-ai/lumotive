@@ -1,61 +1,139 @@
-# Lumotive website — outstanding items, pages 05–21 (v3, updated for v4)
+# Lumotive website: outstanding items, pages 05–21 (final v4 review)
 
-First audited 2026-10-20; **last updated 2026-10-22** for the v4 PDF (annotations only, no copy change). Branch `feedback-20261007-v2`, local only; `vite.config.ts` uncommitted by design.
+First audited on 2026-10-20. **Final v4 review on 2026-10-22.** The v4 PDF changed annotations only, not copy. Branch `feedback-20261007-v2`, local only. Staging has **not** been updated. `vite.config.ts` stays uncommitted by design.
 
-**v4 (2026-10-22):** v4 supplies most of the media listed below, and two requests were withdrawn with "Disregard" (P1, AU4). The page-by-page v4 checklist, the asset validation and the open readings are in `handoff/v4-checklist.md`. In the tables, **Supplied v4** means the file is linked, validated and mapped to its slot but **not yet on the site**. A row becomes Done only when it is implemented and verified in its page pass.
+**This is the single authoritative outstanding list.** It supersedes:
+- the client-question lists in `v3-page-checklist-and-home.md` and `v4-checklist.md`;
+- the "Blockers" sections of the per-page handoffs, where they disagree with this list.
 
-**This file is the single authoritative outstanding list.** It supersedes the client-question list in `handoff/v3-page-checklist-and-home.md` and the "Blockers" sections of the per-page handoffs where they disagree. The three groups below are the working list; the tables after them keep the detail and evidence per ID.
+The page-by-page completion summary and the staging-review handoff for Josh are in `v4-final-review.md`. The four groups below are the working list. The tables after them keep the detail and evidence for each ID.
 
-## A. Client inputs (Lumotive, routed through Claudia)
+## 1. Completed locally (local site only; not on staging)
 
-Nothing here can be finished on our side without it. Each item may ship omitted under the package's "leave it out rather than publish a placeholder" rule.
+Every v4 input is implemented and checked on the local site (dev server and local PocketBase). None of it is on staging.
 
-**Supply**
-1. **LinkedIn company URL** (S1). One URL publishes the footer icon and the follow lines on About, Culture, News and Contact (AB4, CU2, N6, CT3).
-2. **Privacy policy** text, or approval to port lumotive.com's (S2). The footer link on every page 404s until then.
-3. **Pipedrive form configuration** (S3, via Josh): three Text custom fields and three Hidden fields reading the JavaScript variables `inquiry`, `source_page`, `campaign`, published, and added to the notification email. No API keys needed.
-4. **Office address correction** (#137, CT1).
-5. **News follow block:** press contact email or drop the line (N2); other social channels, or LinkedIn only (N3).
-6. **NM120:** Stella-120 sensor-head power figure (F2); permission to state "NM120 sensor head outputs MIPI" (F3); internals photo (F4).
-7. **Logos and badges:** Leopard Imaging (SE5 = D4 = PA2), onsemi (PA3), award badges (AB2), final investor list and whether Hokuyo belongs (AB3).
-8. ~~Photos~~ **Supplied in v4:** LI140 and ON140 (R4 = D3 = I7), the Dev Kits and iToF family shots (D1, I1), and the "Your Application" visual (A1).
-9. **Media:** mostly **supplied in v4**: Explorer (S6), 1D/2D video (P2), "How LCM fits" visual (L1), three-panel video (R2), cocoon diagram (AU2), 180° slot photo (AU3), ROI animation (T3), warehouse point cloud (I5), scan-modes art (I6). **Withdrawn ("Disregard"):** #125 optics graphic (P1), dust/rain images (AU4). **Still open:** the Explorer's fallback video `lcm-animation.mp4` (404 on lumotive.com) and its poster frame, or confirmation of the explorer's own title frame (S6); the flood-illumination animation, or confirmation that one GIF covers both slots (T3); whether the outdoor video replaces the slide image or clean renders still come (I3); the analytics tool, its content and name (S7).
-10. **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (N1 = H1). Decision 2026-10-22: the approved fallback posts stay; nothing is imported or rewritten yet. **Ask:** the LI140/ON140 post copy (its card image is supplied in v4), and approval to import the Leopard release (public on PR Newswire, around 2026-09-24). Also card images or approval to run without (N4), the first Events post (N5), and replacement URLs for four dead source links or approval to remove them (N7).
+| Page | Done | IDs |
+|---|---|---|
+| 05 Home | No v4 site change. Kept the fallback posts and the duplicate tile photo (decided 2026-10-22). Accessibility, meta and contrast fixes from the v3 release cleanup. | H6, H7, S26 |
+| 06 Platform | 1D/2D video in place. Self-hosted LCM Explorer with poster, launch button, iframe and full-screen link; phones open it in a new tab. #125 redraw withdrawn by "Disregard". | P2, P3, S6 (see the open parts in group 2), P1 |
+| 07 LCM Chips | "How LCM fits" animation as one looping visual, with a Play/Pause control and reduced-motion support. Section centred. | L1, L2 |
+| 08 Applications | "Your Application" image added; closing CTA left-aligned. | A1 |
+| 09 Sense | No v4 change. | — |
+| 10 Robotics | "One Sensor, Three Jobs" video in the PDF's split layout. All four kit photos on the kit panel. | R2, R3, R4 |
+| 11 Automotive | Coverage diagram full width (scrolls sideways on phones). MD180 photo in the 180° section. Dust/rain row withdrawn by "Disregard". | AU2, AU3, AU4 |
+| 12 Dev Kits | Five-kit lineup hero. iToF row photos. TX10 card full width. Closing CTA left-aligned. | D1, D3, D6 |
+| 13 Transmit | ROI animation as a compact, left-aligned looping video (40rem). The full-width panel and side-by-side experiments were **reverted** (`5046533`); `537e026` is the current layout. | T3 (ROI slot only) |
+| 14 iToF | Three-kit hero. In-page comparison video. LI140/ON140 photos. Depth frame in both annotated slots. Static scan-modes figure. Tinted LI140 benefit cards (approved). | I1, I4, I5, I6, I7 |
+| 15 dToF | HDR demo video in the HDR section (21:9, right of the copy). | F5 |
+| 16–21 | No v4 change. The Contact Explorer link and the form panel width are done. | CT4 |
 
-**Decide or confirm**
-- Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
-- Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). (The Robotics kit row R3 and the Dev Kits iToF row D6 are done with the v4 photos.)
-- TX10 still versus the #129 animation (T2); Google citation source (C6).
-- v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips; on Transmit, whether the merged GIF covers both slots or a flood animation is still coming; the static scan-modes figure on iToF (shipped in place of the printed five-tab selector) and its wording; Automotive's diagram (no vehicle, shown full width, scrolls sideways on phones) and the MD180 photo in the point-cloud slot. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
-- **#125 (P1):** confirm that the v4 "Disregard" withdraws the redraw; Webvizio #125 stays open until Claudia confirms.
-- **Explorer (S6):** the intro "Change the phase pattern across the metasurface…" promises a control the supplied tool does not have (it is a guided animation with a timeline); keep or reword. (Phones are decided: they open the explorer in a new tab.)
-- Heading tracking for Webvizio #138 (S18): band hero headlines moved from −0.055em to −0.03em to stop touching glyphs; close #138 only after review.
-- Contact: preselecting "I am interested in" is not possible from the page (S4); inquiry values (S5).
-- Smaller confirmations: H2, H3, H5, P4, P5, A3, SE7, SE9, C3, C4, C7, F7, AB5, CU3, PA4, S9, S10, S12.
+The sitewide release cleanup is done: S11, S13–S17, plus S18 and S26 (both still open for a client or real-browser look, see groups 2 and 3).
 
-## B. Our remaining work
+## 2. Client assets, copy and decisions still needed (Lumotive, via Claudia)
 
-1. **Cross-browser and device QA** (S20): Safari, Edge, iOS Safari, Android Chrome. Include, in a real browser:
-   - in-page Vimeo playback of 1227505713 (`/applications`, `/connect`), 1235957120 (`/sense`) and 1102359216 (`/dev-kits/dtof`) (S19, A4, SE10, F6). A visible Microsoft Edge window passes Vimeo's bot check where automated Chromium does not: on `/platform`, 1237753837 and 1040582713 both played there on 2026-10-22;
-   - the Explorer on Safari, iOS Safari and Android (S6): in-page, full screen, and the no-WebGL-2 path;
-   - a manual or tool-based contrast review of hero and image-backed text (S26); our figures are a screenshot measure, not a sign-off;
-   - the new header behaviour (S16): label opens the page, arrow or hover opens the menu, keyboard Escape.
-2. **Contact form end-to-end** on staging once S3 is configured (S28).
-3. **PocketBase rate limit** (S27): implement the agreed option after Josh confirms the network layout (options and recommendation in the S27 row).
-4. **Platform swap-card band** re-check (P6).
-5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
-6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs: all implemented on the local site.** Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4, Page 11's AU2/AU3, Page 12's D1/D3/D6, Page 13's T3 ROI animation, Page 14's I1, I4, I5, I6, I7, Page 15's F5. Page 09 had no v4 change. **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1), and T3's flood animation.
+Each question appears once here. The package's "leave it out rather than publish a placeholder" rule applies: anything below may ship omitted.
 
-## C. Staging and release blockers (Josh + us)
+**Supply (assets and copy)**
+1. **LinkedIn company URL** (S1). One URL turns on the footer icon and the follow lines on About, Culture, News and Contact (AB4, CU2, CT3; N6 also needs N2 and N3).
+2. **Privacy policy** text, or approval to port lumotive.com's (S2). Until then the footer link 404s on every page.
+3. **Pipedrive web-form setup** (S3, done by Lumotive's Pipedrive admin and coordinated with Josh): three hidden fields reading `inquiry`, `source_page` and `campaign`.
+4. **Office address correction** (CT1, #137).
+5. **NM120:** the Stella-120 sensor-head power figure (F2), permission to state "sensor head outputs MIPI" (F3) and the internals photo (F4). Until then the POWER and INTERFACE tiles and "Modular by Design" stay withheld.
+6. **Logos and badges:**
+   - Leopard Imaging logo (SE5 = D4 = PA2);
+   - onsemi logo (PA3);
+   - award badges (AB2);
+   - the final investor list, including whether Hokuyo belongs (AB3);
+   - confirmation of the Electronic Photonics mark (PA4).
+7. **News:**
+   - LI140/ON140 post copy (H1 = N1; its card image is supplied);
+   - approval to import the Leopard "Sirius Max" release (N1);
+   - VISION 2026 post (N1);
+   - press contact email (N2);
+   - social channels beyond LinkedIn (N3);
+   - card-image approach (N4);
+   - first Events post (N5);
+   - four dead source links (N7).
+8. **Media still missing:**
+   - Explorer: fallback video `lcm-animation.mp4`, and a poster frame or confirmation of the tool's own title frame (S6 a, b);
+   - Transmit: flood-illumination animation, or confirmation that the one ROI GIF covers both printed slots (T3, v4 conflict 3);
+   - Dev Kits iToF: clean flash/LCM/stereo renders, or confirmation that the in-page video replaces them (I3);
+   - analytics tool, its content and its name (S7);
+   - outdoor application icons, or approval of the text cards (F7, #160);
+   - Connect icons, or approval of text cards (C7);
+   - optional larger Automotive hero original (AU5).
 
-1. **PR #1** needs an approving review from someone other than the pusher; only `josh-scalestorm` can approve and merge (S21).
-2. **Ship pages 05–21**: after PR #1, rebase this branch onto `origin/main` as reviewable PRs, excluding `vite.config.ts` (S22).
-3. **Staging database backup** to dry-run every migration before deploy; most are guarded and silently no-op on edited content (S23).
-4. **Dokploy/GHCR secrets**, app IDs and `ORIGIN` for staging and production (S24).
-5. **PocketBase rate limit decision** before launch (S27).
-6. **Pipedrive configuration and one test submission** (S3, S28).
-7. **Privacy policy** page (S2) and **cross-browser QA** (S20).
+**Decide or confirm (v4 readings)**
+- LCM Chips: the GIF's built-in labels repeat parts of the approved copy (L2, conflict 2).
+- Automotive: the diagram has no vehicle and runs full width; the MD180 photo fills the "point cloud or video" slot (AU2, AU3, conflict 5).
+- iToF scan modes: a static figure ships in place of the printed animated five-tab selector, and its wording differs from the cards (I6, conflict 4).
+- iToF: whether ON140 reuses the shared depth frame (I5), and whether "Watch the comparison" should stay beside the in-page video (I3).
+- #125: confirm that "Disregard" withdraws the redraw so Webvizio #125 can close (P1).
+- Explorer intro copy: "Change the phase pattern…" describes a control the tool does not have (S6 c).
+
+**Decide or confirm (carried from v3)**
+- Status labels: publish or drop (S8 = H4 = A2).
+- Provider strip: ship 3 of 4 logos now, or wait for Leopard (SE6, D4).
+- TX10 still versus the #129 animation (T2).
+- Google citation source (C6).
+- Contractions in approved copy (S9).
+- Preselecting the contact form's "I am interested in" field (S4).
+- Inquiry values (S5 = I8).
+- Social preview image approval (S12).
+- Heading tracking, Webvizio #138 (S18).
+- Webvizio image-task mapping (S10).
+- Hero framing: AB6, PA1, CU1.
+- Smaller confirmations: H2, H3, H5, P4, P5, A3, SE7, SE9, C3, C4, AB5, CU3.
+
+## 3. Our remaining implementation and QA
+
+1. **Cross-browser and device QA (S20).** Safari (macOS), iOS Safari and Android Chrome have **never been tested**. This includes every video below.
+
+   **In-page playback.** Automated Chromium hits Vimeo's bot check, so playback was confirmed in a visible Microsoft Edge window. That is Edge only, not verification in every browser. "Played" means one click started playback inside the page iframe.
+
+   | Page | Video | Visible Edge | Safari / iOS / Android |
+   |---|---|---|---|
+   | `/platform` | 1237753837 (1D/2D, P2) | Played 2026-10-22 | Not tested |
+   | `/platform` | 1040582713 | Played 2026-10-22 | Not tested |
+   | `/sense` | 1235957120 HDR (SE10) | Not run on `/sense`. The same clip played on `/dev-kits/dtof` | Not tested |
+   | `/sense/robotics` | 1237762150 (R2) | Played 2026-10-22 (0.45 → 8.45 s) | Not tested |
+   | `/applications` | 1227505713 (A4); 1174547871 | Not run; 1174547871 played in headless Chromium 2026-10-21 | Not tested |
+   | `/connect` | 1227505713 | Not run | Not tested |
+   | `/dev-kits/itof` | 1053591397 (I4) | Played at 1440 and 390, pause holds | Not tested |
+   | `/dev-kits/itof` | 1174547871 (M30 clip) | Played at 1440 | Not tested |
+   | `/dev-kits/dtof` | 1235957120 HDR (F5) | Played at 1440 (2.90 → 5.40 s) and 390 (3.28 → 5.79 s), pause holds | Not tested |
+   | `/dev-kits/dtof` | 1102359216 tracking (F6) | Played at 1440 (1.25 → 3.75 s), pause holds | Not tested |
+   | `/culture` | YouTube AcLAbtIxN64 | Not run; played in headless Chromium 2026-10-21 | Not tested |
+   | `/lcm-chips`, `/dev-kits/transmit-modules` | Self-hosted looping MP4s | Headless Chromium only (play, pause, reduced motion) | Not tested; iOS autoplay and Low Power Mode need a check |
+
+   **The rest of S20, in real browsers:**
+   - the Explorer, in-page and full screen, including the no-WebGL-2 path (S6 e);
+   - header behaviour (S16);
+   - sideways-scroll figures on touch devices (Automotive diagram; iToF scan modes);
+   - a manual or tool-based contrast review of image-backed text (S26). Our figures are a screenshot measure, not an accessibility sign-off.
+2. **Platform swap-card band** re-check (P6).
+3. **Proposals for Claudia:** a default social preview image (S12) and the Webvizio image-task mapping (S10).
+4. **`vite.config.ts`:** commit it on its own, or drop it (S25).
+5. **Wire inputs when they arrive:**
+   - the LinkedIn URL (S1) and the News follow block (N6, after S1, N2 and N3);
+   - the held NM120 tiles and "Modular by Design" (F2–F4);
+   - the provider strips (SE5/SE6/D4/PA2).
+6. **PocketBase rate limit (S27):** implement the agreed option once Josh confirms the network layout.
+7. **Contact form end to end** on staging, after S3 (S28).
+8. **Staging PRs (S22):** prepare the reviewable branch for pages 06–21 after PR #1, following `v4-final-review.md`.
+
+## 4. Staging preparation requiring Josh
+
+None of this has started. Nothing is marked done without evidence.
+
+| # | Item | Status and evidence (2026-10-22) |
+|---|---|---|
+| J1 | **Approve and merge PR #1** (Home, branch `staging-home-page05` at `0b2ff9f`) (S21) | Not merged. After `git fetch`, `origin/main` is still `f203fc1` (2026-09-24). The PR's review state cannot be read from here: there is no `gh` CLI and anonymous API access is not available. |
+| J2 | **Choose the PR shape** for pages 06–21 (S22) | Open. Options and the conflict evidence are in `v4-final-review.md`. |
+| J3 | **Staging `pb_data` backup** for the migration dry-run, plus a CMS edit freeze until the deploy (S23) | Not started. |
+| J4 | **Dokploy/GHCR secrets, app IDs and `ORIGIN`** for staging and production (S24) | Unverified. |
+| J5 | **Network layout** for the PocketBase rate-limit decision (S27) | Unverified. |
+| J6 | **Pipedrive admin access**, or a hand-off to Lumotive's admin (S3) | Not started. |
 
 ## How this was checked
 
@@ -97,11 +175,11 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 | S16 | Top-level menu labels navigate on click (PDF p02) | Ours | **Done 2026-10-21** | Platform → /platform, Sense → /sense, Company → /about. Each group is a label link plus an arrow button (`aria-expanded`/`aria-controls`); desktop opens on hover or arrow, closes on leave, focus-out and Escape (focus returns to the arrow); mobile accordion arrow 44×44, label opens the page and closes the panel. Real-browser check under S20. | Us | — | `Header.svelte`, `app.css`, `1787715300` |
 | S17 | Third-level nav rows | Ours | **Done 2026-10-21** | Transmit modules / iToF / dToF rows 34 → 44px (desktop); mobile rows 54px. | Us | — | `Header.svelte` |
 | S18 | Heading character spacing (#138, rule 15) | Ours | Done; client review | Audit renders each adjacent glyph pair of every Oswald heading on all 17 pages at 390/768/1440/1920 and checks real ink overlap. Band hero headlines at −0.055em touched ("ra", "gn", "ta", "rt" on 10 pages); now −0.03em, which clears all but a 2px² "vy" sliver in "Heavy" (Automotive, ≥768). Remaining touches are "ff" at normal tracking, which is the typeface's own design. Some band headlines now wrap one line more (Sense from 768 up; Contact at 390). Close #138 only after Claudia reviews. | Us → Claudia | No | `HeroFullHeight.svelte` |
-| S19 | Real-browser playback of all embeds | Ours | Verify (in S20) | 2026-10-21 headless check: 1174547871 (`/applications`, `/dev-kits/itof`) and YouTube AcLAbtIxN64 (`/culture`) play in-page. 1227505713 (`/applications`, `/connect`), 1235957120 (`/sense`), 1102359216 (`/dev-kits/dtof`) and 1040582713 (`/platform`) load a blank player or Vimeo's "couldn't verify the security of your connection" screen. 2026-10-22: automated Chromium gets Vimeo's Cloudflare challenge (HTTP 401), so this is Vimeo's bot check, not a site defect. In a visible Microsoft Edge 155 window on `/platform`, 1237753837 played in-page on one click (two runs, e.g. 1.97 → 6.98 s, up to 3840×2160) and 1040582713 started playing after its first click had passed the check in the fresh profile. Still to do: 1227505713, 1235957120, 1102359216. 1053591397 is a link, not an embed. | Us | No | QA 2026-10-21, `page-06-platform.md` |
-| S20 | Cross-browser and device QA | Ours | Do | Safari, iOS Safari and Android have never been tested. Edge was used only on `/platform` (2026-10-22: Vimeo playback and the Explorer); everything else is Chromium only. Required before launch, and for the Explorer's phone and no-WebGL-2 decisions. | Us | Yes | All handoffs |
+| S19 | Real-browser playback of all embeds | Ours | Edge partly verified; Safari/iOS/Android in S20 | Automated Chromium gets Vimeo's Cloudflare challenge (HTTP 401): Vimeo's bot check, not a site defect. In a visible Microsoft Edge window, in-page playback was confirmed on 2026-10-22 for 1237753837 and 1040582713 (`/platform`), 1237762150 (`/sense/robotics`), 1053591397 and 1174547871 (`/dev-kits/itof`), and 1235957120 and 1102359216 (`/dev-kits/dtof`). Not run in Edge yet: 1227505713 (`/applications`, `/connect`), 1235957120 on `/sense` itself, 1174547871 on `/applications`, YouTube AcLAbtIxN64 (`/culture`). The last two played in headless Chromium on 2026-10-21. The per-page table is in group 3. Edge is not verification in other browsers. | Us | No | Page handoffs 06, 10, 14, 15 |
+| S20 | Cross-browser and device QA | Ours | Do | Safari (macOS), iOS Safari and Android Chrome have never been tested, including every video and animation in the group 3 table. Edge has been used for Vimeo playback (seven videos, see S19) and the Explorer. All other checks ran in Chromium only. Required before launch, and for the Explorer's phone and no-WebGL-2 decisions. | Us | Yes | Group 3; all handoffs |
 | S21 | PR #1 (Home to staging) | Tech | Verify | `main` ruleset needs an approving review from someone other than the pusher. Only `josh-scalestorm` can approve and merge. Current PR state cannot be read anonymously. | Josh | Yes | `page-05-home-staging-deploy.md` |
-| S22 | Ship pages 05–21 to staging | Ours | Do (after S21) | After PR #1, rebase the local branch's work onto `origin/main` as reviewable PRs. The PR #2 plan in `pr2-platform-lcm-chips-footer.md` is out of date (covers 06–07 + footer only). Exclude `vite.config.ts` unless committed on its own. | Us | Yes | `git log`; 50+ local commits |
-| S23 | Staging database vs migrations | Tech | Verify | Most migrations are guarded on prior values and silently no-op if staging content was edited. Need a recent staging `pb_data` backup to dry-run all migrations before deploy. | Josh + Us | Yes | Migration guard pattern |
+| S22 | Ship pages 06–21 to staging | Ours | Do (after S21 and the PR-shape decision) | This branch is 104 commits ahead of `origin/main` and 0 behind (fetched 2026-10-22, before the final-review commit). It carries 100 new migrations. PR #1's six Home commits are patch-equivalent to commits already here (`git cherry`). A dry-run merge of PR #1 into this branch conflicts in four Home components, which later commits here extend. The resolution and the options are in `v4-final-review.md`. Exclude `vite.config.ts` unless it is committed on its own. | Us (Josh decides the PR shape) | Yes | `v4-final-review.md` |
+| S23 | Staging database vs migrations | Tech | Not started | Most migrations are guarded on prior values and silently no-op if staging content was edited. Needs a recent staging `pb_data` backup and a dry-run of all 100 migrations against a copy, comparing the results with the local reference. The procedure is in `v4-final-review.md`. | Josh + Us | Yes | Migration guard pattern |
 | S24 | Dokploy/GHCR secrets and variables | Tech | Verify | Confirm `DOKPLOY_URL`, `DOKPLOY_API_KEY`, `DOKPLOY_PB_APP_ID`, `DOKPLOY_WEB_APP_ID` and `ORIGIN` are set for staging and production. | Josh | Yes | `.github/workflows/publish.yml`, README |
 | S25 | Uncommitted Windows watcher fix | Ours | Do | Commit `vite.config.ts` on its own, or drop it. Never sweep it into a page commit. | Us | No | `git status` |
 | S26 | Hero and image-backed text contrast | Ours | Fixed; manual recheck in S20 | All known low spots fixed with shade options only: new phone `mobileShade: max` (Home video, Transmit, LCM Chips, Applications, Automotive), About back to phone `strong`, new `tabletShade: strong` (768–1023: Home, Transmit, Culture, Contact). Sweep on real data: 15 photo heroes × 7 widths (360–1920) plus 29 Home video frames; every line ≥ 4.5:1 at the **brightest** backdrop pixel (body lowest 4.62), headings ≥ 3:1. Home bento photo cards were at 2.8:1 (title over the bright warehouse photo); overlay strengthened, now ≥ 5.65:1. All other image-backed text (closing CTAs, 34 blocks at 390/1440) ≥ 5.65:1. Screenshot measure, not an accessibility sign-off. | Us | Yes | `1787715400`; `HeroFullHeight.svelte`; `CardsPeelBento.svelte` |
@@ -136,7 +214,7 @@ The low spots previously listed here (Transmit, LCM Chips, and the 768 lows on H
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| H1 | Latest From Lumotive | Asset | Missing (image supplied v4) | Same as N1. v4 supplies `LI140-ON140-iToF.png` for the LI140/ON140 card; it is held, because the post and its copy do not exist and no placeholder post is made. Decision 2026-10-22: the approved fallback posts stay (the real featured post plus the two newest press releases); ask for the LI140/ON140 copy and the Leopard import approval (A10). | Lumotive | No (Home) | `posts.server.ts`; PDF p05; `v4-checklist.md` |
+| H1 | Latest From Lumotive | Asset | Missing (image supplied v4) | Same as N1. v4 supplies `LI140-ON140-iToF.png` for the LI140/ON140 card; it is held, because the post and its copy do not exist and no placeholder post is made. Decision 2026-10-22: the approved fallback posts stay (the real featured post plus the two newest press releases); ask for the LI140/ON140 copy and the Leopard import approval (group 2, item 7). | Lumotive | No (Home) | `posts.server.ts`; PDF p05; `v4-checklist.md` |
 | H2 | Latest From Lumotive — 2D photonic chip post image | Decision | Verify | Simon linked the OCS-ports-and-lasers photo; it is applied. Confirm it is intended for a 2D-beamforming-chip story. | Lumotive (Simon) | No | p05 A7 |
 | H3 | Hero | Decision | Verify | Simon linked Vimeo 1040214357 at the hero, but the printed note says keep the existing video. Kept. Confirm. | Lumotive (Simon) | No | p05 A1 |
 | H4 | Application tiles | Decision | Verify | Status labels; see S8. | Lumotive | Yes | PDF p05 |
@@ -183,7 +261,7 @@ Client-requested change (2026-10-21, not in v3): the hero is now a full-width ba
 | SE6 | Same | Decision | Verify | `/partners` already ships this strip with 3 of 4 logos. Build it on `/sense` and `/dev-kits` the same way now, or wait for Leopard? | Claudia | Yes | `partners#c5fe1eab` |
 | SE7 | Page placement | Decision | Verify | PDF p08 says three Applications sections move "to Sense"; PDF p09 shows none of them. Not added; copy preserved in `1787709500` down path. Confirm. | Lumotive (Apurva) | No | `page-09-sense.md` "Open question" |
 | SE9 | The Problem intro; closing CTA body | Decision | Verify | Both are KEEP AS IS, but the PDF prints different wording ("…efficiency today's autonomous machines need."; "(field of view, range, form factor) … point you to"). Staging text kept. Switch to printed text? | Claudia | No | `page-09-sense.md` Blockers 3 |
-| SE10 | HDR video in-page | Ours | Verify (in S20) | Confirm 1235957120 plays inside `/sense` in a real browser; see S19. | Us | No | page-09 v3 QA |
+| SE10 | HDR video in-page | Ours | Verify (in S20) | 1235957120 has not been run in a real browser on `/sense` itself. The same clip played in-page in Edge on `/dev-kits/dtof` (2026-10-22); see S19. | Us | No | page-09 v3 QA; `page-15-dtof-dev-kits.md` |
 
 Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video placed in a 21:9 frame (in-page playback still pending, SE10), SE3 application photos, SE4 (the "Robotaxi" file is an aerial traffic scene that fits "intersection"), SE8 meta description.
 
@@ -234,7 +312,7 @@ Resolved on this page by `1787713700`:
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
 | T2 | Hero — #129 | Decision | Verify | #129 asks for an *animation* labelling the Tx optics. Simon supplied a still (TX10 in hand), now live. Does the still close #129, or is the animation still wanted? #129 stays open until decided. | Lumotive (Simon) | Yes | PDF p13, p04 |
-| T3 | Programmable Illumination for a Dynamic World | Asset | **ROI animation done on the local site 2026-10-22; flood animation missing** | Simon's `RandomScanOrderWarehouse.gif` is converted to a looping MP4 plus poster and shown as the section's one visual (`1787716900`). The flood-illumination animation is not supplied and the ROI animation is not repeated in its slot. Still needed: the flood animation, or confirmation that this one GIF replaces both slots (v4 conflict 3). | Lumotive (Simon) | Yes | `page-13-transmit-modules.md` v4 pass |
+| T3 | Programmable Illumination for a Dynamic World | Asset | **ROI animation done on the local site 2026-10-22; flood animation missing** | Simon's `RandomScanOrderWarehouse.gif` is converted to a looping MP4 plus poster and shown as the section's one visual (`1787716900`). It sits in a compact, left-aligned 40rem column (`537e026`). The full-width panel and side-by-side experiments were reverted (`5046533`). The flood-illumination animation is not supplied and the ROI animation is not repeated in its slot. Still needed: the flood animation, or confirmation that this one GIF replaces both slots (v4 conflict 3). | Lumotive (Simon) | Yes | `page-13-transmit-modules.md` v4 pass |
 
 Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp` (A1) with the phone-only strong shade, which raised the measured body contrast over 4.5:1 at the 99th percentile (screenshot measure; brightest pixel still lower, see S26). Copy verified verbatim against v3.
 
@@ -343,12 +421,12 @@ v3 pass 2026-10-21: empty v2→v3 diff, no Simon annotations, no content change.
 | Platform LM10 photo; LCM Chips hero, LM10/LS20 column photos | Supplied by Simon and integrated | `1787712800`, `1787712900` |
 | Release cleanup S11, S13–S18, H6; hero and image-backed contrast S26 (2026-10-21) | Done; see each row. S18 and S26 still get a client or real-browser look before they are closed | `1787715200`–`1787715400`; Header, HeroFullHeight, PostsFeatured, CardsPeelBento, CardsPeelScene, LogosMarquee, sitemap |
 | Applications card images (5 of 8 "missing"); AMR video confirmation | 7 photos integrated; AMR animation confirmed by frames | `1787713000` |
-| Platform Vimeo 1040582713 playback | Played in-page in a real Chromium session | page-06 handoff |
+| Platform Vimeo 1040582713 playback | Played in-page in a visible Edge window on 2026-10-22 (headless Chromium hits Vimeo's bot check). Other browsers are in S20 | S19; page-06 handoff |
 | Sense HDR demo visual | Vimeo 1235957120 "Lumotive HDR" supplied and embedded (21:9) | p09 A6; `1787713100` |
 | Sense #119 section images; application photos; meta description | Supplied and integrated as local WebP; SE4 fit confirmed visually | p09 A1–A5; `1787713100` |
-| Robotics hero; M30 and NM120 kit photos | Hero live via existing `market-agv.jpg` (`1787713400`); M30/NM120 photos supplied, held for a uniform row until LI140/ON140 arrive (R3/R4) | p10 A1–A3 |
+| Robotics hero; kit photos | Hero live via the existing `market-agv.jpg` (`1787713400`). All four kit photos are on the panel since the v4 pass (R3/R4, `1787716100`) | p10 A1–A3; `page-10-robotics.md` |
 | Automotive hero | Live as `hero-automotive.webp` with desktop framing (`1787713500`) | p11 A1 |
-| Dev Kits TX10, NM120, MD180 photos | Live on the p03 grey kit panel (`1787713700`); M30 held under D6 until ON140/LI140 arrive | p12 A1–A4 |
+| Dev Kits TX10, NM120, MD180 photos | Live on the p03 grey kit panel (`1787713700`). The iToF row (ON140, LI140, M30) followed in the v4 pass (D3/D6, `1787716500`) | p12 A1–A4; `page-12-dev-kits.md` |
 | Transmit hero still image | Live as `hero-tx10-in-hand.webp` (`1787713800`); only the #129 animation question remains (T2) | p13 A1 |
 | iToF "Photo: M30 with kit contents" | Live as transparent `m30-dev-kit-contents.webp` on the panel frame (`1787714200`), from Simon's IMG_7224 | p14 A1 |
 | iToF compact M30 AMR demo clip | Live: Vimeo 1174547871 in "See It on Your Bench" (`1787714100`); in-page playback confirmed | p14 A2 |

@@ -1,5 +1,7 @@
 # Page 05 — Home: staging deploy
 
+> **Status check, 2026-10-22:** PR #1 is still not merged. After `git fetch`, `origin/main` is unchanged at `f203fc1`, and `staging-home-page05` is still `0b2ff9f`. All six of its commits are already on `feedback-20261007-v2` (patch-equivalent). Next steps: `v4-final-review.md`.
+
 Approved content package rev. 2026-10-07 (v2), page 05 (Home).
 Target: `https://staging-lumotive.filebx.net/` (confirmed by the client as the
 only environment this repository's `main` branch deploys to; production is not

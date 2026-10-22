@@ -1,5 +1,7 @@
 # Lumotive website redesign — current progress
 
+> **Superseded (2026-10-22).** This snapshot predates pages 13–21 and the v4 pass. Current state: `v4-final-review.md` (summary and staging handoff) and `v3-outstanding-items.md` (open items).
+
 Handoff for a fresh OMP session. Written after page 12 and its refinement.
 
 ## Where the work is

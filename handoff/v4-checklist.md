@@ -103,13 +103,9 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 7. **Home application tiles. Decided 2026-10-22:** keep Simon's selection (the same `connect-optical.jpg` on Optical Circuit Switching and Optical Communications). No change.
 8. **Robotics M30 photo. Decided in the Page 10 pass:** Simon's linked `M30_thumb.jpg` is used, with its white studio background removed so it matches the three cut-outs on the kit panel. The product pixels are unchanged.
 
-## Still awaiting client input (not answered by v4)
+## Still awaiting client input
 
-- **Sitewide:** LinkedIn URL (S1), privacy policy (S2), Pipedrive hidden fields (S3, then S28), preselect (S4), inquiry values (S5), analytics tool (S7), status labels (S8), contractions (S9), Webvizio mapping (S10), social image approval (S12), heading tracking review (S18).
-- **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (H1 = N1). Decision 2026-10-22: the approved fallback posts stay; nothing is imported or rewritten. **Ask Lumotive:** (a) the LI140/ON140 post copy (its card image is supplied); (b) approval to import the Leopard–Lumotive "Sirius Max" release (PR Newswire, around 24 September 2026; its wording says "beam-steering", against rule 1). Also N2–N5 and N7.
-- **Logos and badges:** Leopard logo (SE5 = D4 = PA2), onsemi (PA3), award badges (AB2), investor list (AB3), Electronic Photonics confirmation (PA4).
-- **Per page:** H2, H3, H5, P4, P5, A3, SE6, SE7, SE9, AU5, T2, T3 flood animation, I3/I8, F2, F3, F4, F7, C3, C4, C6, C7, AB5, AB6, CU1, CU3, PA1, CT1.
-- **New in v4:** the readings in conflicts 2–5. **For Claudia:** confirm that the p06 "Disregard" withdraws the #125 redraw, so Webvizio #125 can close (it stays open until then). **Explorer:** the fallback video `lcm-animation.mp4`, the poster frame, and the intro copy ("Change the phase pattern…": the tool has no phase-pattern control).
+The questions that used to be listed here are in `v3-outstanding-items.md`, group 2 (deduplicated, final v4 review 2026-10-22). The readings in conflicts 2–5 above are still open there.
 
 ## Validated v4 files
 
