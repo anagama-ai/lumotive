@@ -110,9 +110,11 @@
 	let embedUrl = $derived(videoEmbedUrl(section.videoUrl));
 	// Rich text under the cards (the benefits list beside the player).
 	let body = $derived(typeof section.body === 'string' ? section.body.trim() : '');
+	// Phone-only spacing override (app.css): xs | sm | md, else unset.
+	const phoneSpacing = (value: unknown) => (['xs', 'sm', 'md'].includes(String(value)) ? String(value) : undefined);
 </script>
 
-<section class="lumo-section" class:has-visual={Boolean(visual)} class:has-video={Boolean(embedUrl)} class:centered id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
+<section class="lumo-section" class:has-visual={Boolean(visual)} class:has-video={Boolean(embedUrl)} class:centered id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-phone-top={phoneSpacing(section.phoneSpacingTop)} data-phone-bottom={phoneSpacing(section.phoneSpacingBottom)} data-align={section.align === 'container' ? 'container' : undefined}>
 	<div class="lumo-inner">
 		{#if embedUrl}
 			<div class="video-split">

@@ -106,6 +106,25 @@ img, video { display: block; max-width: 100%; }
 	.lumo-section[data-spacing-bottom='md-compact-phone'] > .lumo-inner > :last-child > :last-child,
 	.lumo-section[data-spacing-bottom='md-compact-phone'] > .lumo-inner > :last-child > :last-child > :last-child { margin-bottom: 0; }
 }
+/* Phone-only spacing override (`phoneSpacingTop` / `phoneSpacingBottom` on
+   card sections): below 768px the section's padding becomes 1.5 / 2 / 3rem
+   (xs / sm / md) and the outermost incidental margins (a heading's default
+   block margin) drop, so the padding is the whole gap. Tablet and desktop
+   keep the section's own spacing. Opt-in per section. */
+@media (max-width: 767px) {
+	.lumo-section[data-phone-top='xs'] > .lumo-inner { padding-top: 1.5rem; }
+	.lumo-section[data-phone-top='sm'] > .lumo-inner { padding-top: 2rem; }
+	.lumo-section[data-phone-top='md'] > .lumo-inner { padding-top: 3rem; }
+	.lumo-section[data-phone-bottom='xs'] > .lumo-inner { padding-bottom: 1.5rem; }
+	.lumo-section[data-phone-bottom='sm'] > .lumo-inner { padding-bottom: 2rem; }
+	.lumo-section[data-phone-bottom='md'] > .lumo-inner { padding-bottom: 3rem; }
+	.lumo-section[data-phone-top] > .lumo-inner > :first-child,
+	.lumo-section[data-phone-top] > .lumo-inner > :first-child > :first-child,
+	.lumo-section[data-phone-top] > .lumo-inner > :first-child > :first-child > :first-child { margin-top: 0; }
+	.lumo-section[data-phone-bottom] > .lumo-inner > :last-child,
+	.lumo-section[data-phone-bottom] > .lumo-inner > :last-child > :last-child,
+	.lumo-section[data-phone-bottom] > .lumo-inner > :last-child > :last-child > :last-child { margin-bottom: 0; }
+}
 
 /* Opt a section's inner column into the header's geometry, so its content
    lines up with the nav logo instead of the wider section shell.

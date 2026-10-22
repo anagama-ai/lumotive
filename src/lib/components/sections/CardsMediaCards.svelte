@@ -54,9 +54,11 @@
 				? 'grid gap-6'
 				: `grid gap-6 md:grid-cols-2 ${cards.length === 3 ? 'lg:grid-cols-3' : ''}`
 	);
+	// Phone-only spacing override (app.css): xs | sm | md, else unset.
+	const phoneSpacing = (value: unknown) => (['xs', 'sm', 'md'].includes(String(value)) ? String(value) : undefined);
 </script>
 
-<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined} data-density={density}>
+<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-phone-top={phoneSpacing(section.phoneSpacingTop)} data-phone-bottom={phoneSpacing(section.phoneSpacingBottom)} data-align={section.align === 'container' ? 'container' : undefined} data-density={density}>
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal><div class="mb-12 max-w-4xl">

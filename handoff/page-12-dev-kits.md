@@ -218,3 +218,27 @@ Measured on the local site:
 - **Other cards:** unchanged. NM120 / MD180 stay two-up (628px each at 1440).
 - **Overflow:** none at any width.
 - **Screenshots:** `%TEMP%\lumotive-review\dev-kits-v4\tx10-full-width-{1440,768,390}.png`.
+
+## Phone spacing and closing CTA alignment (2026-10-22, client request)
+
+**Closing CTA.** "Tell us your spec. We will match the kit." (`116c9e28`) was still centred at every width; the left alignment requested for /applications had been set on that page only. It now uses the same opt-in, `textAlign: "left"`. Heading, paragraph and button start on the content edge: 16px at 360 / 390 / 430, 24px at 768, 80px at 1440. Styling, copy and link are unchanged.
+
+**Phone spacing.**
+- **Measured at 390 before the change:**
+  - hero → "Why Start With a Lumotive Kit": 108px (80px padding + the heading's 28px default margin);
+  - last benefit card → "Find Your Dev Kit": 148px (40 + 80 + 28);
+  - last dToF card → CTA panel: 80px;
+  - CTA padding: 112px.
+- **Mechanism:** a new opt-in phone override on card sections (`phoneSpacingTop` / `phoneSpacingBottom`: xs 1.5rem, sm 2rem, md 3rem, with the outermost default margins dropped). It applies below 768px only; tablet and desktop keep their spacing.
+- **Values** (migration `1787716800_dev_kits_mobile_spacing_cta.js`, guarded and reversible): Why top md, bottom xs; Find top sm; dToF group bottom md. The CTA takes the existing `compactMobile` (72px padding on phones).
+
+| Gap at 360 / 390 / 430 | Before (390) | After |
+| --- | --- | --- |
+| Hero → Why Start With a Lumotive Kit | 108 | 48 |
+| Last benefit card → Find Your Dev Kit | 148 | 56 |
+| Kit group → kit group (unchanged) | 52 | 52 |
+| Last dToF card → CTA panel | 80 | 48 |
+| CTA padding top / bottom | 112 / 112 | 72 / 72 |
+
+- **Unchanged:** card padding, card-to-card gaps and typography. At 768 and 1440 the section paddings are the same as before (80/40, 80/0, 40/0, 40/80, CTA 112/112). No overflow at any width.
+- **Screenshots:** `%TEMP%\lumotive-review\dev-kits-mobile-spacing\` (`cta-{360,390,430,1440}.png`; `dev-kits-{360,390,430}-part{1-4}.png`; full pages `dev-kits-full-*.png`).

@@ -12,6 +12,13 @@ const presentationFields: FieldSpec[] = [
 	{ name: 'align', label: 'Align with header container (container)', type: 'text' }
 ];
 
+// Phone-only spacing (below 768px; app.css): xs 1.5rem | sm 2rem | md 3rem.
+// Tablet and desktop keep spacingTop / spacingBottom.
+const phoneSpacingFields: FieldSpec[] = [
+	{ name: 'phoneSpacingTop', label: 'Top spacing on phones (xs | sm | md; default = top spacing)', type: 'text' },
+	{ name: 'phoneSpacingBottom', label: 'Bottom spacing on phones (xs | sm | md; default = bottom spacing)', type: 'text' }
+];
+
 const introFields: FieldSpec[] = [
 	{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
 	{ name: 'heading', label: 'Heading', type: 'text' },
@@ -125,6 +132,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 		label: 'Cards — media cards',
 		fields: [
 			...presentationFields,
+			...phoneSpacingFields,
 			{ name: 'mediaFrame', label: 'Card photo frame (panel = product on light-grey panel; default full-bleed)', type: 'text' },
 			...introFields,
 			...linkFields,
@@ -143,6 +151,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 		label: 'Cards — text cards',
 		fields: [
 			...presentationFields,
+			...phoneSpacingFields,
 			...introFields,
 			// Emphasised lines around the grid: a proposition under the
 			// introduction, and a closing result under the cards.
