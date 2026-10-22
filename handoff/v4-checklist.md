@@ -4,7 +4,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4), Page 08's "Your Application" image (`page-08-applications.md`), Page 10's video and kit photos (`page-10-robotics.md`).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -45,13 +45,13 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 | Other cards, videos | unchanged | — | A3, S8, A4 | Unchanged |
 
 ### 09 Sense `/sense`
-No v4 change. SE5, SE6, SE7, SE9 and SE10 remain open.
+No v4 change (empty text diff; the six notes are identical to v3). Recorded in `page-09-sense.md`. SE5, SE6, SE7, SE9 and SE10 remain open.
 
 ### 10 Robotics `/sense/robotics`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| One Sensor, Three Jobs | Vimeo 1237762150 "Lumotive: One Sensor, Three Jobs" (16:9, 1:09) | Now supplied | R2 | Supplied. Page 10: printed split layout, click-to-play. |
-| Kits for Robotics: LI140 (card 3), ON140 (card 4) | `LI140.png`, `ON140.png` (2500×1667 transparent cut-outs) | Now supplied (`wscgr`) | R4 → R3 | Supplied. All four photos can now go in together. Note: Simon's M30 for this row is `M30_thumb.jpg` (537×402, with background), unlike the three cut-outs; see conflict 8. |
+| One Sensor, Three Jobs | Vimeo 1237762150 "Lumotive: One Sensor, Three Jobs" (16:9, 1:09) | Now supplied | R2 | **Implemented and verified (local site).** Right of the bullets in the existing split; in-page playback confirmed in Edge. |
+| Kits for Robotics: LI140 (card 3), ON140 (card 4) | `LI140.png`, `ON140.png` (2500×1667 transparent cut-outs) | Now supplied (`wscgr`) | R4 → R3 | **Implemented and verified (local site).** All four photos on the kit panel, contained and uncropped; Simon's M30 photo with its white background removed (conflict 8). |
 
 ### 11 Automotive `/sense/automotive`
 | Section | v4 | Type | v3 ID | State |
@@ -101,7 +101,7 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 5. **Automotive (p11).** A product photo fills the "point cloud or video" slot, and the FOV diagram has no vehicle. Both are applied as linked unless Lumotive objects.
 6. **Explorer (p06). Resolved in the Page 06 pass:** self-hosted rather than hotlinked; the "(Copy)" title dropped as a documented one-line change; phones open it in a new tab. Still pending: the missing fallback video, the poster and the intro copy (`page-06-platform.md`, "Open").
 7. **Home application tiles. Decided 2026-10-22:** keep Simon's selection (the same `connect-optical.jpg` on Optical Circuit Switching and Optical Communications). No change.
-8. **Robotics M30 photo.** Simon linked `M30_thumb.jpg` (537×402, with background) for the robotics row; the other three photos are transparent cut-outs. The existing cut-out `m30-dev-kit-contents.webp` (Simon's choice on p12) would match the row. Decide on page 10.
+8. **Robotics M30 photo. Decided in the Page 10 pass:** Simon's linked `M30_thumb.jpg` is used, with its white studio background removed so it matches the three cut-outs on the kit panel. The product pixels are unchanged.
 
 ## Still awaiting client input (not answered by v4)
 
@@ -109,7 +109,7 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 - **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (H1 = N1). Decision 2026-10-22: the approved fallback posts stay; nothing is imported or rewritten. **Ask Lumotive:** (a) the LI140/ON140 post copy (its card image is supplied); (b) approval to import the Leopard–Lumotive "Sirius Max" release (PR Newswire, around 24 September 2026; its wording says "beam-steering", against rule 1). Also N2–N5 and N7.
 - **Logos and badges:** Leopard logo (SE5 = D4 = PA2), onsemi (PA3), award badges (AB2), investor list (AB3), Electronic Photonics confirmation (PA4).
 - **Per page:** H2, H3, H5, P4, P5, A3, SE6, SE7, SE9, AU5, T2, T3 flood animation, I3/I8, F2, F3, F4, F7, C3, C4, C6, C7, AB5, AB6, CU1, CU3, PA1, CT1.
-- **New in v4:** the readings in conflicts 2–5 and 8. **For Claudia:** confirm that the p06 "Disregard" withdraws the #125 redraw, so Webvizio #125 can close (it stays open until then). **Explorer:** the fallback video `lcm-animation.mp4`, the poster frame, and the intro copy ("Change the phase pattern…": the tool has no phase-pattern control).
+- **New in v4:** the readings in conflicts 2–5. **For Claudia:** confirm that the p06 "Disregard" withdraws the #125 redraw, so Webvizio #125 can close (it stays open until then). **Explorer:** the fallback video `lcm-animation.mp4`, the poster frame, and the intro copy ("Change the phase pattern…": the tool has no phase-pattern control).
 
 ## Validated v4 files
 

@@ -252,3 +252,7 @@ A second, smaller point: "The Problem" is marked KEEP AS IS, so its copy is
 untouched, but it did take the page-wide `align: "container"` presentation flag
 along with every other section. Without it that one section would sit on a
 different edge to the rest of the page.
+
+## v4 review (2026-10-22): no change
+
+The v3→v4 text diff of PDF page 09 is empty, and its six notes are the same as in v3 (no new link, no "Disregard"). The page needs no change. Its open items are unchanged: SE5 (Leopard logo), SE6, SE7, SE9, and SE10 (real-browser check of the HDR video; the Platform videos played in a visible Edge window on 2026-10-22, so the same check applies here).

@@ -26,7 +26,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 - Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
 - Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). The LI140/ON140 photos are supplied in v4, so the Robotics kit row (R3) and the Dev Kits iToF row (D6) are now ours.
 - TX10 still versus the #129 animation (T2); Google citation source (C6). F5 is answered in v4: the HDR video serves dToF too.
-- v4 readings to confirm (conflicts 2–5 and 8 in `v4-checklist.md`): one visual on LCM Chips, the merged GIF on Transmit, the static scan-modes art, Automotive's photo and diagram, the Robotics M30 photo. (The duplicate Home tile photo is decided: keep Simon's selection.)
+- v4 readings to confirm (conflicts 2–5 in `v4-checklist.md`): one visual on LCM Chips, the merged GIF on Transmit, the static scan-modes art, Automotive's photo and diagram. (Decided: the duplicate Home tile photo stays; Robotics uses Simon's M30 photo with its white background removed.)
 - **#125 (P1):** confirm that the v4 "Disregard" withdraws the redraw; Webvizio #125 stays open until Claudia confirms.
 - **Explorer (S6):** the intro "Change the phase pattern across the metasurface…" promises a control the supplied tool does not have (it is a guided animation with a timeline); keep or reword. (Phones are decided: they open the explorer in a new tab.)
 - Heading tracking for Webvizio #138 (S18): band hero headlines moved from −0.055em to −0.03em to stop touching glyphs; close #138 only after review.
@@ -45,7 +45,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs to implement, page by page (09–15):** R2, R3, AU2, AU3, D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2 and Page 08's A1 are done on the local site.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
+7. **v4 inputs to implement, page by page (11–15):** AU2, AU3, D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Done on the local site: Page 06's P2 and P3, Contact's CT4, Page 07's L1/L2, Page 08's A1, Page 10's R2–R4. Page 09 had no v4 change.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -191,9 +191,9 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| R2 | One Sensor, Three Jobs | Asset | **Supplied v4** | Vimeo 1237762150 "Lumotive: One Sensor, Three Jobs" (16:9, 1:09). Page 10 pass: printed split layout, poster plus click-to-play, in-page playback check; then its held caption ships. | Us (page 10) | Yes | v4 p10 |
-| R4 | Kits for Robotics | Asset | **Supplied v4** | `LI140.png`, `ON140.png` (2500×1667 cut-outs), linked by `wscgr`. | — | — | v4 p10 |
-| R3 | Kits for Robotics | Ours | Do (page 10) | Add all four photos together on the grey panel. M30: Simon linked `M30_thumb.jpg` (537×402, with background); the existing cut-out `m30-dev-kit-contents.webp` would match the row (v4 conflict 8). NM120 is the existing `nm120-sensor` file. | Us | No | p10 A2, A3 |
+| R2 | One Sensor, Three Jobs | Asset | **Done on the local site 2026-10-22** | Vimeo 1237762150 in the benefits split, on the right of the bullets (`1787716100`); in-page playback confirmed in Edge (0.45 → 8.45 s). The printed placeholder caption describes the asset and is not shown. | Us | — | `page-10-robotics.md` v4 pass |
+| R4 | Kits for Robotics | Asset | **Done on the local site 2026-10-22** | LI140 and ON140 cut-outs added (see R3). | — | — | v4 p10 |
+| R3 | Kits for Robotics | Ours | **Done on the local site 2026-10-22** | All four photos together on the page-03 kit panel (contained, uncropped, same frame): M30 from Simon's `M30_thumb.jpg` with its white background removed, NM120 `kit-nm120.webp`, LI140, ON140. | Us | — | `page-10-robotics.md` v4 pass |
 
 Resolved on this page by `1787713400` (and `1787713600` for R6):
 - R1 hero: now the existing `market-agv.jpg`, identical to A1.
