@@ -40,7 +40,7 @@ These checks ran in Chromium and Edge on Windows only. The contrast figures are 
 
 ## Before production launch (ours)
 
-- **Site meta settings (S30):** business address, phone, social accounts and the light logo are saved but shown nowhere on the public site. Decide (with Claudia) whether to wire them in or remove them from the form. The footer's LinkedIn icon is set under Footer → Social links.
+- **Site meta settings (S30):** business address, phone, social accounts and the light logo are saved but shown nowhere on the public site. Waiting for Claudia's decision (see her list); not needed for the walkthrough. The footer's LinkedIn icon is set under Footer → Social links.
 - **New-tab links:** existing link settings are kept, but the Footer and Header forms cannot switch a link to open in a new tab. None do today.
 - **Safari, iOS Safari and Android Chrome (S20):** never tested. This covers the videos, the self-hosted looping animations (iOS autoplay and Low Power Mode), the LCM Explorer (including the no-WebGL-2 path), the menus, the sideways-scrolling figures, and a look at text over images on real screens.
 - **Press links (N7):** a person opens the 5 blocked links (Forbes ×2, bizjournals ×3).
@@ -51,9 +51,27 @@ These checks ran in Chromium and Edge on Windows only. The contrast figures are 
 Nothing below blocks a staging deploy: missing items ship left out, not as placeholders. They do block sign-off of the affected sections. Full list: `v3-outstanding-items.md`, group 2.
 
 - **New from this QA, News (N7):** three "Read the original article" links are dead (Morningstar e-Photonics release, Yahoo Finance MD41 story, 2cm.com.tw AGV/AMR story). Replacement URLs, or approval to remove those links. The Invest Vancouver PDF works again.
-- **Blocking supplies:** LinkedIn company URL (S1), privacy policy text or approval to port it (S2), NM120 power figure, MIPI wording and internals photo (F2–F4), Leopard Imaging and onsemi logos (SE5, PA3), the final investor list (AB3), News post copy and press contact (N1, N2, N3).
+- **Privacy Policy (S2), client dependency:** the footer link leads to a 404 (see the audit below). Needed: approved policy text, or written approval to port lumotive.com's current policy ("Last modified: March 26, 2026") as it stands. We will not write legal copy.
+- **Site meta settings (S30), decision:** wire address, phone, social accounts and the light logo into the site, or remove them from the admin form.
+- **Blocking supplies:** LinkedIn company URL (S1), NM120 power figure, MIPI wording and internals photo (F2–F4), Leopard Imaging and onsemi logos (SE5, PA3), the final investor list (AB3), News post copy and press contact (N1, N2, N3).
 - **Decisions:** status labels (S8), provider strip with 3 of 4 logos (SE6), the v4 readings (LCM Chips GIF labels, Automotive diagram, iToF scan modes; L2, AU2/AU3, I6), Explorer intro copy (S6 c), Google citation (C6), and the smaller confirmations listed in group 2.
 - **Reviews:** heading letter spacing (S18, Webvizio #138), hero framing (AB6, PA1, CU1). Do not close any Webvizio task until it is verified on staging.
+
+## Privacy Policy audit (2026-10-22)
+
+Checked on the local site (dev server and local database).
+
+| Check | Result |
+|---|---|
+| Footer link | "Privacy Policy" under the copyright line on every page checked (`/`, `/contact`, `/dev-kits/dtof`), `href="/privacy-policy"`, same tab. Visible at 1440 (88×20px) and 390 (88×44px, meets the 44px tap target) |
+| Destination | **404.** No `pages` record, no SvelteKit route and no redirect for `/privacy-policy` (or `/privacy`); `/privacy-policy/` redirects to it. Staging (`staging-lumotive.filebx.net/privacy-policy`) also 404s |
+| Rendering | The site's 404 page: "404 / The page you were looking for could not be found. / Back home". No horizontal overflow at 1440 or 390. It shows without the site header and footer, so the only way on is "Back home" |
+| Content | None on the site. lumotive.com/privacy-policy/ is live ("Last modified: March 26, 2026") but has not been approved for this site, so nothing was copied |
+| Owner | Lumotive via Claudia (S2). Once text is approved, adding it is a page record plus one migration |
+
+**For the walkthrough:** clicking Privacy Policy shows the 404. Either skip that link or say it is waiting on S2.
+
+Also seen: in the dev server, `/lcm-explorer/` (without `index.html`) 404s. This is expected: every site link uses `/lcm-explorer/index.html`, which loads (200), and the production server resolves the folder.
 
 ## Evidence
 
