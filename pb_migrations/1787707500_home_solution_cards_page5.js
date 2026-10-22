@@ -41,20 +41,24 @@ const NEXT = [
 	}
 ]
 
+// The state `down` restores. Links are /sense and /connect, not the seed's
+// /technology and /optical-circuit-switching-communications: the earlier
+// `1787703900_solution_card_links.js` (already on origin/main) set them, so
+// writing the seed URLs back would leave two 404 links after a rollback.
 const PREV = [
 	{
 		eyebrow: 'Lumotive Sense',
 		title: '3D sensing for Physical AI',
 		body: '<p>Software-defined beam steering gives autonomous machines the flexibility to see, adapt, and respond across robotics, mobility, smart infrastructure, surveillance, and defense.</p>',
 		linkLabel: 'Explore Sense',
-		linkUrl: '/technology'
+		linkUrl: '/sense'
 	},
 	{
 		eyebrow: 'Lumotive Connect',
 		title: 'Programmable photonics for AI infrastructure',
 		body: '<p>Solid-state, software-defined optical switching routes light directly between endpoints to reduce power, minimize latency, and scale AI networks from rack-level systems to hyperscale fabrics.</p>',
 		linkLabel: 'Explore Connect',
-		linkUrl: '/optical-circuit-switching-communications'
+		linkUrl: '/connect'
 	}
 ]
 
