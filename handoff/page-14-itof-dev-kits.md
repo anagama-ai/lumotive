@@ -399,3 +399,27 @@ rendered copy on:
 Thirteen in total. Each needs the same standalone-"steering" judgement call,
 and the approved PDF still prints "beam steering", so the rename should be
 confirmed as superseding the package before the site-wide pass.
+
+### Refinement: tinted LI140 benefit cards (2026-10-22)
+
+The four LI140 benefit cards under the spec tiles (`c60d2fb9`) now each carry a light wash of their own accent colour, so the row reads apart from the eight white spec tiles above it. Order: Software-defined modes blue, Built for bright light green, Wide 140° × 105° coverage amber, RGB-D blue.
+
+**How**
+- **Option:** new opt-in `cardTint: "accent"` on CardsTextCards. Each card's background is its accent mixed into the white card colour: 10% blue or green, 13% amber.
+- **Migration:** `1787717200_itof_li140_benefit_tints.js`, guarded and reversible. Undoing it restored every page record exactly, and it is re-applied.
+- **Scope:** only this section sets the option; no other card on the page is tinted.
+- **Unchanged:** the spec tiles (white), the grid, spacing, card sizes, typography, accent lines, copy, and the ink headings and slate body text.
+
+**Text contrast**, computed from the rendered colours:
+
+| Card | Background | Heading | Body |
+| --- | --- | --- | --- |
+| Blue | #E6F2FA | 15.94:1 | 6.59:1 |
+| Green | #E6F6EE | 16.29:1 | 6.74:1 |
+| Amber | #FFF5E0 | 16.82:1 | 6.95:1 |
+
+On white, the body text measured 7.54:1.
+
+**Layout check:** card boxes match the untinted cards at every width (302×245 at 1440, 226×288 at 1024, 348×213 at 768, 358 wide at 390). No overflow.
+
+**Screenshots:** `%TEMP%\lumotive-review\itof-benefit-tints\li140-specs-benefits-{1440,1024,768,390}.png`.

@@ -120,6 +120,22 @@
 		accent4: 'bg-brand-blue', accent5: 'bg-brand-green', accent6: 'bg-brand-amber'
 	};
 	const bar = (accent?: string) => bars[accent ?? ''] ?? bars.accent1;
+	// `cardTint: "accent"`: each card takes a light wash of its accent colour
+	// over the white card, so a benefit row reads apart from white spec tiles
+	// (/dev-kits/itof LI140 benefits). Text keeps its ink and slate colours;
+	// the washes stay light enough for both (≥ 4.5:1). Unset elsewhere.
+	const tints: Record<string, string> = {
+		// Blue and green need 10% to separate from the #f3f4f7 page field;
+		// amber reads stronger at a lower share, so 13% keeps the three even.
+		accent1: 'color-mix(in srgb, var(--color-brand-blue) 10%, var(--color-surface))',
+		accent2: 'color-mix(in srgb, var(--color-brand-green) 10%, var(--color-surface))',
+		accent3: 'color-mix(in srgb, var(--color-brand-amber) 13%, var(--color-surface))',
+		accent4: 'color-mix(in srgb, var(--color-brand-blue) 10%, var(--color-surface))',
+		accent5: 'color-mix(in srgb, var(--color-brand-green) 10%, var(--color-surface))',
+		accent6: 'color-mix(in srgb, var(--color-brand-amber) 13%, var(--color-surface))'
+	};
+	let tinted = $derived(String(section.cardTint ?? '') === 'accent');
+	const tint = (accent?: string) => (tinted ? (tints[accent ?? ''] ?? tints.accent1) : undefined);
 	// Numerals (`numbered`) follow the card's accent in its text-safe variant.
 	const numerals: Record<string, string> = {
 		accent1: 'text-brand-blue', accent2: 'text-brand-green-text', accent3: 'text-brand-amber-text',
@@ -240,6 +256,7 @@
 					this={link.href ? 'a' : 'article'}
 					class={`rounded-card bg-surface hover:shadow-card group flex flex-col ${videoSplit ? 'p-6' : 'p-8'} transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}${rowAlign ? ' row-card' : ''}${centered ? ' card-centered' : ''}`}
 					style:--card-rows={rowAlign ? cardRows(card, image, link) : undefined}
+					style:background-color={tint(card.accent)}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
