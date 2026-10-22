@@ -183,3 +183,19 @@ Alt text transcribes each image (the diagram's three fields with range, field of
 - sideways scrolling as the phone treatment for the diagram.
 
 AU5 (a larger hero original) is unchanged.
+
+## Mobile spacing refinement (2026-10-22, review request)
+
+**Cause, measured at 390 before the change.** Every content section used `md` spacing (80px top and bottom), so neighbours met at 160px of padding. CardsTextCards and CardsMediaCards headings also kept the browser's default top margin (28px at the heading size). Content-to-content gaps were 120 / 160 / 172 / 188 / 188px from Safety Cocoon to Evaluate Solid-State dToF, and the closing CTA had `lg` 112px padding.
+
+**Change: phones only, this page only** (`1787716400_automotive_mobile_spacing.js`, guarded and reversible).
+- **Section spacing:** the five content sections (Safety Cocoon, Industry First, Built for Real-World Conditions, Beyond Passenger Vehicles, Evaluate Solid-State dToF) use a new spacing value, `md-compact-phone`. Below 768px it gives 2.5rem a side and drops the outermost incidental margins, as the existing `compact` value does. From 768px it has no rule, so the standard `md` 5rem applies unchanged.
+- **Closing CTA:** it takes the existing `compactMobile`, 72px padding on phones instead of 112px; tablet and desktop are unchanged.
+- **Diagram hint:** "Swipe to view the full diagram" (field `mediaHint`, Slate Text at the spec size) shows under the diagram on phones only. The diagram itself still scrolls sideways in a keyboard-focusable region labelled with the section heading.
+
+**Result.**
+- **Phones (360, 390 and 430):** every gap between consecutive sections is now 80px. The CTA's inner padding is 72px. The diagram is 720px wide inside a 328 / 358 / 398px frame, and two ArrowRight presses with it focused scroll it by 80px. The hint shows and nothing overflows.
+- **Desktop and tablet:** at 768 and 1440 the section paddings are still 80px (CTA 112px), and the hint is hidden.
+- **Unchanged:** copy, images, hero and card styling.
+- **Checks:** the migration was applied, reverted (byte-identical) and re-applied; `npm run check` reports 0 errors.
+- **Screenshots:** `%TEMP%\lumotive-review\automotive-mobile-spacing\` (`automotive-{360,390,430}-part*.png` from Safety Cocoon to the CTA, and full pages `automotive-full-*.png`). The diagram frame's outline in those captures is its keyboard focus ring, left from the keyboard-scroll check.

@@ -91,6 +91,21 @@ img, video { display: block; max-width: 100%; }
 .lumo-section[data-spacing-bottom='compact'] > .lumo-inner > :last-child,
 .lumo-section[data-spacing-bottom='compact'] > .lumo-inner > :last-child > :last-child,
 .lumo-section[data-spacing-bottom='compact'] > .lumo-inner > :last-child > :last-child > :last-child { margin-bottom: 0; }
+/* `md-compact-phone`: the standard `md` rhythm from 768px up, the compact one
+   on phones only (2.5rem a side, outermost incidental margins dropped, as
+   `compact` does), for a page whose stacked phone layout otherwise opens
+   160px+ gaps between sections. Desktop and tablet are untouched: the value
+   has no rule there, so the default 5rem applies. Opt-in per section. */
+@media (max-width: 767px) {
+	.lumo-section[data-spacing-top='md-compact-phone'] > .lumo-inner { padding-top: 2.5rem; }
+	.lumo-section[data-spacing-bottom='md-compact-phone'] > .lumo-inner { padding-bottom: 2.5rem; }
+	.lumo-section[data-spacing-top='md-compact-phone'] > .lumo-inner > :first-child,
+	.lumo-section[data-spacing-top='md-compact-phone'] > .lumo-inner > :first-child > :first-child,
+	.lumo-section[data-spacing-top='md-compact-phone'] > .lumo-inner > :first-child > :first-child > :first-child { margin-top: 0; }
+	.lumo-section[data-spacing-bottom='md-compact-phone'] > .lumo-inner > :last-child,
+	.lumo-section[data-spacing-bottom='md-compact-phone'] > .lumo-inner > :last-child > :last-child,
+	.lumo-section[data-spacing-bottom='md-compact-phone'] > .lumo-inner > :last-child > :last-child > :last-child { margin-bottom: 0; }
+}
 
 /* Opt a section's inner column into the header's geometry, so its content
    lines up with the nav logo instead of the wider section shell.

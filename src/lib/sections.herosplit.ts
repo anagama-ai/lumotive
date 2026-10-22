@@ -47,6 +47,7 @@ const splitFields: FieldSpec[] = [
 	{ name: 'mediaMaxHeight', label: 'Photo height cap from 768px (rem, e.g. 25rem; whole photo kept)', type: 'text' },
 	{ name: 'mediaLayout', label: 'Media layout (below = full-width visual under the copy)', type: 'text' },
 	{ name: 'mediaAlt', label: 'Alt text for a URL image', type: 'text' },
+	{ name: 'mediaHint', label: 'Phone hint under a sideways-scrolling diagram (media layout below)', type: 'text' },
 	{ name: 'compactMobile', label: 'Less space above the section on phones (true | false)', type: 'text' },
 	{ name: 'linkLabel', label: 'Link label', type: 'text' },
 	{ name: 'linkUrl', label: 'Link URL', type: 'url' },

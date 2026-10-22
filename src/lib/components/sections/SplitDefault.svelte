@@ -49,6 +49,8 @@
 	let mediaBelow = $derived(String(section.mediaLayout ?? '') === 'below' && !embedUrl);
 	// Alt text for a URL-referenced image, which carries none of its own.
 	let mediaAlt = $derived(String(section.mediaAlt ?? '').trim());
+	// Phones only: a short line under a "below" diagram that scrolls sideways.
+	let mediaHint = $derived(String(section.mediaHint ?? '').trim());
 </script>
 
 {#snippet copy()}
@@ -116,6 +118,7 @@
 								<img src={visual.src} srcset={visual.srcset} sizes={mediaBelow ? '(min-width: 1312px) 1280px, 100vw' : '(min-width: 768px) 50vw, 100vw'} alt={mediaAlt || visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
 							{/if}
 						</div>
+						{#if mediaBelow && mediaHint}<p class="swipe-hint">{mediaHint}</p>{/if}
 					</Reveal>
 				</div>
 			{/if}
@@ -187,6 +190,11 @@
 	@media (max-width: 767px) {
 		.media-below .art-frame { overflow-x: auto; overscroll-behavior-x: contain; }
 		.media-below .art-frame img { width: 45rem; max-width: none; max-height: none; margin: 0; }
+	}
+	/* Slate Text at the spec size (≥ 4.5:1 on the page field), phones only. */
+	.swipe-hint { display: none; margin: .75rem 0 0; color: var(--color-text); font-size: var(--text-spec); }
+	@media (max-width: 767px) {
+		.swipe-hint { display: block; }
 	}
 	.dark-panel .split-layout, .stacked-card .split-layout { padding: clamp(2rem, 5vw, 4rem); border-radius: var(--radius-panel); }
 	.dark-panel .split-layout { color: white; background: var(--color-panel); }
