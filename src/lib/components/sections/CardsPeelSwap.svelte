@@ -48,7 +48,7 @@
 		data-spacing-bottom={String(section.spacingBottom ?? 'md')}
 		data-align={section.align === 'container' ? 'container' : undefined}
 	>
-		<div class="lumo-inner relative flex min-h-full flex-col justify-center">
+		<div class="lumo-inner swap-inner relative flex min-h-full flex-col justify-center">
 			{#if section.heading || section.intro}
 				<div class="text-center">
 					{#if section.heading}<h2 class="font-display text-statement text-ink mt-12 md:mt-0">{titleCase(String(section.heading))}</h2>{/if}
@@ -107,5 +107,11 @@
 	@media (prefers-reduced-motion: reduce) {
 		.swap-grid { grid-template-columns: 1fr; }
 		.swap-card, .swap-media { grid-column: auto; grid-row: auto; }
+	}
+	/* Phones stack the panels without the peel, so the media's rounded bottom
+	   corners met the dark section below with no gap. 2rem of the light field
+	   keeps them visible. 768px and up keep the pinned layout as it was. */
+	@media (max-width: 767px) {
+		.lumo-section > .swap-inner { padding-bottom: 2rem; }
 	}
 </style>
