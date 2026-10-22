@@ -1,6 +1,30 @@
 # Page 07 — /lcm-chips
 
-Approved content package rev. 2026-10-07 (v3), PDF page 07 of 21. Local branch `feedback-20261007-v2`; no push, merge, or deploy. Home and Platform v3 records and assets were preserved.
+Approved content package rev. 2026-10-07, PDF page 07 of 21: v3 pass, client-requested band hero, then the v4 pass below (2026-10-22). Local branch `feedback-20261007-v2`; no push, merge or deploy; staging not updated.
+
+## v4 pass (2026-10-22): implemented and verified on the local site
+
+**Input.** Simon's v4 note on "From Fixed Sensors to Programmable Eyes" (`9f08c3d6`): "This is one visual", with [lcm-programmable-eyes.gif](https://lumotive.com/wp-content/uploads/2026/10/lcm-programmable-eyes.gif) (1000×605, 148 frames, 12.33 s, 80/90 ms frames, 319 KB). It contains the system loop (laser → LCM → Tx optics → field of view lit one region at a time; Rx lens → ToF sensor), the angle-versus-time scan timeline, and three captioned cards. It replaces both printed panels (L1), so we no longer author an SVG timeline (L2).
+
+**Conversion** (page 03: "convert to looping MP4/WebM with a poster frame"):
+- `static/lumotive/video/lcm-programmable-eyes.mp4`: H.264 High, yuv420p, 1000×604, the GIF's own frame timings kept (12.33 s), faststart, no audio, 297 KB. The GIF's last pixel row is plain background and was cropped, because H.264 needs an even height.
+- Quality: frames at 0, 3, 6, 9.5 and 12.2 s against the matching GIF frames give a mean absolute difference of 1.6–1.8 and a PSNR of 35–36.5 dB; side by side they are visually the same.
+- MP4 only, no WebM: H.264 plays in every target browser, and one file keeps the CMS field single.
+- `static/lumotive/img/lcm-programmable-eyes-poster.webp`: the GIF's first frame, same crop, 52 KB.
+
+**Placement.** One visual between the introduction and the numbered steps, at most 1000px wide (its native width, so never upscaled), on the section's left edge. The approved steps 1–4, the ROI note and the "Every scan is a sequence you program…" outro are unchanged. The GIF's built-in labels repeat some of that copy (v4 conflict 2); both are kept, pending confirmation. Changes:
+- `CardsTextCards` gains an optional section visual (`media`, `mediaPoster`, `mediaAlt`, `videoAspect`), unset on every other section.
+- New `LoopVideo` component: muted and looping, it plays only while at least a quarter is on screen and pauses off screen. Reduced motion keeps it on the poster. The play/pause control (44px, below the frame, right-aligned) works for everyone and overrides scrolling.
+- Migration `1787715700_lcm_chips_v4_animation.js`.
+
+**Verification (local site, headless Chromium):**
+- 1440 / 768 / 390: video 1000×604 / 720×435 / 358×216 on the same left edge as heading and steps (80 / 24 / 16); no horizontal overflow; the MP4 decodes (readyState 4, 1000×604).
+- It plays on screen (0.53 → 3.54 s over 3 s), pauses when scrolled away and resumes on return. Pause by the control holds through scrolling away and back; play resumes it.
+- Reduced motion: stays paused at 0 s on the poster; the control still plays it.
+- The control's accessible name switches between "Pause animation" and "Play animation". The video's label describes the animation in the package's own placeholder terms.
+- Migration applied, reverted (all page records byte-identical) and re-applied. `npm run check`: 0 errors, 0 warnings.
+
+**Limits.** At 390 the animation's built-in labels are too small to read (the supplied art is 1000px wide with small type); on phones the steps, note and outro below carry the content. The full-width band hero (client request) and every other section are unchanged.
 
 ## v3 copy and placement
 

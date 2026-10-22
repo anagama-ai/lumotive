@@ -45,7 +45,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **v4 inputs to implement, page by page (07–15):** L1, A1, R2, R3, AU2, AU3, D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Page 06's P2 and P3 and Contact's CT4 are done on the local site.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
+7. **v4 inputs to implement, page by page (08–15):** A1, R2, R3, AU2, AU3, D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. (Page 06's P2 and P3, Contact's CT4 and Page 07's L1/L2 are done on the local site.) **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -160,8 +160,8 @@ The low spots previously listed here (Transmit, LCM Chips, and the 768 lows on H
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| L1 | From Fixed Sensors to Programmable Eyes | Asset | **Supplied v4** | `lcm-programmable-eyes.gif` (1000×605, 148 frames, 12.3 s). Simon: "This is one visual". It replaces both printed panels. | Us (page 07) | Yes | v4 p07 |
-| L2 | Same section | Ours | Do (page 07) | GIF → MP4/WebM + poster, reduced motion, one-visual layout. The SVG timeline is no longer authored (the GIF contains it). The GIF's baked-in captions repeat printed copy: confirm (v4 conflict 2). | Us | Yes | `v4-checklist.md` |
+| L1 | From Fixed Sensors to Programmable Eyes | Asset | **Done on the local site 2026-10-22** | Simon's `lcm-programmable-eyes.gif` ("This is one visual") converted to a looping MP4 (1000×604, 297 KB) plus a poster, shown as one visual between the introduction and the steps (`1787715700`). | Us | — | `page-07-lcm-chips.md` v4 pass |
+| L2 | Same section | Ours | **Done on the local site 2026-10-22**; confirmation open | Plays on screen and pauses off screen; reduced motion keeps the poster; a play/pause control is always available. No SVG timeline is authored (the GIF contains it). **Open (Claudia):** the GIF's built-in labels and three captions repeat parts of the approved copy, which is kept (v4 conflict 2). | Claudia | No | `v4-checklist.md` |
 
 Client-requested change (2026-10-21, not in v3): the hero is now a full-width band with the same chip photo, copy and inquiry links (`1787715100`); details and measurements in `page-07-lcm-chips.md`. Phone body low of 4.02:1 at 360 (brightest pixel) added to S26.
 

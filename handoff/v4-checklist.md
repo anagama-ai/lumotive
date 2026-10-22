@@ -4,7 +4,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (see `page-06-platform.md`).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (`page-06-platform.md`), Page 07's animation (`page-07-lcm-chips.md`), Contact's explorer link (CT4).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -35,7 +35,7 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 ### 07 LCM Chips `/lcm-chips`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| From Fixed Sensors to Programmable Eyes | `lcm-programmable-eyes.gif` (1000×605, 148 frames, 12.3 s) + **"This is one visual"** | Now supplied + clarification | L1, L2 | Supplied. One animation replaces both printed panels (system loop and SVG timeline), so we no longer author the SVG timeline (L2). Page 07: GIF → MP4/WebM + poster, reduced motion. The GIF bakes in its own labels and three captions; see conflict 2. |
+| From Fixed Sensors to Programmable Eyes | `lcm-programmable-eyes.gif` (1000×605, 148 frames, 12.3 s) + **"This is one visual"** | Now supplied + clarification | L1, L2 | **Implemented and verified (local site).** Converted to a looping MP4 plus poster and shown as one visual above the approved steps; plays on screen, pauses off screen, reduced motion keeps the poster, pause control. No SVG timeline is authored. The GIF's built-in labels and captions remain conflict 2. |
 | Hero; LM10/LS20 column photos | unchanged | — | — | The client-requested full-width band hero stays (conflict 1) |
 
 ### 08 Applications `/applications`
@@ -95,7 +95,7 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 ## Conflicts with approved work, or open readings (flagged, not changed)
 
 1. **LCM Chips hero.** v4 still prints the split hero with the hand-held LS20 photo. The full-width band was a later client request (`1787715100`) and v4 adds no note there, so the band stays.
-2. **"This is one visual" (p07).** It overrides the p03 "SVG scan timeline synced to the animation" spec. The GIF's baked-in labels and three captions repeat parts of the printed copy (bullets 1–4, "Every scan is a sequence…"). Proposal: keep the HTML copy and show the GIF as one visual. Confirm.
+2. **"This is one visual" (p07). Applied as proposed:** the HTML copy (steps 1–4, note, outro) is kept and the animation shows above it as one visual. Still for Claudia: the GIF's built-in labels and three captions repeat parts of that copy. It also overrides the p03 "SVG scan timeline synced to the animation" spec.
 3. **"#154 + #155 merged" (p13).** There is one GIF for two printed slots. Show it alone in place of both, or wait for the flood animation?
 4. **Scan modes (p14).** The printed design is a five-tab selector with an animated wedge per mode. The supplied art is one static image of all modes. Proposal: show the static image and drop the animated selector, or split it into per-mode crops behind the existing tabs. Confirm.
 5. **Automotive (p11).** A product photo fills the "point cloud or video" slot, and the FOV diagram has no vehicle. Both are applied as linked unless Lumotive objects.

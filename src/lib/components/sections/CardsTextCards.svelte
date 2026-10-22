@@ -4,6 +4,7 @@
 	import { titleCase } from '$lib/titlecase';
 	import { isStaticFileLink } from '$lib/links';
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
+	import LoopVideo from '$lib/components/lumotive/LoopVideo.svelte';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
 	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
@@ -42,6 +43,16 @@
 	// re-capitalised. Section headings are unaffected: the package title-cases
 	// those and sentence-cases the cards beneath them.
 	let exactCase = $derived(String(section.casing ?? '') === 'exact');
+	// Optional single visual between the introduction and the cards. Unset on
+	// every other section. `videoAspect` ("1000 / 604") reserves the frame
+	// before the video's metadata arrives, as on SplitDefault.
+	let visual = $derived(resolveMedia(section.media, media, 1440));
+	let visualPoster = $derived(resolveMedia(section.mediaPoster, media, 1440));
+	let visualAlt = $derived(String(section.mediaAlt ?? '').trim());
+	let visualAspect = $derived.by(() => {
+		const value = String(section.videoAspect ?? '').trim();
+		return /^\d+(\.\d+)?\s*\/\s*\d+(\.\d+)?$/.test(value) ? value : undefined;
+	});
 	const cardTitle = (value?: string | null) => (exactCase ? (value ?? '') : (titleCase(value ?? '') ?? ''));
 	// `titleLines: "2"` reserves two lines for every card title from 768px up,
 	// so a row whose titles wrap differently still starts every description at
@@ -93,6 +104,17 @@
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 				{#if statement}<p class="text-lead text-ink mt-4 font-medium">{statement}</p>{/if}
 			</div></Reveal>
+		{/if}
+		{#if visual}
+			<Reveal>
+				<div class="section-visual">
+					{#if visual.isVideo}
+						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} />
+					{:else}
+						<img class="rounded-card w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 1064px) 1000px, calc(100vw - 2rem)" alt={visualAlt || visual.alt} width={visual.width ?? 1000} height={visual.height ?? 600} />
+					{/if}
+				</div>
+			</Reveal>
 		{/if}
 		{#if steps}
 			<!-- One compact list, not four cards: the entries are an ordered
@@ -188,6 +210,9 @@
 	.step-list .step-value { color: var(--color-text); }
 	.step-list .step-value::before { content: ' — '; color: var(--color-muted); }
 	.step-list .step-value :global(p) { display: inline; margin: 0; }
+	/* No wider than the supplied 1000px animation, so it is never upscaled.
+	   The pause control under a video adds its own row, hence 1.5rem. */
+	.section-visual { max-width: 62.5rem; margin-bottom: 1.5rem; }
 	.section-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; color: var(--color-brand-blue-dark); font-weight: 650; text-decoration: none; }
 	.section-link span { transition: transform 200ms ease; }
 	.section-link:hover span { transform: translateX(.25rem); }
