@@ -10,7 +10,7 @@ Inputs: Simon's v4 notes on PDF page 06 and the page 03 "Interactive LCM Explore
 | Section | v4 input | Result |
 | --- | --- | --- |
 | From 1D to 2D Beamforming (`b2d10f47`) | Vimeo 1237753837 "Ducky_v6" (16:9, 1:41) | `videoUrl` added. The section now has two columns with the player on the right, as printed. Below 768px it stacks above the copy, like the other split videos. Copy, quote and link unchanged. |
-| See LCM in Action (new `302ae187`, anchor `#explorer`, between 2D and Dynamic Scanning) | Explorer embed snippet | Printed eyebrow, heading and intro. A 16:9 poster with "Launch interactive explorer"; the click swaps in an iframe of `/lcm-explorer/index.html` titled "Interactive LCM explorer" (fullscreen allowed) and moves focus into it. "Open full screen →" opens the file in a new tab. |
+| See LCM in Action (new `302ae187`, anchor `#explorer`, between 2D and Dynamic Scanning) | Explorer embed snippet | Printed eyebrow, heading and intro. A 16:9 poster with "Launch interactive explorer". From 768px the click swaps in an iframe of `/lcm-explorer/index.html` titled "Interactive LCM explorer" (fullscreen allowed) and moves focus into it. Below 768px the same label is a link that opens the explorer in a new tab (see "Phones"). "Open full screen →" opens the file in a new tab at every width. |
 | Light Control Metasurface™ Optical Beamforming Technology, #125 graphic | "Disregard" | **No change.** Simon's v4 note "Disregard" on the #125 redraw request withdraws it (project decision 2026-10-22), so the current flow graphic stays. Webvizio #125 stays open until Claudia confirms. |
 
 ### Explorer integration
@@ -36,12 +36,22 @@ Inputs: Simon's v4 notes on PDF page 06 and the page 03 "Interactive LCM Explore
 - **Builds:** `npm run check` 0 errors, 0 warnings; `npm run build` passes, and the local production server serves the explorer files.
 - **No regression:** Applications' `videos` section uses the same component and renders the same classes as before.
 
+### Phones (below 768px), 2026-10-22 adjustment
+
+In the 358×201 frame at 390 the explorer's own captions overlapped its title bar and timeline. On phones, "Launch interactive explorer" is therefore a link to `/lcm-explorer/index.html` with `target=_blank`. A new-tab icon follows the label, and its accessible name is "Launch interactive explorer (opens in a new tab)". The poster stays. From 768px the button still loads the iframe in place. Both controls are in the markup and CSS shows one per width, so the phone link also works without JavaScript.
+
+- **Checked at 360, 390, 430 and 767:** the link shows (the button does not), a click opens a new tab at the explorer, and the page loads no iframe. At 768 and 1440 the button shows and loads the iframe; no overflow at any width. The pill is 290×49 inside the poster at 360–767. At 320 the label wraps to two lines (264×74).
+- **Standalone explorer at real phone viewports:** 360×640, 375×667, 390×844, 412×915 and 430×932 portrait, plus 667×375 and 844×390 landscape, in phone emulation. At each size I stepped through all 12 chapters and compared the boxes of the title bar, caption lines, readout, play button, timeline groups, track, labels, note and range figure.
+  - **Result:** no overlaps and nothing outside the viewport at any size or chapter. At those sizes the explorer drops its chapter labels and footnote, so the caption sits above the play button and timeline.
+  - **Sanity check:** the same audit flags the overlap in the 358×201 frame, and the chapter captions advance as expected ("Light Control Metasurface" → "How the pixels make a beam" → "1-axis beam steering" → …).
+  - **Not covered:** real-device performance and iOS (S20).
+
 ### Open (needs Lumotive; nothing invented)
 
 1. **Fallback video** `media/lcm-animation.mp4`: 404 on lumotive.com, not supplied. Only browsers without WebGL 2 show it; they get the poster plus "Open the interactive version", which reloads the same page. The hidden `<video>` still requests the file on every launch, so each launch logs one 404 (a console error, and a site 404 render of about 5–6 PocketBase calls; see S27). When the file arrives, put it at `static/lcm-explorer/media/lcm-animation.mp4`; no code change. It could also be the "poster + short video" for phones that page 03 step 05 allows.
 2. **Poster:** confirm the explorer's own title frame, or supply a dedicated 16:9 frame.
 3. **Intro copy vs the tool.** "Change the phase pattern across the metasurface and watch the beam steer, split, and focus." The supplied explorer is a guided animation (play/pause, a scrubbable chapter timeline, camera orbit) with no control for changing the phase pattern. Copy kept as approved; Claudia confirms or rewords.
-4. **Phones in-page.** In the 358×201 frame at 390 the explorer's own captions overlap its timeline (its layout, not ours); full screen in portrait reads well. Page 03 step 05 allows poster + short video on phones "if performance is poor"; here the issue is legibility. Decide: keep, or send phones straight to full screen. Real-device test under S20.
+4. ~~Phones in-page~~ **Resolved 2026-10-22:** phones open the explorer in a new tab (above). Page 03 step 05's "poster + short video" option stays available if real phones prove slow; it needs the fallback video from item 1.
 5. Safari, iOS Safari and Android are not tested (S20).
 6. **Webvizio #125:** open until Claudia confirms the withdrawal.
 

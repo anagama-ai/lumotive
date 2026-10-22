@@ -39,6 +39,10 @@
 		return href && label ? { href, label } : null;
 	});
 	let launched = $state(false);
+	let launchLabel = $derived(String(section.launchLabel ?? '').trim() || 'Launch');
+	// Phones (<768px) open the page itself in a new tab: in a frame that
+	// narrow, the explorer's own captions overlap its timeline.
+	let launchHref = $derived(fullScreen?.href ?? interactiveSrc);
 	let players = $derived(
 		mode === 'videos'
 			? items.flatMap((item) => {
@@ -88,7 +92,8 @@
 							{#if poster}<img class="absolute inset-0 h-full w-full object-cover" src={poster.src} srcset={poster.srcset} sizes="(min-width: 1312px) 1280px, calc(100vw - 2rem)" alt="" width={poster.width ?? 1280} height={poster.height ?? 720} />{/if}
 							<!-- Lower edge, not centre: the supplied poster carries its own centred title. -->
 							<div class="launch-bar absolute inset-x-0 bottom-0 flex justify-center">
-								<button type="button" class="launch-button" onclick={() => (launched = true)}>{String(section.launchLabel ?? '').trim() || 'Launch'}</button>
+								<button type="button" class="launch-button launch-inline" onclick={() => (launched = true)}>{launchLabel}</button>
+								<a class="launch-button launch-tab" href={launchHref} target="_blank" rel="noreferrer">{launchLabel}<span class="sr-only"> (opens in a new tab)</span><svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="M9 3h4v4M13 3 7.5 8.5M11 9.5V13H3V5h3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
 							</div>
 						{/if}
 					</div>
@@ -166,6 +171,14 @@
 	.launch-button { display: inline-flex; min-height: 3rem; align-items: center; justify-content: center; padding: .75rem 1.75rem; border: 0; border-radius: 999px; color: #fff; background: var(--color-primary); font-weight: 650; cursor: pointer; box-shadow: var(--shadow-card); transition: background 180ms ease, transform 180ms ease; }
 	.launch-button:hover { background: var(--color-primary-hover); transform: translateY(-2px); }
 	.launch-button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+	/* A link pill: the global anchor colour must not win. Narrower sides so
+	   label and icon stay on one line in a 360px phone's poster. */
+	.launch-tab { gap: .5rem; padding-inline: 1.25rem; color: #fff; text-decoration: none; }
+	.launch-inline { display: none; }
+	@media (min-width: 768px) {
+		.launch-inline { display: inline-flex; }
+		.launch-tab { display: none; }
+	}
 	/* Deep Laser Blue, as the split sections' links: Laser Blue is 4.15:1 here. */
 	.fullscreen-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; margin-top: 1rem; color: var(--color-brand-blue-dark); font-weight: 650; text-decoration: none; }
 	.fullscreen-link span { transition: transform 200ms ease; }

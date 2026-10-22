@@ -2,6 +2,7 @@
 	import { resolveMedia, type MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
+	import { isStaticFileLink } from '$lib/links';
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
@@ -123,6 +124,7 @@
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
+					data-sveltekit-reload={link.href && isStaticFileLink(link.href) ? '' : undefined}
 				>
 					{#if image}
 						<div class="mb-6 aspect-video overflow-hidden rounded-lg">
@@ -156,6 +158,7 @@
 							href={sectionLink.href}
 							target={sectionLink.newTab ? '_blank' : undefined}
 							rel={sectionLink.newTab ? 'noreferrer' : undefined}
+							data-sveltekit-reload={isStaticFileLink(sectionLink.href) ? '' : undefined}
 						>{sectionLink.label} <span aria-hidden="true">→</span></a>
 					{/if}
 				</div>

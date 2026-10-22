@@ -188,7 +188,7 @@ keys.
 | Card | Destination | Note |
 | --- | --- | --- |
 | Find your dev kit | `/dev-kits` | |
-| See LCM in action | `/platform` | The site map puts the explorer at `/lcm-explorer/`, but **that bundle is still unsupplied and the route does not exist**. Page 03 places the explorer on the Platform page, so the card goes there rather than at a 404. One field once the bundle is hosted. |
+| See LCM in action | `/lcm-explorer/index.html` | Was `/platform` while the explorer bundle was unsupplied. Since v4 the explorer is self-hosted (Platform pass), and `1787715600` points the card at it (2026-10-22, CT4). The file path is used because the Vite dev server does not resolve `/lcm-explorer/` to its index.html (production does). Opens in the same tab, as before (only the Lever card opens a new tab). First click-through found SvelteKit's client router taking the link as a page route and rendering a 404. Same-site links to files (`$lib/links.ts`, a file extension in the last segment) now carry `data-sveltekit-reload` in `CardsTextCards`. Re-checked: no data preload on hover, a full load of the explorer, canvas running. |
 | Join the team | Lever careers board | The destination /about and /culture already use |
 
 ## Component changes
@@ -233,8 +233,7 @@ keys.
    guessing at a correction would be worse than leaving all four.
 3. **LinkedIn follow line.** Held, as on /about, /culture and /news. One URL
    unblocks all four plus the footer icon.
-4. **LCM Explorer bundle.** Until it is hosted at `/lcm-explorer/`, the "See
-   LCM in action" card points at `/platform`.
+4. ~~**LCM Explorer bundle.**~~ Resolved 2026-10-22: the card links to the hosted explorer (CT4).
 5. **Optional: preselect the visible "I am interested in" option.** Page 02
    lists this as optional and it is Pipedrive-side configuration, so it is not
    attempted here.

@@ -99,7 +99,7 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 3. **"#154 + #155 merged" (p13).** There is one GIF for two printed slots. Show it alone in place of both, or wait for the flood animation?
 4. **Scan modes (p14).** The printed design is a five-tab selector with an animated wedge per mode. The supplied art is one static image of all modes. Proposal: show the static image and drop the animated selector, or split it into per-mode crops behind the existing tabs. Confirm.
 5. **Automotive (p11).** A product photo fills the "point cloud or video" slot, and the FOV diagram has no vehicle. Both are applied as linked unless Lumotive objects.
-6. **Explorer (p06). Resolved in the Page 06 pass:** self-hosted rather than hotlinked; the "(Copy)" title dropped as a documented one-line change. Still open: the missing fallback video, the poster, the intro copy and phone legibility (`page-06-platform.md`, "Open").
+6. **Explorer (p06). Resolved in the Page 06 pass:** self-hosted rather than hotlinked; the "(Copy)" title dropped as a documented one-line change; phones open it in a new tab. Still pending: the missing fallback video, the poster and the intro copy (`page-06-platform.md`, "Open").
 7. **Home application tiles. Decided 2026-10-22:** keep Simon's selection (the same `connect-optical.jpg` on Optical Circuit Switching and Optical Communications). No change.
 8. **Robotics M30 photo.** Simon linked `M30_thumb.jpg` (537×402, with background) for the robotics row; the other three photos are transparent cut-outs. The existing cut-out `m30-dev-kit-contents.webp` (Simon's choice on p12) would match the row. Decide on page 10.
 
@@ -109,7 +109,7 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 - **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (H1 = N1). Decision 2026-10-22: the approved fallback posts stay; nothing is imported or rewritten. **Ask Lumotive:** (a) the LI140/ON140 post copy (its card image is supplied); (b) approval to import the Leopard–Lumotive "Sirius Max" release (PR Newswire, around 24 September 2026; its wording says "beam-steering", against rule 1). Also N2–N5 and N7.
 - **Logos and badges:** Leopard logo (SE5 = D4 = PA2), onsemi (PA3), award badges (AB2), investor list (AB3), Electronic Photonics confirmation (PA4).
 - **Per page:** H2, H3, H5, P4, P5, A3, SE6, SE7, SE9, AU5, T2, T3 flood animation, I3/I8, F2, F3, F4, F7, C3, C4, C6, C7, AB5, AB6, CU1, CU3, PA1, CT1.
-- **New in v4:** the readings in conflicts 2–5 and 8. **For Claudia:** confirm that the p06 "Disregard" withdraws the #125 redraw, so Webvizio #125 can close (it stays open until then). **Explorer:** the fallback video `lcm-animation.mp4`, the poster frame, the intro copy ("Change the phase pattern…": the tool has no phase-pattern control), and phones (in-page or straight to full screen).
+- **New in v4:** the readings in conflicts 2–5 and 8. **For Claudia:** confirm that the p06 "Disregard" withdraws the #125 redraw, so Webvizio #125 can close (it stays open until then). **Explorer:** the fallback video `lcm-animation.mp4`, the poster frame, and the intro copy ("Change the phase pattern…": the tool has no phase-pattern control).
 
 ## Validated v4 files
 
