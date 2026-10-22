@@ -1,5 +1,6 @@
 import { ClientResponseError } from 'pocketbase';
 import type PocketBase from 'pocketbase';
+import { invalidatePublicGlobals } from '$lib/server/public-globals';
 
 export type NavItem = { label: string; href: string };
 
@@ -32,11 +33,14 @@ export async function readGlobal(
 }
 
 /** Create the global on first save, otherwise merge into the stored data.
- *  A form only carries its own fields; a full replace would delete the rest. */
+ *  A form only carries its own fields; a full replace would delete the rest.
+ *  Clears the public-globals cache so anonymous pages show the save at once. */
 export async function putGlobal(pb: PocketBase, key: string, id: string, data: Record<string, unknown>) {
-	if (!id) return pb.collection('globals').create({ key, data });
-	const current = await readGlobal(pb, key);
-	return pb.collection('globals').update(id, { data: { ...current.data, ...data } });
+	const saved = id
+		? await pb.collection('globals').update(id, { data: { ...(await readGlobal(pb, key)).data, ...data } })
+		: await pb.collection('globals').create({ key, data });
+	invalidatePublicGlobals();
+	return saved;
 }
 
 /** Rows arrive as a JSON string in a hidden input. Entirely blank rows are dropped. */
