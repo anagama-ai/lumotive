@@ -86,14 +86,14 @@ In-page playback was confirmed in a **visible Edge window only**, with pause hol
 
 ### Migrations
 
-- **Count:** 100 new migrations, `1787707300` to `1787717300`. All are numbered above `origin/main`'s newest (`1787707200`).
+- **Count:** 101 new migrations, `1787707300` to `1787717400`. All are numbered above `origin/main`'s newest (`1787707200`).
 - **Schema change:** one, the `posts` "Featured" field (`1787707600`).
-- **Content changes:** the other 99 rewrite content in `pages` (90 files), `globals` (9), `redirects` (5) and `posts` (2).
+- **Content changes:** the other 100 rewrite content in `pages` (91 files), `globals` (9), `redirects` (5) and `posts` (2).
 - **Static assets:** every asset a migration references exists in `static/` and is tracked by git. There are no references to uploaded media records.
 - **PocketBase version:** 0.39.11 locally, and 0.39.11 in `Dockerfile.pocketbase`.
 - **They run automatically.** The PocketBase container starts with `pocketbase serve --migrationsDir`, so every pending migration runs when a merge to `main` redeploys staging. There is no manual gate, so the backup and dry-run must happen **before** the merge.
 - **Guard risk:** almost every migration checks the previous value before writing. If a page was edited in the staging CMS, its migration silently does nothing for that section. Only a dry-run shows which.
-- **Local rehearsal, done 2026-10-22.** `scripts/staging-migration-dry-run.mjs` runs steps 3 to 5 below in one command. Against a fresh baseline built from `origin/main`'s 99 migrations with PocketBase 0.39.11: 100 migrations applied; no page, globals, redirect or posts differences from the local reference; `migrate down 100` restored the starting state exactly. A full comparison of the database (23 tables, 261 rows, SQLite schema of both database files) differs only in 16 `updated` timestamps. The first rehearsal failed on Home, which led to the fix in PR dependencies item 6. Report: `%TEMP%\lumotive-staging-rehearsal\run-B\dry-run\report.md`. This does not replace the run on a real staging backup: only that shows staging CMS edits.
+- **Local rehearsal, done 2026-10-22.** `scripts/staging-migration-dry-run.mjs` runs steps 3 to 5 below in one command. Against a fresh baseline built from `origin/main`'s 99 migrations with PocketBase 0.39.11: 100 migrations applied; no page, globals, redirect or posts differences from the local reference; `migrate down 100` restored the starting state exactly. A full comparison of the database (23 tables, 261 rows, SQLite schema of both database files) differs only in 16 `updated` timestamps. The first rehearsal failed on Home, which led to the fix in PR dependencies item 6. Report: `%TEMP%\lumotive-staging-rehearsal\run-B\dry-run\report.md`. Re-run after `1787717400` (Platform phone spacing) was added: 101 applied, no differences, rollback exact (`run-C\report.md`). This does not replace the run on a real staging backup: only that shows staging CMS edits.
 
 **Backup and dry-run, required before the merge:**
 1. **Josh: backup.** Take a staging PocketBase backup (admin UI under Settings → Backups, or a copy of the `/app/pb_data` volume with PocketBase stopped). Send it with its timestamp. Do not use the repo's `pb_data`.
