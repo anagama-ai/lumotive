@@ -183,8 +183,11 @@
 				// simply sits there and can be read. The first one needs it most:
 				// with the old 0.06 lead-in its fall began the moment the panel
 				// pinned, so it was gone within a tenth of the runway and never
-				// read at all. The rise that answers a fall then overlaps it, so
-				// the column crossfades instead of emptying between the two.
+				// read at all. The rise that answers a fall starts with it, on the
+				// same duration and ease, so the two opacities always sum to 1 and
+				// the column crossfades instead of emptying between them. (A 0.18
+				// lag here left a ~96px stretch, at 1024–1440, where both swap
+				// cards sat under 0.5 opacity: QA M1 / P6.)
 				const DWELL = 0.9;
 				let previous: 'rise' | 'fall' | 'tint' | undefined;
 				for (const { el, kind, wideOnly } of beats) {
@@ -194,7 +197,7 @@
 							el,
 							{ opacity: 0, y: 16 },
 							{ opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' },
-							previous === 'fall' ? '<0.18' : '+=0.06'
+							previous === 'fall' ? '<' : '+=0.06'
 						);
 					} else if (kind === 'fall') {
 						// An element that also rises must start hidden; the fall's
