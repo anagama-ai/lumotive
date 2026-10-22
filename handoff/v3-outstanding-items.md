@@ -1,6 +1,8 @@
-# Lumotive website — outstanding items, pages 05–21 (v3)
+# Lumotive website — outstanding items, pages 05–21 (v3, updated for v4)
 
-First audited 2026-10-20; **last updated 2026-10-21** after the v3 passes on pages 05–21, the phone-hero pass, the release cleanup (S11, S13–S18, H6) and one consolidated QA pass. Branch `feedback-20261007-v2`, local only; `vite.config.ts` uncommitted by design.
+First audited 2026-10-20; **last updated 2026-10-22** for the v4 PDF (annotations only, no copy change). Branch `feedback-20261007-v2`, local only; `vite.config.ts` uncommitted by design.
+
+**v4 (2026-10-22):** v4 supplies most of the media listed below, and two requests were withdrawn with "Disregard" (P1, AU4). The page-by-page v4 checklist, the asset validation and the open readings are in `handoff/v4-checklist.md`. In the tables, **Supplied v4** means the file is linked, validated and mapped to its slot but **not yet on the site**. A row becomes Done only when it is implemented and verified in its page pass.
 
 **This file is the single authoritative outstanding list.** It supersedes the client-question list in `handoff/v3-page-checklist-and-home.md` and the "Blockers" sections of the per-page handoffs where they disagree. The three groups below are the working list; the tables after them keep the detail and evidence per ID.
 
@@ -16,17 +18,18 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 5. **News follow block:** press contact email or drop the line (N2); other social channels, or LinkedIn only (N3).
 6. **NM120:** Stella-120 sensor-head power figure (F2); permission to state "NM120 sensor head outputs MIPI" (F3); internals photo (F4).
 7. **Logos and badges:** Leopard Imaging (SE5 = D4 = PA2), onsemi (PA3), award badges (AB2), final investor list and whether Hokuyo belongs (AB3).
-8. **Photos:** LI140 and ON140 kits (R4 = D3 = I7); kit family shots for Dev Kits and iToF (D1, I1); the "Your Application" open-prompt visual or approval to go text-only (A1).
-9. **Media**, with the leads from Simon's notes: Explorer bundle and poster (Gleb, S6); #125 optics graphic (P1); 1D/2D animation ("Ducky", P2); "How LCM fits" GIF and timing ("Robotics deck", L1); three-panel AMR video (Elyar, R2); cocoon graphic ("Automotive deck", AU2); 180° point cloud (Calvin & Sam, AU3); dust/rain images (Calvin, AU4); two illumination animations ("Older decks", T3); clean point-cloud renders (I3); warehouse point cloud and scan diagrams (Calvin, "LI deck", I5, I6); the analytics tool, content and name (S7).
-10. **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (N1 = H1); card images or approval to run without (N4); the first Events post (N5); replacement URLs for four dead source links or approval to remove them (N7).
+8. ~~Photos~~ **Supplied in v4:** LI140 and ON140 (R4 = D3 = I7), the Dev Kits and iToF family shots (D1, I1), and the "Your Application" visual (A1).
+9. **Media:** mostly **supplied in v4**: Explorer (S6), 1D/2D video (P2), "How LCM fits" visual (L1), three-panel video (R2), cocoon diagram (AU2), 180° slot photo (AU3), ROI animation (T3), warehouse point cloud (I5), scan-modes art (I6). **Withdrawn ("Disregard"):** #125 optics graphic (P1), dust/rain images (AU4). **Still open:** the flood-illumination animation, or confirmation that one GIF covers both slots (T3); whether the outdoor video replaces the slide image or clean renders still come (I3); the analytics tool, its content and name (S7).
+10. **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (N1 = H1). The LI140/ON140 card image is supplied in v4 but its copy is not. The Leopard release is public on PR Newswire (around 2026-09-24): import it? Also card images or approval to run without (N4), the first Events post (N5), and replacement URLs for four dead source links or approval to remove them (N7).
 
 **Decide or confirm**
 - Hero framing: About desktop crop (AB6), Partners module behind the headline (PA1), Culture source IMG_4516 vs lumotive.com's IMG_4575 (CU1).
-- Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). Kit rows on Robotics (R5) and the Dev Kits iToF row (D6) wait for the LI140/ON140 photos.
-- TX10 still versus the #129 animation (T2); the new HDR video also on dToF (F5); Google citation source (C6).
+- Status labels: publish or drop (S8). Provider strip now with 3 of 4 logos, or wait for Leopard (SE6, D4). The LI140/ON140 photos are supplied in v4, so the Robotics kit row (R3) and the Dev Kits iToF row (D6) are now ours.
+- TX10 still versus the #129 animation (T2); Google citation source (C6). F5 is answered in v4: the HDR video serves dToF too.
+- v4 readings to confirm (conflicts 2–8 in `v4-checklist.md`): one visual on LCM Chips, the merged GIF on Transmit, the static scan-modes art, Automotive's photo and diagram, Explorer hosting and fallback, the duplicate Home tile photo, the Robotics M30 photo.
 - Heading tracking for Webvizio #138 (S18): band hero headlines moved from −0.055em to −0.03em to stop touching glyphs; close #138 only after review.
 - Contact: preselecting "I am interested in" is not possible from the page (S4); inquiry values (S5).
-- Smaller confirmations: H2, H3, H5, P4, P5, A3, SE7, SE9, I4, C3, C4, C7, F7, AB5, CU3, PA4, S9, S10, S12.
+- Smaller confirmations: H2, H3, H5, P4, P5, A3, SE7, SE9, C3, C4, C7, F7, AB5, CU3, PA4, S9, S10, S12.
 
 ## B. Our remaining work
 
@@ -39,7 +42,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 4. **Platform swap-card band** re-check (P6).
 5. **Social preview image**: propose a default for approval (S12); map the open Webvizio image tasks with Claudia (S10).
 6. **`vite.config.ts`**: commit on its own or drop (S25).
-7. **Once inputs land:** P3/CT4 (Explorer), L2, I6, R2 layout, R3 with R4, D3 photos, AU2–AU4, T3, F2–F4 together, N6 follow block, LinkedIn wiring (S1).
+7. **v4 inputs to implement, page by page (06–15):** P2, P3 then CT4 (Explorer), L1, A1, R2, R3, AU2, AU3, D1, D3/D6, T3 (ROI slot), I1, I4, I5, I6, I7, F5. **Still waiting on inputs:** F2–F4 together, the N6 follow block, LinkedIn wiring (S1).
 
 ## C. Staging and release blockers (Josh + us)
 
@@ -58,6 +61,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 - Each annotated image was compared by perceptual hash against all 202 images in `static/lumotive/` and against the CMS record that uses it, so "supplied but not yet used" is separated from "missing".
 - Vimeo titles were read from oEmbed. CMS state is the local PocketBase (`pages`, `globals`, `redirects`, `posts`).
 - v3 copy deltas on pages 09–21 (five "beam steering" → "beamforming" strings on 09, 12, 13, 14) are **all live**. "beam steering" appears in no page record.
+- v4 PDF (`…20261007 v4.pdf`, 2026-10-22): the v3→v4 text diff is empty on all 21 pages. All 24 new notes (Simon and `wscgr`) were mapped from page renders; 17 linked files and videos were fetched, decoded and hashed against the 224 images in `static/`. See `v4-checklist.md`.
 
 ## Legend
 
@@ -77,7 +81,7 @@ Nothing here can be finished on our side without it. Each item may ship omitted 
 | S3 | Contact-form hidden fields (inquiry, source page, campaign) | Tech | Missing | Pipedrive admin adds three Text custom fields and three **Hidden fields** on the web form, value source "JavaScript variable", names exactly `inquiry`, `source_page`, `campaign`, then publishes; also adds them to the notification email. No API keys needed. The site side is rebuilt (2026-10-21) and proven through Pipedrive's loader; until the form is configured, no submission carries the values. Then one consented staging test submission (S28). | Lumotive Pipedrive admin (via Josh) | Yes | `FormPipedrive.svelte`; `page-21-contact.md` v3 pass |
 | S4 | Preselect "I am interested in" from `?inquiry=` | Decision | Verify | Optional per page 02. Not possible from the page: JavaScript variables only fill hidden fields, and Pipedrive does not prefill visible fields from the URL. Drop it, or ask Pipedrive / use separate forms per inquiry? | Lumotive | No | `page-21-contact.md` v3 pass |
 | S5 | Inquiry value list | Decision | Verify | (a) Three iToF "Talk to us about…" actions currently send `itof-evaluation`; add separate values? (b) Approved values `media` and `careers` have no CTA using them (News has no media CTA; Culture links straight to Lever). Keep, wire or drop? | Lumotive (Apurva) | No | `page-14-itof-dev-kits.md` l.40–45; QA M3 |
-| S6 | Interactive LCM Explorer (`/lcm-explorer/`, Platform section, Contact card) | Asset | Missing | Self-contained HTML/WebGL bundle (Gleb Akselrod's "Lumotive LCM animation", rev 1) plus a 16:9 poster frame. | Lumotive (Gleb Akselrod) | Yes | PDF p01, p03; no bundle in repo or Downloads |
+| S6 | Interactive LCM Explorer (`/lcm-explorer/`, Platform section, Contact card) | Asset | **Supplied v4** | v4 p06: an embed snippet iframing `lumotive.com/…/2026/10/LCM_animation.html` (973 KB, self-contained three.js/WebGL 2, poster inline). To self-host at `/lcm-explorer/` in the page 06 pass, because lumotive.com is replaced at launch. The video it shows browsers without WebGL 2 (`media/lcm-animation.mp4`) returns 404: request it, or accept the poster alone there. | Us (page 06) | Yes | `v4-checklist.md` p06 |
 | S7 | Virtual sensor analytics tool (hidden page) | Asset | Missing | The tool or its content, plus its final name. Built noindex and unlinked. | Lumotive | No (hidden) | PDF p01, p04 |
 | S8 | Application status labels "In production / In development / Active programs / Exploring" (Home, Applications) | Decision | Verify | They conflict with global rule 1 (no availability or roadmap). v3 reprints them unchanged. Publish as printed, or drop? Currently omitted. | Lumotive (Apurva) | Yes | PDF p05, p08; `1787709500` header |
 | S9 | No-contractions rule vs approved copy | Decision | Verify | Two approved strings contain contractions: Home eyebrow "What's new" (printed on PDF p05) and About mission "redefining what's possible" (KEEP AS IS). Keep, or reword? | Lumotive (Claudia) | No | CMS `home#e7b40d12`, `about#4e30aac9` |
@@ -129,7 +133,7 @@ The low spots previously listed here (Transmit, LCM Chips, and the 768 lows on H
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| H1 | Latest From Lumotive | Asset | Missing | Same as N1: the Leopard Imaging and LI140/ON140 posts in the mock do not exist. The section correctly shows the real featured post plus the latest press releases. | Lumotive | No (Home) | `posts.server.ts`; PDF p05 |
+| H1 | Latest From Lumotive | Asset | Missing (image supplied v4) | Same as N1. v4 supplies `LI140-ON140-iToF.png` for the LI140/ON140 card; it is held, because the post and its copy do not exist and no placeholder post is made. The section correctly shows the real featured post plus the two newest press releases. | Lumotive | No (Home) | `posts.server.ts`; PDF p05; `v4-checklist.md` |
 | H2 | Latest From Lumotive — 2D photonic chip post image | Decision | Verify | Simon linked the OCS-ports-and-lasers photo; it is applied. Confirm it is intended for a 2D-beamforming-chip story. | Lumotive (Simon) | No | p05 A7 |
 | H3 | Hero | Decision | Verify | Simon linked Vimeo 1040214357 at the hero, but the printed note says keep the existing video. Kept. Confirm. | Lumotive (Simon) | No | p05 A1 |
 | H4 | Application tiles | Decision | Verify | Status labels; see S8. | Lumotive | Yes | PDF p05 |
@@ -141,9 +145,9 @@ The low spots previously listed here (Transmit, LCM Chips, and the 768 lows on H
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| P1 | Traditional optics flow graphic (#125) | Asset | Missing | Corrected artwork showing mirrors and prisms as well as lenses. The current lens-only graphic is knowingly wrong. | Lumotive | Yes | PDF p04 |
-| P2 | From 1D to 2D Beamforming | Asset | Missing | 1D-line / 2D-spot animation. Simon's note "Ducky video" is a lead, not a file. Section ships one-column. | Lumotive | Yes | p06 A3 |
-| P3 | See LCM in Action (Explorer) | Asset | Missing | See S6. Then ours: host at `/lcm-explorer/`, click-to-load poster/iframe, full-screen link, iOS check. | Lumotive → Us | Yes | PDF p03 |
+| P1 | Traditional optics flow graphic (#125) | Asset | **Withdrawn v4** | Simon wrote "Disregard" on the #125 redraw. The live flow graphic stays. Confirm Webvizio #125 can close. | Lumotive (Simon) | No | v4 p06 |
+| P2 | From 1D to 2D Beamforming | Asset | **Supplied v4** | Vimeo 1237753837 "Ducky_v6" (16:9, 1:41). Page 06 pass: printed two-column layout, click-to-play, in-page check. | Us (page 06) | Yes | v4 p06 |
+| P3 | See LCM in Action (Explorer) | Asset | **Supplied v4** | See S6. Then: host at `/lcm-explorer/`, click-to-load poster/iframe, full-screen link, iOS check. | Us (page 06) | Yes | v4 p06 |
 | P4 | Hero | Decision | Verify | Simon linked Vimeo 1040214357; printed "KEEP AS IS · Existing hero image" was kept. Confirm. | Lumotive (Simon) | No | p06 A2 |
 | P5 | Dynamic Scanning body | Decision | Verify | Held clause cut to "Optical beamforming with Lumotive LCMs lights the way…" under the v3 naming rule. Confirm wording. | Claudia | No | `1787712800` |
 | P6 | Swap-card band (QA M1) | Ours | Verify | Re-check the ~100px band where both swap cards sat under 0.5 opacity; fix if still present. | Us | No | QA phase-1 M1 |
@@ -153,8 +157,8 @@ The low spots previously listed here (Transmit, LCM Chips, and the 768 lows on H
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| L1 | From Fixed Sensors to Programmable Eyes | Asset | Missing | Looping system animation (deck GIF) and its real scan sequence/timing. Simon: "Robotics deck" (lead only). | Lumotive | Yes | p07 A3 |
-| L2 | Same section | Ours | Do (after L1) | GIF → MP4/WebM + poster; author the SVG angle-vs-time timeline synced to it (dwell, beam width, frame rate, sequence); two-panel layout; reduced-motion. | Us | Yes | PDF p03 Other Behaviors |
+| L1 | From Fixed Sensors to Programmable Eyes | Asset | **Supplied v4** | `lcm-programmable-eyes.gif` (1000×605, 148 frames, 12.3 s). Simon: "This is one visual". It replaces both printed panels. | Us (page 07) | Yes | v4 p07 |
+| L2 | Same section | Ours | Do (page 07) | GIF → MP4/WebM + poster, reduced motion, one-visual layout. The SVG timeline is no longer authored (the GIF contains it). The GIF's baked-in captions repeat printed copy: confirm (v4 conflict 2). | Us | Yes | `v4-checklist.md` |
 
 Client-requested change (2026-10-21, not in v3): the hero is now a full-width band with the same chip photo, copy and inquiry links (`1787715100`); details and measurements in `page-07-lcm-chips.md`. Phone body low of 4.02:1 at 360 (brightest pixel) added to S26.
 
@@ -162,7 +166,7 @@ Client-requested change (2026-10-21, not in v3): the hero is now a full-width ba
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| A1 | One Platform, Many Applications — "Your Application" card | Asset | Missing | "Image: open prompt" has no link. Supply it, or approve the text-only card (its title sits higher than its photographed neighbours on desktop). | Lumotive | No | PDF p08 |
+| A1 | One Platform, Many Applications — "Your Application" card | Asset | **Supplied v4** | `Wireless.jpg` (892×592, the same size as the other card photos), linked by `wscgr`. Page 08 pass. | Us (page 08) | No | v4 p08 |
 | A2 | Same grid | Decision | Verify | Status labels; see S8. | Lumotive | Yes | — |
 | A3 | Same grid — 3D Sensing, Defense photos | Decision | Verify | Simon's photos (warehouse AMRs; quadruped robot with soldiers) differ from the printed descriptions (quadruped + delivery robot; drones and vessel). Applied as linked. Confirm. | Lumotive (Simon) | No | p08 A1, A3 |
 | A4 | Programmable Optics in Motion | Ours | Verify (in S20) | In-page playback of 1227505713; see S19. | Us | No | — |
@@ -184,9 +188,9 @@ Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video plac
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| R2 | One Sensor, Three Jobs | Asset | Missing | Three-panel AMR demo video (localization / cliff / full field). Simon: "Elyar's video", a name only: no file or URL, and nothing matching in the repo or Downloads (checked 2026-10-20). Its approved caption is held with it. Then ours: printed split layout, poster plus click-to-play, in-page playback check. | Lumotive (Elyar) → Us | Yes | p10 A4 |
-| R4 | Kits for Robotics | Asset | Missing | LI140 sensor-head and ON140 photos ("from Q4 flyer"); none annotated or in the repo. | Lumotive | Yes | PDF p10 |
-| R3 | Kits for Robotics | Ours | Do (after R4) | Add all four photos together: M30 from [M30_thumb](https://lumotive.com/wp-content/uploads/2022/10/M30_thumb.jpg) (not in the repo), NM120 as the existing `nm120-sensor.jpg` (identical to A3). Add a contained "photo on light grey panel" frame option to `cardsMediaCards` per the p03 kit-card spec. | Us | No | p10 A2, A3 |
+| R2 | One Sensor, Three Jobs | Asset | **Supplied v4** | Vimeo 1237762150 "Lumotive: One Sensor, Three Jobs" (16:9, 1:09). Page 10 pass: printed split layout, poster plus click-to-play, in-page playback check; then its held caption ships. | Us (page 10) | Yes | v4 p10 |
+| R4 | Kits for Robotics | Asset | **Supplied v4** | `LI140.png`, `ON140.png` (2500×1667 cut-outs), linked by `wscgr`. | — | — | v4 p10 |
+| R3 | Kits for Robotics | Ours | Do (page 10) | Add all four photos together on the grey panel. M30: Simon linked `M30_thumb.jpg` (537×402, with background); the existing cut-out `m30-dev-kit-contents.webp` would match the row (v4 conflict 8). NM120 is the existing `nm120-sensor` file. | Us | No | p10 A2, A3 |
 
 Resolved on this page by `1787713400` (and `1787713600` for R6):
 - R1 hero: now the existing `market-agv.jpg`, identical to A1.
@@ -201,9 +205,9 @@ Resolved on this page by `1787713400` (and `1787713600` for R6):
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| AU2 | A Programmable Cocoon Around the Vehicle | Asset | Missing | Top-down graphic, vehicle with 10/20/50 m rings from corner sensors. Simon: "Automotive deck", a lead only; nothing matching in the repo or Downloads (checked 2026-10-20). | Lumotive | Yes | p11 A2 |
-| AU3 | First Solid-State 180° dToF Lidar at 30 FPS | Asset | Missing | 180° point cloud or video. Simon: "Stella-180 video from tradeshows? (talk to Calvin & Sam)", a question and lead, not a file. If it arrives as video: poster plus click-to-play, then verify in-page playback. | Lumotive (Calvin, Sam) | Yes | p11 A3 |
-| AU4 | Built for Real-World Conditions | Asset | Missing | Heavy-dust and rain multi-return images (first, second, combined). Simon: "Aramco rain testing – ask Calvin", a lead only. | Lumotive (Calvin) | Yes | p11 A4 |
+| AU2 | A Programmable Cocoon Around the Vehicle | Asset | **Supplied v4** | `lumotive-fov-regions-scaled.png` (2560×1256): side and top views of near, mid and far fields (10/20/50 m) with no vehicle drawn. Applied as linked unless Lumotive objects. | Us (page 11) | Yes | v4 p11 |
+| AU3 | First Solid-State 180° dToF Lidar at 30 FPS | Asset | **Supplied v4** | `IMG_9388` (the MD180 product photo) in place of a point cloud or video; it is the same photo as the existing `kit-md180.webp`, so it is reused. | Us (page 11) | Yes | v4 p11 |
+| AU4 | Built for Real-World Conditions | Asset | **Withdrawn v4** | "Disregard" on the dust/rain image row. The section ships as it does today: copy and five cards with no images. | — | — | v4 p11 |
 | AU5 | Hero | Asset | Verify (optional) | The supplied render is 1280×719 (the original upload) and is upscaled about 1.6× by the desktop framing. A larger original would sharpen it. | Lumotive | No | `page-11-automotive.md` |
 
 Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` with desktop framing (`mediaShift 20%`, `mediaScale 1.4`) so the car clears the headline. Copy verified verbatim against v3.
@@ -212,9 +216,9 @@ Resolved on this page by `1787713500`: AU1 hero, live as `hero-automotive.webp` 
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| D1 | Hero | Asset | Missing | Kit family photo; not annotated. The incumbent bench photo stays meanwhile. | Lumotive | No | PDF p12 |
-| D3 | Find Your Dev Kit · iToF | Asset | Missing | ON140 and LI140 photos (same delivery as R4/I7). | Lumotive | Yes | PDF p12 |
-| D6 | Find Your Dev Kit · iToF | Decision | Decided (temporary) | Review decision 2026-10-21: all three iToF cards stay text-only until ON140/LI140 photos arrive; then add all three (M30 from A2) on the grey panel. Revisit only if those photos stay unavailable. | Us (decided) | No | `page-12-dev-kits.md` |
+| D1 | Hero | Asset | **Supplied v4** | `Lineup.png` (2500×1667 cut-out, five kits), linked by `wscgr`. Page 12 pass. | Us (page 12) | No | v4 p12 |
+| D3 | Find Your Dev Kit · iToF | Asset | **Supplied v4** | `ON140.png` (card 1), `LI140.png` (card 2). | Us (page 12) | Yes | v4 p12 |
+| D6 | Find Your Dev Kit · iToF | Ours | Do (page 12) | The decision of 2026-10-21 now applies: add all three photos on the grey panel, M30 as the existing `m30-dev-kit-contents.webp`. | Us | No | `page-12-dev-kits.md` |
 | D4 | Module and Solution Providers | Asset/Decision | Missing | Not built here. See SE5 (Leopard logo) and SE6 (ship 3 of 4 now?). | Lumotive / Claudia | Yes | PDF p12 |
 
 Resolved on this page by `1787713700`:
@@ -227,7 +231,7 @@ Resolved on this page by `1787713700`:
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
 | T2 | Hero — #129 | Decision | Verify | #129 asks for an *animation* labelling the Tx optics. Simon supplied a still (TX10 in hand), now live. Does the still close #129, or is the animation still wanted? #129 stays open until decided. | Lumotive (Simon) | Yes | PDF p13, p04 |
-| T3 | Programmable Illumination for a Dynamic World | Asset | Missing | Two animations: flood illumination; non-sequential ROI pulses with a sharpening point cloud. Simon: "Older decks", a lead only; nothing matching in the repo. Section ships its approved copy and five cards. | Lumotive | Yes | p13 A2 |
+| T3 | Programmable Illumination for a Dynamic World | Asset | **Partly supplied v4** | `RandomScanOrderWarehouse.gif` (1923×1384, 12 frames, 3.6 s; "#154 + #155 merged") is the ROI-pulse animation. Still needed: the flood-illumination animation, or confirmation that this one GIF replaces both slots (v4 conflict 3). | Lumotive (Simon) → Us | Yes | v4 p13 |
 
 Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp` (A1) with the phone-only strong shade, which raised the measured body contrast over 4.5:1 at the 99th percentile (screenshot measure; brightest pixel still lower, see S26). Copy verified verbatim against v3.
 
@@ -235,12 +239,12 @@ Resolved on this page by `1787713800`: T1 hero, live as `hero-tx10-in-hand.webp`
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| I1 | Hero | Asset | Missing | "Kit photos: LI140, ON140, M30" family shot; not annotated. Incumbent M30 photo stays. | Lumotive | No | PDF p14 |
-| I3 | Better Data, Safer Robots | Asset | Missing | Clean flash / LCM / stereo point-cloud renders without the slide header, footer and confidentiality line. | Lumotive | Yes | PDF p04, p14 |
-| I4 | Same | Decision | Verify | Simon's note reads only "Vimeo:" with no link. Which video was meant? 1053591397 is already linked. | Lumotive (Simon) | No | p14 A3 |
-| I5 | High-Resolution Depth Across a Wide Field | Asset | Missing | Warehouse shelving point cloud, full 140° × 105°, high resolution. Simon: "LI deck (ask Calvin)". | Lumotive (Calvin) | Yes | p14 A4 |
-| I6 | Software-Defined Scanning | Asset | Missing | Top-down scan diagram artwork per mode. Simon: "LI deck page 2". Then ours: five-tab selector with animated wedge. | Lumotive (Calvin) → Us | Yes | p14 A5 |
-| I7 | LI140 and ON140 sections | Asset | Missing | LI140 sensor-head and ON140 bench-top photos (see R4). Not annotated in v3. The two kit openers stay text-only until they arrive; each is its own section, so the M30 opener keeps its photo. | Lumotive | Yes | PDF p14 |
+| I1 | Hero | Asset | **Supplied v4** | `LI140-ON140-M30.png` (2500×1667 cut-out), linked by `wscgr`. | Us (page 14) | No | v4 p14 |
+| I3 | Better Data, Safer Robots | Asset | Verify | v4 notes Vimeo 1053591397 on the slide image. Does the video replace the slide, or do clean renders still come? | Lumotive (Simon) | Yes | v4 p14 |
+| I4 | Same | Decision | **Answered v4** | The video is 1053591397 "LCM-based iToF Sensor Performance Outdoors" (1:08), today only a text link. Page 14 pass. | Us (page 14) | No | v4 p14 |
+| I5 | High-Resolution Depth Across a Wide Field | Asset | **Supplied v4** | `High-Resolution-Depth-Across-a-Wide-Field.png` (1620×984, depth map and point cloud, labels baked in); also the ON140 shared frame. | Us (page 14) | Yes | v4 p14 |
+| I6 | Software-Defined Scanning | Asset | **Supplied v4** | `lumotive-scan-modes-scaled.png` (2560×909): one static strip of all five modes with specs baked in, not per-mode art. Decide between a static image and per-mode crops behind the tabs (v4 conflict 4). | Us → Claudia | Yes | v4 p14 |
+| I7 | LI140 and ON140 sections | Asset | **Supplied v4** | `LI140.png`, `ON140.png` for the two kit openers. | Us (page 14) | Yes | v4 p14 |
 | I8 | Secondary actions | Decision | Verify | See S5(a). | Apurva | No | — |
 
 Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1174547871/6e198e52ae, "Lumotive - AGV AMR", 16:9) now plays in-page in "See It on Your Bench", right-hand as printed. A1 (M30 with kit contents) was already live as `m30-dev-kit-contents.jpg`, re-verified identical to IMG_7224. Copy verified verbatim against v3.
@@ -252,7 +256,7 @@ Resolved on this page by `1787714100`: I2, Simon's compact M30 AMR clip (Vimeo 1
 | F2 | NM120 spec tiles — POWER | Asset | Missing | Stella-120 sensor-head power figure (the `[X] W` placeholder is unpublishable). | Lumotive | Yes | PDF p04, p15 |
 | F3 | NM120 spec tile INTERFACE + "Modular by Design" | Decision | Missing | Confirm "NM120 sensor head outputs MIPI" may be stated publicly; the tile and whole section rest on it. | Lumotive | Yes | PDF p04, p15 |
 | F4 | Modular by Design | Asset | Missing | NM120 internals photo, enclosure removed, head and compute board separate. | Lumotive | Yes | PDF p15 |
-| F5 | HDR Without Losing Frame Rate | Decision | Verify | Simon: "Check with Elyar for new HDR demo". The new "Lumotive HDR" Vimeo 1235957120 (2026-10-14) annotated on page 09 matches the printed description. Confirm it serves both pages. | Lumotive (Elyar) | Yes | p15 A3; p09 A6 |
+| F5 | HDR Without Losing Frame Rate | Decision | **Answered v4** | Simon linked Vimeo 1235957120 "Lumotive HDR" here too: one video serves `/sense` and `/dev-kits/dtof`. Page 15 pass: embed, then the in-page check. | Us (page 15) | Yes | v4 p15 |
 | F6 | Track Fast-Moving Objects | Ours | Verify (in S20) | Content confirmed from the Vimeo thumbnail of 1102359216 (basketball at 90°/10 fps, 40°/22 fps, 10°/80 fps). Remaining: in-page playback in a real browser; see S19. | Us | No | p15 v3 QA |
 | F7 | Outdoor application row (#160) | Asset | Verify | Icons for five use cases: supply, or approve the accent-ruled text cards. | Lumotive | No | `page-15` handoff |
 
@@ -306,7 +310,7 @@ Resolved on this page by `1787715000`: hero live as `hero-partners-lcm.webp` fro
 
 | ID | Section | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| N1 | Posts | Asset | Missing | Leopard Imaging announcement, LI140 and ON140 kits, VISION 2026: copy, date, category, image. Simon's Leopard photo is supplied, the copy is not. | Lumotive | Yes | PDF p04; p05 A2 |
+| N1 | Posts | Asset | Missing | Leopard Imaging announcement, LI140 and ON140 kits, VISION 2026: copy, date, category, image. Images are supplied (Leopard v3, LI140/ON140 card v4); the copy is not. The Leopard–Lumotive "Sirius Max" release is public (PR Newswire, around 2026-09-24); import it with approval? Its wording says "beam-steering" (rule 1). | Lumotive | Yes | PDF p04; p05 A2; `v4-checklist.md` |
 | N2 | Stay Up to Date | Asset | Missing | Press contact email, or approval to drop the line. | Lumotive | Yes | PDF p20 pending box |
 | N3 | Stay Up to Date | Decision | Missing | Social channels beyond LinkedIn, or confirm LinkedIn only. | Lumotive | Yes | PDF p20 pending box |
 | N4 | Card images (72 of 112 posts have none) | Decision + Asset | Verify | (a) Sign off reuse of announcement visuals on 35 coverage posts; (b) article images or nominated product shots for 24 pieces; (c) visuals for 13 press releases from 2019–21, or approval to run them without. | Lumotive | Yes | `page-20-news.md` l.117–198 |
@@ -323,7 +327,7 @@ v3 pass 2026-10-21: empty v2→v3 diff and no Simon annotations, so no content o
 | CT1 | Lumotive Offices | Asset | Missing | Which address is wrong and the correct one (#137). | Lumotive | Yes | PDF p04, p21 |
 | CT2 | Form hidden fields | Tech | Missing | Pipedrive configuration; see S3, then S28. | Lumotive | Yes | — |
 | CT3 | Follow line | Tech | Verify | See S1. | Lumotive | Yes | — |
-| CT4 | Not Ready to Reach Out — "See LCM in action" | Ours | Do (after S6) | Point to `/lcm-explorer/` once hosted (now `/platform`). | Us | No | `page-21-contact.md` l.62 |
+| CT4 | Not Ready to Reach Out — "See LCM in action" | Ours | Do (after page 06) | Point to `/lcm-explorer/` once it is hosted (the Explorer is supplied in v4; now `/platform`). | Us | No | `page-21-contact.md` l.62 |
 
 v3 pass 2026-10-21: empty v2→v3 diff, no Simon annotations, no content change. The v2 hidden-field plumbing (query parameters on the form URL) would have corrupted Pipedrive's embed URL and lost the source page on internal clicks; rebuilt on Pipedrive's JavaScript-variable mechanism (`window.pd_webform`), proven for direct, UTM, CTA-click, header-click and same-page cases with all outbound writes blocked. Pipedrive validation (required fields, email format) verified without submitting.
 

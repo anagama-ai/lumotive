@@ -1,0 +1,149 @@
+# v4 review — page checklist and Page 05 record
+
+Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (21 pages, modified 2026-10-20), compared with v3, this branch (`feedback-20261007-v2`, local PocketBase) and `handoff/v3-outstanding-items.md`. Reviewed 2026-10-22.
+
+**Status words used here**
+- **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
+- **Implemented and verified**: live on the local site and checked. Nothing from v4 is in this state yet (see Page 05).
+- **Held**: supplied, but it cannot be used yet; the reason is given.
+- **Closed by "Disregard"**: the client withdrew the request.
+- **Awaiting**: client input still needed.
+
+## What v4 changes
+
+- **Copy:** none. The text of all 21 pages is identical to v3. Pages 01–04 (directions, navigation, components, asset inventory) and 16–21 have no change.
+- **Annotations:** 24 new notes on pages 05–15, from Simon and one other reviewer (`wscgr`). They contain 22 links to 17 distinct files and videos (one of them inside an embed snippet, one inside the clarification "This is one visual") and two "Disregard" notes. Every v3 note that was only a lead ("Ducky video", "Elyar's video", "Automotive deck", "LI deck", "Older decks", "Robotics deck", "Check with Elyar…") has been replaced by a real link or by "Disregard".
+- **Validation:** every linked file answers 200 and decodes; the videos are public (Vimeo oEmbed). Each image was compared by perceptual hash with the 224 images in `static/`. Only one new link matches a file we already have: IMG_9388 is the existing `kit-md180.webp`. Details are in "Validated v4 files" below.
+- **Self-hosting:** the files sit on lumotive.com's WordPress, which this site replaces at launch. As in v3, every file must be copied into the repo. Simon's Explorer snippet hotlinks lumotive.com and would break at cutover.
+
+## Page by page
+
+### 05 Home `/`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| Latest From Lumotive, card 2 "Kit photo" (LI140/ON140 dev kits) | `LI140-ON140-iToF.png` | New asset | H1 = N1 | **Held.** The LI140/ON140 post does not exist and no copy was supplied. Not added to the repo. |
+| Hero, cards, Latest cards 1 and 3, application tiles, investor strip, closing CTA, footer | unchanged from v3 | — | H2, H3, H5, S8 | v3 work stands; open questions unchanged |
+
+### 06 Platform `/platform`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| Light Control Metasurface™ Optical Beamforming Technology: the "update the traditional optics side (#125)" graphic | **"Disregard"** | Disregard | P1 | **Closed.** Reading: the #125 redraw is withdrawn and the live flow graphic stays [inference]. Confirm whether Webvizio #125 can be closed. |
+| From 1D to 2D Beamforming | Vimeo 1237753837 "Ducky_v6" (16:9, 1:41) | Now supplied | P2 | Supplied. Page 06: printed two-column layout, click-to-play, in-page check. |
+| See LCM in Action | Embed snippet: iframe of `…/2026/10/LCM_animation.html` | Now supplied | S6 = P3 (+ CT4) | Supplied. A 973 KB self-contained HTML file (three.js/WebGL 2, fonts and poster inline; it pauses itself under reduced motion). The video it shows browsers without WebGL 2, `media/lcm-animation.mp4`, returns 404 on lumotive.com, and its title reads "(Copy)". Page 06: self-host at `/lcm-explorer/` per the p03 spec, then CT4. |
+| Hero; Two Chips LM10 photo | unchanged | — | P4 | Unchanged |
+
+### 07 LCM Chips `/lcm-chips`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| From Fixed Sensors to Programmable Eyes | `lcm-programmable-eyes.gif` (1000×605, 148 frames, 12.3 s) + **"This is one visual"** | Now supplied + clarification | L1, L2 | Supplied. One animation replaces both printed panels (system loop and SVG timeline), so we no longer author the SVG timeline (L2). Page 07: GIF → MP4/WebM + poster, reduced motion. The GIF bakes in its own labels and three captions; see conflict 2. |
+| Hero; LM10/LS20 column photos | unchanged | — | — | The client-requested full-width band hero stays (conflict 1) |
+
+### 08 Applications `/applications`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| One Platform, Many Applications: "Your Application" (open prompt) | `Wireless.jpg` (892×592, same size as the other 2024/03 card photos) | Now supplied (`wscgr`) | A1 | Supplied. Also fixes the card's title sitting higher than its neighbours on desktop. |
+| Other cards, videos | unchanged | — | A3, S8, A4 | Unchanged |
+
+### 09 Sense `/sense`
+No v4 change. SE5, SE6, SE7, SE9 and SE10 remain open.
+
+### 10 Robotics `/sense/robotics`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| One Sensor, Three Jobs | Vimeo 1237762150 "Lumotive: One Sensor, Three Jobs" (16:9, 1:09) | Now supplied | R2 | Supplied. Page 10: printed split layout, click-to-play. |
+| Kits for Robotics: LI140 (card 3), ON140 (card 4) | `LI140.png`, `ON140.png` (2500×1667 transparent cut-outs) | Now supplied (`wscgr`) | R4 → R3 | Supplied. All four photos can now go in together. Note: Simon's M30 for this row is `M30_thumb.jpg` (537×402, with background), unlike the three cut-outs; see conflict 8. |
+
+### 11 Automotive `/sense/automotive`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| A Programmable Cocoon Around the Vehicle | `lumotive-fov-regions-scaled.png` (2560×1256) | Now supplied | AU2 | Supplied. A side and top view of near, mid and far fields (10/20/50 m) from one sensor, with no vehicle drawn; the printed placeholder describes a vehicle with corner sensors. |
+| First Solid-State 180° dToF Lidar at 30 FPS | `IMG_9388-1-copy-2.png` (MD180 product photo) | Now supplied | AU3 | Supplied: a product photo in place of the printed "180° point cloud or video". It is the same photo as our `kit-md180.webp`, so we reuse it. |
+| Built for Real-World Conditions: heavy dust and rain image row | **"Disregard"** (on the image row, where v3 said "Aramco rain testing – ask Calvin") | Disregard | AU4 | **Closed.** The section keeps its copy and five cards with no image row, which is how it ships today (verified: no images in the section). |
+
+### 12 Dev Kits `/dev-kits`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| Hero (hub page) | `Lineup.png` (2500×1667 cut-out; five kits) | Now supplied (`wscgr`) | D1 | Supplied |
+| Find Your Dev Kit, iToF row: ON140 (card 1), LI140 (card 2) | `ON140.png`, `LI140.png` | Now supplied (`wscgr`) | D3 → D6 | Supplied. The decision recorded in D6 now applies: add all three iToF photos on the grey panel, with M30 as the existing `m30-dev-kit-contents.webp` (= Simon's IMG_7224). |
+| TX10, NM120, MD180 photos | unchanged | — | — | Live |
+
+### 13 Transmit Modules `/dev-kits/transmit-modules`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| Programmable Illumination for a Dynamic World ("#154 + #155 merged") | `RandomScanOrderWarehouse.gif` (1923×1384, 12 frames, 3.6 s), placed between the two animation slots | Partly supplied | T3 | Supplied for the ROI slot: the beam pulses through regions while a warehouse point cloud fills in. **Awaiting:** the flood-illumination animation, or confirmation that this one GIF replaces both slots (conflict 3). |
+| Hero | unchanged | — | T2 | Unchanged |
+
+### 14 iToF Dev Kits `/dev-kits/itof`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| Hero | `LI140-ON140-M30.png` (2500×1667 cut-out) | Now supplied (`wscgr`) | I1 | Supplied |
+| Better Data, Safer Robots | Vimeo 1053591397 "LCM-based iToF Sensor Performance Outdoors" (1:08), noted on the point-cloud slide | Clarification | I4, I3 | I4 is answered (this is the video meant). It is only a text link on the page today. Open: does the video replace the slide image, or do clean renders (I3) still come? |
+| LI140 opener; ON140 opener | `LI140.png`, `ON140.png` | Now supplied (`wscgr`) | I7 | Supplied |
+| High-Resolution Depth Across a Wide Field; ON140 shared point cloud | `High-Resolution-Depth-Across-a-Wide-Field.png` (1620×984; depth map and point cloud side by side, labels baked in) | Now supplied | I5 | Supplied for both slots |
+| Software-Defined Scanning | `lumotive-scan-modes-scaled.png` (2560×909) | Now supplied | I6 | Supplied as **one static strip** of all five modes with their specs baked in, not per-mode artwork (conflict 4) |
+| M30 section | unchanged | — | — | Live |
+
+### 15 dToF Dev Kits `/dev-kits/dtof`
+| Section | v4 | Type | v3 ID | State |
+|---|---|---|---|---|
+| NM120: HDR Without Losing Frame Rate | Vimeo 1235957120 "Lumotive HDR" (the same video as `/sense`) | Now supplied / decision answered | F5 | Supplied. It serves both pages. |
+| Spec tiles, Modular by Design, outdoor row | unchanged | — | F2, F3, F4, F7 | Awaiting |
+
+### 16–21 Connect, About, Culture, Partners, News, Contact
+No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, AB3, AB5, AB6, CU1, CU3, PA1, PA3, PA4, N1–N5, N7, CT1) are unchanged. The contact-form spacing (`fe6a678`) is untouched.
+
+## Conflicts with approved work, or open readings (flagged, not changed)
+
+1. **LCM Chips hero.** v4 still prints the split hero with the hand-held LS20 photo. The full-width band was a later client request (`1787715100`) and v4 adds no note there, so the band stays.
+2. **"This is one visual" (p07).** It overrides the p03 "SVG scan timeline synced to the animation" spec. The GIF's baked-in labels and three captions repeat parts of the printed copy (bullets 1–4, "Every scan is a sequence…"). Proposal: keep the HTML copy and show the GIF as one visual. Confirm.
+3. **"#154 + #155 merged" (p13).** There is one GIF for two printed slots. Show it alone in place of both, or wait for the flood animation?
+4. **Scan modes (p14).** The printed design is a five-tab selector with an animated wedge per mode. The supplied art is one static image of all modes. Proposal: show the static image and drop the animated selector, or split it into per-mode crops behind the existing tabs. Confirm.
+5. **Automotive (p11).** A product photo fills the "point cloud or video" slot, and the FOV diagram has no vehicle. Both are applied as linked unless Lumotive objects.
+6. **Explorer (p06).** The snippet iframes lumotive.com, which is replaced at launch. We will self-host the same file, as p03 specifies. The video it shows browsers without WebGL 2 is missing (404): ask for `lcm-animation.mp4`, or accept that those browsers see only the poster. The title tag reads "(Copy)".
+7. **Home application tiles.** Optical Circuit Switching and Optical Communications both show `connect-optical.jpg`, because Simon linked the same file twice (v3 and v4). The Applications page uses a satellite photo for Optical Communications. Unchanged; confirm.
+8. **Robotics M30 photo.** Simon linked `M30_thumb.jpg` (537×402, with background) for the robotics row; the other three photos are transparent cut-outs. The existing cut-out `m30-dev-kit-contents.webp` (Simon's choice on p12) would match the row. Decide on page 10.
+
+## Still awaiting client input (not answered by v4)
+
+- **Sitewide:** LinkedIn URL (S1), privacy policy (S2), Pipedrive hidden fields (S3, then S28), preselect (S4), inquiry values (S5), analytics tool (S7), status labels (S8), contractions (S9), Webvizio mapping (S10), social image approval (S12), heading tracking review (S18).
+- **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (H1 = N1). The Leopard–Lumotive "Sirius Max" release went out on PR Newswire around 24 September 2026, but no post copy is in the package; ask whether to import it. Its wording says "beam-steering", against rule 1. Also N2–N5 and N7.
+- **Logos and badges:** Leopard logo (SE5 = D4 = PA2), onsemi (PA3), award badges (AB2), investor list (AB3), Electronic Photonics confirmation (PA4).
+- **Per page:** H2, H3, H5, P4, P5, A3, SE6, SE7, SE9, AU5, T2, T3 flood animation, I3/I8, F2, F3, F4, F7, C3, C4, C6, C7, AB5, AB6, CU1, CU3, PA1, CT1.
+- **New in v4:** the readings in conflicts 2–8 and the meaning of the p06 "Disregard".
+
+## Validated v4 files
+
+Fetched 2026-10-22 and cached outside the repo (`%TEMP%\lumotive-v4\assets`). All answer 200 and decode. "Cut-out" means a transparent PNG background (65–80% of pixels transparent), ready for the grey kit panel.
+
+| File / video | Slot(s) | Format | Pixels / length | Existing local match |
+|---|---|---|---|---|
+| LI140-ON140-iToF.png | p05 news card 2 | PNG cut-out | 2500×1667 | none |
+| Vimeo 1237753837 "Ducky_v6" | p06 1D→2D | public, 16:9 | 1:41 | — |
+| LCM_animation.html | p06 Explorer | HTML 973 KB | — | none |
+| lcm-programmable-eyes.gif | p07 How LCM fits | GIF | 1000×605, 148 frames, 12.3 s | none |
+| Wireless.jpg | p08 Your Application | JPEG | 892×592 | none |
+| Vimeo 1237762150 | p10 One Sensor, Three Jobs | public, 16:9 | 1:09 | — |
+| LI140.png | p10, p12, p14 | PNG cut-out | 2500×1667 | none |
+| ON140.png | p10, p12, p14 | PNG cut-out | 2500×1667 | none |
+| lumotive-fov-regions-scaled.png | p11 Cocoon | PNG | 2560×1256 | none |
+| IMG_9388-1-copy-2.png | p11 180° dToF | PNG cut-out | 1080×720 | `kit-md180.webp` (same photo, trimmed) |
+| Lineup.png | p12 hero | PNG cut-out | 2500×1667 | none |
+| RandomScanOrderWarehouse.gif | p13 illumination | GIF | 1923×1384, 12 frames, 3.6 s | none |
+| LI140-ON140-M30.png | p14 hero | PNG cut-out | 2500×1667 | none |
+| Vimeo 1053591397 | p14 Better Data | public, 16:9 | 1:08 | linked as text today |
+| High-Resolution-Depth-Across-a-Wide-Field.png | p14 LI140 + ON140 | PNG, opaque | 1620×984 | none |
+| lumotive-scan-modes-scaled.png | p14 scanning | PNG | 2560×909 | none |
+| Vimeo 1235957120 "Lumotive HDR" | p15 HDR | public, 21:9 | 0:15 | embedded on `/sense` |
+
+The 33 image links carried over from v3 were re-fetched: all answer 200 and decode. Vimeo 1040214357 and 1174547871 are public; YouTube AcLAbtIxN64 ("The Lumotive Way") answers in oEmbed.
+
+## Page 05 — Home: v4 pass (2026-10-22)
+
+**Result: no site change. Nothing implementable is new on Home.**
+
+- The only v4 delta on page 05 is `LI140-ON140-iToF.png` for the example card "New LI140 and ON140 iToF dev kits". The card is fed by a News post marked Featured, and that post does not exist (no post mentions LI140, ON140 or Leopard). Per the brief, no placeholder post was made from the image, and the image was not added to the repo, where it would sit unused. It is validated (200, PNG 2500×1667 cut-out, decodes) and ready for the day the post copy arrives (H1 = N1).
+- Everything else on page 05 is identical to v3 and already live. Simon's v3 media all reuse existing local files (perceptual-hash matches: `sense-agv.jpg` 0, `connect-optical.jpg` 0, `home-defense.webp` 3, `home-2d-photonic-news.webp` 8 bits of 256).
+- Live Home copy compared with the v4 text. All printed copy is present except the known decisions: the serial comma in the investor heading (H5), the LinkedIn icon (S1) and the status labels (S8). The Latest cards show the real featured 2D-photonic post plus the two newest press releases, as before.
+- Checks: the 24 internal links and 18 media files on Home answer 200, except `/privacy-policy` (404, S2). With no visual change there was nothing to screenshot. No migration, no code change. Approved work (compact mobile hero, framing, spacing, colours, CTAs) is untouched.
+
+**For review before page 06:** whether to ask Lumotive for the LI140/ON140 post copy, or for approval to import the public Leopard release (H1); conflict 7 (duplicate tile photo).
