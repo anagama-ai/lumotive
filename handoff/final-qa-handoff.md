@@ -22,7 +22,7 @@ This page is the short version. The full working list is `v3-outstanding-items.m
 | Platform card swap | The stretch where both cards faded out is gone (was 96px, now 0px) | P6 |
 | Navigation | Phone menu closes on Escape and returns focus; desktop menus unchanged | S16 |
 | Server load | Site-wide settings cached for 60 s for signed-out visitors (one request a minute instead of four per page); editors always see live data; settings saves show immediately | S27 |
-| Migrations | All 101 new migrations apply to a copy of an `origin/main` database and roll back to the exact starting state | S23 |
+| Migrations | All 102 new migrations apply to a copy of an `origin/main` database and roll back to the exact starting state | S23 |
 | Admin Site settings | Footer and Header forms now load and save what the site shows (copyright, link columns, legal and social links; menu, dropdowns with descriptions, third-level links, buttons). Saving unchanged kept the content and the public HTML identical; edits appeared for signed-out visitors on the next page load. When the LinkedIn URL arrives (S1), an editor can add it under Footer → Social links | S29 |
 | Press links | 21 checked: 12 work, 1 paywalled, 5 block automated checks, **3 dead** | N7 |
 
