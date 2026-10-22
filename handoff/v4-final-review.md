@@ -2,6 +2,8 @@
 
 2026-10-22. For Josh (staging) and Claudia (content review). Branch `feedback-20261007-v2`, local only. **Nothing here is on staging yet.** Nothing has been pushed, merged or deployed.
 
+**Follow-up the same day, after this review:** a migration rollback fix that **PR #1 must also carry** (PR dependencies, item 6), a passing migration rehearsal against an `origin/main` baseline (Migrations), the public-globals cache for the rate limit (S27), the P6 swap-band fix, Escape on the phone menu, and Edge playback on the remaining pages. Committed locally; details in `v3-outstanding-items.md`.
+
 - **Open items:** `v3-outstanding-items.md` is the single list, in four groups.
 - **Detail and evidence:** each page has its own `page-NN-*.md` handoff.
 
@@ -38,24 +40,27 @@ Captured in a visible Edge window, with the players loaded but not playing: `%TE
 
 ### Video playback
 
-In-page playback was confirmed in a **visible Edge window only**, on these pages:
+In-page playback was confirmed in a **visible Edge window only**, with pause holding, on **every embed** (2026-10-22):
 - `/platform`: two videos.
+- `/sense`: HDR video.
 - `/sense/robotics`: one video.
+- `/applications`: two videos. `/connect`: one video.
 - `/dev-kits/itof`: two videos.
 - `/dev-kits/dtof`: HDR 2.90 → 5.40 s at 1440 and 3.28 → 5.79 s at 390; tracking 1.25 → 3.75 s at 1440. Pause held on all three runs.
+- `/culture`: YouTube video.
 
-Not run in Edge yet: `/sense`, `/applications`, `/connect` and `/culture`. **Safari, iOS and Android have not been tested anywhere.** That is our next QA task (group 3, table).
+**Safari, iOS and Android have not been tested anywhere.** That is our next QA task (group 3, table).
 
 ## Staging review (for Josh)
 
 ### Code
 
-- **Branch:** `feedback-20261007-v2`. Its tip is the commit that adds this file, on top of `b2a95d2`.
+- **Branch:** `feedback-20261007-v2`. The review commit `0bc7fe9` sits on `b2a95d2`; the follow-up commits from the same day sit on top of it (`git log 0bc7fe9..`).
 - **Compared with `origin/main`** (`f203fc1`, 2026-09-24, fetched 2026-10-22):
-  - 104 commits ahead before this commit, 0 behind; `origin/main` is fully merged (`b60cf3f`).
-  - 240 files changed, about +26,400 / −280 lines.
+  - 104 commits ahead before the review commit, 0 behind; `origin/main` is fully merged (`b60cf3f`).
+  - 240 files changed, about +26,400 / −280 lines (before the follow-up commits).
 - **Excluded:** `vite.config.ts` is an uncommitted Windows watcher fix (S25). It is not in any commit.
-- **Local checks today:** `npm run check` reports 0 errors and 0 warnings; `npm run build` (adapter-node) exits 0.
+- **Local checks after the follow-up:** `npm run check` reports 595 files, 0 errors and 0 warnings; `npm run build` (adapter-node) exits 0.
 - **v4 commits:** `fe6a678` … `b2a95d2` (24 commits). This includes the reverted Transmit experiment (`ff3641e`, reverted by `5046533`), which nets to no change.
 
 ### PR dependencies
@@ -77,6 +82,7 @@ Not run in Edge yet: `/sense`, `/applications`, `/connect` and `/culture`. **Saf
 
    Either way, the footer must ship with LCM Chips, since the footer links `/lcm-chips`. Pages 06–21 link to each other through the navigation, so shipping them together avoids 404s on staging.
 5. **Reviews:** the `main` ruleset needs one approving review from someone other than the pusher. Only `josh-scalestorm` can approve and merge (S21).
+6. **Rollback fix PR #1 must carry.** PR #1 contains `1787707500_home_solution_cards_page5.js`. Its `down` wrote back the seed links `/technology` and `/optical-circuit-switching-communications`, but `origin/main` already serves `/sense` and `/connect` (`1787703900`). A rollback after the merge would have put two 404 links on the Home solution cards. The rehearsal caught it, and the fix is committed on this branch (only `down` changes: it now restores `/sense` and `/connect`). **PR #1's branch has not been changed.** Before PR #1 merges, the same one-file fix has to go onto `staging-home-page05`, unless Josh approves a different sequence (for example, merging PR #1 as is and shipping the fix with the pages 06–21 PR before anyone rolls back).
 
 ### Migrations
 
@@ -87,32 +93,35 @@ Not run in Edge yet: `/sense`, `/applications`, `/connect` and `/culture`. **Saf
 - **PocketBase version:** 0.39.11 locally, and 0.39.11 in `Dockerfile.pocketbase`.
 - **They run automatically.** The PocketBase container starts with `pocketbase serve --migrationsDir`, so every pending migration runs when a merge to `main` redeploys staging. There is no manual gate, so the backup and dry-run must happen **before** the merge.
 - **Guard risk:** almost every migration checks the previous value before writing. If a page was edited in the staging CMS, its migration silently does nothing for that section. Only a dry-run shows which.
+- **Local rehearsal, done 2026-10-22.** `scripts/staging-migration-dry-run.mjs` runs steps 3 to 5 below in one command. Against a fresh baseline built from `origin/main`'s 99 migrations with PocketBase 0.39.11: 100 migrations applied; no page, globals, redirect or posts differences from the local reference; `migrate down 100` restored the starting state exactly. A full comparison of the database (23 tables, 261 rows, SQLite schema of both database files) differs only in 16 `updated` timestamps. The first rehearsal failed on Home, which led to the fix in PR dependencies item 6. Report: `%TEMP%\lumotive-staging-rehearsal\run-B\dry-run\report.md`. This does not replace the run on a real staging backup: only that shows staging CMS edits.
 
 **Backup and dry-run, required before the merge:**
 1. **Josh: backup.** Take a staging PocketBase backup (admin UI under Settings → Backups, or a copy of the `/app/pb_data` volume with PocketBase stopped). Send it with its timestamp. Do not use the repo's `pb_data`.
 2. **Josh: content freeze.** Freeze staging CMS edits from the backup until the deploy, or the dry-run goes stale.
-3. **Us: apply.** Restore the backup into a scratch directory. Run `pocketbase migrate up --dir=<scratch> --migrationsDir=./pb_migrations` with PocketBase 0.39.11 from the exact commit to be merged. Keep the log of applied migrations.
-4. **Us: compare.** Compare every touched record (pages by slug, globals, redirects, the posts schema) with the local reference database. Any section that differs is a guard no-op caused by a staging edit. Each one goes to Claudia: keep the staging edit, or apply ours.
-5. **Us: rollback test.** On the copy, `migrate down` back to the pre-merge state and confirm it matches the backup. Locally, every v4 page pass did this and got byte-identical page records.
+3. **Us: apply.** Restore the backup into a scratch directory and run `node scripts/staging-migration-dry-run.mjs --backup <backup.zip or pb_data>` from the exact commit to be merged, with PocketBase 0.39.11. It applies the migrations to a copy, never to the backup, and keeps a report of applied migrations.
+4. **Us: compare.** The same run compares every touched record (pages by slug, globals, redirects, the posts schema) with the local reference database. Any section that differs is a guard no-op caused by a staging edit. Each one goes to Claudia: keep the staging edit, or apply ours.
+5. **Us: rollback test.** The same run then does `migrate down` on the copy and confirms it matches the backup. It exits 2 if anything is not restored.
 6. **Rollback point.** Keep the backup as the rollback point for the real deploy.
 
 ### Deployment blockers
 
 | Blocker | Owner | Status, with evidence |
 |---|---|---|
-| PR #1 approval and merge, then the PR for pages 06–21 (S21, S22) | Josh, then us | Not merged (`origin/main` unchanged). PR-shape decision open |
-| Staging backup, dry-run and content freeze (S23) | Josh + us | Not started |
+| PR #1 approval and merge, then the PR for pages 06–21 (S21, S22) | Josh, then us | Not merged (`origin/main` unchanged). PR-shape decision open. **PR #1 must first carry the `1787707500` rollback fix** (PR dependencies, item 6) unless Josh approves another sequence |
+| Staging backup, dry-run and content freeze (S23) | Josh + us | Script ready and rehearsed against an `origin/main` baseline (passes). Waiting for the staging backup and freeze |
 | Dokploy/GHCR secrets, app IDs and `ORIGIN` (S24). The deploy job skips silently if the app-ID variables are empty | Josh | Unverified |
-| PocketBase rate limit: the default 300 requests per 10 s is shared by all visitors through the web server's IP (S27) | Josh decides, we implement | Recommendation written. Network layout unconfirmed |
+| PocketBase rate limit: the default 300 requests per 10 s is shared by all visitors through the web server's IP (S27) | Josh decides, we implement | Option (1), the 60 s public-globals cache, is built and tested (one globals request per minute instead of four per render). Options (2)/(3) wait for the network layout |
 | Pipedrive hidden fields, then one agreed test submission (S3, S28) | Lumotive admin via Josh, then us | Not started |
 | `/privacy-policy` 404 in the footer (S2) | Lumotive | Waiting for text or approval to port |
-| Cross-browser QA: Safari, iOS, Android, including video playback (S20) | Us | Not started. Edge only for the videos above |
+| Cross-browser QA: Safari, iOS, Android, including video playback (S20) | Us | Not started. Edge only, for every embed |
 | `vite.config.ts`: commit on its own or drop (S25) | Us | Open. Not in any commit |
 
 Client-held content (group 2) does not block a staging deploy, because it ships omitted. It does block sign-off of the affected sections.
 
+Three "Read the original article" links on News are dead: Morningstar, Yahoo Finance and 2cm.com.tw (N7). Lumotive supplies replacements or approves removing them. They do not block staging.
+
 ## Next concrete action
 
-**Josh:** approve and merge PR #1 (or choose option (b)), and send a fresh staging `pb_data` backup with a CMS edit freeze.
+**Josh:** decide how PR #1 gets the rollback fix (add the one-file fix to `staging-home-page05` first, or approve another sequence). Then approve and merge PR #1 (or choose option (b)), and send a fresh staging `pb_data` backup with a CMS edit freeze.
 
-With the backup, we run the dry-run above and prepare the pages 06–21 PR. Safari, iOS and Android playback QA starts in parallel; it needs no staging access.
+With the backup, we run the dry-run script against it and prepare the pages 06–21 PR. Safari, iOS and Android QA starts in parallel; it needs no staging access.

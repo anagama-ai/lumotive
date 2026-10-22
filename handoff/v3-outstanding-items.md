@@ -2,6 +2,8 @@
 
 First audited on 2026-10-20. **Final v4 review on 2026-10-22.** The v4 PDF changed annotations only, not copy. Branch `feedback-20261007-v2`, local only. Staging has **not** been updated. `vite.config.ts` stays uncommitted by design.
 
+**QA follow-up, 2026-10-22 (after the final review):** Edge playback finished for every embed (S19); P6 swap band fixed; mobile menu closes on Escape (S16); public-globals cache built and tested (S27, option 1); migration rehearsal against an `origin/main` baseline passes up and down after a rollback fix in `1787707500` that **PR #1 must also carry** (S21, S23); press links re-checked (N7). Evidence: `%TEMP%\lumotive-review\qa-final\` and `%TEMP%\lumotive-staging-rehearsal\run-B\`.
+
 **This is the single authoritative outstanding list.** It supersedes:
 - the client-question lists in `v3-page-checklist-and-home.md` and `v4-checklist.md`;
 - the "Blockers" sections of the per-page handoffs, where they disagree with this list.
@@ -53,7 +55,7 @@ Each question appears once here. The package's "leave it out rather than publish
    - social channels beyond LinkedIn (N3);
    - card-image approach (N4);
    - first Events post (N5);
-   - four dead source links (N7).
+   - three dead source links (N7).
 8. **Media still missing:**
    - Explorer: fallback video `lcm-animation.mp4`, and a poster frame or confirmation of the tool's own title frame (S6 a, b);
    - Transmit: flood-illumination animation, or confirmation that the one ROI GIF covers both printed slots (T3, v4 conflict 3);
@@ -95,32 +97,33 @@ Each question appears once here. The package's "leave it out rather than publish
    |---|---|---|---|
    | `/platform` | 1237753837 (1D/2D, P2) | Played 2026-10-22 | Not tested |
    | `/platform` | 1040582713 | Played 2026-10-22 | Not tested |
-   | `/sense` | 1235957120 HDR (SE10) | Not run on `/sense`. The same clip played on `/dev-kits/dtof` | Not tested |
+   | `/sense` | 1235957120 HDR (SE10) | Played 2026-10-22 (1.56 → 4.06 s), pause holds | Not tested |
    | `/sense/robotics` | 1237762150 (R2) | Played 2026-10-22 (0.45 → 8.45 s) | Not tested |
-   | `/applications` | 1227505713 (A4); 1174547871 | Not run; 1174547871 played in headless Chromium 2026-10-21 | Not tested |
-   | `/connect` | 1227505713 | Not run | Not tested |
+   | `/applications` | 1227505713 (A4); 1174547871 | Both played 2026-10-22 (4.22 → 6.73 s; 4.58 → 7.08 s), pause holds | Not tested |
+   | `/connect` | 1227505713 | Played 2026-10-22 (4.24 → 6.75 s), pause holds | Not tested |
    | `/dev-kits/itof` | 1053591397 (I4) | Played at 1440 and 390, pause holds | Not tested |
    | `/dev-kits/itof` | 1174547871 (M30 clip) | Played at 1440 | Not tested |
    | `/dev-kits/dtof` | 1235957120 HDR (F5) | Played at 1440 (2.90 → 5.40 s) and 390 (3.28 → 5.79 s), pause holds | Not tested |
    | `/dev-kits/dtof` | 1102359216 tracking (F6) | Played at 1440 (1.25 → 3.75 s), pause holds | Not tested |
-   | `/culture` | YouTube AcLAbtIxN64 | Not run; played in headless Chromium 2026-10-21 | Not tested |
+   | `/culture` | YouTube AcLAbtIxN64 | Played 2026-10-22 (4.06 → 6.56 s), pause holds | Not tested |
    | `/lcm-chips`, `/dev-kits/transmit-modules` | Self-hosted looping MP4s | Headless Chromium only (play, pause, reduced motion) | Not tested; iOS autoplay and Low Power Mode need a check |
 
    **The rest of S20, in real browsers:**
    - the Explorer, in-page and full screen, including the no-WebGL-2 path (S6 e);
    - header behaviour (S16);
    - sideways-scroll figures on touch devices (Automotive diagram; iToF scan modes);
-   - a manual or tool-based contrast review of image-backed text (S26). Our figures are a screenshot measure, not an accessibility sign-off.
-2. **Platform swap-card band** re-check (P6).
+   - a manual or tool-based contrast review of image-backed text (S26). Our figures are a screenshot measure, not an accessibility sign-off. Fresh captures (15 heroes at 390/768/1024/1440, 24 Home video frames at 390/768/1440, with text boxes and colours in `info.json`) were taken on 2026-10-22 under `qa-final\hero\` and `qa-final\home-video\`; **they have not been measured yet**.
+2. ~~Platform swap-card band re-check (P6).~~ **Done 2026-10-22**, see P6.
 3. **Proposals for Claudia:** a default social preview image (S12) and the Webvizio image-task mapping (S10).
 4. **`vite.config.ts`:** commit it on its own, or drop it (S25).
 5. **Wire inputs when they arrive:**
    - the LinkedIn URL (S1) and the News follow block (N6, after S1, N2 and N3);
    - the held NM120 tiles and "Modular by Design" (F2–F4);
    - the provider strips (SE5/SE6/D4/PA2).
-6. **PocketBase rate limit (S27):** implement the agreed option once Josh confirms the network layout.
+6. **PocketBase rate limit (S27):** option (1), the public-globals cache, is built and tested locally (see S27). Options (2)/(3) still wait for Josh's network layout.
 7. **Contact form end to end** on staging, after S3 (S28).
 8. **Staging PRs (S22):** prepare the reviewable branch for pages 06–21 after PR #1, following `v4-final-review.md`.
+9. **Press links (N7):** three dead links wait for Lumotive; five sites block automated visits and still need a click-through by a person (N7).
 
 ## 4. Staging preparation requiring Josh
 
@@ -128,9 +131,9 @@ None of this has started. Nothing is marked done without evidence.
 
 | # | Item | Status and evidence (2026-10-22) |
 |---|---|---|
-| J1 | **Approve and merge PR #1** (Home, branch `staging-home-page05` at `0b2ff9f`) (S21) | Not merged. After `git fetch`, `origin/main` is still `f203fc1` (2026-09-24). The PR's review state cannot be read from here: there is no `gh` CLI and anonymous API access is not available. |
+| J1 | **Approve and merge PR #1** (Home, branch `staging-home-page05` at `0b2ff9f`) (S21) | Not merged. After `git fetch`, `origin/main` is still `f203fc1` (2026-09-24). The PR's review state cannot be read from here: there is no `gh` CLI and anonymous API access is not available. **Before it merges, PR #1 must also carry the `1787707500` rollback fix** (see S21), unless Josh approves a different sequence. PR #1's branch has deliberately not been changed. |
 | J2 | **Choose the PR shape** for pages 06–21 (S22) | Open. Options and the conflict evidence are in `v4-final-review.md`. |
-| J3 | **Staging `pb_data` backup** for the migration dry-run, plus a CMS edit freeze until the deploy (S23) | Not started. |
+| J3 | **Staging `pb_data` backup** for the migration dry-run, plus a CMS edit freeze until the deploy (S23) | Not started on staging data. The rehearsal script and a passing run against a clean `origin/main` baseline are ready (S23). |
 | J4 | **Dokploy/GHCR secrets, app IDs and `ORIGIN`** for staging and production (S24) | Unverified. |
 | J5 | **Network layout** for the PocketBase rate-limit decision (S27) | Unverified. |
 | J6 | **Pipedrive admin access**, or a hand-off to Lumotive's admin (S3) | Not started. |
@@ -172,18 +175,18 @@ None of this has started. Nothing is marked done without evidence.
 | S13 | `globals.seo` boilerplate | Ours | **Done 2026-10-21** | Starter description, default meta description and tagline replaced with the approved Home hero line and heading; the `hello@example.com` placeholder cleared (real press contact is N2). Not rendered on pages. | Us | — | `1787715200` |
 | S14 | `globals.code_injection` debug | Ours | **Done 2026-10-21** | The `console.log` and the head comment are emptied; no page carries them. | Us | — | `1787715200` |
 | S15 | `sitemap.xml` | Ours | **Done 2026-10-21** | `/news` listed, lastmod = newest post update; 129 entries. | Us | — | `sitemap.xml/+server.ts` |
-| S16 | Top-level menu labels navigate on click (PDF p02) | Ours | **Done 2026-10-21** | Platform → /platform, Sense → /sense, Company → /about. Each group is a label link plus an arrow button (`aria-expanded`/`aria-controls`); desktop opens on hover or arrow, closes on leave, focus-out and Escape (focus returns to the arrow); mobile accordion arrow 44×44, label opens the page and closes the panel. Real-browser check under S20. | Us | — | `Header.svelte`, `app.css`, `1787715300` |
+| S16 | Top-level menu labels navigate on click (PDF p02) | Ours | **Done 2026-10-21** | Platform → /platform, Sense → /sense, Company → /about. Each group is a label link plus an arrow button (`aria-expanded`/`aria-controls`); desktop opens on hover or arrow, closes on leave, focus-out and Escape (focus returns to the arrow); mobile accordion arrow 44×44, label opens the page and closes the panel. 2026-10-22: Escape also closes the phone panel and returns focus to the menu button; reopening by click still works (`qa-final\nav-mobile-escape*.json`). Real-browser check under S20. | Us | — | `Header.svelte`, `app.css`, `1787715300` |
 | S17 | Third-level nav rows | Ours | **Done 2026-10-21** | Transmit modules / iToF / dToF rows 34 → 44px (desktop); mobile rows 54px. | Us | — | `Header.svelte` |
 | S18 | Heading character spacing (#138, rule 15) | Ours | Done; client review | Audit renders each adjacent glyph pair of every Oswald heading on all 17 pages at 390/768/1440/1920 and checks real ink overlap. Band hero headlines at −0.055em touched ("ra", "gn", "ta", "rt" on 10 pages); now −0.03em, which clears all but a 2px² "vy" sliver in "Heavy" (Automotive, ≥768). Remaining touches are "ff" at normal tracking, which is the typeface's own design. Some band headlines now wrap one line more (Sense from 768 up; Contact at 390). Close #138 only after Claudia reviews. | Us → Claudia | No | `HeroFullHeight.svelte` |
-| S19 | Real-browser playback of all embeds | Ours | Edge partly verified; Safari/iOS/Android in S20 | Automated Chromium gets Vimeo's Cloudflare challenge (HTTP 401): Vimeo's bot check, not a site defect. In a visible Microsoft Edge window, in-page playback was confirmed on 2026-10-22 for 1237753837 and 1040582713 (`/platform`), 1237762150 (`/sense/robotics`), 1053591397 and 1174547871 (`/dev-kits/itof`), and 1235957120 and 1102359216 (`/dev-kits/dtof`). Not run in Edge yet: 1227505713 (`/applications`, `/connect`), 1235957120 on `/sense` itself, 1174547871 on `/applications`, YouTube AcLAbtIxN64 (`/culture`). The last two played in headless Chromium on 2026-10-21. The per-page table is in group 3. Edge is not verification in other browsers. | Us | No | Page handoffs 06, 10, 14, 15 |
-| S20 | Cross-browser and device QA | Ours | Do | Safari (macOS), iOS Safari and Android Chrome have never been tested, including every video and animation in the group 3 table. Edge has been used for Vimeo playback (seven videos, see S19) and the Explorer. All other checks ran in Chromium only. Required before launch, and for the Explorer's phone and no-WebGL-2 decisions. | Us | Yes | Group 3; all handoffs |
-| S21 | PR #1 (Home to staging) | Tech | Verify | `main` ruleset needs an approving review from someone other than the pusher. Only `josh-scalestorm` can approve and merge. Current PR state cannot be read anonymously. | Josh | Yes | `page-05-home-staging-deploy.md` |
+| S19 | Real-browser playback of all embeds | Ours | **Edge done 2026-10-22**; Safari/iOS/Android in S20 | Automated Chromium gets Vimeo's Cloudflare challenge (HTTP 401): Vimeo's bot check, not a site defect. In a visible Microsoft Edge window, in-page playback with pause holding was confirmed on 2026-10-22 for every embed: 1237753837 and 1040582713 (`/platform`), 1235957120 (`/sense`), 1237762150 (`/sense/robotics`), 1227505713 and 1174547871 (`/applications`), 1227505713 (`/connect`), 1053591397 and 1174547871 (`/dev-kits/itof`), 1235957120 and 1102359216 (`/dev-kits/dtof`), YouTube AcLAbtIxN64 (`/culture`). The per-page table is in group 3. Edge is not verification in other browsers. | Us | No | Page handoffs 06, 10, 14, 15; `qa-final\edge-playback.json` |
+| S20 | Cross-browser and device QA | Ours | Do | Safari (macOS), iOS Safari and Android Chrome have never been tested, including every video and animation in the group 3 table. Edge has been used for embed playback (every Vimeo and YouTube embed, see S19) and the Explorer. All other checks ran in Chromium only. Required before launch, and for the Explorer's phone and no-WebGL-2 decisions. | Us | Yes | Group 3; all handoffs |
+| S21 | PR #1 (Home to staging) | Tech | Verify | `main` ruleset needs an approving review from someone other than the pusher. Only `josh-scalestorm` can approve and merge. Current PR state cannot be read anonymously. **Rollback fix to carry:** PR #1 includes `1787707500_home_solution_cards_page5.js`, whose `down` wrote back the seed links `/technology` and `/optical-circuit-switching-communications`. `origin/main` already serves `/sense` and `/connect` (`1787703900`), so a rollback would have put two 404 links on Home. Fixed on this branch (rollback restores `/sense` and `/connect`); PR #1's branch is unchanged and needs the same fix before merging, unless Josh approves a different sequence. | Josh | Yes | `page-05-home-staging-deploy.md`; S23 |
 | S22 | Ship pages 06–21 to staging | Ours | Do (after S21 and the PR-shape decision) | This branch is 104 commits ahead of `origin/main` and 0 behind (fetched 2026-10-22, before the final-review commit). It carries 100 new migrations. PR #1's six Home commits are patch-equivalent to commits already here (`git cherry`). A dry-run merge of PR #1 into this branch conflicts in four Home components, which later commits here extend. The resolution and the options are in `v4-final-review.md`. Exclude `vite.config.ts` unless it is committed on its own. | Us (Josh decides the PR shape) | Yes | `v4-final-review.md` |
-| S23 | Staging database vs migrations | Tech | Not started | Most migrations are guarded on prior values and silently no-op if staging content was edited. Needs a recent staging `pb_data` backup and a dry-run of all 100 migrations against a copy, comparing the results with the local reference. The procedure is in `v4-final-review.md`. | Josh + Us | Yes | Migration guard pattern |
+| S23 | Staging database vs migrations | Tech | Rehearsed locally; staging data not started | Most migrations are guarded on prior values and silently no-op if staging content was edited, so a recent staging `pb_data` backup still has to be dry-run. **Done 2026-10-22:** `scripts/staging-migration-dry-run.mjs` (copies the backup, applies, compares with the local reference, rolls back, compares with the start). Against a fresh baseline built from `origin/main`'s 99 migrations (`f203fc1`, PocketBase 0.39.11): 100 applied; 0 page, globals, redirect or posts differences from the local reference; `migrate down 100` restored the start exactly. A full-database comparison (23 tables, 261 rows, SQLite schema of `data.db` and `auxiliary.db`) differs only in 16 `updated` timestamps. The first run had failed on Home (see S21). | Josh + Us | Yes | `%TEMP%\lumotive-staging-rehearsal\run-B\dry-run\report.md` |
 | S24 | Dokploy/GHCR secrets and variables | Tech | Verify | Confirm `DOKPLOY_URL`, `DOKPLOY_API_KEY`, `DOKPLOY_PB_APP_ID`, `DOKPLOY_WEB_APP_ID` and `ORIGIN` are set for staging and production. | Josh | Yes | `.github/workflows/publish.yml`, README |
 | S25 | Uncommitted Windows watcher fix | Ours | Do | Commit `vite.config.ts` on its own, or drop it. Never sweep it into a page commit. | Us | No | `git status` |
 | S26 | Hero and image-backed text contrast | Ours | Fixed; manual recheck in S20 | All known low spots fixed with shade options only: new phone `mobileShade: max` (Home video, Transmit, LCM Chips, Applications, Automotive), About back to phone `strong`, new `tabletShade: strong` (768–1023: Home, Transmit, Culture, Contact). Sweep on real data: 15 photo heroes × 7 widths (360–1920) plus 29 Home video frames; every line ≥ 4.5:1 at the **brightest** backdrop pixel (body lowest 4.62), headings ≥ 3:1. Home bento photo cards were at 2.8:1 (title over the bright warehouse photo); overlay strengthened, now ≥ 5.65:1. All other image-backed text (closing CTAs, 34 blocks at 390/1440) ≥ 5.65:1. Screenshot measure, not an accessibility sign-off. | Us | Yes | `1787715400`; `HeroFullHeight.svelte`; `CardsPeelBento.svelte` |
-| S27 | PocketBase rate limit vs server-side rendering | Tech | Verify (decision) | **Cause:** `1700000250_platform_limits.js` enables PocketBase's rate limiter, which activates its default `/api/` rule: 300 requests per 10 s per client IP. Every page render makes 5–6 PocketBase calls (four globals plus the page or post lookups), all from the SvelteKit server's IP, so every visitor shares one budget of about 50–60 renders per 10 s. The local 500s were a crawl at ~36 pages/s (3,312 × 429 in the PB log). The guest rules (`editors:authWithPassword`, `form_submissions:create`) are likewise keyed on the server IP, so they are site-wide, not per visitor. **Options, not applied:** (1) cache the four globals in the SvelteKit server for ~60 s: 1–2 calls per render, editors see global edits within a minute; (2) exempt or raise the limit for the web container's address (`rateLimits.excludedIPs` or a dedicated rule) if PocketBase is reachable only through the web app; (3) forward the visitor IP (`X-Forwarded-For` from SvelteKit + `trustedProxy.headers` in PocketBase) so limits are per visitor again; only safe if PocketBase cannot be reached directly, otherwise the header can be spoofed. **Recommendation:** (1) now; (3) if staging/production PocketBase is internal-only. Josh to confirm the network layout and the staging settings. | Josh + Us | Yes | PB logs; `pb_data` settings; `+layout.server.ts` |
+| S27 | PocketBase rate limit vs server-side rendering | Tech | Option (1) done locally; (2)/(3) need Josh | **Cause:** `1700000250_platform_limits.js` enables PocketBase's rate limiter, which activates its default `/api/` rule: 300 requests per 10 s per client IP. Every page render made 5–6 PocketBase calls (four globals plus the page or post lookups), all from the SvelteKit server's IP, so every visitor shares one budget of about 50–60 renders per 10 s. The local 500s were a crawl at ~36 pages/s (3,312 × 429 in the PB log). The guest rules (`editors:authWithPassword`, `form_submissions:create`) are likewise keyed on the server IP, so they are site-wide, not per visitor. **Option (1) built 2026-10-22** (`src/lib/server/public-globals.ts`): the four globals are read in one request through an anonymous client and cached per server process for 60 s; concurrent refreshes share one request; a failed refresh serves the last copy for up to 10 min; signed-in editors read live; every settings save (`putGlobal`) clears the cache. **Tested** on the production build against a scratch PocketBase copy: 10 anonymous renders → 1 globals request; 20 concurrent renders on an expired cache → 1; a direct database edit is visible to editors at once and to anonymous visitors only after the 60 s; an admin's code-injection save and an editor's footer save show to anonymous visitors on the next render; editor renders do not refresh the shared cache; a bad cookie is treated as anonymous and cleared. Edits made in the PocketBase admin UI bypass `putGlobal`, so they can take up to 60 s; with several web instances, a save clears only its own instance. **Still open:** (2) exempt or raise the limit for the web container's address (`rateLimits.excludedIPs` or a dedicated rule) if PocketBase is reachable only through the web app; (3) forward the visitor IP (`X-Forwarded-For` from SvelteKit + `trustedProxy.headers` in PocketBase) so limits are per visitor again; only safe if PocketBase cannot be reached directly. Josh to confirm the network layout and the staging settings. | Josh + Us | Yes | PB logs; `public-globals.ts`; `+layout.server.ts` |
 | S28 | Contact form end-to-end | Ours | Do (after S3) | One real submission on staging, agreed with Lumotive and deleted afterwards, confirming the three values reach the CRM record and the notification email. Not run locally by design (no real notifications or CRM records). | Us + Lumotive | Yes | `page-21-contact.md` |
 
 ### Phone heroes (2026-10-21)
@@ -231,7 +234,7 @@ The low spots previously listed here (Transmit, LCM Chips, and the 768 lows on H
 | P3 | See LCM in Action (Explorer) | Asset | **Done on the local site 2026-10-22** | New section `302ae187` (`#explorer`), between 2D and Dynamic Scanning: poster, "Launch interactive explorer", iframe, "Open full screen →". Open items are under S6. | Us | — | `page-06-platform.md` v4 pass |
 | P4 | Hero | Decision | Verify | Simon linked Vimeo 1040214357; printed "KEEP AS IS · Existing hero image" was kept. Confirm. | Lumotive (Simon) | No | p06 A2 |
 | P5 | Dynamic Scanning body | Decision | Verify | Held clause cut to "Optical beamforming with Lumotive LCMs lights the way…" under the v3 naming rule. Confirm wording. | Claudia | No | `1787712800` |
-| P6 | Swap-card band (QA M1) | Ours | Verify | Re-check the ~100px band where both swap cards sat under 0.5 opacity; fix if still present. | Us | No | QA phase-1 M1 |
+| P6 | Swap-card band (QA M1) | Ours | **Done 2026-10-22** | The band was still present: at 1024 and 1440 a 96px stretch had both swap cards under 0.5 opacity (strongest only 0.13). The rising card now starts with the falling one on the same duration and ease, so the two always sum to 1: low band 0px, the visible card never under 0.52. Reduced motion unchanged. | Us | — | `PeelScene.svelte`; `qa-final\p6-swap-before.json`, `p6-swap.json` |
 | P7 | Meta | Ours | **Done** | See S11. | Us | — | `1787715200` |
 
 ## Page 07 — LCM Chips `/lcm-chips`
@@ -250,7 +253,7 @@ Client-requested change (2026-10-21, not in v3): the hero is now a full-width ba
 | A1 | One Platform, Many Applications — "Your Application" card | Asset | **Done on the local site 2026-10-22** | `wscgr`'s `Wireless.jpg` self-hosted as `applications-your-application.webp` and set on the card (`1787715900`). The title now lines up with its neighbours. | Us | — | `page-08-applications.md` v4 pass |
 | A2 | Same grid | Decision | Verify | Status labels; see S8. | Lumotive | Yes | — |
 | A3 | Same grid — 3D Sensing, Defense photos | Decision | Verify | Simon's photos (warehouse AMRs; quadruped robot with soldiers) differ from the printed descriptions (quadruped + delivery robot; drones and vessel). Applied as linked. Confirm. | Lumotive (Simon) | No | p08 A1, A3 |
-| A4 | Programmable Optics in Motion | Ours | Verify (in S20) | In-page playback of 1227505713; see S19. | Us | No | — |
+| A4 | Programmable Optics in Motion | Ours | Edge done 2026-10-22; other browsers in S20 | In-page playback of 1227505713 confirmed in Edge; see S19. | Us | No | `qa-final\edge-playback.json` |
 | A5 | Meta | Ours | **Done** | See S11. | Us | — | `1787715200` |
 
 ## Page 09 — Sense `/sense` (v3 pass done 2026-10-20, commit below)
@@ -261,9 +264,9 @@ Client-requested change (2026-10-21, not in v3): the hero is now a full-width ba
 | SE6 | Same | Decision | Verify | `/partners` already ships this strip with 3 of 4 logos. Build it on `/sense` and `/dev-kits` the same way now, or wait for Leopard? | Claudia | Yes | `partners#c5fe1eab` |
 | SE7 | Page placement | Decision | Verify | PDF p08 says three Applications sections move "to Sense"; PDF p09 shows none of them. Not added; copy preserved in `1787709500` down path. Confirm. | Lumotive (Apurva) | No | `page-09-sense.md` "Open question" |
 | SE9 | The Problem intro; closing CTA body | Decision | Verify | Both are KEEP AS IS, but the PDF prints different wording ("…efficiency today's autonomous machines need."; "(field of view, range, form factor) … point you to"). Staging text kept. Switch to printed text? | Claudia | No | `page-09-sense.md` Blockers 3 |
-| SE10 | HDR video in-page | Ours | Verify (in S20) | 1235957120 has not been run in a real browser on `/sense` itself. The same clip played in-page in Edge on `/dev-kits/dtof` (2026-10-22); see S19. | Us | No | page-09 v3 QA; `page-15-dtof-dev-kits.md` |
+| SE10 | HDR video in-page | Ours | Edge done 2026-10-22; other browsers in S20 | 1235957120 played in-page on `/sense` in Edge (pause holds); see S19. | Us | No | `qa-final\edge-sense-hdr-playing.png` |
 
-Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video placed in a 21:9 frame (in-page playback still pending, SE10), SE3 application photos, SE4 (the "Robotaxi" file is an aerial traffic scene that fits "intersection"), SE8 meta description.
+Resolved on this page by `1787713100`: SE1 perception photos, SE2 HDR video placed in a 21:9 frame (in-page playback confirmed in Edge 2026-10-22, SE10), SE3 application photos, SE4 (the "Robotaxi" file is an aerial traffic scene that fits "intersection"), SE8 meta description.
 
 ## Page 10 — Robotics `/sense/robotics` (v3 pass done 2026-10-20)
 
@@ -352,7 +355,7 @@ Resolved on this page by `1787714400`: F1, Simon's IMG_0031 (NM120 with heatsink
 | C6 | Optical Matters Now — Google 40% / 30% figures | Decision | Verify | Dev note asks to cite Google's publication. Candidate: Google "Jupiter Evolving" (SIGCOMM 2022) / Google Cloud Jupiter blog; Lumotive must confirm source and that the figures match. | Lumotive | Yes | PDF p16 dev note |
 | C7 | Send Light / Switching at Semiconductor Scale icons | Asset | Verify | Existing icons no longer match approved titles (none for "Compact"). Supply icons, or approve text cards. | Lumotive | No | `page-16-connect.md` l.105 |
 
-Resolved on this page by `1787714600`: C1 hero (Simon's OCS ports-and-lasers, local `home-2d-photonic-news.webp`), C2 2D beamforming visual beside block 7 (`ocs-fabric.webp`; new optional `media` on stacked CTAs), C5 use-case photos as 16:9 crops of the existing local copies. Copy verified verbatim against v3. In-page playback of Vimeo 1227505713 remains S19. The stacked-CTA `media` change was re-checked on 2026-10-21: the eleven stacked CTAs without media on other pages render byte-identical markup to before it.
+Resolved on this page by `1787714600`: C1 hero (Simon's OCS ports-and-lasers, local `home-2d-photonic-news.webp`), C2 2D beamforming visual beside block 7 (`ocs-fabric.webp`; new optional `media` on stacked CTAs), C5 use-case photos as 16:9 crops of the existing local copies. Copy verified verbatim against v3. In-page playback of Vimeo 1227505713 confirmed in Edge on 2026-10-22 (S19); other browsers remain S20. The stacked-CTA `media` change was re-checked on 2026-10-21: the eleven stacked CTAs without media on other pages render byte-identical markup to before it.
 
 ## Page 17 — About `/about` (v3 pass done 2026-10-21)
 
@@ -397,7 +400,7 @@ Resolved on this page by `1787715000`: hero live as `hero-partners-lcm.webp` fro
 | N4 | Card images (72 of 112 posts have none) | Decision + Asset | Verify | (a) Sign off reuse of announcement visuals on 35 coverage posts; (b) article images or nominated product shots for 24 pieces; (c) visuals for 13 press releases from 2019–21, or approval to run them without. | Lumotive | Yes | `page-20-news.md` l.117–198 |
 | N5 | Events tab | Asset | Missing | First Events post (tab is live and empty). | Lumotive | No | — |
 | N6 | Stay Up to Date | Ours | Do (after S1, N2, N3) | Publish the follow block. | Us | Yes | — |
-| N7 | Post source links | Asset | Verify | Four "Read the original article" links are dead: Invest Vancouver case-study PDF (host gone), Morningstar e-Photonics release (404), Yahoo MD41 story (404), 2cm.com.tw AGV/AMR story (404). Supply replacement URLs or approve removing the link on those posts. 18 more refuse automated checks (paywalls/bot blocks) and need a manual click-through in final QA. | Lumotive | No | `page-20-news.md` v3 QA |
+| N7 | Post source links | Asset | Verify | Re-checked 2026-10-22 in a browser, 21 links that automated checks could not confirm: **3 dead** (Morningstar e-Photonics release, 404; Yahoo Finance MD41 story, "page can't be found"; 2cm.com.tw AGV/AMR story, 404). Supply replacement URLs or approve removing the link on those posts. The Invest Vancouver case-study PDF, listed dead before, opens again. **5 sites block automated visits** (Forbes ×2, bizjournals ×3) and need a person to click through. WSJ shows headline and standfirst behind its paywall. The other 12 work. | Lumotive (dead links); Us (click-through) | No | `qa-final\links\results.json`; `page-20-news.md` v3 QA |
 
 v3 pass 2026-10-21: empty v2→v3 diff and no Simon annotations, so no content or asset changed and nothing was invented. One layout fix: the newsroom now aligns with the header container at every width (was 28px vs 80px at 1440). Filtering, search and pagination verified; all 112 post links answer 200 at a normal pace (rate limit: S27).
 
