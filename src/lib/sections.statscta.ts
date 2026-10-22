@@ -134,7 +134,7 @@ export const statsCtaSpecs: Record<string, SectionSpec> = {
 			{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
 			{ name: 'heading', label: 'Heading', type: 'text' },
 			{ name: 'intro', label: 'Introduction', type: 'textarea' },
-			{ name: 'mode', label: 'Mode (image | gallery | video | videos)', type: 'text' },
+			{ name: 'mode', label: 'Mode (image | gallery | video | videos | interactive)', type: 'text' },
 			{
 				name: 'items',
 				label: 'Media items',
@@ -150,6 +150,13 @@ export const statsCtaSpecs: Record<string, SectionSpec> = {
 				]
 			},
 			{ name: 'videoUrl', label: 'Video URL', type: 'url' },
+			// `interactive` mode: a page this site hosts, behind a poster.
+			{ name: 'embedUrl', label: 'Interactive page path, same site (interactive mode)', type: 'url' },
+			{ name: 'embedTitle', label: 'Frame title (interactive mode)', type: 'text' },
+			{ name: 'media', label: 'Poster, 16:9 (interactive mode)', type: 'media' },
+			{ name: 'launchLabel', label: 'Launch button label (interactive mode)', type: 'text' },
+			{ name: 'linkLabel', label: 'Full-screen link label (interactive mode)', type: 'text' },
+			{ name: 'linkUrl', label: 'Full-screen link URL, opens in a new tab (interactive mode)', type: 'url' },
 			...presentationFields
 		]
 	},

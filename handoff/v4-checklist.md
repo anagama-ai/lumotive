@@ -1,10 +1,10 @@
-# v4 review — page checklist and Page 05 record
+# v4 review — page checklist and page records (05, 06)
 
 Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (21 pages, modified 2026-10-20), compared with v3, this branch (`feedback-20261007-v2`, local PocketBase) and `handoff/v3-outstanding-items.md`. Reviewed 2026-10-22.
 
 **Status words used here**
 - **Supplied**: linked in v4, fetched (HTTP 200), decoded and mapped to its slot. Not on the site yet.
-- **Implemented and verified**: live on the local site and checked. Nothing from v4 is in this state yet (see Page 05).
+- **Implemented and verified**: on the local site (dev server and local PocketBase) and checked there. Staging has not been updated. So far: Page 06 (see `page-06-platform.md`).
 - **Held**: supplied, but it cannot be used yet; the reason is given.
 - **Closed by "Disregard"**: the client withdrew the request.
 - **Awaiting**: client input still needed.
@@ -21,15 +21,15 @@ Source: `Lumotive Website  Final Content Feedback from Apurva 20261007 v4.pdf` (
 ### 05 Home `/`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| Latest From Lumotive, card 2 "Kit photo" (LI140/ON140 dev kits) | `LI140-ON140-iToF.png` | New asset | H1 = N1 | **Held.** The LI140/ON140 post does not exist and no copy was supplied. Not added to the repo. |
-| Hero, cards, Latest cards 1 and 3, application tiles, investor strip, closing CTA, footer | unchanged from v3 | — | H2, H3, H5, S8 | v3 work stands; open questions unchanged |
+| Latest From Lumotive, card 2 "Kit photo" (LI140/ON140 dev kits) | `LI140-ON140-iToF.png` | New asset | H1 = N1 | **Held.** The LI140/ON140 post does not exist and no copy was supplied. Not added to the repo. **Decision 2026-10-22:** keep the approved fallback posts; ask Lumotive for the LI140/ON140 post copy and for approval to import the Leopard release; import or rewrite nothing yet. |
+| Hero, cards, Latest cards 1 and 3, application tiles, investor strip, closing CTA, footer | unchanged from v3 | — | H2, H3, H5, S8 | v3 work stands. **Decision 2026-10-22:** the duplicate tile photo stays as Simon supplied it. |
 
 ### 06 Platform `/platform`
 | Section | v4 | Type | v3 ID | State |
 |---|---|---|---|---|
-| Light Control Metasurface™ Optical Beamforming Technology: the "update the traditional optics side (#125)" graphic | **"Disregard"** | Disregard | P1 | **Closed.** Reading: the #125 redraw is withdrawn and the live flow graphic stays [inference]. Confirm whether Webvizio #125 can be closed. |
-| From 1D to 2D Beamforming | Vimeo 1237753837 "Ducky_v6" (16:9, 1:41) | Now supplied | P2 | Supplied. Page 06: printed two-column layout, click-to-play, in-page check. |
-| See LCM in Action | Embed snippet: iframe of `…/2026/10/LCM_animation.html` | Now supplied | S6 = P3 (+ CT4) | Supplied. A 973 KB self-contained HTML file (three.js/WebGL 2, fonts and poster inline; it pauses itself under reduced motion). The video it shows browsers without WebGL 2, `media/lcm-animation.mp4`, returns 404 on lumotive.com, and its title reads "(Copy)". Page 06: self-host at `/lcm-explorer/` per the p03 spec, then CT4. |
+| Light Control Metasurface™ Optical Beamforming Technology: the "update the traditional optics side (#125)" graphic | **"Disregard"** | Disregard | P1 | **Closed, no change.** Decision 2026-10-22: "Disregard" withdraws the #125 redraw; the current flow graphic stays. Webvizio #125 stays open until Claudia confirms. |
+| From 1D to 2D Beamforming | Vimeo 1237753837 "Ducky_v6" (16:9, 1:41) | Now supplied | P2 | **Implemented and verified (local site).** Player on the right as printed. In-page click-to-play confirmed in Microsoft Edge (1.4 → 8.9 s); automated Chromium hits Vimeo's bot challenge. |
+| See LCM in Action | Embed snippet: iframe of `…/2026/10/LCM_animation.html` | Now supplied | S6 = P3 (+ CT4) | **Implemented and verified (local site).** Self-hosted at `/lcm-explorer/`. Poster, launch button, iframe and full-screen link follow p03. Runs in-page (60 fps in Edge) and full screen. The title "(Copy)" was dropped, a documented one-line change. **Open:** the fallback video `lcm-animation.mp4` (404, not supplied); poster confirmation; intro copy vs the tool; phone in-page legibility. CT4 is now unblocked (Contact pass). |
 | Hero; Two Chips LM10 photo | unchanged | — | P4 | Unchanged |
 
 ### 07 LCM Chips `/lcm-chips`
@@ -65,7 +65,7 @@ No v4 change. SE5, SE6, SE7, SE9 and SE10 remain open.
 |---|---|---|---|---|
 | Hero (hub page) | `Lineup.png` (2500×1667 cut-out; five kits) | Now supplied (`wscgr`) | D1 | Supplied |
 | Find Your Dev Kit, iToF row: ON140 (card 1), LI140 (card 2) | `ON140.png`, `LI140.png` | Now supplied (`wscgr`) | D3 → D6 | Supplied. The decision recorded in D6 now applies: add all three iToF photos on the grey panel, with M30 as the existing `m30-dev-kit-contents.webp` (= Simon's IMG_7224). |
-| TX10, NM120, MD180 photos | unchanged | — | — | Live |
+| TX10, NM120, MD180 photos | unchanged | — | — | On the local site |
 
 ### 13 Transmit Modules `/dev-kits/transmit-modules`
 | Section | v4 | Type | v3 ID | State |
@@ -81,7 +81,7 @@ No v4 change. SE5, SE6, SE7, SE9 and SE10 remain open.
 | LI140 opener; ON140 opener | `LI140.png`, `ON140.png` | Now supplied (`wscgr`) | I7 | Supplied |
 | High-Resolution Depth Across a Wide Field; ON140 shared point cloud | `High-Resolution-Depth-Across-a-Wide-Field.png` (1620×984; depth map and point cloud side by side, labels baked in) | Now supplied | I5 | Supplied for both slots |
 | Software-Defined Scanning | `lumotive-scan-modes-scaled.png` (2560×909) | Now supplied | I6 | Supplied as **one static strip** of all five modes with their specs baked in, not per-mode artwork (conflict 4) |
-| M30 section | unchanged | — | — | Live |
+| M30 section | unchanged | — | — | On the local site |
 
 ### 15 dToF Dev Kits `/dev-kits/dtof`
 | Section | v4 | Type | v3 ID | State |
@@ -99,17 +99,17 @@ No v4 change. The open items in `v3-outstanding-items.md` (C3, C4, C6, C7, AB2, 
 3. **"#154 + #155 merged" (p13).** There is one GIF for two printed slots. Show it alone in place of both, or wait for the flood animation?
 4. **Scan modes (p14).** The printed design is a five-tab selector with an animated wedge per mode. The supplied art is one static image of all modes. Proposal: show the static image and drop the animated selector, or split it into per-mode crops behind the existing tabs. Confirm.
 5. **Automotive (p11).** A product photo fills the "point cloud or video" slot, and the FOV diagram has no vehicle. Both are applied as linked unless Lumotive objects.
-6. **Explorer (p06).** The snippet iframes lumotive.com, which is replaced at launch. We will self-host the same file, as p03 specifies. The video it shows browsers without WebGL 2 is missing (404): ask for `lcm-animation.mp4`, or accept that those browsers see only the poster. The title tag reads "(Copy)".
-7. **Home application tiles.** Optical Circuit Switching and Optical Communications both show `connect-optical.jpg`, because Simon linked the same file twice (v3 and v4). The Applications page uses a satellite photo for Optical Communications. Unchanged; confirm.
+6. **Explorer (p06). Resolved in the Page 06 pass:** self-hosted rather than hotlinked; the "(Copy)" title dropped as a documented one-line change. Still open: the missing fallback video, the poster, the intro copy and phone legibility (`page-06-platform.md`, "Open").
+7. **Home application tiles. Decided 2026-10-22:** keep Simon's selection (the same `connect-optical.jpg` on Optical Circuit Switching and Optical Communications). No change.
 8. **Robotics M30 photo.** Simon linked `M30_thumb.jpg` (537×402, with background) for the robotics row; the other three photos are transparent cut-outs. The existing cut-out `m30-dev-kit-contents.webp` (Simon's choice on p12) would match the row. Decide on page 10.
 
 ## Still awaiting client input (not answered by v4)
 
 - **Sitewide:** LinkedIn URL (S1), privacy policy (S2), Pipedrive hidden fields (S3, then S28), preselect (S4), inquiry values (S5), analytics tool (S7), status labels (S8), contractions (S9), Webvizio mapping (S10), social image approval (S12), heading tracking review (S18).
-- **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (H1 = N1). The Leopard–Lumotive "Sirius Max" release went out on PR Newswire around 24 September 2026, but no post copy is in the package; ask whether to import it. Its wording says "beam-steering", against rule 1. Also N2–N5 and N7.
+- **News content:** the Leopard, LI140/ON140 and VISION 2026 posts (H1 = N1). Decision 2026-10-22: the approved fallback posts stay; nothing is imported or rewritten. **Ask Lumotive:** (a) the LI140/ON140 post copy (its card image is supplied); (b) approval to import the Leopard–Lumotive "Sirius Max" release (PR Newswire, around 24 September 2026; its wording says "beam-steering", against rule 1). Also N2–N5 and N7.
 - **Logos and badges:** Leopard logo (SE5 = D4 = PA2), onsemi (PA3), award badges (AB2), investor list (AB3), Electronic Photonics confirmation (PA4).
 - **Per page:** H2, H3, H5, P4, P5, A3, SE6, SE7, SE9, AU5, T2, T3 flood animation, I3/I8, F2, F3, F4, F7, C3, C4, C6, C7, AB5, AB6, CU1, CU3, PA1, CT1.
-- **New in v4:** the readings in conflicts 2–8 and the meaning of the p06 "Disregard".
+- **New in v4:** the readings in conflicts 2–5 and 8. **For Claudia:** confirm that the p06 "Disregard" withdraws the #125 redraw, so Webvizio #125 can close (it stays open until then). **Explorer:** the fallback video `lcm-animation.mp4`, the poster frame, the intro copy ("Change the phase pattern…": the tool has no phase-pattern control), and phones (in-page or straight to full screen).
 
 ## Validated v4 files
 
@@ -142,8 +142,12 @@ The 33 image links carried over from v3 were re-fetched: all answer 200 and deco
 **Result: no site change. Nothing implementable is new on Home.**
 
 - The only v4 delta on page 05 is `LI140-ON140-iToF.png` for the example card "New LI140 and ON140 iToF dev kits". The card is fed by a News post marked Featured, and that post does not exist (no post mentions LI140, ON140 or Leopard). Per the brief, no placeholder post was made from the image, and the image was not added to the repo, where it would sit unused. It is validated (200, PNG 2500×1667 cut-out, decodes) and ready for the day the post copy arrives (H1 = N1).
-- Everything else on page 05 is identical to v3 and already live. Simon's v3 media all reuse existing local files (perceptual-hash matches: `sense-agv.jpg` 0, `connect-optical.jpg` 0, `home-defense.webp` 3, `home-2d-photonic-news.webp` 8 bits of 256).
-- Live Home copy compared with the v4 text. All printed copy is present except the known decisions: the serial comma in the investor heading (H5), the LinkedIn icon (S1) and the status labels (S8). The Latest cards show the real featured 2D-photonic post plus the two newest press releases, as before.
+- Everything else on page 05 is identical to v3 and already on the local site. Simon's v3 media all reuse existing local files (perceptual-hash matches: `sense-agv.jpg` 0, `connect-optical.jpg` 0, `home-defense.webp` 3, `home-2d-photonic-news.webp` 8 bits of 256).
+- Local-site Home copy compared with the v4 text. All printed copy is present except the known decisions: the serial comma in the investor heading (H5), the LinkedIn icon (S1) and the status labels (S8). The Latest cards show the real featured 2D-photonic post plus the two newest press releases, as before.
 - Checks: the 24 internal links and 18 media files on Home answer 200, except `/privacy-policy` (404, S2). With no visual change there was nothing to screenshot. No migration, no code change. Approved work (compact mobile hero, framing, spacing, colours, CTAs) is untouched.
 
-**For review before page 06:** whether to ask Lumotive for the LI140/ON140 post copy, or for approval to import the public Leopard release (H1); conflict 7 (duplicate tile photo).
+**Review decisions (2026-10-22):** keep the approved fallback posts; add the LI140/ON140 copy and the Leopard import approval to the client questions, and import nothing yet. Keep Simon's duplicate tile photo. No Home change follows from either.
+
+## Page 06 — Platform: v4 pass (2026-10-22)
+
+Implemented and verified on the local site; staging not updated. The 1D/2D video is in its split section, and the Explorer is self-hosted at `/lcm-explorer/` with poster, launch, iframe and full-screen link. #125 is unchanged ("Disregard"). Full record, verification and the open Explorer items are in `page-06-platform.md` ("v4 pass").

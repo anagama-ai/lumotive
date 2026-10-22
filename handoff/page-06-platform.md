@@ -1,7 +1,49 @@
 # Page 06 — /platform
 
-Approved content package rev. 2026-10-07 (v3), PDF page 06 of 21.
-Branch `feedback-20261007-v2`. Local changes only; not pushed, merged or deployed. Existing Home v3 work and the unrelated `vite.config.ts` change remain untouched.
+Approved content package rev. 2026-10-07, PDF page 06 of 21: v3 pass, then the v4 pass below (2026-10-22).
+Branch `feedback-20261007-v2`. Local changes only; not pushed, merged or deployed. The uncommitted `vite.config.ts` change remains untouched.
+
+## v4 pass (2026-10-22): implemented and verified on the local site
+
+Inputs: Simon's v4 notes on PDF page 06 and the page 03 "Interactive LCM Explorer" directions. Changes: migration `1787715500_platform_v4_media.js`; `MediaVideoEmbed.svelte` (new `interactive` mode); its CMS fields in `sections.statscta.ts`; the files in `static/lcm-explorer/`.
+
+| Section | v4 input | Result |
+| --- | --- | --- |
+| From 1D to 2D Beamforming (`b2d10f47`) | Vimeo 1237753837 "Ducky_v6" (16:9, 1:41) | `videoUrl` added. The section now has two columns with the player on the right, as printed. Below 768px it stacks above the copy, like the other split videos. Copy, quote and link unchanged. |
+| See LCM in Action (new `302ae187`, anchor `#explorer`, between 2D and Dynamic Scanning) | Explorer embed snippet | Printed eyebrow, heading and intro. A 16:9 poster with "Launch interactive explorer"; the click swaps in an iframe of `/lcm-explorer/index.html` titled "Interactive LCM explorer" (fullscreen allowed) and moves focus into it. "Open full screen →" opens the file in a new tab. |
+| Light Control Metasurface™ Optical Beamforming Technology, #125 graphic | "Disregard" | **No change.** Simon's v4 note "Disregard" on the #125 redraw request withdraws it (project decision 2026-10-22), so the current flow graphic stays. Webvizio #125 stays open until Claudia confirms. |
+
+### Explorer integration
+
+- **Hosting.** `static/lcm-explorer/index.html` is the supplied `lumotive.com/wp-content/uploads/2026/10/LCM_animation.html` (972,789 bytes, SHA-256 `ab07c690…7fc97e`). It is self-hosted, not iframed from lumotive.com as in Simon's snippet, because that WordPress site is replaced at launch (p03 step 01).
+- **One documented deviation from "unchanged".** The `<title>` "Lumotive LCM animation (Copy)" now reads "Lumotive LCM animation", page 03's name for the source. It shows in the browser tab of the full-screen view. Nothing else in the file changed (SHA-256 after: `79e82072…1dd15c20`, 7 bytes shorter); restoring that one line reverts it.
+- **Dependencies.** The file is self-contained: three.js, WebGL 2, its fonts, its logo and its poster are inline. Its only outside reference is `media/lcm-animation.mp4` (open item 1).
+- **Poster.** Page 03 asks for a 16:9 poster frame, and none was supplied as its own file. `poster.jpg` is the explorer's own inline poster (1280×720 JPEG, 107,770 bytes), extracted byte for byte from the file's fallback `<video poster>`. It was not made by us; Lumotive confirms it or supplies a dedicated frame (open item 2).
+- **Launch button** at the poster's lower edge: the poster has its own centred logo and "A new era: programmable optics" title, which a centred button covered.
+- **Loading.** Before the click the page requests only the poster (107 KB). The explorer (300 KB brotli on the production server) loads on launch.
+- **Full-screen URL** `/lcm-explorer/index.html`, the iframe's own URL. Pages 01 and 03 name `/lcm-explorer/`. A local production build (adapter-node) answers 200 for `/lcm-explorer/`, `/lcm-explorer` and `/lcm-explorer/index.html`, but the Vite dev server serves only the explicit file, so the file path is the one that works everywhere. CT4 on Contact can use either.
+
+### Verification (local site; headless Chromium unless stated)
+
+- **Layout 1440 / 768 / 390:** section order hero, manufacturing, technology, flow graphic, 2D, explorer, dynamic scanning, chips, applications. No horizontal overflow; every section's inner column on one left edge (80 / 24 / 16). 2D: copy 600 + player 600×338 at 1440; 337 + 337 at 768; player 358×201 above the copy at 390. Explorer frame 1280×720 / 720×405 / 358×201; button 282×49; link 44px tall.
+- **Poster** loads (1280×720, complete).
+- **Launch**, by mouse and by keyboard (Enter): poster and button give way to the iframe; focus moves into it without scrolling the page. The explorer draws its WebGL canvas, captions and timeline advance, and the page logs no errors. On a real GPU (Microsoft Edge 155, AMD Radeon, Direct3D 11) it runs at 60 fps in-page.
+- **Reduced motion:** the explorer starts paused (its own behaviour) with its Play button showing.
+- **Full screen:** the link opens a new tab (`target=_blank`, `rel=noreferrer`, no opener) at `/lcm-explorer/index.html`, title "Lumotive LCM animation", canvas running; at 390×844 portrait it adapts with no overflow.
+- **Vimeo 1237753837 in-page playback.** Headless and managed Chromium get Vimeo's Cloudflare challenge (HTTP 401) and never show the player, as in S19. In a visible Microsoft Edge 155 window, one click on the in-page player started playback: 1.38 → 8.89 s over 7.5 s, readyState 4, stream up to 3840×2160; a second click paused it at 9.33 s. A second run in a fresh profile gave 1.97 → 6.98 s. On the same page the existing Dynamic Scanning player (1040582713) started playing once its first click had passed Vimeo's check in that fresh profile.
+- **Contrast** (token pairs): button white on Laser Blue 4.57:1 (hover 6.20:1); "Open full screen" Deep Laser Blue on the page field 5.64:1.
+- **Migration** applied, reverted (all 16 page records byte-identical to before) and re-applied (identical to the first apply).
+- **Builds:** `npm run check` 0 errors, 0 warnings; `npm run build` passes, and the local production server serves the explorer files.
+- **No regression:** Applications' `videos` section uses the same component and renders the same classes as before.
+
+### Open (needs Lumotive; nothing invented)
+
+1. **Fallback video** `media/lcm-animation.mp4`: 404 on lumotive.com, not supplied. Only browsers without WebGL 2 show it; they get the poster plus "Open the interactive version", which reloads the same page. The hidden `<video>` still requests the file on every launch, so each launch logs one 404 (a console error, and a site 404 render of about 5–6 PocketBase calls; see S27). When the file arrives, put it at `static/lcm-explorer/media/lcm-animation.mp4`; no code change. It could also be the "poster + short video" for phones that page 03 step 05 allows.
+2. **Poster:** confirm the explorer's own title frame, or supply a dedicated 16:9 frame.
+3. **Intro copy vs the tool.** "Change the phase pattern across the metasurface and watch the beam steer, split, and focus." The supplied explorer is a guided animation (play/pause, a scrubbable chapter timeline, camera orbit) with no control for changing the phase pattern. Copy kept as approved; Claudia confirms or rewords.
+4. **Phones in-page.** In the 358×201 frame at 390 the explorer's own captions overlap its timeline (its layout, not ours); full screen in portrait reads well. Page 03 step 05 allows poster + short video on phones "if performance is poor"; here the issue is legibility. Decide: keep, or send phones straight to full screen. Real-device test under S20.
+5. Safari, iOS Safari and Android are not tested (S20).
+6. **Webvizio #125:** open until Claudia confirms the withdrawal.
 
 ## Completed
 
@@ -36,11 +78,9 @@ nothing in either touched component. Desktop 1440, tablet 768, mobile 390 and
 `prefers-reduced-motion: reduce` all checked in a live browser; no horizontal overflow;
 CTA contrast 4.57:1, body 7.54:1, headings 18.22:1.
 
-## Outstanding source assets and integration
+## Source assets (v3 list, status after v4)
 
-**Client dependencies:** (1) A corrected #125 traditional-optics graphic that visibly includes mirrors and prisms as well as lenses. The current `flow-traditional-optics.png` loads, but is lens-only and remains knowingly wrong. (2) The actual “Ducky video” or another approved 1D-line/2D-spot animation for the `b2d10f47` split; the absence of media currently retains its approved one-column fallback. (3) The approved self-contained Explorer HTML/WebGL bundle and 16:9 poster frame. None is supplied by v3 comments or in the searched local files.
-
-**Implementation after delivery, not additional client content:** host the HTML unchanged at `/lcm-explorer/index.html`, add the specified click-to-load 16:9 poster/iframe and full-screen link between 2D Beamforming and Dynamic Scanning, then test Chrome/Safari/Edge/iOS Safari. Test iOS performance before deciding whether its poster-plus-short-video fallback is needed. The graphic and animation slots need CMS media updates once real files arrive; the Explorer needs a new interactive component and browser testing. No placeholder section or fabricated graphic was added.
+All three v3 client dependencies are settled: (1) the #125 redraw is withdrawn ("Disregard" in v4; the current lens-only `flow-traditional-optics.png` stays, Webvizio #125 open for Claudia); (2) the 1D/2D animation is Vimeo 1237753837, now in the `b2d10f47` split; (3) the Explorer is self-hosted at `/lcm-explorer/` behind its own poster. Remaining Explorer items are in the v4 pass's "Open" list above.
 
 **Resolved locally:** LM10 photograph is no longer a pending input. The LS20 source is also available via page 07's annotation. The embedded existing Dynamic Scanning Vimeo (`1040582713`) was checked in-page: its iframe displayed the real player, play advanced to 3.9 seconds with readyState 4. A separate direct player check advanced to 9.8 seconds. Its title is “Introduction to the LCM Demonstration Kit,” consistent with the PDF's existing-video instruction. The prior sandbox 401 report is superseded for this browser/network check, not a guarantee for every visitor network.
 
