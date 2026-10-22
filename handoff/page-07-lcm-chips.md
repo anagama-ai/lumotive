@@ -23,6 +23,16 @@ Approved content package rev. 2026-10-07, PDF page 07 of 21: v3 pass, client-req
 - **Phones** stack it: animation, control, steps, note, caption.
 - **Spacing:** control 12px under the animation; steps 24px under the control; note 16px under the steps. The list's browser default margins are removed in this layout only.
 
+**Centred composition (2026-10-22, client request).** This superseded the left/right arrangement above. `textAlign: "center"` (migration `1787715800`) is set on this section and its five capability cards (`2a6e54bc`), and nowhere else on the site (`.centered` appears twice, both on this page).
+- **Header:** eyebrow, heading and intro are centred.
+- **Content column:** centred, still at most 1000px.
+- **Play/Pause control:** centred beneath the animation.
+- **Steps:** centred as a block up to 48rem wide, with numbers and labels still left-aligned inside so they line up.
+- **Captions:** the ROI note and the scan-sequence caption are centred beneath the steps, one above the other.
+- **Cards:** each centres its accent bar, title and description. Their responsive columns are unchanged (5 / 3 / 2 / 1 at 1440 / 1024 / 768 / 390).
+- **Verification:** at 1440, 1024, 768 and 390, all eight elements (eyebrow, heading, intro, animation, button, steps, note, caption) are centred on the content column (0px offset) and every card bar sits on its card's centre. Header spacing is still 16 / 16 / 32px, the animation is still at most 1000px, and there is no overflow.
+- **Screenshots:** `%TEMP%\lumotive-review\lcm-chips-v4-centered\` (`section-*.png` and `capability-cards-*.png` at each width).
+
 **Verification (local site, headless Chromium):**
 - 1440 / 1024 / 768 / 390 / 360: video 1000×604 / 976×590 / 720×435 / 358×216 / 328×198, intrinsic 1000×604, on the same left edge as heading, control and steps (80 / 24 / 24 / 16 / 16). No horizontal overflow.
 - It plays on screen, pauses when scrolled away and resumes on return. "Pause animation" holds through scrolling away and back (2.38 s before and after); "Play animation" resumes it.

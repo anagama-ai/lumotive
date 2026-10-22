@@ -56,6 +56,11 @@
 	// With a visual, a step list, its note and the outro sit in the visual's
 	// column instead of trailing the section.
 	let supportInBlock = $derived(Boolean(visual) && steps);
+	// `textAlign: "center"`: a centred composition (the /lcm-chips "How LCM
+	// fits" section and its capability cards). Header, visual column, control,
+	// step block and captions centre; cards centre their bar, title and copy.
+	// Unset on every other section.
+	let centered = $derived(String(section.textAlign ?? '') === 'center');
 	const cardTitle = (value?: string | null) => (exactCase ? (value ?? '') : (titleCase(value ?? '') ?? ''));
 	// `titleLines: "2"` reserves two lines for every card title from 768px up,
 	// so a row whose titles wrap differently still starts every description at
@@ -98,7 +103,7 @@
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
 </script>
 
-<section class="lumo-section" class:has-visual={Boolean(visual)} id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
+<section class="lumo-section" class:has-visual={Boolean(visual)} class:centered id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal><div class="section-head mb-12 max-w-4xl">
@@ -131,7 +136,7 @@
 			<div class="visual-block">
 				<Reveal>
 					{#if visual.isVideo}
-						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} />
+						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} center={centered} />
 					{:else}
 						<img class="rounded-card w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 1064px) 1000px, calc(100vw - 2rem)" alt={visualAlt || visual.alt} width={visual.width ?? 1000} height={visual.height ?? 600} />
 					{/if}
@@ -158,7 +163,7 @@
 				{@const barClass = bar(card.accent)}
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`rounded-card bg-surface hover:shadow-card group flex flex-col p-8 transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}${rowAlign ? ' row-card' : ''}`}
+					class={`rounded-card bg-surface hover:shadow-card group flex flex-col p-8 transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}${rowAlign ? ' row-card' : ''}${centered ? ' card-centered' : ''}`}
 					style:--card-rows={rowAlign ? cardRows(card, image, link) : undefined}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
@@ -173,7 +178,7 @@
 					{#if numbered}
 						<p class={`font-display text-subheading m-0 tabular-nums ${numeral(card.accent)}`}>{String(index + 1).padStart(2, '0')}</p>
 					{:else}
-						<span aria-hidden="true" class={`mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
+						<span aria-hidden="true" class={`accent-bar mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
 					{/if}
 					{#if card.eyebrow}<p class="text-eyebrow text-ink uppercase">{card.eyebrow}</p>{/if}
 					{#if card.title}<h3 class={`font-display text-subheading text-ink mt-3 mb-0${twoLineTitles ? ' md:min-h-[2lh]' : ''}`}>{cardTitle(card.title)}</h3>{/if}
@@ -239,6 +244,16 @@
 	@media (min-width: 768px) {
 		.visual-support { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 2.5rem; align-items: start; }
 	}
+	/* Centred composition (`textAlign: "center"`). The step list's rows stay
+	   left-aligned inside their centred block, so numbers and labels still
+	   line up; the two captions centre beneath it in one column. */
+	.centered .section-head { margin-inline: auto; text-align: center; }
+	.centered .visual-block { margin-inline: auto; }
+	.centered .visual-support { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: .75rem; text-align: center; }
+	.centered .visual-support > * { width: 100%; max-width: 48rem; }
+	.centered .step-list { text-align: left; }
+	.centered .card-centered { text-align: center; }
+	.centered .card-centered .accent-bar { margin-inline: auto; }
 	.section-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; color: var(--color-brand-blue-dark); font-weight: 650; text-decoration: none; }
 	.section-link span { transition: transform 200ms ease; }
 	.section-link:hover span { transform: translateX(.25rem); }

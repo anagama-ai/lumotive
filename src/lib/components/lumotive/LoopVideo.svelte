@@ -7,8 +7,9 @@
 		src,
 		poster,
 		label = '',
-		aspect
-	}: { src: string; poster?: string; label?: string; aspect?: string } = $props();
+		aspect,
+		center = false
+	}: { src: string; poster?: string; label?: string; aspect?: string; center?: boolean } = $props();
 
 	let paused = $state(true);
 	// Set once the visitor uses the control; scrolling never overrides it.
@@ -50,7 +51,7 @@
 	}
 </script>
 
-<figure class="loop-video">
+<figure class="loop-video" class:center>
 	<video
 		bind:this={video}
 		{@attach playWhileVisible}
@@ -81,6 +82,7 @@
 	   supplied animations carry their own labels and captions edge to edge,
 	   so nothing may cover them. */
 	.loop-video { display: grid; justify-items: start; gap: .75rem; margin: 0; }
+	.loop-video.center { justify-items: center; }
 	video { display: block; width: 100%; height: auto; border-radius: var(--radius-card); }
 	/* 44px target; ink on white well above 4.5:1. The text names the action,
 	   so the button needs no separate label. */

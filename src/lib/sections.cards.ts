@@ -154,6 +154,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			{ name: 'media', label: 'Visual under the introduction (image or MP4)', type: 'media' },
 			{ name: 'mediaPoster', label: 'Visual poster frame (video)', type: 'media' },
 			{ name: 'mediaAlt', label: 'Visual description (alt text)', type: 'text' },
+			{ name: 'textAlign', label: 'Centre the composition (center)', type: 'text' },
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
 			{ name: 'columns', label: 'Desktop columns (2 | 3 | 4 | 5, default 3)', type: 'text' },
