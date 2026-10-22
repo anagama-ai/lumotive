@@ -35,6 +35,10 @@
 	// package prints with a visual next to its two actions. Unset elsewhere,
 	// where the stacked markup is unchanged.
 	let visual = $derived(stacked ? resolveMedia(section.media, media, 1024) : null);
+	// `textAlign: "left"`: the centred closing CTA set on the container's left
+	// edge instead (/applications, as its PDF page prints it). Same panel,
+	// type, buttons and width; unset elsewhere, where it stays centred.
+	let leftAligned = $derived(String(section.textAlign ?? '') === 'left');
 
 	const backdrops: Record<string, { src: string; position: string }> = {
 		ctaDefault: { src: '/lumotive/img/cta-glow.jpg', position: 'right center' },
@@ -139,12 +143,12 @@
 				{@render stackedCopy()}
 			{/if}
 		{:else}
-			<Reveal stagger class="mx-auto max-w-3xl text-center">
+			<Reveal stagger class={leftAligned ? 'max-w-3xl text-left' : 'mx-auto max-w-3xl text-center'}>
 				{#if section.eyebrow}<p class="text-eyebrow mb-4 uppercase text-brand-amber">{String(section.eyebrow)}</p>{/if}
 				{#if heading}<h2 class="font-display text-statement text-white">{heading}</h2>{/if}
-				{#if body}<div class="prose mx-auto mt-6 text-lead text-white/75">{@html body}</div>{/if}
+				{#if body}<div class="prose mt-6 text-lead text-white/75" class:mx-auto={!leftAligned}>{@html body}</div>{/if}
 				{#if links.length}
-					<div class="mt-9 flex flex-wrap items-center justify-center gap-4">
+					<div class="mt-9 flex flex-wrap items-center gap-4" class:justify-center={!leftAligned} class:justify-start={leftAligned}>
 						{#each links as item, index (`${item.label}:${item.href}`)}
 							<!-- The secondary action is outlined on the dark panel. Its
 							     colours are scoped CSS, not utilities: a bare `text-white`

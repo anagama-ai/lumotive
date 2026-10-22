@@ -66,3 +66,7 @@ Unchanged and still deliberate: hero, copy, `columns: "4"`, `density: "tight"`, 
 
 - The four sections removed in v2 (`ebb6cf90`, `b3ce5d47`, `357cf90c`, `60dd50fb`) live on in the down path of `1787709500_applications_page8.js` as source copy for pages 09 and 11. Do not drop that migration.
 - Page 06's "See all applications" points here and is unaffected.
+
+## Closing CTA left-aligned (2026-10-22, client request)
+
+"Build With Programmable Optics" (`9a19b24a`) now sits on the container's left edge, as PDF page 08 prints it. It uses the new opt-in `textAlign: "left"` in `CtaDefault`, set by `1787716000_applications_cta_left.js` on this section only; every other centred CTA is unchanged. The heading, paragraph and "Talk to our team" button (`/contact`) start at the same x as the section above at every width tested: 80 / 24 / 16px at 1440 / 768 / 390. No overflow. Background, type, button style, copy and link are unchanged. The migration was applied, reverted (byte-identical) and re-applied. Screenshots: `%TEMP%\lumotive-review\applications-v4\cta-{1440,768,390}.png`.

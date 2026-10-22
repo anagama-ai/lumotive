@@ -59,6 +59,7 @@ const ctaFields: FieldSpec[] = [
 	{ name: 'media', label: 'Image beside the copy (stacked only)', type: 'media' },
 	// Phones only: tighter padding above and below the content.
 	{ name: 'compactMobile', label: 'Compact CTA on phones (true | false)', type: 'text' },
+	{ name: 'textAlign', label: 'Left-align a centred CTA (left)', type: 'text' },
 	{ name: 'secondaryLinkLabel', label: 'Secondary link label', type: 'text' },
 	{ name: 'secondaryLinkUrl', label: 'Secondary link URL', type: 'url' },
 	{
