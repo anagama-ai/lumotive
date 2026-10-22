@@ -423,3 +423,40 @@ On white, the body text measured 7.54:1.
 **Layout check:** card boxes match the untinted cards at every width (302×245 at 1440, 226×288 at 1024, 348×213 at 768, 358 wide at 390). No overflow.
 
 **Screenshots:** `%TEMP%\lumotive-review\itof-benefit-tints\li140-specs-benefits-{1440,1024,768,390}.png`.
+
+### Completion check (2026-10-22)
+
+This check re-verified Page 14 against the v4 list. The LI140 benefit-card tints (`d7474ad`) are approved and kept. Nothing needed changing.
+
+**Verified in the local database:** both migrations are applied (`1787717100`, `1787717200`). Every v4 field is present:
+- **Hero:** `hero-itof-kits.webp`, with tablet `strong` and phone `max` shades.
+- **Video:** `videoUrl` 1053591397 with `videoLayout: "above"`, plus the approved link.
+- **Kit openers:** LI140 and ON140 on panels.
+- **Point cloud:** the depth frame in both slots.
+- **Scan modes:** the still strip.
+- **M30:** its opener image and panel (`m30-dev-kit-contents.webp`) and demo video (1174547871) are unchanged.
+
+**Headless Chromium checks:**
+- **Layout at 1440 / 768 / 390:** no overflow and no broken image.
+- **Hero:** 612 / 612 / 441px, so the compact phone hero is unchanged.
+- **Video:** 1000×563 / 720×405 / 358×201.
+- **Opener photos:** LI140, ON140 and M30 match: 600×403 / 337×226 / 268×180.
+- **Depth frames:** 738×448 and 736×447 at 1440; 358×217 at 390.
+- **Scan strip:** 1280×425 at 1440 with no scroll; scrolls with its hint at 768 and 390.
+- **Tints:** the benefit cards are #E6F2FA / #E6F6EE / #FFF5E0 / #E6F2FA.
+- **Headings:** all ten are in the printed order.
+- **Links:** all eight inquiry links render. Every `/contact?inquiry=` target (`itof-evaluation`, `li140-datasheet`, `on140-datasheet`, `m30-datasheet`) and `/sense/robotics` answer 200.
+
+**Playback (headed Edge, in-page iframe):**
+
+| Player | Width | Before click | Clicked: playing | Second click |
+| --- | --- | --- | --- | --- |
+| Better Data | 1440 | 0 s, readyState 0 | 4.49 → 6.99 s, readyState 4, 3840×2160 source | paused at 7.34 s |
+| Better Data | 390 | — | 4.84 → 7.34 s | paused at 7.64 s |
+| M30 clip | — | — | 5.20 → 7.70 s | — |
+
+**Scan modes:** still the supplied static figure. Its differences from the printed animated five-tab selector stay recorded in the v4 pass above and in `v4-checklist.md` conflict 4.
+
+**Screenshots:** `%TEMP%\lumotive-review\itof-v4-final\`:
+- `01-hero`, `02-better-data`, `03-li140-opener-specs-benefits`, `04-wide-field-depth`, `05-scan-modes`, `06-on140` and `07-m30`, each as `-{1440,768,390}.png`;
+- `better-data-playing-edge-{1440,390}.png`.
