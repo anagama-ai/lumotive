@@ -112,7 +112,7 @@ In-page playback was confirmed in a **visible Edge window only**, with pause hol
 | Dokploy/GHCR secrets, app IDs and `ORIGIN` (S24). The deploy job skips silently if the app-ID variables are empty | Josh | Unverified |
 | PocketBase rate limit: the default 300 requests per 10 s is shared by all visitors through the web server's IP (S27) | Josh decides, we implement | Option (1), the 60 s public-globals cache, is built and tested (one globals request per minute instead of four per render). Options (2)/(3) wait for the network layout |
 | Pipedrive hidden fields, then one agreed test submission (S3, S28) | Lumotive admin via Josh, then us | Not started |
-| `/privacy-policy` 404 in the footer (S2) | Lumotive | Waiting for text or approval to port |
+| `/privacy-policy` footer destination (S2) | Us | **Resolved locally 2026-10-23.** Reuse explicitly approved; migration `1787717700` publishes the verbatim policy. Footer link 200; mobile/tablet/desktop QA and check/build pass. Not pushed or deployed; see `final-qa-handoff.md` |
 | Cross-browser QA: Safari, iOS, Android, including video playback (S20) | Us | Not started. Edge only, for every embed |
 | `vite.config.ts`: commit on its own or drop (S25) | Us | Open. Not in any commit |
 
