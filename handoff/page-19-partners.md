@@ -151,3 +151,27 @@ swap rather than a blocker.
    see above.
 4. `static/lumotive/logos/fortsense.png` is now unreferenced. Left in place
    rather than deleted, since removal from the site is what page 01 asks for.
+
+## Mobile logo refinement (2026-10-23)
+
+The hero and all tablet/desktop styling remain unchanged. Below 768px,
+`1787717600_partners_mobile_logo_refine.js` opts only this page's three logo
+sections into `LogosLabelled`'s compact mobile treatment.
+
+- Hero → Module heading: **80 → 64px**.
+- Module panel → Technology heading and Technology panel → Distribution
+  heading: **160 → 64px** each.
+- Heading/copy block → panel: **48 → 32px**.
+- Panels: 24px vertical padding, 16px row gaps, 16px radius. Proportional logos
+  capped at 128 × 40px; two columns with odd final marks centred. Heading
+  scale, introductory copy, logo files, names, order, links and alt text kept.
+- Verified at **360, 390, 430, 440px**: all 14 logos fit, no cropping,
+  distortion, overlap or horizontal overflow. At **768 and 1440px**, section
+  and logo geometry matches the baseline exactly. `/about`'s shared panel
+  sizing is unchanged. `npm run check`: 0 errors, 0 warnings.
+
+Full measurements, decisions and verification boundaries are in
+`final-qa-handoff.md`, **Mobile QA: `/partners` logo refinement**. Before/after
+screenshots and measurement JSON:
+`%TEMP%\lumotive-review\partners-mobile-refine\`. Local only; no push,
+merge or deploy. `vite.config.ts` left untouched.

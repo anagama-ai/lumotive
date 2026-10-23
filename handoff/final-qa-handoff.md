@@ -73,6 +73,74 @@ Checked on the local site (dev server and local database).
 
 Also seen: in the dev server, `/lcm-explorer/` (without `index.html`) 404s. This is expected: every site link uses `/lcm-explorer/index.html`, which loads (200), and the production server resolves the folder.
 
+## Mobile QA: `/partners` logo refinement (2026-10-23)
+
+Verified locally in Chromium at **360, 390, 430, 440, 768 and 1440px**.
+Hero markup and geometry are identical to the baseline at every width.
+No copy, logo assets, names, order, links or alt text changed.
+
+### Measured spacing
+
+CSS pixels, measured from the hero's bottom edge to the first heading, then
+from each logo panel's bottom edge to the next section heading:
+
+| Viewport | Hero → Module heading | Module panel → Technology heading | Technology panel → Distribution heading | Horizontal overflow |
+|---|---:|---:|---:|---:|
+| 360 | 64 | 64 | 64 | 0 |
+| 390 | 64 | 64 | 64 | 0 |
+| 430 | 64 | 64 | 64 | 0 |
+| 440 | 64 | 64 | 64 | 0 |
+| 768 | 80 (unchanged) | 160 (unchanged) | 160 (unchanged) | 0 |
+| 1440 | 80 (unchanged) | 160 (unchanged) | 160 (unchanged) | 0 |
+
+The mobile baseline was **80 / 160 / 160px**. All three heading/copy blocks
+now have **32px** before their panels (was 48px). Distribution retains its
+introductory copy: the literal h2-to-panel distance is 128.14px at 360/390
+and 100.09px at 430/440, including that copy and its existing 12px top margin.
+The blank space after the copy is 32px, not an extra section gap.
+
+### Decisions and checks
+
+- `1787717600_partners_mobile_logo_refine.js` enables `compactMobile` only on
+  `/partners` sections `c5fe1eab`, `3138ddf9`, `7c333883`. `LogosLabelled`
+  applies the treatment only below 768px; no global spacing rule changed.
+- Major gaps use existing `--space` (64px below 768). Each following logo
+  section owns its gap; the final panel's existing 80px bottom padding before
+  the closing CTA is preserved.
+- Panel vertical padding **32 → 24px**, row gap **24 → 16px**, column gap
+  **40 → 24px**, cell minimum height **64 → 48px**. Horizontal padding stays
+  20px. Radius uses the existing 16px card token instead of the 24px panel token.
+- Panel heights at all four mobile widths: **216 → 160px** (Module),
+  **392 → 288px** (Technology), **216 → 160px** (Distribution).
+- Logos use proportional `width/height: auto`, `object-fit: contain`, and caps
+  of **128px wide / 40px high**, also bounded by their cells. No identical-size
+  stretching or artwork edits. Gpixel renders at approximately **107.73 × 40px**,
+  ADAPS **101.98 × 40px**, MulticoreWare **105.95 × 40px**.
+- Headings retain the approved **33.6px** mobile statement scale; reducing
+  logo/panel weight restored hierarchy without enlarging headings. Two columns
+  remain at every mobile width; Electronic Photonics and MulticoreWare finish
+  their odd rows centred. Embedded taglines remain visible and readable in
+  the reviewed screenshots.
+- All **14 logos** loaded and remained inside both cell and panel bounds,
+  with preserved aspect ratios and zero overlaps or horizontal overflow.
+  Screenshots visually checked at all six widths.
+- At **768 and 1440**, section, heading, panel and individual-logo measurements
+  match the baseline exactly. `/about`'s shared logo panel at 390px retains its
+  previous logo dimensions and does not receive the opt-in.
+- Content snapshot comparison: only the three opt-in fields changed, on
+  `/partners` only. Migration replay against the original section snapshot
+  matches the live result, is idempotent, and rolls back to the original values.
+- `npm run check`: **595 files, 0 errors, 0 warnings**. Layout detector: no
+  findings. Svelte autofixer: new selectors clear; its pre-existing dynamic
+  CMS `href` advisory is left unchanged to preserve links.
+
+**Evidence:** `%TEMP%\lumotive-review\partners-mobile-refine\` contains
+`before-{width}.png` and `after-{width}.png` for all six widths, the mobile
+logo contact sheet, before/after measurement JSON, geometry verification and
+content/migration verification. Screenshots stay outside the repository.
+`vite.config.ts` is untouched; local commit only, no push/merge/deploy.
+This is Chromium viewport QA, not a replacement for S20's real-device checks.
+
 ## Evidence
 
 Screenshots and measurements are in `%TEMP%\lumotive-review\qa-final\` (playback, links, P6, menus, hero and video contrast with `contrast-results.json`). The migration rehearsal report is in `%TEMP%\lumotive-staging-rehearsal\run-B\dry-run\`. These are temporary folders on this machine; copy them somewhere permanent if they are needed for sign-off.

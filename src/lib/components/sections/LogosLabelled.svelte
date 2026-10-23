@@ -20,6 +20,8 @@
 	// the investor panel uses; a strip of seven asks for four, so it sets four
 	// and three rather than six and a stray.
 	let columns = $derived(/^[2-6]$/.test(String(section.columns ?? '')) ? String(section.columns) : '');
+	// Opt-in for the /partners phone panels; all other strips keep their sizing.
+	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
 	let logos = $derived(
 		(Array.isArray(section.logos) ? section.logos : []).flatMap((raw): Logo[] => {
 			if (!raw || typeof raw !== 'object') return [];
@@ -65,6 +67,7 @@
 	<section
 		class="lumo-section logo-grid-section"
 		class:dark
+		class:compact-mobile={compactMobile}
 		id={section.anchor ? String(section.anchor) : undefined}
 		data-background={section.background ?? 'none'}
 		data-width={section.width ?? 'contained'}
@@ -148,6 +151,20 @@
 		   cells shrink to a pair instead; the marks keep their proportions. */
 		.centered li { flex: 1 1 7rem; max-width: 9.5rem; }
 		.centered li a, .centered .logo-item { min-height: 4rem; }
+	}
+	@media (width < 768px) {
+		.compact-mobile > .lumo-inner { padding-top: var(--space); }
+		/* Let the next logo section own the gap; keep the final section's
+		   existing bottom spacing before the closing CTA. */
+		.compact-mobile:has(+ :global(.compact-mobile)) > .lumo-inner { padding-bottom: 0; }
+		.compact-mobile .heading-block { margin-bottom: 2rem; }
+		.compact-mobile .logo-panel { padding: 1.5rem 1.25rem; border-radius: var(--radius-card); }
+		.compact-mobile ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 1.5rem; }
+		.compact-mobile li { flex: 0 0 calc((100% - 1.5rem) / 2); max-width: none; }
+		.compact-mobile li a, .compact-mobile .logo-item { min-height: 3rem; }
+		/* Wide wordmarks retain readable detail; taller marks (Gpixel, ADAPS,
+		   MulticoreWare) meet the height cap instead of dominating the heading. */
+		.compact-mobile li img { max-width: min(8rem, 100%); max-height: 2.5rem; }
 	}
 	@media (prefers-reduced-motion: reduce) {
 		li img { transition: none; }
