@@ -116,6 +116,16 @@ export const statsCtaSpecs: Record<string, SectionSpec> = {
 			...presentationFields
 		]
 	},
+	postsFeatured: {
+		label: 'Posts — featured teasers',
+		fields: [
+			{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
+			{ name: 'heading', label: 'Heading', type: 'text' },
+			{ name: 'linkLabel', label: 'Link label', type: 'text' },
+			{ name: 'linkUrl', label: 'Link URL', type: 'url' },
+			...presentationFields
+		]
+	},
 	timeline: {
 		label: 'Timeline',
 		fields: [

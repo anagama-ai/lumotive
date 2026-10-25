@@ -70,6 +70,39 @@ img, video { display: block; max-width: 100%; }
 .lumo-section[data-spacing-bottom='lg'] > .lumo-inner { padding-bottom: 7rem; }
 .lumo-section[data-spacing-bottom='xl'] > .lumo-inner { padding-bottom: 9rem; }
 
+/* Opt a section's inner column into the header's geometry, so its content
+   lines up with the nav logo instead of the wider section shell.
+
+   `.container` above is the project rule, but the class name also picks up
+   Tailwind's own `container` utility, which caps the width at every
+   breakpoint. Both halves are mirrored here, so an opted-in section and the
+   header share a left and right edge at any viewport. Keep this list in step
+   with Tailwind's breakpoints. */
+.lumo-section[data-align='container'] > .lumo-inner {
+	width: min(var(--container-content), 100% - 3rem);
+	max-width: none;
+	padding-inline: 0;
+}
+@media (min-width: 640px) {
+	.lumo-section[data-align='container'] > .lumo-inner { max-width: 640px; }
+}
+@media (min-width: 768px) {
+	.lumo-section[data-align='container'] > .lumo-inner { max-width: 768px; }
+}
+@media (min-width: 1024px) {
+	.lumo-section[data-align='container'] > .lumo-inner { max-width: 1024px; }
+}
+@media (min-width: 1280px) {
+	.lumo-section[data-align='container'] > .lumo-inner { max-width: 1280px; }
+}
+@media (min-width: 1536px) {
+	.lumo-section[data-align='container'] > .lumo-inner { max-width: 1536px; }
+}
+@media (max-width: 640px) {
+	/* The narrower gutter `.container` switches to on small screens. */
+	.lumo-section[data-align='container'] > .lumo-inner { width: min(100% - 2rem, var(--container-content)); }
+}
+
 /* The hero is `relative isolate z-50` so the peel scenes ride up behind it, and
    it comes later in the document. At an equal z-index the hero therefore paints
    over the header's overflowing nav popover and mobile panel, hiding both. */

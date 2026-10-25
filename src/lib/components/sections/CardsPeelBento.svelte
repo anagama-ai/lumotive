@@ -9,6 +9,15 @@
 	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
 	let { section, media, band }: { section: Section; media: MediaMap; band?: Section } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
+	// The bento spans assume a long, uneven set. A set of four or fewer is an
+	// even row instead, so the feature spans are opt-in by length.
+	let bento = $derived(cards.length > 4);
+	let sectionLink = $derived.by(() => {
+		const label = String(section.linkLabel ?? '').trim();
+		const href = String(section.linkUrl ?? '').trim();
+		if (!label || !href) return null;
+		return { label, href, newTab: section.linkNewTab === true || section.linkNewTab === 'true' };
+	});
 
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
 	const bar = (accent?: string) => accent === 'accent2' ? 'bg-brand-red' : accent === 'accent3' ? 'bg-brand-amber' : 'bg-surface';
@@ -24,6 +33,7 @@
 		data-width={String(section.width ?? 'contained')}
 		data-spacing-top={String(section.spacingTop ?? 'md')}
 		data-spacing-bottom={String(section.spacingBottom ?? 'md')}
+		data-align="container"
 	>
 		<div class="lumo-inner flex min-h-full flex-col justify-center py-10">
 			{#if section.eyebrow || section.heading || section.intro}
@@ -43,7 +53,7 @@
 						{@const darkText = amber || (solid && card.accent !== 'accent2')}
 						<svelte:element
 							this={link.href ? 'a' : 'article'}
-							class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''} ${index === 2 ? 'lg:row-span-2' : ''} ${index === 4 ? 'lg:col-span-3' : ''} ${solid ? bar(card.accent) : 'bg-surface'}${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+							class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${bento && index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''} ${bento && index === 2 ? 'lg:row-span-2' : ''} ${bento && index === 4 ? 'lg:col-span-3' : ''} ${solid ? bar(card.accent) : 'bg-surface'}${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 							href={link.href || undefined}
 							target={link.href && link.newTab ? '_blank' : undefined}
 							rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
@@ -54,7 +64,7 @@
 							{/if}
 							<div class="relative z-10 flex flex-1 flex-col justify-end">
 								{#if card.eyebrow}<p class={`text-eyebrow uppercase ${darkText ? 'text-ink' : 'text-white/75'}`}>{card.eyebrow}</p>{/if}
-								<h3 class={`font-display mt-3 ${index === 0 ? 'text-heading' : 'text-subheading'} ${darkText ? 'text-ink' : 'text-white'}`}>{titleCase(card.title ?? '')}</h3>
+								<h3 class={`font-display mt-3 ${bento && index === 0 ? 'text-heading' : 'text-subheading'} ${darkText ? 'text-ink' : 'text-white'}`}>{titleCase(card.title ?? '')}</h3>
 								{#if card.body}<div class={`mt-3 text-base leading-relaxed ${darkText ? 'text-ink' : 'text-white/75'}`}>{@html card.body}</div>{/if}
 								{#if card.badge}<span class={`text-spec mt-4 self-start rounded-full px-3 py-1 ${darkText ? 'bg-ink/10 text-ink' : 'bg-white/15 text-white'}`}>{card.badge}</span>{/if}
 								{#if link.href && link.label}
@@ -66,6 +76,24 @@
 						</svelte:element>
 					{/each}
 			</Reveal>
+			{#if sectionLink}
+				<Reveal delay={0.12}>
+					<a class="section-link" href={sectionLink.href} target={sectionLink.newTab ? '_blank' : undefined} rel={sectionLink.newTab ? 'noreferrer' : undefined}>{sectionLink.label} <span aria-hidden="true">→</span></a>
+				</Reveal>
+			{/if}
 		</div>
 	</section>
 </PeelScene>
+
+
+<style>
+	/* A bare utility loses to the global anchor colour, so the section action is
+	   coloured the same scoped way the other section links are. */
+	.section-link { display: inline-flex; gap: .5rem; margin-top: 2.5rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
+	.section-link span { transition: transform 200ms ease; }
+	.section-link:hover span { transform: translateX(.25rem); }
+	@media (prefers-reduced-motion: reduce) {
+		.section-link span { transition: none; }
+		.section-link:hover span { transform: none; }
+	}
+</style>
