@@ -76,6 +76,21 @@
 			.trim();
 		const unlit = (el: HTMLElement) =>
 			el.closest('[data-peel-from="dim"]') ? 'rgb(255 255 255 / 25%)' : muted;
+		const cover = shouldUncover
+			? (() => {
+					const previous = root.previousElementSibling;
+					return (previous?.matches('[data-peel-cover]')
+						? previous
+						: previous?.querySelector('[data-peel-cover]')) as HTMLElement | null | undefined;
+				})()
+			: null;
+		// A scene that rides a cover's lower edge plays its beats during that
+		// reveal and has no runway of its own, so a viewport-tall panel only adds
+		// empty space after its content. Size it to the content instead. A
+		// revealFollow scene with nothing above to ride still pins for its beat
+		// runway, so it keeps the full-viewport stage.
+		const fit = followReveal && !!cover;
+		stickyPanel.classList.toggle('fit', fit);
 		const mm = gsap.matchMedia();
 
 		mm.add(
@@ -97,14 +112,6 @@
 				}
 
 				const wide = context.conditions?.wide;
-				const cover = shouldUncover
-					? (() => {
-							const previous = root.previousElementSibling;
-							return (previous?.matches('[data-peel-cover]')
-								? previous
-								: previous?.querySelector('[data-peel-cover]')) as HTMLElement | null | undefined;
-						})()
-					: null;
 
 				const size = () => {
 					if (!wide) return;
@@ -236,6 +243,7 @@
 		return () => {
 			mm.revert();
 			root.style.zIndex = '';
+			stickyPanel.classList.remove('fit');
 		};
 	});
 </script>
@@ -272,6 +280,15 @@
 			min-height: 100dvh;
 			overflow: hidden;
 			padding-top: 5rem;
+		}
+
+		/* Content-height panel for a scene riding the cover above. Its children
+		   start a cover's height below the panel and rise into place, so the
+		   panel must not clip them vertically during that reveal. */
+		.peel-panel:global(.fit) {
+			min-height: 0;
+			overflow-x: clip;
+			overflow-y: visible;
 		}
 	}
 

@@ -45,6 +45,62 @@ Click the footer policy link, open/close mobile navigation, inspect portraits/lo
 play the existing embeds, and check local media and page-width overflow.
 Do not submit the contact form until its one agreed staging test is authorized.
 
+## Home "One Chip. Boundless Applications." spacing (2026-10-26)
+
+Staging showed a large empty area under the two cards at about 1907×985.
+
+**Cause.** `PeelScene`'s sticky panel had `min-height: 100dvh` from 768px up.
+This scene rides the hero's lower edge (`revealFollow`), so it has no
+pinned beat runway of its own. The extra height therefore became empty space
+under the 665px content. Its `min-h-full justify-center` classes had no effect,
+so all the spare height went below the cards. There are no ScrollTrigger pin
+spacers (`.pin-spacer` count 0); the scene's JS-sized wrapper already reserved
+no runway (`0dvh`). The hero's lift only matched the panel height.
+
+**Fix.** `PeelScene` adds `.fit` only when a `revealFollow` scene actually has
+a cover above it. The class drops the full-viewport minimum and clips only
+horizontally, so content rising from below the panel is not cut off during
+the reveal. The Home bento uses `revealFollow` but has no cover. It keeps its
+full-viewport panel and 90dvh beat runway; its metrics are unchanged at every
+width. Copy, images, links, card sizes, mobile layout and surrounding sections
+are unchanged.
+
+Settled frame after the hero clears (header bottom 73px; heading top 127–128px in both builds):
+
+| Viewport | Panel before → after | Empty panel under cards | Cards → next content, one wheel notch later |
+|---|---:|---:|---:|
+| 1920×1080 | 1080 → 745 | 335 → 0 | 437 → 92 |
+| 1907×985 | 985 → 745 | 240 → 0 | 342 → 92 |
+| 1440×900 | 900 → 718 | 182 → 0 | 284 → 92 |
+| 1366×768 | 768 → 717 | 51 → 0 | 153 → 153* |
+
+The 92px is the next section's standard 80px top padding plus 12px of eyebrow
+line box. In the exact settled frame, "Latest from Lumotive" can still be
+hidden: its existing `Reveal` starts at `top 85%`. *At 1366×768, that threshold
+needs one more wheel notch.
+
+Mid-reveal geometry is identical before and after: the heading stays 130px
+under the hero's moving edge, and content below the shorter panel is not
+clipped. Reduced motion uses a 718px static panel with no empty space under the
+cards. Horizontal overflow is 0 at 390, 768, 1024, 1366, 1440, 1907 and 1920.
+Phones (below 768px) are unchanged. `npm run check`: 595 files, 0 errors,
+0 warnings; `npm run build`: passed. Screenshots:
+`%TEMP%\lumotive-review\home-one-chip-spacing\`.
+
+**GSAP ScrollTrigger pin candidate (not converted).** `PeelScene` implements pinning by hand:
+a CSS `position: sticky` panel plus a JS-sized wrapper
+(`height = panel + cover lift + runway`). Scrubbed ScrollTrigger timelines run
+the beats. Scenes with a beat runway map cleanly to
+`pin: panel, pinSpacing: true, end: '+=90%'`, which would replace the sticky
+rule and height arithmetic. Examples are the Home bento ("When Light Becomes
+Programmable"), `CardsPeelSwap`, `StatsPeelScene`, `TestimonialsPeelScene` and
+`SplitPeelBleed`.
+
+Not converted: all six section types share this component. The cover-follow
+choreography also couples three moving parts: the hero `coverTween`, the
+wrapper's negative margin and the panel `followTween`. It has no single
+unambiguous pin target. Convert only with a per-scene visual review.
+
 ## Historical QA baseline — 2026-10-22
 
 | Area | Result | ID |
