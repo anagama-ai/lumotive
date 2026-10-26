@@ -24,8 +24,10 @@
 </script>
 
 <!-- Homepage only: ride the edge of the hero panel above so this section fills
-     the strip it vacates instead of trailing a viewport of empty scroll. -->
-<PeelScene {band} {media} revealFollow>
+     the strip it vacates instead of trailing a viewport of empty scroll.
+     The cards run top-down, so the pinned panel takes their height rather
+     than a viewport's; a taller screen gets no empty band after them. -->
+<PeelScene {band} {media} revealFollow stage={false}>
 	<section
 		class="lumo-section"
 		id={section.anchor ? String(section.anchor) : undefined}

@@ -79,7 +79,10 @@
 </script>
 
 {#if quotes.length}
-	<PeelScene {band} {media}>
+	<!-- The quote centres in its own 48dvh stage below, so the pinned panel
+	     takes the section's height; a viewport taller than the section would
+	     otherwise leave an empty band between it and the next one. -->
+	<PeelScene {band} {media} stage={false}>
 		<section
 			class="lumo-section"
 			id={section.anchor ? String(section.anchor) : undefined}

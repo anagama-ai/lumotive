@@ -101,6 +101,167 @@ choreography also couples three moving parts: the hero `coverTween`, the
 wrapper's negative margin and the panel `followTween`. It has no single
 unambiguous pin target. Convert only with a per-scene visual review.
 
+## Large-viewport spacing audit, Pages 05–21 (2026-10-26)
+
+Baseline `a8fcd60`: production build, existing local PocketBase, Chromium.
+Pages: `/`, `/platform`, `/lcm-chips`, `/applications`, `/sense`,
+`/sense/robotics`, `/sense/automotive`, `/dev-kits`,
+`/dev-kits/transmit-modules`, `/dev-kits/itof`, `/dev-kits/dtof`,
+`/connect`, `/about`, `/culture`, `/partners`, `/news`, `/contact` and
+`/privacy-policy`.
+
+Viewports: 1920×1080, 1907×985, 1440×900, 1366×768, 1024×768,
+768×1024 and 390×844. 2560×1440 was added as a tall-screen check for pinned
+scenes.
+
+For every top-level section and peel scene, the audit recorded:
+- the frame;
+- the content box (text, media and visual containers, excluding full-bleed
+  backdrops);
+- space above, heading-to-content and space below;
+- the content-to-content transition;
+- binding `min-height` elements;
+- sticky elements and peel runway;
+- horizontal overflow, overlap and clipped text.
+
+It also compared 1907×985 with 1920×1080. Their widths are almost equal, so
+any section that grows with the 95px height difference is sized by the
+viewport.
+
+**Viewport-height rules on the public site:**
+- `HeroFullHeight` (100svh, Home), `.hero-shell.band` (68svh, capped at 47rem)
+  and both heroes' phone override to `0`;
+- the `PeelScene` panel (100dvh from 768px);
+- `.peel-bleed` (100svh, or 80svh when compact);
+- `StatsPeelScene` (75dvh; not used on these pages);
+- the testimonials quote stage (48dvh);
+- `main` (70vh; no audited page binds it).
+
+All other section spacing uses fixed rem tokens, or `--space`, which scales
+with width and is capped. It does not grow on taller screens.
+
+### Pages checked
+
+Results after the correction. "Above / below" are flow sections at 1907×985,
+excluding the hero band.
+
+| Page | Sections | Above / below (px) | Heading → content | Viewport-driven sections | Result |
+|---|---:|---|---|---|---|
+| Home | 5 | 92–160 / 0–85 | 60–75 | Full-height hero; bento panel* | Bento corrected (tall screens) |
+| Platform | 9 | 80–235 / 52–281 | 22–68 | Hero band; swap stage; paradigm bleed | Unchanged; bleed needs approval |
+| LCM Chips | 8 | 65–124 / 0–90 | 18–70 | Hero band | OK |
+| Applications | 4 | 92–152 / 52–102 | 50–56 | Hero band | OK |
+| Sense | 8 | 42–168 / 38–96 | 29–72 | Hero band | OK |
+| Robotics | 8 | 39–162 / 42–84 | 18–73 | Hero band | OK |
+| Automotive | 8 | 39–149 / 42–84 | 22–72 | Hero band | OK |
+| Dev Kits | 6 | 52–154 / 0–98 | 49–72 | Hero band | OK |
+| Transmit Modules | 6 | 44–120 / 28–77 | 18–73 | Hero band | OK |
+| iToF | 18 | 30–177 / 0–98 | 18–68 | Hero band | OK |
+| dToF | 13 | 41–126 / 0–89 | 25–59 | Hero band | OK |
+| Connect | 10 | 52–172 / 0–84 | 22–69 | Hero band | OK |
+| About | 7 | 80–173 / 80–105 | 24–83 | Hero band | OK |
+| Culture | 6 | 80–197 / 52–99 | 23–78 | Hero band; testimonials panel | Testimonials corrected |
+| Partners | 5 | 67–151 / 80–105 | 14–55 | Hero band | OK |
+| News | 2 | 75–96 / 93–107 | 33 | None | OK |
+| Contact | 4 | 91–151 / 80–87 | 50–105 | Hero band | OK |
+| Privacy Policy | 1 | 107 / 123 | 27 | None | OK |
+
+*Below 1097px of viewport height, the bento panel is sized by its content.
+
+Horizontal overflow: 0 on every page at every width, before and after.
+There is no overlap between consecutive sections.
+
+**Measurement notes:**
+- Sections reporting negative space below are Reveal transforms still
+  settling (25–28px), not layout. A slower recheck of Connect showed no
+  clipping.
+- Clipped-text candidates are:
+  - the intentional three-line excerpt clamps on Home and News cards;
+  - hero and swap content held by the cover-wipe animation at the measured
+    scroll position.
+- Content inside pinned panels starts 103px or more below the panel top,
+  clear of the 73px sticky header.
+
+### Findings and corrections
+
+| Page | Section | Viewport | Measured issue | Root cause | Correction |
+|---|---|---|---|---|---|
+| Culture | "In Their Words" (`testimonialsPeelScene`) | 768×1024; any viewport taller than the section | The white section ends at 867px in a 1024px panel. This leaves a 157px empty band before "Open Roles", both during the pin and after it. At 2560×1440 the band is 321px (panel 1440 vs section 1119). | `PeelScene`'s panel has `min-height: 100dvh` from 768px. The scene is not uncovered and does not centre in the panel: the quote centres in its own 48dvh stage. | `stage={false}` sizes the panel to the section. Panel 1024 → 867; next section 666 → 509px at the same scroll; document 157px shorter. 1907×985 and 1440×900 unchanged (the section was already taller than the viewport). |
+| Home | "When Light Becomes Programmable" bento (`cardsPeelBento`) | Viewports taller than ~1097px (e.g. 2560×1440) | The panel grows to the viewport (1440) above 1097px of content. This leaves 375px of empty field after the investor logos and before the CTA (32px at normal heights). | Same 100dvh panel minimum. The cards run top-down; their `min-h-full justify-center` centring never resolves. | `stage={false}`. At 2560×1440, panel 1440 → 1097 and CTA 936 → 593px. Identical at all seven requested viewports, where the content is already taller than the viewport. |
+
+`PeelScene` gained a `stage` prop (default `true`). With `stage={false}`, the
+scene uses the content-height `.fit` panel introduced in `a8fcd60`. The
+cover-follow rule from that commit is unchanged, so the Home "One Chip" result
+is unchanged at every width. No other consumer changes.
+
+**PeelScene regression check:** every consumer on the audited pages (Home
+"One Chip" and bento; Platform swap and paradigm bleed; Culture testimonials)
+was re-measured through its pin at:
+- 1907×985 and 768×1024 for the bento;
+- 2560×1440 for both corrected scenes;
+- 1907×985, 1440×900 and 768×1024 for testimonials;
+- the full seven-viewport audit for the rest.
+
+Content positions through the pin are identical, panels stay sticky at the
+top, and runways are unchanged.
+
+Reduced motion: panels are static, there is no gap after a scene, and
+overflow is 0 at 1907×985, 768×1024 and 390×844. Phones (below 768px) do not
+use the panel minimum and are unchanged.
+
+A full re-audit of all 18 pages × 7 viewports against the baseline found:
+- one geometry change, the Culture testimonials section at 768×1024;
+- otherwise only ±3–8px Reveal-timing noise on pages that do not use
+  `PeelScene`.
+
+`npm run check`: 595 files, 0 errors, 0 warnings. `npm run build`: passed.
+No migration or content change: the page content fingerprint and the
+204-file migration list are identical before and after.
+
+Screenshots are in `%TEMP%\lumotive-review\spacing-audit\`:
+- `before-|after-culture-testimonials-{1907x985,768x1024,2560x1440}-{pinEnd,after}.png`
+- `before-|after-home-bento-{1907x985,768x1024,2560x1440}-{pinEnd,after}.png`
+
+### Left unchanged: intentionally full-screen or animation-driven
+
+- **Home hero** (`heroFullHeight`, 100svh): the full-screen opening and the
+  cover that "One Chip" rides.
+- **Hero bands on 15 pages** (68svh, capped at 47rem, image-filled,
+  bottom-aligned copy): extra height is image, not empty field. Height stops
+  growing at 752px, and phones use content height.
+  About, Culture, Partners and Contact carry an extra 80px (`spacingBottom: md`)
+  under the copy at every width. This is a content setting, not driven by the
+  viewport.
+- **Platform "Groundbreaking Physics Meets Mature Manufacturing"**
+  (`cardsPeelSwap`): a centred pinned stage (`my-auto`) for the card
+  crossfade, and the cover the paradigm bleed is uncovered from.
+  Space is symmetric: about 164 / 170px around the content at 1907×985.
+- **Platform paradigm bleed** (`splitPeelBleed`): a full-bleed image stage
+  uncovered from beneath the swap. See the approval note below.
+- **Culture quote stage** (48dvh): centres the quote, as tuned earlier. It is
+  kept inside the corrected panel.
+- **Phone peel bleed** (100svh below 768px, by the compact-bleed migration's
+  design).
+
+### Needs visual approval (not changed automatically)
+
+1. **Platform paradigm bleed.** `1787708500` opted this section into the
+   compact 80svh band. Its bleed image is positioned against the pinned
+   100dvh panel, not the section, so the visible band is still the full
+   viewport: 985px at 1907×985, 1080 at 1920×1080, 1440 at 2560×1440.
+   The copy is centred in the 80svh box, so it sits slightly above the band's
+   centre:
+   - 235 / 281px above / below the copy at 1907×985;
+   - 273 / 338 at 1920×1080;
+   - 417 / 554 at 2560×1440.
+   Showing the compact band would change the uncover choreography: the stage
+   would no longer fill the viewport while the swap panel wipes away. That
+   needs a design decision.
+2. **Platform swap stage on very tall displays.** The centred stage grows
+   with the viewport (391px above and 397px below the content at 2560×1440).
+   It reads as intentional at the requested viewports. Confirm it on a
+   1440p-or-taller display before changing anything.
+
 ## Historical QA baseline — 2026-10-22
 
 | Area | Result | ID |
