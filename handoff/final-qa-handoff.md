@@ -1,18 +1,51 @@
 # Final QA handoff: Lumotive site, pages 05–21
 
-2026-10-22. For **Josh** (repository, staging, deployment) and **Claudia** (content and client sign-off).
+Updated 2026-10-26. For **Josh** (repository, staging, deployment) and **Claudia** (content and client sign-off).
 
-This page is the short version. The full working list is `v3-outstanding-items.md` (IDs such as S21 or N7 refer to it). The staging procedure and PR evidence are in `v4-final-review.md`.
+This page is the current short handoff. The full content/input list is `v3-outstanding-items.md`. The 2026-10-22 review in `v4-final-review.md` is historical; the release verification below supersedes its branch, PR and migration counts.
 
 ## State
 
-- **Branch:** `feedback-20261007-v2`, local only. **Nothing has been pushed, merged or deployed.** Staging still runs `origin/main` (`f203fc1`).
-- **Latest commits:** the v4 review (`0bc7fe9`) plus the follow-up commits on top of it (`git log 0bc7fe9..`).
-- **Not committed:** `vite.config.ts`, a Windows-only dev-server fix (S25), kept out of every commit on purpose.
-- **Local checks:** `npm run check` 0 errors and 0 warnings; `npm run build` exits 0.
-- **PR #1** (Home, `staging-home-page05` at `0b2ff9f`) is unchanged and not merged.
+- **Branch:** `feedback-20261007-v2`, prepared for a single PR targeting `main`. This preparation does not merge or deploy; use the PR for the final pushed SHA and review state.
+- **Baseline:** fetched `origin/main` at `784b88501f617edd785f0f8ee03e8dcee9a00b75`. Home PR #1 merged on 2026-10-25. Integrated that main commit into this feature branch, retaining the reviewed v4 Home components and `1787707500` rollback fix. Duplicate CSS/schema additions from the automatic merge were removed.
+- **Included:** Pages 05–21 follow-ups, approved Privacy Policy, Platform/LCM Chips/Partners/Culture mobile refinements, and the remaining About portrait component plus migration `1787717800`.
+- **Excluded:** the existing `vite.config.ts` Windows watcher change remains uncommitted and byte-for-byte preserved. No database, environment/credential file, screenshot, log, temporary file or local review artifact is included.
+- **Final local checks:** `npm run check`: **595 files, 0 errors, 0 warnings**; `npm run build`: **exit 0**, adapter-node.
 
-## Verified on the local site
+### Release smoke and migration inventory — 2026-10-26
+
+- Tested the production build against the existing local PocketBase, without running migrations or resetting data. **130 published routes** (17 CMS pages, News, 112 posts) plus `/lcm-explorer/index.html`, each at **1440 and 390px**: 262 browser views, successful 200/304 responses.
+- Three legacy News bodies contained unbroken URL text that overflowed at 390px by 308, 75 and 193px. Added only `overflow-wrap: break-word` to the existing shared prose rule. All three now measure **0px overflow at both widths**; Privacy Policy, LCM Chips and About also rechecked at both widths. About's 13 mobile portraits measure 320px high; desktop keeps its existing aspect-ratio frames.
+- `/privacy-policy` and `/lcm-chips`: uncached **200** at both widths. Clicked the Contact footer Privacy Policy link at both widths: same-tab navigation to `/privacy-policy`. `/lm10`: **308 → `/lcm-chips`**.
+- Checked **215 unique internal-link/media/support endpoints**: 214 return 200; the only missing local media is the already documented client-held Explorer fallback, `/lcm-explorer/media/lcm-animation.mp4` (404). WebGL Explorer remains available; the no-WebGL fallback is not complete. No new broken internal navigation links found. Do not describe this as an all-media pass.
+- All **234 literal local asset references in migrations** exist and are tracked. All 159 supplied rendered local assets are tracked; the separate unsupplied Explorer fallback is the exception above. Outgoing path/secret scan found no accidental files or credential signatures.
+- **204 total migration files; 105 on current main; 99 new pending filenames**, from `1787707400` through `1787717800`. No duplicate numeric prefixes. The gap at `1787717000` is harmless. `1787707400_platform_page6.js` predates main's latest Home filename (`1787707900`) but PocketBase 0.39.11 checks each filename in its applied ledger, not a maximum timestamp; do not omit or renumber it. The featured-post schema migration is already on main. Actual staging pending count depends on its ledger.
+- Existing migration rehearsal evidence is retained, **not rerun or claimed current**. The latest migration fields were checked against local content read-only. A fresh staging-backup rehearsal of this exact release is still required.
+- **CI configuration:** only `publish.yml`, triggered by pushes to `main` or explicit dispatch; no feature-branch/PR check workflow. Zero PR checks is **not** a CI pass. Do not dispatch the publish workflow for this review.
+- Existing PDF/content, contrast and video QA was reused, not repeated. Chromium viewport smoke is not Safari/iOS/Android certification. Screenshots remained outside the repository.
+
+### Exact post-deployment verification routes
+
+At desktop and mobile widths, visit `/`, `/platform`, `/lcm-chips`, `/applications`,
+`/sense`, `/sense/robotics`, `/sense/automotive`, `/dev-kits`,
+`/dev-kits/transmit-modules`, `/dev-kits/itof`, `/dev-kits/dtof`, `/connect`,
+`/about`, `/culture`, `/partners`, `/news`, `/contact`, `/privacy-policy`,
+and `/lcm-explorer/index.html`. Check `/lm10` → `/lcm-chips`,
+`/products` → `/dev-kits`, `/tx10` → `/dev-kits/transmit-modules`,
+`/m30` → `/dev-kits/itof`, `/nm120` → `/dev-kits/dtof`; verify
+`/sitemap.xml`, `/robots.txt`, `/rss.xml` and the published `/posts/<slug>`
+destinations listed in the sitemap.
+
+Recheck the repaired mobile articles:
+- `/posts/multicoreware-and-lumotive-announce-collaboration-designed-to-advance-3d-sensing-and-lidar-technology`
+- `/posts/lumotive-closes-strategic-funding-round-led-by-samsung-ventures`
+- `/posts/lumotive-yole-developpement-and-lidar-news-to-host-lidar-one-size-does-not-fit-all-webinar-january-21-2021`
+
+Click the footer policy link, open/close mobile navigation, inspect portraits/logos,
+play the existing embeds, and check local media and page-width overflow.
+Do not submit the contact form until its one agreed staging test is authorized.
+
+## Historical QA baseline — 2026-10-22
 
 | Area | Result | ID |
 |---|---|---|
@@ -30,9 +63,9 @@ These checks ran in Chromium and Edge on Windows only. The contrast figures are 
 
 ## Josh: needed before staging
 
-1. **PR #1 and the rollback fix (S21).** A rollback of `1787707500` would have put two 404 links on the Home cards. It is fixed on this branch (`24e660b`, one file, `down` only). PR #1 still has the old file. **Choose:** add the same fix to `staging-home-page05` before merging (recommended), or approve merging PR #1 as is and shipping the fix with the next PR before any rollback.
-2. **Approve and merge PR #1**, then choose the PR shape for pages 06–21 (S22; options in `v4-final-review.md`).
-3. **Staging database backup plus a CMS edit freeze (S23).** We then run `node scripts/staging-migration-dry-run.mjs --backup <backup>`, which applies, compares and rolls back on a copy. Only a run on real staging data shows staging edits that would make migrations skip.
+1. **Independent approval (S21).** Home PR #1 is already merged. This consolidated feature PR includes its corrected rollback implementation. Main requires one approving review and approval of the latest push by someone other than the pusher; do not merge as part of release preparation.
+2. **Staging database backup plus a CMS edit freeze (S23).** Obtain a fresh real staging backup, retain it as the rollback point, and rehearse this exact release on a scratch copy with PocketBase 0.39.11 before merge. No staging migrations were run during preparation. Inspect the dry-run report's forward content differences explicitly: a zero script exit checks rollback, not absence of guard-skipped content. Resolve differences with Claudia.
+3. **Automatic migration warning.** Merging `main` triggers staging deployment; PocketBase startup applies pending migrations automatically. There is no later manual migration gate. Backup, freeze and rehearsal must precede merge.
 4. **Deployment settings (S24):** confirm `DOKPLOY_URL`, `DOKPLOY_API_KEY`, `DOKPLOY_PB_APP_ID`, `DOKPLOY_WEB_APP_ID` and `ORIGIN`. The deploy job skips silently if the app IDs are empty.
 5. **Network layout (S27):** whether PocketBase is reachable only through the web container. That decides the rest of the rate-limit fix (exempt the web container, or forward visitor IPs).
 6. **Pipedrive (S3):** admin access, or a hand-off to Lumotive's admin, for the three hidden form fields; then one agreed test submission on staging (S28).

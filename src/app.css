@@ -231,7 +231,7 @@ img, video { display: block; max-width: 100%; }
 .button:hover { background: var(--color-primary-hover); transform: translateY(-2px); }
 .section { padding-block: var(--space); }
 h2 { text-wrap: balance; }
-.prose { font-size: var(--text-lead); line-height: 1.78; }
+.prose { font-size: var(--text-lead); line-height: 1.78; overflow-wrap: break-word; }
 .prose > :first-child { margin-top: 0; }
 .prose > :last-child { margin-bottom: 0; }
 .prose h2, .prose h3 { margin: 2.5em 0 .7em; }

@@ -4,9 +4,10 @@
 	import { titleCase } from '$lib/titlecase';
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 
-	type Member = { name?: string; title?: string; headshot?: unknown; headshotAlt?: string; biography?: string };
+	type Member = { name?: string; title?: string; headshot?: unknown; headshotAlt?: string; biography?: string; mobileHeadshotPosition?: string };
 	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Member[]) : []);
+	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
 
 	function unlock() {
 		document.documentElement.style.overflow = '';
@@ -34,7 +35,7 @@
 	}
 </script>
 
-<section class="lumo-section" id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
+<section class="lumo-section" class:compact-mobile={compactMobile} id={section.anchor ? String(section.anchor) : undefined} data-background={String(section.background ?? 'none')} data-width={String(section.width ?? 'contained')} data-spacing-top={String(section.spacingTop ?? 'md')} data-spacing-bottom={String(section.spacingBottom ?? 'md')} data-align={section.align === 'container' ? 'container' : undefined}>
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal><div class="mb-12 max-w-4xl">
@@ -48,7 +49,7 @@
 			{#each cards as member, index (index)}
 				{@const image = resolveMedia(member.headshot, media, 768)}
 				<article class="flex flex-col">
-					{#if image}<div class="rounded-card bg-surface relative aspect-4/5 overflow-hidden"><img class="absolute inset-0 size-full object-cover" src={image.src} srcset={image.srcset} alt={member.headshotAlt || image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
+					{#if image}<div class="portrait rounded-card bg-surface relative aspect-4/5 overflow-hidden"><img class="absolute inset-0 size-full object-cover" style:--portrait-position={member.mobileHeadshotPosition} src={image.src} srcset={image.srcset} alt={member.headshotAlt || image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
 					<h3 class="font-display text-subheading text-ink mt-6">{member.name ?? ''}</h3>
 					<p class="text-eyebrow text-brand-blue-dark mt-2 uppercase">{member.title ?? ''}</p>
 					{#if member.biography}
@@ -75,6 +76,14 @@
 	.bio-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 	.bio-link span[aria-hidden] { transition: transform 200ms ease; }
 	.bio-link:hover span[aria-hidden] { transform: translateX(.25rem); }
+	@media (width < 768px) {
+		/* About opts in per section; the fixed frame does not grow with phone width. */
+		.compact-mobile .portrait { height: 20rem; aspect-ratio: auto; }
+		.compact-mobile .portrait img { object-position: var(--portrait-position, 50% 30%); }
+		.compact-mobile article > h3 { margin: 1rem 0 0; }
+		.compact-mobile article > p { margin: .5rem 0 0; }
+		.compact-mobile .bio-link { margin-top: .5rem; }
+	}
 	@media (prefers-reduced-motion: reduce) {
 		.bio-link span[aria-hidden] { transition: none; }
 		.bio-link:hover span[aria-hidden] { transform: none; }

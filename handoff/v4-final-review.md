@@ -1,5 +1,11 @@
 # Final v4 review and staging handoff
 
+> **2026-10-26 release update:** this is the historical review. Use `final-qa-handoff.md`
+> for current release verification and merge gates. Home PR #1 is now merged into
+> `origin/main` (`784b885`), integrated into the feature branch; the current delta
+> is 99 new migration filenames (204 total), including Privacy Policy and About
+> mobile portraits. The old unmerged-PR status and migration counts below are superseded.
+
 2026-10-22. For Josh (staging) and Claudia (content review). Branch `feedback-20261007-v2`, local only. **Nothing here is on staging yet.** Nothing has been pushed, merged or deployed.
 
 **Follow-up the same day, after this review:** a migration rollback fix that **PR #1 must also carry** (PR dependencies, item 6), a passing migration rehearsal against an `origin/main` baseline (Migrations), the public-globals cache for the rate limit (S27), the P6 swap-band fix, Escape on the phone menu, Edge playback on the remaining pages, and a passing hero and video contrast recheck (S26). The admin Footer and Header settings now change the public site (S29, fixed and verified locally); the site meta settings still save fields no page shows (S30). Committed locally; details in `v3-outstanding-items.md`. **The short handoff for Josh and Claudia is `final-qa-handoff.md`.**
