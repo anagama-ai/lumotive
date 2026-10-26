@@ -52,6 +52,12 @@
 	--color-brand-green: #00a651;
 	--color-brand-amber: #ffb114;
 	--color-brand-red: #ee0000;
+	/* Text-safe accent variants: the same hue darkened until it clears 4.5:1
+	   on Instrument White (green 4.62:1, amber 4.63:1). For accent-coloured
+	   text; the bright tokens above stay for bars, fills and icons. Laser Blue
+	   already clears 4.57:1 and needs no variant. */
+	--color-brand-green-text: #008742;
+	--color-brand-amber-text: #9f6a00;
 
 	--color-primary: #0078d0;
 	--color-primary-hover: #0063ad;

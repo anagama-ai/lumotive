@@ -22,17 +22,26 @@ const MINOR: Record<string, true> = {
 	vs: true
 };
 
+// Brand names the naming conventions fix in lower case. Page 01 of the approved
+// content package spells "onsemi" lower case everywhere, headings included, so
+// headline capitalisation must leave it alone.
+const LOWERCASE: Record<string, true> = {
+	onsemi: true
+};
+
 // A word carrying a capital of its own is the author's: LM10, iToF, AGV/AMR and
 // LCM™ are left exactly as written.
 const capitalise = (word: string) =>
-	word
-		.split('-')
-		.map((part) =>
-			/\p{Lu}/u.test(part)
-				? part
-				: part.replace(/^([^\p{L}]*)(\p{Ll})/u, (_, lead, letter) => lead + letter.toUpperCase())
-		)
-		.join('-');
+	LOWERCASE[word.replace(/[^\p{L}]/gu, '').toLowerCase()]
+		? word
+		: word
+				.split('-')
+				.map((part) =>
+					/\p{Lu}/u.test(part)
+						? part
+						: part.replace(/^([^\p{L}]*)(\p{Ll})/u, (_, lead, letter) => lead + letter.toUpperCase())
+				)
+				.join('-');
 
 /** Headline capitalisation: every word but the minor ones, which keep their place. */
 export function titleCase(input?: string | null): string | null {

@@ -8,9 +8,12 @@ const presentationFields: FieldSpec[] = [
 		type: 'text'
 	},
 	{ name: 'width', label: 'Width (contained | wide | full)', type: 'text' },
-	{ name: 'spacingTop', label: 'Top spacing (none | sm | md | lg)', type: 'text' },
-	{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | md | lg)', type: 'text' },
-	{ name: 'anchor', label: 'Anchor', type: 'text' }
+	{ name: 'spacingTop', label: 'Top spacing (none | sm | compact | md | lg)', type: 'text' },
+	{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | compact | md | lg)', type: 'text' },
+	{ name: 'anchor', label: 'Anchor', type: 'text' },
+	// Opt the section's inner column into the header container, so its
+	// content lines up with the navigation logo. Unset keeps the wider shell.
+	{ name: 'align', label: 'Align with header container (container)', type: 'text' }
 ];
 
 const statsFields: FieldSpec[] = [
@@ -19,6 +22,10 @@ const statsFields: FieldSpec[] = [
 	{ name: 'intro', label: 'Introduction', type: 'textarea' },
 	{ name: 'body', label: 'Body', type: 'richtext' },
 	{ name: 'media', label: 'Media', type: 'media' },
+	// Pin the tile grid instead of taking the count-derived default.
+	{ name: 'columns', label: 'Desktop columns (3 | 4)', type: 'text' },
+	// Spec tiles: tighter lead above the grid on phones only.
+	{ name: 'compactMobile', label: 'Compact tiles on phones (true | false)', type: 'text' },
 	{
 		name: 'stats',
 		label: 'Statistics',
@@ -42,6 +49,17 @@ const ctaFields: FieldSpec[] = [
 	{ name: 'primaryLinkLabel', label: 'Primary link label', type: 'text' },
 	{ name: 'primaryLinkUrl', label: 'Primary link URL', type: 'url' },
 	{ name: 'primaryLinkNewTab', label: 'Primary link opens a new tab (true | false)', type: 'text' },
+	// Lead-in printed before the secondary action in the stacked variant.
+	{ name: 'note', label: 'Note before the secondary action', type: 'text' },
+	// Small trailing line under the action row: the reference design caveat.
+	{ name: 'caveat', label: 'Caveat under the actions', type: 'text' },
+	// Stacked split CTA only: drop the dark panel for the page field.
+	{ name: 'tone', label: 'Tone (light)', type: 'text' },
+	// Stacked split CTA only: an image beside the copy.
+	{ name: 'media', label: 'Image beside the copy (stacked only)', type: 'media' },
+	// Phones only: tighter padding above and below the content.
+	{ name: 'compactMobile', label: 'Compact CTA on phones (true | false)', type: 'text' },
+	{ name: 'textAlign', label: 'Left-align a centred CTA (left)', type: 'text' },
 	{ name: 'secondaryLinkLabel', label: 'Secondary link label', type: 'text' },
 	{ name: 'secondaryLinkUrl', label: 'Secondary link URL', type: 'url' },
 	{
@@ -97,22 +115,49 @@ export const statsCtaSpecs: Record<string, SectionSpec> = {
 			...presentationFields
 		]
 	},
+	// Live roles from the Lever careers board, fetched through /api/open-roles.
+	// The board button is server-rendered; the roles enhance it when the feed
+	// answers, which is what package page 18's dev note asks for.
+	openRoles: {
+		label: 'Open roles — live from Lever',
+		fields: [
+			{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
+			{ name: 'heading', label: 'Heading', type: 'text' },
+			{ name: 'intro', label: 'Introduction', type: 'textarea' },
+			{ name: 'linkLabel', label: 'Board link label', type: 'text' },
+			{ name: 'linkUrl', label: 'Board link URL', type: 'url' },
+			...presentationFields
+		]
+	},
 	mediaVideoEmbed: {
 		label: 'Media — video embed',
 		fields: [
+			{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
 			{ name: 'heading', label: 'Heading', type: 'text' },
 			{ name: 'intro', label: 'Introduction', type: 'textarea' },
-			{ name: 'mode', label: 'Mode (image | gallery | video)', type: 'text' },
+			{ name: 'mode', label: 'Mode (image | gallery | video | videos | interactive)', type: 'text' },
 			{
 				name: 'items',
 				label: 'Media items',
 				type: 'list',
 				fields: [
 					{ name: 'media', label: 'Media', type: 'media' },
-					{ name: 'caption', label: 'Caption', type: 'textarea' }
+					{ name: 'caption', label: 'Caption', type: 'textarea' },
+					// `videos` mode: one player per item, with its title and action.
+					{ name: 'videoUrl', label: 'Video URL (videos mode)', type: 'url' },
+					{ name: 'title', label: 'Title (videos mode)', type: 'text' },
+					{ name: 'linkLabel', label: 'Link label (videos mode)', type: 'text' },
+					{ name: 'linkUrl', label: 'Link URL (videos mode)', type: 'url' }
 				]
 			},
 			{ name: 'videoUrl', label: 'Video URL', type: 'url' },
+			// `interactive` mode: a page this site hosts, behind a poster.
+			{ name: 'embedUrl', label: 'Interactive page path, same site (interactive mode)', type: 'url' },
+			{ name: 'embedTitle', label: 'Frame title (interactive mode)', type: 'text' },
+			{ name: 'media', label: 'Poster, 16:9 (interactive mode)', type: 'media' },
+			{ name: 'launchLabel', label: 'Launch button label (interactive mode)', type: 'text' },
+			{ name: 'linkLabel', label: 'Full-screen link label (interactive mode)', type: 'text' },
+			{ name: 'linkUrl', label: 'Full-screen link URL, opens in a new tab (interactive mode)', type: 'url' },
 			...presentationFields
 		]
 	},

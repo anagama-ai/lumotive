@@ -40,6 +40,7 @@
 		data-width={section.width ?? 'contained'}
 		data-spacing-top={section.spacingTop ?? 'md'}
 		data-spacing-bottom={section.spacingBottom ?? 'md'}
+		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		<div class="lumo-inner">
 			<Reveal delay={0}>

@@ -46,21 +46,30 @@
 		data-width={String(section.width ?? 'contained')}
 		data-spacing-top={String(section.spacingTop ?? 'md')}
 		data-spacing-bottom={String(section.spacingBottom ?? 'md')}
+		data-align={section.align === 'container' ? 'container' : undefined}
 	>
-		<div class="lumo-inner relative flex min-h-full flex-col justify-center">
+		<div class="lumo-inner swap-inner relative flex min-h-full flex-col justify-center">
 			{#if section.heading || section.intro}
 				<div class="text-center">
 					{#if section.heading}<h2 class="font-display text-statement text-ink mt-12 md:mt-0">{titleCase(String(section.heading))}</h2>{/if}
-					{#if section.intro}<p class="text-lead text-muted mx-auto mt-4 max-w-4xl">{String(section.intro)}</p>{/if}
+					<!-- Slate Text, not Muted Slate: at the lead size the muted token
+					     measures 3.34:1 on the page field, under the 4.5:1 floor. -->
+					{#if section.intro}<p class="text-lead mx-auto mt-4 max-w-4xl">{String(section.intro)}</p>{/if}
 				</div>
 			{/if}
 
-			<div class={`relative mt-10 grid items-center gap-10 ${sharedImage ? 'md:grid-cols-2' : ''}`}>
+			<div class={`swap-grid relative mt-10 grid items-center gap-10 ${sharedImage ? 'md:grid-cols-2' : ''}`}>
 				{#each cards as card, index (index)}
 					{@const link = linkFor(card)}
+					<!-- The swap is a wide-viewport choreography: the cards share one
+					     grid cell and trade places as the pinned panel scrolls.
+					     `data-peel-wide` keeps its beats off narrow viewports, where
+					     the cards stack and every one of them has to stay readable —
+					     without it the first card's fall left it permanently blank. -->
 					<article
+						data-peel-wide
 						data-peel={[index > 0 && 'rise', index < cards.length - 1 && 'fall'].filter(Boolean).join(' ') || undefined}
-						class={`md:col-start-1 md:row-start-1 ${index > 0 ? 'pointer-events-none md:motion-safe:opacity-0' : ''}`}
+						class={`swap-card md:col-start-1 md:row-start-1 ${index > 0 ? 'pointer-events-none md:motion-safe:opacity-0' : ''}`}
 					>
 						{#if card.eyebrow}<p class={`text-eyebrow uppercase ${tone(card.accent)}`}>{card.eyebrow}</p>{/if}
 						<h3 class="font-display text-heading text-ink mt-3">{titleCase(card.title ?? '')}</h3>
@@ -75,7 +84,7 @@
 				{/each}
 
 				{#if sharedImage}
-					<div class="rounded-card relative aspect-video overflow-hidden md:col-start-2 md:row-start-1">
+					<div class="swap-media rounded-card relative aspect-video overflow-hidden md:col-start-2 md:row-start-1">
 						{#if sharedIsVideo}
 							<video {@attach honorReducedMotion} class="absolute inset-0 size-full object-cover" autoplay loop muted playsinline aria-hidden="true">
 								<source src={sharedImage.src} type="video/mp4" />
@@ -89,3 +98,20 @@
 		</div>
 	</section>
 </PeelScene>
+
+<style>
+	/* Under reduced motion PeelScene runs no beats and the `motion-safe`
+	   opacity utilities do not apply, so all four cards would sit in the same
+	   grid cell at full opacity and overlap. The swap stops being a swap: the
+	   cards and the image flow down one column, each legible in turn. */
+	@media (prefers-reduced-motion: reduce) {
+		.swap-grid { grid-template-columns: 1fr; }
+		.swap-card, .swap-media { grid-column: auto; grid-row: auto; }
+	}
+	/* Phones stack the panels without the peel, so the media's rounded bottom
+	   corners met the dark section below with no gap. 2rem of the light field
+	   keeps them visible. 768px and up keep the pinned layout as it was. */
+	@media (max-width: 767px) {
+		.lumo-section > .swap-inner { padding-bottom: 2rem; }
+	}
+</style>

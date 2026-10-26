@@ -1,5 +1,16 @@
 const PAGE_SIZE = 9;
 
+// The approved tab set on package page 20, in its order. The value is the
+// category as the posts collection stores it, so every link already in the wild
+// keeps working; only the label changes. "Events" has no posts yet, and the tab
+// lands on the page's existing empty state rather than disappearing.
+const TABS = [
+	{ label: 'All', category: '' },
+	{ label: 'Press releases', category: 'Press Releases' },
+	{ label: 'In the news', category: 'Media Coverage' },
+	{ label: 'Events', category: 'Events' }
+];
+
 export async function load({ url, locals }: { url: URL; locals: App.Locals }) {
 	const requestedPage = Number(url.searchParams.get('page') ?? '1');
 	const currentPage = Number.isSafeInteger(requestedPage)
@@ -13,40 +24,69 @@ export async function load({ url, locals }: { url: URL; locals: App.Locals }) {
 		.replace(/[\u0000-\u001f\u007f]/g, '')
 		.trim()
 		.slice(0, 64);
+
+	// The featured story leads the unfiltered first page only. On a filtered
+	// page, a search or page two it would be a second copy of a post the reader
+	// is already looking past.
+	const leads = currentPage === 1 && !category && !query;
+	let featured: Record<string, unknown> | null = null;
+	if (leads) {
+		for (const filter of ['status = "published" && featured = true', 'status = "published"']) {
+			try {
+				featured = await locals.pb.collection('posts').getFirstListItem(filter, {
+					sort: '-publishedAt',
+					// `id` is in the list because the grid filter below excludes this post;
+					// without it the lookup returns no id and the exclusion silently
+					// matches nothing.
+					fields: 'id,title,slug,excerpt,publishedAt,category,coverImage'
+				});
+				break;
+			} catch {
+				// No post marked featured: fall through to the most recent one.
+			}
+		}
+	}
+
 	const filters = ['status = "published"'];
 	if (query) filters.push('(title ~ {:query} || excerpt ~ {:query} || body ~ {:query})');
 	if (category) filters.push('category = {:category}');
+	if (featured) filters.push('id != {:featuredId}');
 
-	const [result, categoryPosts] = await Promise.all([
-		locals.pb.collection('posts').getList(currentPage, PAGE_SIZE, {
-			filter: locals.pb.filter(filters.join(' && '), { query, category }),
-			sort: '-publishedAt',
-			fields: 'title,slug,excerpt,publishedAt,category'
+	const result = await locals.pb.collection('posts').getList(currentPage, PAGE_SIZE, {
+		filter: locals.pb.filter(filters.join(' && '), {
+			query,
+			category,
+			featuredId: featured?.id ?? ''
 		}),
-		locals.pb.collection('posts').getFullList({
-			filter: locals.pb.filter('status = "published"'),
-			fields: 'category'
-		})
-	]);
-	const categories = [
-		...new Set(
-			categoryPosts.map((post) => String(post.category ?? '').trim()).filter(Boolean)
-		)
-	].sort();
+		sort: '-publishedAt',
+		fields: 'title,slug,excerpt,publishedAt,category,coverImage'
+	});
+
+	// `coverImage` is a JSON field the CMS fills as `{ kind, value }`, so the
+	// path is narrowed rather than asserted: a record saved without one, or
+	// with some other shape, simply has no card image.
+	const imageOf = (cover: unknown) => {
+		if (!cover || typeof cover !== 'object' || !('value' in cover)) return '';
+		return typeof cover.value === 'string' ? cover.value : '';
+	};
+
+	const shape = (post: Record<string, unknown>) => ({
+		title: String(post.title),
+		slug: String(post.slug),
+		excerpt: String(post.excerpt ?? ''),
+		category: String(post.category ?? ''),
+		publishedAt: String(post.publishedAt ?? ''),
+		image: imageOf(post.coverImage)
+	});
 
 	return {
-		posts: result.items.map((post) => ({
-			title: String(post.title),
-			slug: String(post.slug),
-			excerpt: String(post.excerpt ?? ''),
-			category: String(post.category ?? ''),
-			publishedAt: String(post.publishedAt ?? '')
-		})),
+		featured: featured ? shape(featured) : null,
+		posts: result.items.map(shape),
+		tabs: TABS,
 		query,
 		category,
-		categories,
 		currentPage,
 		totalPages: result.totalPages,
-		totalItems: result.totalItems
+		totalItems: result.totalItems + (featured ? 1 : 0)
 	};
 }

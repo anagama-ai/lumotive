@@ -14,6 +14,47 @@
 	let isVideo = $derived(Boolean(visual && /\.(mp4|webm)(?:$|\?)/i.test(visual.src)));
 	let primaryNewTab = $derived(section.primaryLinkNewTab === true || section.primaryLinkNewTab === 'true');
 	let secondaryNewTab = $derived(section.secondaryLinkNewTab === true || section.secondaryLinkNewTab === 'true');
+	// Optional desktop-only framing of the hero's media layer, for a product
+	// shot whose own frame does not suit the band: `mediaShift` translates it
+	// horizontally, so a centred subject stops running under the headline, and
+	// `mediaScale` enlarges it, so an empty margin inside the photograph falls
+	// outside the band instead of reading as dead space. The strip a bare
+	// translation uncovers is filled with the photograph's own white backdrop
+	// so the two read as one surface under the gradient. Both unset on every
+	// other hero, which is therefore untouched.
+	let mediaShift = $derived(String(section.mediaShift ?? '').trim());
+	let mediaScale = $derived(String(section.mediaScale ?? '').trim());
+	let mediaFramed = $derived(Boolean(mediaShift || mediaScale));
+	// Optional horizontal anchor for the media layer at every width (a
+	// percentage; `100%` keeps the photograph's right edge in frame). For a
+	// banner composed with its subject on the right, so the subject stays
+	// whole whatever the band's proportions. Phones use `mobileMediaPosition`
+	// when that is set. Unset elsewhere, which keeps the centred crop.
+	let mediaAnchor = $derived.by(() => {
+		const value = String(section.mediaAnchor ?? '').trim();
+		return /^\d{1,3}(\.\d+)?%$/.test(value) ? value : '';
+	});
+	// Opt-in shades for photographs (or video frames) bright enough to put the
+	// copy under 4.5:1. Phones (<768px), where the copy spans the full width:
+	// `mobileShade: strong`, or `max` for white-backed or bright-frame media,
+	// which also darkens the right-hand end of the gradient. Tablets
+	// (768-1023px): `tabletShade: strong`. Desktop keeps the standard shade.
+	let mobileShade = $derived(section.mobileShade === 'strong' || section.mobileShade === 'max' ? section.mobileShade : '');
+	let strongTabletShade = $derived(section.tabletShade === 'strong');
+	// Opt-in, phones only (<768px): reframe the media layer for the narrow
+	// band. `mobileMediaScale` enlarges it about its centre, so a product
+	// photograph's white margins fall outside the band instead of showing as
+	// light bands; `mobileMediaPosition` (a horizontal percentage) picks which
+	// part of a wide photograph sits behind the copy. Unset elsewhere.
+	let mobileMediaScale = $derived.by(() => {
+		const value = String(section.mobileMediaScale ?? '').trim();
+		return /^\d+(\.\d+)?$/.test(value) ? value : '';
+	});
+	let mobileMediaPosition = $derived.by(() => {
+		const value = String(section.mobileMediaPosition ?? '').trim();
+		return /^\d{1,3}(\.\d+)?%$/.test(value) ? value : '';
+	});
+	let mobileFramed = $derived(Boolean(mobileMediaScale || mobileMediaPosition));
 	function manageVideo(element: HTMLVideoElement) {
 		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const sync = () => {
@@ -32,17 +73,20 @@
 <section
 	class="lumo-section hero-shell bg-panel relative isolate z-50 flex items-end overflow-hidden"
 	class:band
+	class:strong-mobile-shade={mobileShade === 'strong'}
+	class:max-mobile-shade={mobileShade === 'max'}
+	class:strong-tablet-shade={strongTabletShade}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
 	data-width={section.width ?? 'contained'}
 	data-spacing-top={section.spacingTop ?? 'md'}
 	data-spacing-bottom={section.spacingBottom ?? 'md'}
-	data-align={band ? undefined : 'container'}
+	data-align={band ? (section.align === 'container' ? 'container' : undefined) : 'container'}
 	data-peel-cover
 >
 	{#if visual}
 		<Reveal immediate fade={false} y={0} scale={1.06} duration={1.6} class="absolute inset-0">
-			<div class="hero-media absolute inset-0" aria-hidden="true">
+			<div class="hero-media absolute inset-0" class:framed={mediaFramed} class:anchored={Boolean(mediaAnchor)} class:mobile-framed={mobileFramed} style:--hero-media-shift={mediaShift || undefined} style:--hero-media-scale={mediaScale || undefined} style:--hero-media-anchor={mediaAnchor || undefined} style:--hero-media-mobile-scale={mobileMediaScale || undefined} style:--hero-media-mobile-position={mobileMediaPosition || undefined} aria-hidden="true">
 				{#if isVideo}
 					<video
 						{@attach manageVideo}
@@ -104,10 +148,41 @@
 <style>
 	.hero-shell { min-height: 100svh; }
 	.hero-shell.band { min-height: clamp(32rem, 68svh, 47rem); }
+	@media (max-width: 767px) {
+		.strong-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
+		.max-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 92%) 60%, rgb(5 40 100 / 80%)); }
+	}
+	@media (min-width: 768px) and (max-width: 1023px) {
+		.strong-tablet-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
+	}
+	.hero-media.anchored > img,
+	.hero-media.anchored > video { object-position: var(--hero-media-anchor) 50%; }
+	@media (max-width: 767px) {
+		.hero-media.mobile-framed > img,
+		.hero-media.mobile-framed > video { transform: scale(var(--hero-media-mobile-scale, 1)); object-position: var(--hero-media-mobile-position, var(--hero-media-anchor, 50%)) 50%; }
+	}
+	/* Desktop only. Below 1024px the hero stacks the copy over a much narrower
+	   frame, where the centred subject is already clear of the headline, so the
+	   tablet and mobile composition is deliberately left as it is.
+
+	   The translation goes on the image, not on the layer: the layer stays put
+	   and carries the photograph's own white backdrop, so the strip the image
+	   uncovers is the same white under the same gradient and no seam appears.
+	   Translating the layer itself takes the fill with it and leaves a visible
+	   vertical edge against the panel. */
+	@media (min-width: 1024px) {
+		.hero-media.framed { background: #fff; }
+		.hero-media.framed > img,
+		.hero-media.framed > video { transform: translateX(var(--hero-media-shift, 0)) scale(var(--hero-media-scale, 1)); }
+	}
 	.hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 20%, rgb(4 13 31 / 76%) 55%, rgb(6 101 214 / 40%)); }
 	.hero-copy { padding-block: clamp(4rem, 9vw, 7rem); }
 	.hero-copy h1 { max-width: 13ch; margin: 0; letter-spacing: -.055em; line-height: .9; text-transform: uppercase; text-wrap: balance; }
-	.band .hero-copy h1 { max-width: 18ch; text-transform: none; }
+	/* Webvizio #138 / rule 15: at -.055em mixed-case Oswald glyphs touch
+	   ("ra", "gn", "ta", "rt"; measured by rendering each adjacent pair).
+	   -.03em clears every pair but "vy", which keeps a 2px² sliver at 88px.
+	   The uppercase full-height heading above has no colliding pairs. */
+	.band .hero-copy h1 { max-width: 18ch; letter-spacing: -.03em; text-transform: none; }
 	/* 13ch is a two-line measure: it breaks "Programmable Optics" even where the
 	   column has room. From the tablet breakpoint up the heading gets a measure
 	   wide enough to set on one line; below it the original wrap is unchanged.
@@ -116,17 +191,34 @@
 		.hero-copy h1 { max-width: 20ch; }
 	}
 
-	/* Hero refinement, full-height variant only (the `.band` hero is untouched).
+	/* Hero refinement, full-height variant only (the `.band` hero is untouched),
+	   from the tablet breakpoint up; phones take the shared rhythm below.
 	   Alignment comes from the shared `data-align="container"` rule in app.css,
 	   set on the section above. */
-	/* A slightly wider measure so the copy is not boxed in. The heading keeps
-	   its own 20ch cap, so "Programmable Optics" still sets on one line. */
-	.hero-shell:not(.band) .hero-copy { max-width: 72rem; }
-	.hero-shell:not(.band) .hero-body { max-width: 40rem; margin-top: 2rem; }
-	.hero-shell:not(.band) .hero-actions { margin-top: 2.75rem; }
-	/* The shell is bottom-aligned, so extra bottom padding lifts the block.
-	   Section height is unchanged. */
-	.hero-shell:not(.band) .hero-copy { padding-bottom: calc(clamp(4rem, 9vw, 7rem) + 1rem); }
+	@media (min-width: 768px) {
+		/* A slightly wider measure so the copy is not boxed in. The heading keeps
+		   its own 20ch cap, so "Programmable Optics" still sets on one line. */
+		.hero-shell:not(.band) .hero-copy { max-width: 72rem; }
+		.hero-shell:not(.band) .hero-body { max-width: 40rem; margin-top: 2rem; }
+		.hero-shell:not(.band) .hero-actions { margin-top: 2.75rem; }
+		/* The shell is bottom-aligned, so extra bottom padding lifts the block.
+		   Section height is unchanged. */
+		.hero-shell:not(.band) .hero-copy { padding-bottom: calc(clamp(4rem, 9vw, 7rem) + 1rem); }
+	}
+	/* Phones (<768px), band and full-height heroes alike: no viewport-based
+	   minimum height, so the copy and one shared padding set the height (the
+	   compact form the Sense hero introduced). The section's own spacing is
+	   dropped, so a hero carrying `spacingTop/Bottom: md` matches the rest and
+	   the padding below is the whole gap above and below the copy. The eyebrow,
+	   heading, body and action gaps are the band's (1.25 / 1.5 / 2.25rem), and
+	   two actions that wrap stack 1rem apart. Desktop and tablet keep the
+	   minimum heights and spacing above. */
+	@media (max-width: 767px) {
+		.hero-shell, .hero-shell.band { min-height: 0; }
+		.hero-shell > .lumo-inner { padding-block: 0; }
+		.hero-copy { padding-block: 4rem 3.5rem; }
+		.hero-actions { row-gap: 1rem; }
+	}
 	.hero-body :global(p) { margin: 0; }
 	.primary-link { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: white; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.primary-link:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }

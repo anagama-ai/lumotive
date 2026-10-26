@@ -4,9 +4,19 @@ const presentationFields: FieldSpec[] = [
 	{ name: 'designVersion', label: 'Design version', type: 'text' },
 	{ name: 'background', label: 'Background (none | subtle | strong | inverse)', type: 'text' },
 	{ name: 'width', label: 'Width (contained | wide | full)', type: 'text' },
-	{ name: 'spacingTop', label: 'Top spacing (none | sm | md | lg)', type: 'text' },
-	{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | md | lg)', type: 'text' },
-	{ name: 'anchor', label: 'Anchor', type: 'text' }
+	{ name: 'spacingTop', label: 'Top spacing (none | sm | compact | md | lg)', type: 'text' },
+	{ name: 'spacingBottom', label: 'Bottom spacing (none | sm | compact | md | lg)', type: 'text' },
+	{ name: 'anchor', label: 'Anchor', type: 'text' },
+	// Opt the section's inner column into the header container, so its
+	// content lines up with the navigation logo. Unset keeps the wider shell.
+	{ name: 'align', label: 'Align with header container (container)', type: 'text' }
+];
+
+// Phone-only spacing (below 768px; app.css): xs 1.5rem | sm 2rem | md 3rem.
+// Tablet and desktop keep spacingTop / spacingBottom.
+const phoneSpacingFields: FieldSpec[] = [
+	{ name: 'phoneSpacingTop', label: 'Top spacing on phones (xs | sm | md; default = top spacing)', type: 'text' },
+	{ name: 'phoneSpacingBottom', label: 'Bottom spacing on phones (xs | sm | md; default = bottom spacing)', type: 'text' }
 ];
 
 const introFields: FieldSpec[] = [
@@ -106,7 +116,13 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 	},
 	cardsIconCards: {
 		label: 'Cards — icon cards',
-		fields: [...presentationFields, ...introFields, cardsField(fullCardFields)]
+		fields: [
+			...presentationFields,
+			...introFields,
+			{ name: 'iconTint', label: 'Icon colour (accent = each card’s accent)', type: 'text' },
+			{ name: 'iconSize', label: 'Icon size (sm = 4rem; default 5rem)', type: 'text' },
+			cardsField(fullCardFields)
+		]
 	},
 	cardsIconQuad: {
 		label: 'Cards — icon quad',
@@ -116,7 +132,15 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 		label: 'Cards — media cards',
 		fields: [
 			...presentationFields,
+			...phoneSpacingFields,
+			{ name: 'mediaFrame', label: 'Card photo frame (panel = product on light-grey panel; default full-bleed)', type: 'text' },
 			...introFields,
+			...linkFields,
+			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
+			{ name: 'density', label: 'Card density (compact)', type: 'text' },
+			{ name: 'columns', label: 'Desktop columns (1 = one full-width card per row | 4; default is 2, or 3 for three cards)', type: 'text' },
+			{ name: 'label', label: 'Group label above the grid', type: 'text' },
+			{ name: 'note', label: 'Note under the grid', type: 'text' },
 			cardsField([
 				...fullCardFields,
 				{ name: 'anchor', label: 'Card anchor', type: 'text' }
@@ -127,8 +151,46 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 		label: 'Cards — text cards',
 		fields: [
 			...presentationFields,
+			...phoneSpacingFields,
 			...introFields,
-			cardsField(fullCardFields.filter((field) => field.name !== 'media'))
+			// Emphasised lines around the grid: a proposition under the
+			// introduction, and a closing result under the cards.
+			{ name: 'statement', label: 'Statement under the introduction', type: 'text' },
+			{ name: 'conclusion', label: 'Closing line under the grid', type: 'text' },
+			// One visual between the introduction and the cards (the /lcm-chips
+			// "How LCM fits" animation). A video loops muted while on screen,
+			// with a pause control; an image renders as a plain figure.
+			{ name: 'media', label: 'Visual under the introduction (image or MP4)', type: 'media' },
+			{ name: 'mediaMaxWidth', label: 'Visual width cap (rem, e.g. 40rem; default 1000px)', type: 'text' },
+			{ name: 'mediaMinWidth', label: 'Visual readable width (rem): full container, scrolls sideways when narrower', type: 'text' },
+			{ name: 'mediaHint', label: 'Hint shown while the visual scrolls sideways', type: 'text' },
+			{ name: 'mediaPlacement', label: 'Visual after the cards (afterGrid)', type: 'text' },
+			{ name: 'mediaPoster', label: 'Visual poster frame (video)', type: 'media' },
+			{ name: 'mediaAlt', label: 'Visual description (alt text)', type: 'text' },
+			{ name: 'textAlign', label: 'Centre the composition (center)', type: 'text' },
+			{ name: 'cardTint', label: 'Tint each card with its accent colour (accent)', type: 'text' },
+			// A player beside the copy: header, cards and `body` left, video right
+			// (from 1280px; stacked below). Used by /sense/robotics.
+			{ name: 'videoUrl', label: 'Video beside the cards (Vimeo or YouTube URL)', type: 'url' },
+			{ name: 'videoLayout', label: 'Video above the cards instead of beside them (above)', type: 'text' },
+			{ name: 'body', label: 'Text under the cards (e.g. a bullet list)', type: 'richtext' },
+			...linkFields,
+			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
+			{ name: 'columns', label: 'Desktop columns (2 | 3 | 4 | 5, default 3)', type: 'text' },
+			{ name: 'numbered', label: 'Number the cards 01, 02 … (true | false)', type: 'text' },
+			{ name: 'titleLines', label: 'Align card descriptions from 768px (2 = reserve two title lines | row = match the tallest title in each row)', type: 'text' },
+			// Print card titles exactly as typed, for a section whose approved
+			// card wording is sentence case. Section headings are unaffected.
+			{ name: 'casing', label: 'Card title casing (exact)', type: 'text' },
+			// Small trailing line under the grid: the reference-design caveat, or
+			// the lead-in to the shared action ("New to metasurfaces?").
+			{ name: 'note', label: 'Note under the grid', type: 'text' },
+			// Second trailing line, kept separate from `note` where a section
+			// carries two captions that belong to different panels.
+			{ name: 'outro', label: 'Second note under the grid', type: 'text' },
+			// Card media renders above the copy (/platform chip cards, /sense
+			// perception cards), so editors can manage it like any other card.
+			cardsField(fullCardFields)
 		]
 	},
 	cardsSpecPanels: {
@@ -140,6 +202,27 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 				{ name: 'media', label: 'Media', type: 'media' },
 				{ name: 'title', label: 'Title', type: 'text' },
 				{ name: 'body', label: 'Specifications', type: 'richtext' }
+			])
+		]
+	},
+	// Row-labelled comparison of two or more offerings. Each card is one
+	// column; its `body` lists that column's values as `<li>Label: Value</li>`,
+	// the spec-pair convention CardsSpecPanels established. Desktop renders a
+	// table, mobile one stacked card per column.
+	cardsSpecComparison: {
+		label: 'Cards — specification comparison',
+		fields: [
+			...presentationFields,
+			...introFields,
+			{ name: 'outro', label: 'Closing line', type: 'textarea' },
+			cardsField([
+				{ name: 'media', label: 'Column photo', type: 'media' },
+				{ name: 'eyebrow', label: 'Column label', type: 'text' },
+				{ name: 'title', label: 'Column title', type: 'text' },
+				{ name: 'body', label: 'Values (Label: Value per list item)', type: 'richtext' },
+				// The column the comparison argues for: a Laser Blue wash and
+				// medium-weight values.
+				{ name: 'emphasis', label: 'Emphasize this column (true)', type: 'text' }
 			])
 		]
 	},

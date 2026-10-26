@@ -18,12 +18,13 @@
 	data-width={String(section.width ?? 'contained')}
 	data-spacing-top={String(section.spacingTop ?? 'md')}
 	data-spacing-bottom={String(section.spacingBottom ?? 'md')}
+	data-align={section.align === 'container' ? 'container' : undefined}
 >
 	<div class="lumo-inner">
 		{#if section.eyebrow || section.heading || section.intro}
 			<Reveal>
 				<div class="mb-12 text-center">
-					{#if section.eyebrow}<p class="text-eyebrow text-brand-blue mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
+					{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
 					{#if section.heading}<h2 class="font-display text-statement text-ink">{titleCase(String(section.heading))}</h2>{/if}
 					{#if section.intro}<p class="text-lead mx-auto mt-6 max-w-3xl">{String(section.intro)}</p>{/if}
 				</div>

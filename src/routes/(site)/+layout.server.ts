@@ -1,43 +1,23 @@
-import { ClientResponseError } from 'pocketbase';
 import { loadMediaMap, resolveMedia } from '$lib/media';
 import { mediaValue } from '$lib/sections';
-
-const emptyGlobals = {
-	header: {},
-	footer: {},
-	code_injection: {},
-	seo: {}
-};
+import { getPublicGlobals, readPublicGlobals } from '$lib/server/public-globals';
 
 export async function load({ locals }: { locals: App.Locals }) {
 	const pb = locals.pb;
-	const getGlobal = async (key: keyof typeof emptyGlobals) => {
-		for (let attempt = 0; ; attempt += 1) {
-			try {
-				return (
-					await pb.collection('globals').getFirstListItem(pb.filter('key = {:key}', { key }))
-				).data ?? {};
-			} catch (error) {
-				if (error instanceof ClientResponseError && error.status === 404) {
-					return emptyGlobals[key];
-				}
-				// Retry one transient failure, then fail visibly rather than serve a broken-looking site.
-				if (attempt === 0) {
-					console.warn('Failed to read public global; retrying once', { key, error });
-					continue;
-				}
-				console.error('Failed to read public global after retry', { key, error });
-				throw error;
-			}
-		}
+	// Anonymous renders share a short-lived cache of the public globals (one
+	// PocketBase request a minute instead of four per render; see
+	// `public-globals.ts`). Signed-in editors read live through their own
+	// client, so what they just saved, or preview, is never served stale.
+	const globals = locals.editor ? await readPublicGlobals(pb) : await getPublicGlobals();
+	const { header, footer, code_injection: injection, seo: rawSeo } = globals;
+	// Stored globals are free-form JSON; the layout prints these as HTML strings.
+	const html = (value: unknown) => (typeof value === 'string' ? value : '');
+	const codeInjection = {
+		head: html(injection.head),
+		bodyStart: html(injection.bodyStart),
+		footer: html(injection.footer),
+		bodyEnd: html(injection.bodyEnd)
 	};
-
-	const [header, footer, codeInjection, rawSeo] = await Promise.all([
-		getGlobal('header'),
-		getGlobal('footer'),
-		getGlobal('code_injection'),
-		getGlobal('seo')
-	]);
 	const defaultOgImage = mediaValue(rawSeo.defaultOgImage);
 	const media =
 		defaultOgImage?.kind === 'media'

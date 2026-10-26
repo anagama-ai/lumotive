@@ -25,13 +25,15 @@
 	let heading = $derived(titleCase(String(section.heading ?? '')) ?? '');
 	let split = $derived(heading.indexOf('. '));
 
+	// Eyebrows and the card link are text, so they take the text-safe variants
+	// (the bright accents measure 4.15, 3.19 and 1.82:1 on white).
 	const tones: Record<string, string> = {
-		accent1: 'text-brand-blue',
-		accent2: 'text-brand-green',
-		accent3: 'text-brand-amber',
-		accent4: 'text-brand-blue',
-		accent5: 'text-brand-green',
-		accent6: 'text-brand-amber'
+		accent1: 'text-brand-blue-dark',
+		accent2: 'text-brand-green-text',
+		accent3: 'text-brand-amber-text',
+		accent4: 'text-brand-blue-dark',
+		accent5: 'text-brand-green-text',
+		accent6: 'text-brand-amber-text'
 	};
 	const tone = (value?: string) => tones[value ?? ''] ?? tones.accent1;
 	const linkFor = (card: Card) => ({

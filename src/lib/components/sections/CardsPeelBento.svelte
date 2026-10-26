@@ -38,7 +38,7 @@
 		<div class="lumo-inner flex min-h-full flex-col justify-center py-10">
 			{#if section.eyebrow || section.heading || section.intro}
 				<div data-peel="rise" class="mb-12 max-w-6xl">
-					{#if section.eyebrow}<p class="text-eyebrow text-brand-blue mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
+					{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
 					{#if section.heading}<h2 class="font-display text-display text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 					{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 				</div>
@@ -60,7 +60,9 @@
 						>
 							{#if image}
 								<img class="absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
-								<div aria-hidden="true" class="from-ink via-ink/50 absolute inset-0 bg-linear-to-t to-transparent"></div>
+								<!-- Ink to 80% at mid-card: at 50% the title measured 2.8:1 over
+								     the bright warehouse photo (white text needs 4.5:1). -->
+								<div aria-hidden="true" class="from-ink via-ink/80 to-ink/15 absolute inset-0 bg-linear-to-t"></div>
 							{/if}
 							<div class="relative z-10 flex flex-1 flex-col justify-end">
 								{#if card.eyebrow}<p class={`text-eyebrow uppercase ${darkText ? 'text-ink' : 'text-white/75'}`}>{card.eyebrow}</p>{/if}
@@ -89,7 +91,7 @@
 <style>
 	/* A bare utility loses to the global anchor colour, so the section action is
 	   coloured the same scoped way the other section links are. */
-	.section-link { display: inline-flex; gap: .5rem; margin-top: 2.5rem; color: var(--color-brand-blue); font-weight: 650; text-decoration: none; }
+	.section-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; margin-top: 2.5rem; color: var(--color-brand-blue-dark); font-weight: 650; text-decoration: none; }
 	.section-link span { transition: transform 200ms ease; }
 	.section-link:hover span { transform: translateX(.25rem); }
 	@media (prefers-reduced-motion: reduce) {

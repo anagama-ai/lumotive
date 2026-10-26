@@ -6,13 +6,17 @@
 		rows,
 		empty,
 		sampleLabel,
-		sampleHref
+		sampleHref,
+		labelName = 'Label',
+		hrefName = 'Address'
 	}: {
 		title: string;
 		rows: { label: string; href: string }[];
 		empty: string;
 		sampleLabel: string;
 		sampleHref: string;
+		labelName?: string;
+		hrefName?: string;
 	} = $props();
 </script>
 
@@ -62,11 +66,11 @@
 
 					<div class="row">
 						<label class="field">
-							<span>Label</span>
+							<span>{labelName}</span>
 							<input type="text" bind:value={item.label} placeholder={sampleLabel} />
 						</label>
 						<label class="field">
-							<span>Address</span>
+							<span>{hrefName}</span>
 							<input type="text" bind:value={item.href} placeholder={sampleHref} />
 						</label>
 					</div>
