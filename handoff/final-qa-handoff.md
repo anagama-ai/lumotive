@@ -111,6 +111,22 @@ only while absent and removed only while `xs`. The phone gap is 48px
 original. `PostsFeatured.svelte` and `CardsPeelBento.svelte` now emit
 `data-phone-bottom` / `data-phone-top`, as the card sections already do.
 
+**/about, phones only** (migration `1787718600`, guarded and reversible;
+measured at 375 / 414 / 430):
+- **"Work With Us" CTA (`efd6f4b0`):** `lg` padding plus the heading's 28px
+  top margin put 140px above the content and 112px below it. The existing
+  CTA `compactMobile` is now on (4.5rem a side), and `CtaDefault` drops the
+  heading's outer top margin under it, so the content sits 72px from either
+  edge.
+  - The band goes from 557 / 493 / 493px to 449 / 385 / 385px.
+  - Copy and buttons are unchanged (48–50px tall).
+  - /sense/automotive's CTA, the only other `compactMobile` CTA, loses the
+    same 28px on phones.
+- **"GSA Startup to Watch" → "Leadership Team":** two `md` paddings
+  stacked, 172px. Recognition (`718e83f2`) bottom and Leadership
+  (`f9d1f9ab`) top take `md-compact-phone`, making it 80px.
+- 768 and 1440 measure identically to before.
+
 **Verified** on a copy of the local database at 360×800, 375×812, 390×844,
 430×932, 768×1024 and 1440×900:
 - **Migrations:** up, down and re-up all work. Down restores both pages
