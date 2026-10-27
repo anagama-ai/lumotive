@@ -57,10 +57,21 @@ settings → Footer → Social links.
   Rollback removes only this row, and drops the key if the list empties.
   Applied, rolled back and re-applied locally: the record returns to its
   original shape.
-- **Footer component:** `Footer.svelte` already drew the approved icon. Its
-  accessible name now ends "(opens in a new tab)". Its focus ring sits on the
-  44px target's edge (offset 0); the 4px site offset clipped it at the left
-  edge on phones.
+- **Footer component (revised to match the v4 PDF):** the icon now sits in
+  the bottom legal row, immediately before the copyright line, not under the
+  logo. It is a 16px mark inside a 44×44px target, labelled "Lumotive on
+  LinkedIn" (`aria-label`), with `target="_blank" rel="noopener noreferrer"`.
+  - **Row height:** negative margins let the target overlap the row's
+    padding, so the legal row keeps its height (64px on desktop, 122px when
+    stacked at 640px and below).
+  - **Alignment:** the glyph lines up with the container edge, 8px before the
+    copyright text.
+  - **Focus ring:** amber, drawn just inside the target, so it is never
+    clipped at a phone's edge.
+  - **Layout:** icon, copyright and Privacy Policy share one row from 641px
+    up. Below that the row stacks as before. Logo, columns, colours and type
+    are unchanged.
+  - **Verified at 1440, 1024, 768, 430 and 390:** no horizontal overflow.
 - **Other social data:** `globals.seo.socialChannels` and the site-meta
   "Social accounts" exist but no public component reads them (S30), so they
   were left empty.
@@ -74,8 +85,9 @@ settings → Footer → Social links.
     16px at 390;
   - no horizontal overflow.
 
-  Adding the icon makes the footer brand column 68px taller where it is the
-  tallest column (below about 1100px).
+  With the icon out of the brand column, the footer is back to its
+  pre-LinkedIn height at every width. Screenshots for the move are in
+  `%TEMP%\lumotive-review\footer-linkedin-legal-row\`.
 
 **Privacy Policy numbered headings.** The ten `h2`s carried "N." plus five
 no-break spaces (one for "10.") from the source document. That left a 58px
