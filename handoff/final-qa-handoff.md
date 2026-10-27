@@ -92,6 +92,17 @@ Metasurface™ Optical Beamforming Technology" (`fbe8b045`, `SplitPeelBleed`).
     flush, 0px).
   - Card, media, heading and band sizes are identical at all six widths.
 
+**Home, phones only: "All news" → "When Light Becomes Programmable".**
+The 117px gap (123px to the heading's visible top) at 360–430 was the News
+section's 80px bottom padding plus the heading's own 36.5px top margin; the
+bento's top padding is already `none`, and the reveals add only their
+temporary 28px rise. Migration `1787718400` sets News (`e7b40d12`)
+`spacingBottom` `md` → `md-compact-phone`. It is guarded on News `md` and
+the bento's top `none`, and rollback goes back to `md`. The gap is now 77px
+(83px visible), and 768 and 1440 are identical to before (120 / 153px).
+`PostsFeatured.svelte` had whitelisted its spacing values and was silently
+turning `md-compact-phone` back into `md`; the token is now on its list.
+
 **Verified** on a copy of the local database at 360×800, 375×812, 390×844,
 430×932, 768×1024 and 1440×900:
 - **Migrations:** up, down and re-up all work. Down restores both pages
