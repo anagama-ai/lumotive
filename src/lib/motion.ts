@@ -63,7 +63,7 @@ export function initSmoothScroll(): SmoothScrollTeardown {
 
 /**
  * Reveals `[data-reveal]` descendants in batches.
- * Defaults: 24px upward, 0.6s, power2.out, 0.08s stagger.
+ * Defaults: 24px upward, 0.6s, power1.inOut, 0.08s stagger.
  */
 export function revealOnScroll(root: HTMLElement): () => void {
 	ensureScrollTrigger();
@@ -88,7 +88,7 @@ export function revealOnScroll(root: HTMLElement): () => void {
 							y: 24,
 							autoAlpha: 0,
 							duration: 0.6,
-							ease: 'power2.out',
+							ease: 'power1.inOut',
 							stagger: 0.08,
 							overwrite: true
 						})

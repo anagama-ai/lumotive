@@ -17,6 +17,9 @@ const heroFields: FieldSpec[] = [
 	{ name: 'heading', label: 'Heading', type: 'text' },
 	{ name: 'body', label: 'Body', type: 'richtext' },
 	{ name: 'media', label: 'Media', type: 'media' },
+	// Vimeo or YouTube URL. Full-height and band heroes play it muted and
+	// looping as the background; the split hero shows it as the right-hand player.
+	{ name: 'videoUrl', label: 'Video URL (Vimeo or YouTube; replaces media)', type: 'url' },
 	// Desktop-only horizontal shift of the media layer, e.g. "30%".
 	{ name: 'mediaShift', label: 'Media shift on desktop (CSS length, e.g. 30%)', type: 'text' },
 	{ name: 'mediaScale', label: 'Media scale on desktop (number, e.g. 1.16)', type: 'text' },
@@ -52,6 +55,17 @@ const splitFields: FieldSpec[] = [
 	{ name: 'linkLabel', label: 'Link label', type: 'text' },
 	{ name: 'linkUrl', label: 'Link URL', type: 'url' },
 	{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
+	// Problem/solution comparison under the body: ✕ items beside ✓ items.
+	{ name: 'problemLabel', label: 'Problem list label', type: 'text' },
+	{ name: 'problemItems', label: 'Problem items', type: 'list', fields: [
+		{ name: 'title', label: 'Title', type: 'text' },
+		{ name: 'body', label: 'Body', type: 'textarea' }
+	] },
+	{ name: 'solutionLabel', label: 'Solution list label', type: 'text' },
+	{ name: 'solutionItems', label: 'Solution items', type: 'list', fields: [
+		{ name: 'title', label: 'Title', type: 'text' },
+		{ name: 'body', label: 'Body', type: 'textarea' }
+	] },
 	// peelBleed only: a shorter band with more of the bleed image showing.
 	{ name: 'bleed', label: 'Bleed height (compact)', type: 'text' }
 ];
@@ -59,6 +73,7 @@ const splitFields: FieldSpec[] = [
 const logosFields: FieldSpec[] = [
 	{ name: 'heading', label: 'Heading', type: 'text' },
 	{ name: 'intro', label: 'Intro', type: 'textarea' },
+	{ name: 'logoSize', label: 'Logo size (lg = larger marks)', type: 'text' },
 	// Wrap the marks in a centred row instead of a fixed column grid.
 	{ name: 'layout', label: 'Logo layout (centered)', type: 'text' },
 	// Marks per row in the centred layout (2-6; default 5).

@@ -3,20 +3,25 @@
 	import { resolveMedia, type MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
+	import { videoEmbedUrl } from '$lib/video';
 
-	// The approved page-07 hero: copy on the left, the chip photo on the right,
-	// rather than the full-bleed background the band hero paints. The type, the
-	// amber eyebrow, the white pill and the arrow link are the staging hero's,
-	// so only the arrangement differs.
+	// Keep copy first in both the split desktop layout and the stacked phone layout.
 	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let heading = $derived(titleCase(section.heading == null ? null : String(section.heading)));
 	let visual = $derived(resolveMedia(section.media, media, 1024));
+	let embedUrl = $derived(videoEmbedUrl(section.videoUrl));
+	// Horizontal crop anchor for the photo (a percentage), for a wide banner
+	// whose subject sits at one edge, e.g. `100%` keeps the right edge.
+	let mediaAnchor = $derived.by(() => {
+		const value = String(section.mediaAnchor ?? '').trim();
+		return /^\d{1,3}(\.\d+)?%$/.test(value) ? value : undefined;
+	});
 	let primaryNewTab = $derived(section.primaryLinkNewTab === true || section.primaryLinkNewTab === 'true');
 	let secondaryNewTab = $derived(section.secondaryLinkNewTab === true || section.secondaryLinkNewTab === 'true');
 </script>
 
 <section
-	class="lumo-section hero-split bg-panel relative isolate overflow-hidden"
+	class="lumo-section hero-split bg-background relative isolate overflow-hidden"
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={String(section.background ?? 'none')}
 	data-width={String(section.width ?? 'contained')}
@@ -26,14 +31,13 @@
 	data-peel-cover
 >
 	<div class="lumo-inner relative z-10">
-		<!-- Without the photo the copy keeps the full column instead of holding a
-		     half-width gap open beside itself. -->
-		<div class={`hero-grid items-center gap-10 lg:gap-16 ${visual ? 'grid lg:grid-cols-2' : ''}`}>
-			<Reveal immediate stagger=".hero-copy > *" delay={0.15}>
+		<!-- Without media the copy keeps the full column. -->
+		<div class={`hero-grid items-center gap-10 lg:gap-14 ${embedUrl || visual ? 'grid lg:grid-cols-12' : ''}`}>
+			<Reveal immediate stagger=".hero-copy > *" delay={0.15} class={embedUrl || visual ? 'lg:col-span-5' : ''}>
 				<div class="hero-copy">
-					{#if section.eyebrow}<p class="text-eyebrow text-brand-amber mb-5 uppercase">{String(section.eyebrow)}</p>{/if}
-					{#if heading}<h1 class="font-display text-display text-white">{heading}</h1>{/if}
-					{#if section.body}<div class="text-lead hero-body mt-6 text-white/75">{@html String(section.body)}</div>{/if}
+					{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-5 uppercase">{String(section.eyebrow)}</p>{/if}
+					{#if heading}<h1 class="font-display text-display text-ink">{heading}</h1>{/if}
+					{#if section.body}<div class="text-lead hero-body text-text mt-6">{@html String(section.body)}</div>{/if}
 					{#if (section.primaryLinkLabel && section.primaryLinkUrl) || (section.secondaryLinkLabel && section.secondaryLinkUrl)}
 						<div class="mt-9 flex flex-wrap items-center gap-8">
 							{#if section.primaryLinkLabel && section.primaryLinkUrl}
@@ -57,18 +61,30 @@
 				</div>
 			</Reveal>
 
-			{#if visual}
-				<Reveal immediate delay={0.25} y={24} scale={0.985} duration={1.1}>
-					<div class="hero-visual rounded-panel relative overflow-hidden">
-						<img
-							class="size-full object-contain"
-							src={visual.src}
-							srcset={visual.srcset}
-							sizes="(min-width: 1024px) 40rem, 100vw"
-							alt={visual.alt}
-							width={visual.width ?? 1200}
-							height={visual.height ?? 900}
-						/>
+			{#if embedUrl || visual}
+				<Reveal immediate delay={0.25} y={24} scale={0.985} duration={1.1} class="pb-12 lg:col-span-7 lg:py-16">
+					<div class="hero-visual rounded-panel relative overflow-hidden" class:has-video={Boolean(embedUrl)}>
+						{#if embedUrl}
+							<iframe
+								src={embedUrl}
+								title={heading || 'Embedded video'}
+								class="video-embed"
+								loading="lazy"
+								allow="autoplay; fullscreen; picture-in-picture"
+								allowfullscreen
+							></iframe>
+						{:else if visual}
+							<img
+								class="size-full object-cover"
+								style:object-position={mediaAnchor ? `${mediaAnchor} 50%` : undefined}
+								src={visual.src}
+								srcset={visual.srcset}
+								sizes="(min-width: 1024px) 40rem, 100vw"
+								alt={visual.alt}
+								width={visual.width ?? 1200}
+								height={visual.height ?? 900}
+							/>
+						{/if}
 					</div>
 				</Reveal>
 			{/if}
@@ -77,7 +93,7 @@
 </section>
 
 <style>
-	.hero-copy { padding-block: clamp(3.5rem, 7vw, 6rem); }
+	.hero-copy { padding-block: clamp(4.5rem, 10vw, 9rem); }
 	.hero-copy h1 { max-width: 16ch; margin: 0; letter-spacing: -.045em; line-height: .95; text-wrap: balance; }
 	.hero-body { max-width: 34rem; }
 	.hero-body :global(p) { margin: 0; }
@@ -87,9 +103,11 @@
 		   block cannot collapse the stage. */
 		.hero-visual { aspect-ratio: 5 / 4; min-height: 24rem; }
 	}
-	.primary-link { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: white; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
-	.primary-link:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
-	.secondary-link { display: inline-flex; min-height: 2.75rem; align-items: center; color: white; font-weight: 650; text-decoration: none; }
+	.hero-visual.has-video { aspect-ratio: 16 / 9; min-height: 0; }
+	.video-embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+	.primary-link { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: white; background: var(--color-ink); font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
+	.primary-link:hover { transform: translateY(-2px); background: rgb(10 18 38 / 88%); }
+	.secondary-link { display: inline-flex; min-height: 2.75rem; align-items: center; color: var(--color-ink); font-weight: 650; text-decoration: none; }
 	.secondary-link span { display: inline-block; margin-left: .25rem; transition: transform 200ms ease; }
 	.secondary-link:hover span { transform: translateX(.25rem); }
 	@media (prefers-reduced-motion: reduce) {

@@ -49,16 +49,27 @@
 						<img class={`mb-4 ${iconBox} object-contain`} src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
 					{/if}
 					{#if card.eyebrow}<p class={`text-eyebrow uppercase ${tone(card.accent)}`}>{card.eyebrow}</p>{/if}
-					<h3 class="font-display text-subheading text-ink mt-2 mb-0">{titleCase(card.title ?? '')}</h3>
+					<h3 class="font-display text-subheading text-ink mt-2 mb-0">{section.casing === 'exact' ? (card.title ?? '') : titleCase(card.title ?? '')}</h3>
 					{#if card.body}<div class="mt-2 text-base leading-relaxed [&_p]:my-0 [&_p+p]:mt-2">{@html card.body}</div>{/if}
 					{#if card.badge}<span class="text-spec bg-background text-ink mt-4 self-start rounded-full px-3 py-1">{card.badge}</span>{/if}
 					{#if link.href && link.label}<span class={`mt-auto inline-flex items-center gap-2 self-start pt-6 text-base font-medium ${tone(card.accent)}`}>{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
 				</svelte:element>
 			{/each}
 		</Reveal>
+		{#if section.conclusion}
+			<Reveal delay={0.1}><p class="conclusion text-lead text-ink mt-10 max-w-3xl font-medium">{String(section.conclusion)}</p></Reveal>
+		{/if}
 	</div>
 </section>
 
 <style>
 	.icon-mask { -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }
+	/* `background: inverse` (the dark panel): white type and translucent
+	   cards, so the section reads as one dark band. Amber eyebrow, as on the
+	   other dark sections. */
+	[data-background='inverse'] h2, [data-background='inverse'] h3 { color: #fff; }
+	[data-background='inverse'] .text-eyebrow.text-brand-blue-dark { color: var(--color-brand-amber); }
+	[data-background='inverse'] .text-lead { color: rgb(255 255 255 / 75%); }
+	[data-background='inverse'] .conclusion { color: #fff; }
+	[data-background='inverse'] .rounded-card { border: 1px solid rgb(255 255 255 / 12%); background: rgb(255 255 255 / 6%); color: rgb(255 255 255 / 70%); }
 </style>

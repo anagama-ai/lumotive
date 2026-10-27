@@ -22,6 +22,9 @@
 	let columns = $derived(/^[2-6]$/.test(String(section.columns ?? '')) ? String(section.columns) : '');
 	// Opt-in for the /partners phone panels; all other strips keep their sizing.
 	let compactMobile = $derived(section.compactMobile === true || section.compactMobile === 'true');
+	// Opt-in `logoSize: "lg"`: taller marks in taller cells, for a short strip
+	// of key partners (/partners module providers). Unset elsewhere.
+	let largeLogos = $derived(section.logoSize === 'lg');
 	let logos = $derived(
 		(Array.isArray(section.logos) ? section.logos : []).flatMap((raw): Logo[] => {
 			if (!raw || typeof raw !== 'object') return [];
@@ -41,7 +44,7 @@
 </script>
 
 {#snippet logoList()}
-	<ul class:centered style:--logo-cols={columns || undefined}>
+	<ul class:centered class:large-logos={largeLogos} style:--logo-cols={columns || undefined}>
 		{#each logos as logo, index (index)}
 			<li>
 				{#if logo.linkUrl}
@@ -140,6 +143,8 @@
 	   the investor panel already used. */
 	.centered li { flex: 0 0 calc((100% - (var(--logo-cols, 5) - 1) * 2.5rem) / var(--logo-cols, 5)); }
 	.centered li a, .centered .logo-item { min-height: 5rem; gap: .75rem; }
+	.large-logos li a, .large-logos .logo-item { min-height: 8rem; }
+	.centered.large-logos li img { max-height: 6rem; }
 	@media (max-width: 900px) {
 		ul, .dark ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 	}

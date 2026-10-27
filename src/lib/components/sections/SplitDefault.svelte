@@ -54,6 +54,14 @@
 	// image without a hint (large baked-in labels) fits the phone width.
 	let mediaHint = $derived(String(section.mediaHint ?? '').trim());
 	let phoneScroll = $derived(mediaBelow && Boolean(mediaHint));
+	// Optional problem/solution comparison under the body: two labelled lists,
+	// ✗ items against ✓ items, side by side from 768px (/sense/automotive
+	// "Safety cocoon"). Unset on every other section.
+	type CompareItem = { title?: string; body?: string };
+	const items = (value: unknown) => (Array.isArray(value) ? (value as CompareItem[]).filter((item) => item && (item.title || item.body)) : []);
+	let problemItems = $derived(items(section.problemItems));
+	let solutionItems = $derived(items(section.solutionItems));
+	let hasCompare = $derived(problemItems.length > 0 || solutionItems.length > 0);
 </script>
 
 {#snippet copy()}
@@ -67,6 +75,28 @@
 			target={linkNewTab ? '_blank' : undefined}
 			rel={linkNewTab ? 'noreferrer' : undefined}
 		>{String(section.linkLabel)} <span aria-hidden="true">→</span></a>
+	{/if}
+	{#if hasCompare}
+		<div class="compare">
+			{#each [{ label: section.problemLabel, list: problemItems, mark: '✕', tone: 'problem' }, { label: section.solutionLabel, list: solutionItems, mark: '✓', tone: 'solution' }] as column (column.tone)}
+				{#if column.list.length}
+					<div class={`compare-column ${column.tone}`}>
+						{#if column.label}<p class="compare-label">{String(column.label)}</p>{/if}
+						<ul>
+							{#each column.list as item, index (index)}
+								<li>
+									<span class="compare-mark" aria-hidden="true">{column.mark}</span>
+									<div>
+										{#if item.title}<p class="compare-title">{item.title}</p>{/if}
+										{#if item.body}<p class="compare-body">{item.body}</p>{/if}
+									</div>
+								</li>
+							{/each}
+						</ul>
+					</div>
+				{/if}
+			{/each}
+		</div>
 	{/if}
 {/snippet}
 
@@ -134,6 +164,16 @@
 </section>
 
 <style>
+	.compare { display: grid; gap: 2.5rem; margin-top: 2.5rem; }
+	@media (min-width: 768px) { .compare { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 5vw, 4rem); } }
+	.compare-label { margin: 0 0 .5rem; color: var(--color-ink); font-weight: 650; }
+	.compare ul { margin: 0; padding: 0; list-style: none; }
+	.compare li { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: .75rem; padding-block: 1.25rem; border-top: 1px solid var(--color-border); }
+	.compare-mark { display: grid; width: 1.5rem; height: 1.5rem; place-items: center; border-radius: .375rem; font-size: .8rem; font-weight: 700; }
+	.problem .compare-mark { color: var(--color-brand-red); background: color-mix(in srgb, var(--color-brand-red) 10%, var(--color-surface)); }
+	.solution .compare-mark { color: var(--color-brand-green); background: color-mix(in srgb, var(--color-brand-green) 12%, var(--color-surface)); }
+	.compare-title { margin: 0; color: var(--color-ink); font-weight: 650; }
+	.compare-body { margin: .25rem 0 0; color: var(--color-text); }
 	.split-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(2.5rem, 6vw, 5rem); }
 	.art-column { min-width: 0; }
 	.media-right .art-column { order: 2; }

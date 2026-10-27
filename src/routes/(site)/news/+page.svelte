@@ -33,14 +33,12 @@
 />
 
 <article>
-	<section class="bg-panel relative isolate overflow-hidden">
-		<div aria-hidden="true" class="bg-metasurface mask-hero-dots absolute inset-0"></div>
-		<div aria-hidden="true" class="from-panel via-panel/90 to-brand-blue/35 absolute inset-0 bg-linear-75"></div>
+	<section class="bg-background border-border relative isolate overflow-hidden border-b">
 		<!-- `container` is the header's own geometry, so the newsroom lines up
 		     with the logo at every width, as the CMS pages do. -->
 		<div class="container relative py-14 md:py-16">
-			<p class="text-eyebrow text-brand-amber mb-5 uppercase">Lumotive newsroom</p>
-			<h1 class="font-display text-statement max-w-4xl text-white">News and Events</h1>
+			<p class="text-eyebrow text-brand-blue-dark mb-5 uppercase">Lumotive newsroom</p>
+			<h1 class="font-display text-statement text-ink max-w-4xl">News and Events</h1>
 		</div>
 	</section>
 

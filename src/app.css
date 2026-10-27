@@ -58,6 +58,14 @@ img, video { display: block; max-width: 100%; }
 .lumo-section[data-background='subtle'] { background: var(--color-surface); }
 .lumo-section[data-background='strong'] { color: #fff; background: var(--color-primary); }
 .lumo-section[data-background='inverse'] { color: rgb(255 255 255 / 75%); background: var(--color-panel); }
+/* Pages that open with the two-column hero: the hero keeps the off-white page
+   field and every section after it that is not already dark turns white.
+   Cards inside those sections take the off-white instead of white, so they
+   still read as cards on the white field. */
+main:has(.hero-split) .lumo-section:not(.hero-split, .bg-panel, .bg-ink, .peel-bleed):is([data-background='none'], [data-background='subtle']) {
+	--color-surface: var(--color-background);
+	background: #fff;
+}
 .lumo-inner { width: 100%; max-width: var(--container-shell); margin-inline: auto; padding: 5rem 1rem; }
 .lumo-section[data-width='wide'] > .lumo-inner { max-width: 96rem; }
 .lumo-section[data-width='full'] > .lumo-inner { max-width: none; }
