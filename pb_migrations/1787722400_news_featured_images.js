@@ -578,19 +578,23 @@ function newsImageEqual(a, b) {
  return keys.every((key, index) => key === other[index] && newsImageEqual(a[key], b[key]))
 }
 
+// Posts are found by slug, not record id: ids differ between databases.
+// A post that is missing, or whose cover was edited since, is left alone
+// rather than aborting the batch (PocketBase applies pending migrations
+// together, so one throw would roll back every other content change).
 function updateNewsFeaturedImages(app, reverse) {
  for (const change of NEWS_FEATURED_IMAGES) {
-  const record = app.findRecordById('posts', change.id)
+  let record
+  try { record = app.findFirstRecordByFilter('posts', 'slug = {:slug}', { slug: change.slug }) }
+  catch { continue }
   const expected = reverse ? change.after : change.before
   const target = reverse ? change.before : change.after
-  const current = JSON.parse(record.getString('coverImage') || 'null')
-  if (record.getString('slug') !== change.slug || !newsImageEqual(current, expected)) {
-   throw new Error('Refusing to overwrite edited featured image: ' + change.slug)
-  }
-  if (!newsImageEqual(expected, target)) {
-   record.set('coverImage', target)
-   app.save(record)
-  }
+  let current
+  try { current = JSON.parse(record.getString('coverImage') || 'null') }
+  catch { continue }
+  if (!newsImageEqual(current, expected) || newsImageEqual(expected, target)) continue
+  record.set('coverImage', target)
+  app.save(record)
  }
 }
 
