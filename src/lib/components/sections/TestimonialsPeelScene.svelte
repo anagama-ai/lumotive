@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PeelScene from '$lib/components/lumotive/peel/PeelScene.svelte';
+	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 	import ScrollTrigger from 'gsap/ScrollTrigger';
 	import { resolveMedia, type MediaMap } from '$lib/media';
 	import { titleCase } from '$lib/titlecase';
@@ -13,7 +13,7 @@
 		avatar?: unknown;
 	};
 
-	let { section, media, band }: { section: Section; media: MediaMap; band?: Section } = $props();
+	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let quotes = $derived((Array.isArray(section.quotes) ? section.quotes : []) as Quote[]);
 	let heading = $derived(titleCase(section.heading == null ? null : String(section.heading)));
 	let track = $state<HTMLDivElement>();
@@ -34,8 +34,8 @@
 	// slides were centred in it, so a shorter quote sat in a band of empty space
 	// above and below (about 250px each side at 360px). Below 768px the slides
 	// sit at the top and the track takes the height of the quote in view,
-	// blending between neighbours while it is swiped. From 768px the pinned
-	// panel keeps centring the quote as before. A changed height moves every
+	// blending between neighbours while it is swiped. From 768px the 48dvh
+	// stage keeps centring the quote as before. A changed height moves every
 	// section below, so their scroll reveals are re-measured once it settles.
 	function fitPhoneHeight(el: HTMLDivElement) {
 		const phone = matchMedia('(max-width: 767.98px)');
@@ -79,24 +79,25 @@
 </script>
 
 {#if quotes.length}
-	<!-- The quote centres in its own 48dvh stage below, so the pinned panel
-	     takes the section's height; a viewport taller than the section would
-	     otherwise leave an empty band between it and the next one. -->
-	<PeelScene {band} {media} stage={false}>
-		<section
-			class="lumo-section"
-			id={section.anchor ? String(section.anchor) : undefined}
-			data-design-version={section.designVersion ? String(section.designVersion) : undefined}
-			data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
-			data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
-			data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg'], 'md')}
-			data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
-			data-align={section.align === 'container' ? 'container' : undefined}
-		>
-			<div class="lumo-inner quote-stage relative flex flex-col justify-center py-6">
-				{#if heading}
+	<!-- Normal document flow. Reveals as "Latest From Lumotive" does: the
+	     heading, then the carousel, each a one-time shared `Reveal`. -->
+	<section
+		class="lumo-section"
+		id={section.anchor ? String(section.anchor) : undefined}
+		data-design-version={section.designVersion ? String(section.designVersion) : undefined}
+		data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
+		data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
+		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg'], 'md')}
+		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg'], 'md')}
+		data-align={section.align === 'container' ? 'container' : undefined}
+	>
+		<div class="lumo-inner quote-stage relative flex flex-col justify-center py-6">
+			{#if heading}
+				<Reveal>
 					<h2 class="font-display text-statement text-ink mb-8">{heading}</h2>
-				{/if}
+				</Reveal>
+			{/if}
+			<Reveal>
 				<div
 					bind:this={track}
 					{@attach fitPhoneHeight}
@@ -107,14 +108,13 @@
 					{@const avatar = resolveMedia(quote.avatar, media, 320)}
 					<div class="w-full shrink-0 snap-center px-4">
 						<figure class="mx-auto max-w-5xl text-center">
-						<blockquote data-peel="tint-each" class="text-quote text-ink">
+						<blockquote class="text-quote text-ink">
 							<!-- The trailing space must live inside the expression: Svelte trims literal whitespace between elements, which welds the words together. -->
 							{#each `“${String(quote.quote ?? '')}”`.split(' ') as word, index (index)}<span>{word + ' '}</span>{/each}
 						</blockquote>
 
 						{#if avatar}
 							<img
-								data-peel="rise"
 								class="mx-auto mt-8 size-20 rounded-full object-cover"
 								src={avatar.src}
 								srcset={avatar.srcset}
@@ -125,7 +125,7 @@
 								loading="lazy"
 							/>
 						{/if}
-						<figcaption data-peel="rise" class="text-eyebrow mt-4 uppercase text-brand-blue">
+						<figcaption class="text-eyebrow mt-4 uppercase text-brand-blue">
 							{String(quote.author ?? '')}
 							{#if quote.role}<span class="text-ink/70"> — {String(quote.role)}</span>{/if}
 							{#if quote.company}<span class="text-ink/70">, {String(quote.company)}</span>{/if}
@@ -134,17 +134,17 @@
 					</div>
 				{/each}
 				</div>
-				{#if quotes.length > 1}
-					<button type="button" class="absolute top-1/2 left-0 hidden size-11 -translate-y-1/2 place-items-center rounded-full border border-border text-ink hover:bg-surface md:grid" aria-label="Previous testimonial" onclick={() => slide(-1)}>
-						<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="m10 3-5 5 5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg>
-					</button>
-					<button type="button" class="absolute top-1/2 right-0 hidden size-11 -translate-y-1/2 place-items-center rounded-full border border-border text-ink hover:bg-surface md:grid" aria-label="Next testimonial" onclick={() => slide(1)}>
-						<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg>
-					</button>
-				{/if}
-			</div>
-		</section>
-	</PeelScene>
+			</Reveal>
+			{#if quotes.length > 1}
+				<button type="button" class="absolute top-1/2 left-0 hidden size-11 -translate-y-1/2 place-items-center rounded-full border border-border text-ink hover:bg-surface md:grid" aria-label="Previous testimonial" onclick={() => slide(-1)}>
+					<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="m10 3-5 5 5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg>
+				</button>
+				<button type="button" class="absolute top-1/2 right-0 hidden size-11 -translate-y-1/2 place-items-center rounded-full border border-border text-ink hover:bg-surface md:grid" aria-label="Next testimonial" onclick={() => slide(1)}>
+					<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg>
+				</button>
+			{/if}
+		</div>
+	</section>
 {/if}
 
 <style>

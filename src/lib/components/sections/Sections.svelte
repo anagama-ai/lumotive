@@ -55,9 +55,10 @@
 	import TestimonialsPeelScene from './TestimonialsPeelScene.svelte';
 	import Timeline from './Timeline.svelte';
 
-	const PEEL_SUFFIXES = ['PeelScene', 'PeelSwap', 'PeelBleed'];
-	const isPeel = (section?: Section) =>
-		!!section && PEEL_SUFFIXES.some((suffix) => section.type.endsWith(suffix));
+	// Section types still rendered inside `PeelScene`, which takes a following
+	// scene band into its panel. Every other section renders in plain flow.
+	const PEEL_TYPES = new Set(['cardsPeelScene', 'cardsPeelSwap', 'splitPeelBleed', 'statsPeelScene']);
+	const isPeel = (section?: Section) => !!section && PEEL_TYPES.has(section.type);
 	const isSceneBand = (section?: Section) =>
 		section?.type === 'logosSceneBand' || section?.type === 'statsSceneBand';
 
@@ -148,7 +149,7 @@
 	{:else if section.type === 'statsSceneBand'}
 		<StatsSceneBand {section} {media} />
 	{:else if section.type === 'testimonialsPeelScene'}
-		<TestimonialsPeelScene {section} {media} {band} />
+		<TestimonialsPeelScene {section} {media} />
 	{:else if section.type === 'mediaVideoEmbed'}
 		<MediaVideoEmbed {section} {media} />
 	{:else if section.type === 'ctaDefault'}
