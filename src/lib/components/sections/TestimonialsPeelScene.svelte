@@ -94,7 +94,7 @@
 		<div class="lumo-inner quote-stage relative flex flex-col justify-center py-6">
 			{#if heading}
 				<Reveal>
-					<h2 class="font-display text-statement text-ink mb-8">{heading}</h2>
+					<h2 class="font-display text-statement text-ink mb-8 text-center">{heading}</h2>
 				</Reveal>
 			{/if}
 			<Reveal>
@@ -163,12 +163,11 @@
 	@media (min-width: 1024px) {
 		.quote-stage blockquote { font-size: clamp(2.5rem, 3.2vw, 3.25rem); line-height: 1.2; }
 	}
-	/* Phones: one centred column. The quote had the browser's 40px blockquote
-	   inset inside a 16px slide padding, leaving it 231px wide at 375px (11
-	   lines). It now runs the content width at the existing heading size, a
-	   step under the display quote. 768px and up are unchanged. */
+	/* Phones: the quote had the browser's 40px blockquote inset inside a 16px
+	   slide padding, leaving it 231px wide at 375px (11 lines). It now runs
+	   the content width at the existing heading size, a step under the
+	   display quote. 768px and up are unchanged. */
 	@media (max-width: 767.98px) {
-		.quote-stage h2 { text-align: center; }
 		.quote-stage blockquote { margin-inline: 0; font-size: var(--text-heading); line-height: 1.25; }
 	}
 </style>
