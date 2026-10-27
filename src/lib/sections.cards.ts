@@ -79,6 +79,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			...presentationFields,
 			{ name: 'heading', label: 'Heading', type: 'text' },
 			{ name: 'intro', label: 'Introduction', type: 'textarea' },
+			{ name: 'layout', label: 'Layout (numbered = left heading, media left, numbered list right)', type: 'text' },
 			cardsField([
 				{ name: 'media', label: 'Media', type: 'media' },
 				{ name: 'eyebrow', label: 'Eyebrow', type: 'text' },
@@ -121,6 +122,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			...introFields,
 			{ name: 'iconTint', label: 'Icon colour (accent = each card’s accent)', type: 'text' },
 			{ name: 'iconSize', label: 'Icon size (sm = 4rem; default 5rem)', type: 'text' },
+			{ name: 'conclusion', label: 'Closing line under the cards', type: 'textarea' },
 			cardsField(fullCardFields)
 		]
 	},
@@ -169,6 +171,9 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			{ name: 'mediaAlt', label: 'Visual description (alt text)', type: 'text' },
 			{ name: 'textAlign', label: 'Centre the composition (center)', type: 'text' },
 			{ name: 'cardTint', label: 'Tint each card with its accent colour (accent)', type: 'text' },
+			{ name: 'accentBar', label: 'Accent bar above each card (none = hide)', type: 'text' },
+			{ name: 'visualLayout', label: 'Visual placement (beside = right of the heading; cards = left of the card grid)', type: 'text' },
+			{ name: 'contentMaxWidth', label: 'Content max width, centred (px or rem, e.g. 900px)', type: 'text' },
 			// A player beside the copy: header, cards and `body` left, video right
 			// (from 1280px; stacked below). Used by /sense/robotics.
 			{ name: 'videoUrl', label: 'Video beside the cards (Vimeo or YouTube URL)', type: 'url' },

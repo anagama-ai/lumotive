@@ -94,11 +94,13 @@
 						     sections that use it decoratively. -->
 						{#if card.eyebrow}<p class="text-eyebrow text-ink uppercase">{card.eyebrow}</p>{/if}
 						<!-- At four-up a two-line title would drop its body a line below
-						     its siblings', so the heading reserves two lines there, the
-						     same reservation the icon quad makes. Narrower grids are
+						     its siblings', so the heading reserves two lines from 1024px
+						     to 1279px, where the narrow cards wrap titles. From 1280px
+						     the titles fit one line, so the reservation is dropped and
+						     the body sits close under its heading. Narrower grids are
 						     two-up or stacked and keep the natural height. -->
-						<h3 class={`font-display text-subheading text-ink ${card.eyebrow ? 'mt-3' : 'mt-0'}${fourUp ? ' lg:flex lg:min-h-14 lg:items-start' : ''}`}>{titleCase(card.title ?? '')}</h3>
-						{#if card.body}<div class="card-body mt-4 text-base leading-relaxed">{@html card.body}</div>{/if}
+						<h3 class={`font-display text-subheading text-ink ${card.eyebrow ? 'mt-3' : 'mt-0'}${fourUp ? ' lg:flex lg:min-h-14 lg:items-start xl:min-h-0' : ''}`}>{titleCase(card.title ?? '')}</h3>
+						{#if card.body}<div class="card-body mt-2 text-base leading-relaxed">{@html card.body}</div>{/if}
 						{#if card.badge}<span class="text-spec bg-background text-ink mt-4 self-start rounded-full px-3 py-1">{card.badge}</span>{/if}
 						{#if link.href && link.label}<span class="card-link text-brand-blue mt-7 inline-flex items-center gap-2 self-start text-base font-medium">{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
 					</div>
@@ -130,27 +132,23 @@
 	   title carries them unless a utility overrides it. `mt-3` is the gap under
 	   an eyebrow; without one the same margin is dead space that pushed the
 	   title 44px below a 32px-padded card top, so the markup asks for `mt-0`.
-	   Compact density: the heading's bottom margin and the paragraph margins
-	   inside the rich-text body stack on top of the `mt-4` gap, so a heading
-	   and its one-line description sit 56px apart. Zero both and the gap is
-	   the 16px the utility already asks for. The shared action drops from
-	   48px to 36px below the grid. Default sections keep their rhythm. */
-	[data-density='compact'] h3 { margin-bottom: 0; }
-	[data-density='compact'] .card-body :global(p) { margin: 0; }
-	[data-density='compact'] .card-body :global(p + p) { margin-top: .75rem; }
+	   Every density: the heading's bottom margin and the paragraph margins
+	   inside the rich-text body would stack on top of the body's `mt-2`
+	   (48px between a heading and its description), so both are zeroed and
+	   the gap is the 8px the utility asks for. */
+	h3 { margin-bottom: 0; }
+	.card-body :global(p) { margin: 0; }
+	.card-body :global(p + p) { margin-top: .75rem; }
+	/* Compact density: the shared action drops from 48px to 36px below the
+	   grid. */
 	[data-density='compact'] .section-action { margin-top: 2.25rem; }
 	/* Tight density: for a grid whose cards carry no photograph, where the
-	   default rhythm leaves the text floating in a tall box. The heading's
-	   inherited bottom margin goes, so a title sits 16px above its description
-	   rather than 40px; the card padding comes in from 2rem to 1.5rem; and the
-	   action is pushed to the foot of the card, so the slack a row's tallest
-	   card creates is absorbed between the copy and the action instead of
-	   trailing below it. Row heights still equalise, and sections that do not
-	   ask for this density are untouched. */
+	   default rhythm leaves the text floating in a tall box. The card padding
+	   comes in from 2rem to 1.5rem, and the action is pushed to the foot of the
+	   card, so the slack a row's tallest card creates is absorbed between the
+	   copy and the action instead of trailing below it. Row heights still
+	   equalise, and sections that do not ask for this density are untouched. */
 	[data-density='tight'] .card-pad { padding: 1.5rem; }
-	[data-density='tight'] h3 { margin-bottom: 0; }
-	[data-density='tight'] .card-body :global(p) { margin: 0; }
-	[data-density='tight'] .card-body :global(p + p) { margin-top: .75rem; }
 	[data-density='tight'] .card-link { margin-top: auto; padding-top: 1.25rem; }
 	/* A card body may carry a spec list where the package prints one. The global
 	   stylesheet only styles lists inside `.prose`, so the card supplies its own

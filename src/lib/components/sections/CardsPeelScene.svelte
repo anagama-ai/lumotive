@@ -113,16 +113,17 @@
 
 <style>
 	/* Spacing pass. The heading-to-cards gap was 90px: the h2's own 50px bottom
-	   margin plus the grid's 40px top margin. The in-card gap between title and
-	   description was 36px: the h3's 24px bottom margin plus the body's 12px top
-	   margin. Both are tightened by roughly a quarter, set explicitly so the
-	   total no longer depends on the global heading margin (the grid's 1.75rem
-	   top margin is `mt-7` on the grid).
+	   margin plus the grid's 40px top margin, tightened to 2.5rem plus the
+	   grid's `mt-7`. Inside a card, the body is rich text whose paragraphs keep
+	   the browser's 1em margins; those are zeroed at the body's edges so the
+	   title-to-body and body-to-link gaps are set here alone (12px and 16px).
 
 	   Outer section padding, the 24px grid gap, the card padding, the equal
 	   card heights and the `mt-auto` link alignment are all untouched. */
 	.cards-heading { margin-bottom: 2.5rem; }
 	.card-title { margin-bottom: 0; }
-	.card-body { margin-top: 1.6875rem; }
-	.card-link { padding-top: .9375rem; }
+	.card-body { margin-top: .75rem; }
+	.card-body > :global(:first-child) { margin-top: 0; }
+	.card-body > :global(:last-child) { margin-bottom: 0; }
+	.card-link { padding-top: 1rem; }
 </style>

@@ -64,7 +64,7 @@
 						...REST,
 						duration,
 						delay,
-						ease: 'power3.out',
+						ease: 'power1.inOut',
 						stagger: stagger ? 0.09 : 0,
 						...(immediate
 							? {}

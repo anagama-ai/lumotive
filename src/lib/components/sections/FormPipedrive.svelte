@@ -93,6 +93,10 @@
 			}
 		};
 	});
+	// Optional office list under the heading (/contact): eyebrow, city, and an
+	// address in rich text, as the offices cards carried them.
+	type Office = { eyebrow?: string; title?: string; body?: string };
+	let offices = $derived(Array.isArray(section.offices) ? (section.offices as Office[]).filter((office) => office && (office.title || office.body)) : []);
 </script>
 
 {#if formUrl}
@@ -107,16 +111,29 @@
 		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		<div class="lumo-inner">
-			<div class="form-column">
+			<div class="form-column" class:split={section.layout === 'split'}>
 				{#if section.eyebrow || heading || section.intro}
-					<Reveal>
-						<div class="mb-10">
+					<Reveal class={section.layout === 'split' ? 'lg:sticky lg:top-28' : ''}>
+						<div class="form-head mb-10">
 							<!-- Deep Laser Blue: at the eyebrow's 12px the lighter blue
 							     measures 4.15:1 on the page field, under the 4.5:1 floor. -->
 							{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
 							{#if heading}<h2 class="font-display text-statement text-ink">{heading}</h2>{/if}
 							{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 						</div>
+						{#if offices.length}
+							<!-- Office list beside the form (/contact): label, city, and
+							     address per office, in the same column as the heading. -->
+							<ul class="offices">
+								{#each offices as office, index (index)}
+									<li>
+										{#if office.eyebrow}<p class="text-eyebrow text-brand-blue-dark m-0 uppercase">{office.eyebrow}</p>{/if}
+										{#if office.title}<p class="font-display text-subheading text-ink mt-1 mb-0">{office.title}</p>{/if}
+										{#if office.body}<div class="office-address">{@html office.body}</div>{/if}
+									</li>
+								{/each}
+							</ul>
+						{/if}
 					</Reveal>
 				{/if}
 				<div class="form-frame">
@@ -135,6 +152,21 @@
 	   edge as every other section instead of floating in the middle of the
 	   page. */
 	.form-column { max-width: var(--container-narrow); }
+	/* `layout: "split"` (/contact): from 1024px the heading block sits in the
+	   left column, held in view while the long form scrolls, and the form
+	   panel takes the right column. Phones and tablets keep the stack. */
+	@media (min-width: 1024px) {
+		.form-column.split { display: grid; max-width: none; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: clamp(2.5rem, 6vw, 5rem); }
+		.split .form-head { margin-bottom: 0; }
+	}
+	.offices { display: grid; gap: 1.5rem; margin: 0 0 2.5rem; padding: 0; list-style: none; }
+	@media (min-width: 640px) { .offices { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+	.offices li { padding-top: 1.25rem; border-top: 1px solid var(--color-border); }
+	.office-address { margin-top: .35rem; color: var(--color-text); font-size: var(--text-spec); line-height: 1.5; }
+	.office-address :global(p) { margin: 0; }
+	@media (min-width: 1024px) {
+		.split .form-head + .offices { margin: 2.5rem 0 0; }
+	}
 
 	/* Pipedrive renders the form itself at most 480px wide and centres it
 	   inside its iframe (`max-width: 480px; margin: 0 auto` in its own CSS,

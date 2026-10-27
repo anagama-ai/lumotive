@@ -74,6 +74,12 @@ export const sectionSpecs: Record<string, SectionSpec> = {
 			{ name: 'heading', label: 'Heading', type: 'text' },
 			{ name: 'intro', label: 'Introduction', type: 'textarea' },
 			{ name: 'formUrl', label: 'Pipedrive web form URL', type: 'url' },
+			{ name: 'layout', label: 'Layout (split = heading left, form right from 1024px)', type: 'text' },
+			{ name: 'offices', label: 'Offices listed under the heading', type: 'list', fields: [
+				{ name: 'eyebrow', label: 'Label (e.g. Corporate headquarters)', type: 'text' },
+				{ name: 'title', label: 'City', type: 'text' },
+				{ name: 'body', label: 'Address', type: 'richtext' }
+			] },
 			{ name: 'designVersion', label: 'Design version (pipedrive)', type: 'text' },
 			{ name: 'background', label: 'Background (none | subtle | strong | inverse)', type: 'text' },
 			{ name: 'width', label: 'Width (contained | wide | full)', type: 'text' },

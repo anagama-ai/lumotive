@@ -213,7 +213,7 @@
 						timeline.fromTo(
 							el,
 							{ opacity: 0, y: 16 },
-							{ opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' },
+							{ opacity: 1, y: 0, duration: 0.45, ease: 'power1.inOut' },
 							previous === 'fall' ? '<' : '+=0.06'
 						);
 					} else if (kind === 'fall') {
@@ -222,7 +222,7 @@
 						timeline.fromTo(
 							el,
 							{ opacity: 1, y: 0 },
-							{ opacity: 0, y: -16, duration: 0.45, ease: 'power3.out', immediateRender: false },
+							{ opacity: 0, y: -16, duration: 0.45, ease: 'power1.inOut', immediateRender: false },
 							`+=${DWELL}`
 						);
 					} else {

@@ -64,6 +64,20 @@
 	// leading them, where the package prints a figure under a feature row
 	// (/dev-kits/itof ON140's shared point cloud). Unset elsewhere.
 	let visualAfterGrid = $derived(String(section.mediaPlacement ?? '') === 'afterGrid' && !steps);
+	// `visualLayout: "beside"`: the visual sits in a column to the right of
+	// the heading and intro, cards below (/dev-kits/transmit-modules
+	// "Programmable illumination"). Unset elsewhere.
+	let visualBeside = $derived(String(section.visualLayout ?? '') === 'beside' && Boolean(visual) && !visualAfterGrid && !steps);
+	// `visualLayout: "cards"`: the photo on the left and the card grid on the
+	// right, from 1024px (stacked below), under the heading (/dev-kits/dtof
+	// "Modular by design"). Unset elsewhere.
+	let visualCards = $derived(String(section.visualLayout ?? '') === 'cards' && Boolean(visual) && !steps);
+	// `contentMaxWidth` (px or rem): caps the section's content at that width,
+	// centred in the container (/dev-kits/itof "Better data"). Unset elsewhere.
+	let contentMaxWidth = $derived.by(() => {
+		const value = String(section.contentMaxWidth ?? '').trim();
+		return /^\d+(\.\d+)?(px|rem)$/.test(value) ? value : undefined;
+	});
 	// `mediaMinWidth` (rem): an image whose baked-in labels need a readable
 	// width (/dev-kits/itof's scan-modes strip). It spans the container, never
 	// narrower than this; a narrower screen scrolls it sideways inside its
@@ -171,6 +185,8 @@
 					</Reveal>
 				</div>
 			</div>
+		{:else if contentMaxWidth}
+			<div class="mx-auto" style:max-width={contentMaxWidth}>{@render content()}</div>
 		{:else}
 			{@render content()}
 		{/if}
@@ -178,13 +194,16 @@
 </section>
 
 {#snippet content()}
-		{#if section.eyebrow || section.heading || section.intro}
+		{#snippet sectionHead()}
 			<Reveal><div class="section-head mb-12 max-w-4xl">
-				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
-				{#if section.heading}<h2 class="font-display text-statement text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
+				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-3 uppercase">{String(section.eyebrow)}</p>{/if}
+				{#if section.heading}<h2 class="font-display text-statement text-ink mt-0 whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 				{#if statement}<p class="text-lead text-ink mt-4 font-medium">{statement}</p>{/if}
 			</div></Reveal>
+		{/snippet}
+		{#if (section.eyebrow || section.heading || section.intro) && !visualBeside}
+			{@render sectionHead()}
 		{/if}
 		{#snippet stepList()}
 			<!-- One compact list, not four cards: the entries are an ordered
@@ -241,12 +260,15 @@
 				</Reveal>
 			</div>
 		{/if}
-		{#if visual && !visualAfterGrid}
+		{#if visualBeside}
+			<div class="intro-beside">
+				{@render sectionHead()}
+				{@render visualBlock()}
+			</div>
+		{:else if visual && !visualAfterGrid && !visualCards}
 			{@render visualBlock()}
 		{/if}
-		{#if steps && !visual}
-			<Reveal>{@render stepList()}</Reveal>
-		{:else if !steps}
+		{#snippet cardGrid()}
 		<Reveal stagger class={gridClass}>
 			{#each cards as card, index (index)}
 				{@const link = linkFor(card)}
@@ -269,7 +291,7 @@
 					{/if}
 					{#if numbered}
 						<p class={`font-display text-subheading m-0 tabular-nums ${numeral(card.accent)}`}>{String(index + 1).padStart(2, '0')}</p>
-					{:else}
+					{:else if section.accentBar !== 'none'}
 						<span aria-hidden="true" class={`accent-bar mb-6 block h-1 w-10 rounded-full ${barClass}`}></span>
 					{/if}
 					{#if card.eyebrow}<p class="text-eyebrow text-ink uppercase">{card.eyebrow}</p>{/if}
@@ -280,6 +302,18 @@
 				</svelte:element>
 			{/each}
 		</Reveal>
+		{/snippet}
+		{#if steps && !visual}
+			<Reveal>{@render stepList()}</Reveal>
+		{:else if visualCards && visual}
+			<div class="visual-cards">
+				<Reveal>
+					<img class="rounded-card block size-full object-cover" src={visual.src} srcset={visual.srcset} sizes="(min-width: 1024px) 50vw, 100vw" alt={visualAlt || visual.alt} width={visual.width ?? 1200} height={visual.height ?? 900} loading="lazy" />
+				</Reveal>
+				{@render cardGrid()}
+			</div>
+		{:else if !steps}
+			{@render cardGrid()}
 		{/if}
 		{#if visual && visualAfterGrid}
 			{@render visualBlock()}
@@ -324,6 +358,9 @@
 	/* Slate, not muted: at the spec size muted slate falls under 4.5:1 on both
 	   the page field and the white card, and a caption is still body text. */
 	.section-note { color: var(--color-text); font-size: var(--text-spec); line-height: 1.5; }
+	/* In the section foot the note leads into the link beside it, so both
+	   read at body size. */
+	.section-foot .section-note { font-size: inherit; }
 	/* The step value sits on the same line as its label where there is room and
 	   wraps under it where there is not, so the list stays one compact block. */
 	.step-list .step-value { color: var(--color-text); }
@@ -355,6 +392,19 @@
 	.cards-body :global(li::marker) { color: var(--color-muted); }
 	.cards-body :global(p) { margin: 0; }
 	.visual-block { max-width: 62.5rem; }
+	/* `visualLayout: "cards"`: photo left, card grid right (from 1024px). */
+	.visual-cards { display: grid; gap: 1.5rem; }
+	@media (min-width: 1024px) {
+		.visual-cards { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
+	}
+	/* `visualLayout: "beside"`: heading and intro left, the visual right, the
+	   cards below at full width (from 1024px; stacked below). */
+	.intro-beside { display: grid; gap: 2rem; margin-bottom: 2.5rem; }
+	.intro-beside .section-head { margin-bottom: 0; }
+	.intro-beside .visual-block { margin: 0; }
+	@media (min-width: 1024px) {
+		.intro-beside { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(2.5rem, 6vw, 5rem); }
+	}
 	/* A visual over a card grid (no step list): the grid's own gap below it. */
 	.visual-above-grid { margin-bottom: 2.5rem; }
 	/* A visual under the cards (`mediaPlacement: "afterGrid"`). */

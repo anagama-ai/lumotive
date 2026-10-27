@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 	import { resolveMedia, type MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
+	import { videoEmbedUrl } from '$lib/video';
 
 	let {
 		section,
@@ -12,6 +14,22 @@
 	let heading = $derived(titleCase(section.heading == null ? null : String(section.heading)));
 	let visual = $derived(resolveMedia(section.media, media, 1440));
 	let isVideo = $derived(Boolean(visual && /\.(mp4|webm)(?:$|\?)/i.test(visual.src)));
+	let reducedMotion = $state(true);
+	let embedUrl = $derived.by(() => {
+		const value = videoEmbedUrl(section.videoUrl);
+		if (!value) return null;
+		const url = new URL(value);
+		url.searchParams.set('background', '1');
+		url.searchParams.set('dnt', '1');
+		return url.href;
+	});
+	onMount(() => {
+		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const sync = () => { reducedMotion = query.matches; };
+		sync();
+		query.addEventListener('change', sync);
+		return () => query.removeEventListener('change', sync);
+	});
 	let primaryNewTab = $derived(section.primaryLinkNewTab === true || section.primaryLinkNewTab === 'true');
 	let secondaryNewTab = $derived(section.secondaryLinkNewTab === true || section.secondaryLinkNewTab === 'true');
 	// Optional desktop-only framing of the hero's media layer, for a product
@@ -84,10 +102,10 @@
 	data-align={band ? (section.align === 'container' ? 'container' : undefined) : 'container'}
 	data-peel-cover
 >
-	{#if visual}
+	{#if visual || embedUrl}
 		<Reveal immediate fade={false} y={0} scale={1.06} duration={1.6} class="absolute inset-0">
 			<div class="hero-media absolute inset-0" class:framed={mediaFramed} class:anchored={Boolean(mediaAnchor)} class:mobile-framed={mobileFramed} style:--hero-media-shift={mediaShift || undefined} style:--hero-media-scale={mediaScale || undefined} style:--hero-media-anchor={mediaAnchor || undefined} style:--hero-media-mobile-scale={mobileMediaScale || undefined} style:--hero-media-mobile-position={mobileMediaPosition || undefined} aria-hidden="true">
-				{#if isVideo}
+				{#if visual && isVideo}
 					<video
 						{@attach manageVideo}
 						class="h-full w-full object-cover"
@@ -97,7 +115,7 @@
 						playsinline
 						preload="metadata"
 					></video>
-				{:else}
+				{:else if visual}
 					<img
 						class="h-full w-full object-cover"
 						src={visual.src}
@@ -107,6 +125,16 @@
 						width={visual.width ?? 1600}
 						height={visual.height ?? 900}
 					/>
+				{/if}
+				{#if embedUrl && !reducedMotion}
+					<iframe
+						class="hero-background-video"
+						src={embedUrl}
+						title="Hero background video"
+						allow="autoplay; fullscreen; picture-in-picture"
+						aria-hidden="true"
+						tabindex="-1"
+					></iframe>
 				{/if}
 			</div>
 		</Reveal>
@@ -148,6 +176,17 @@
 <style>
 	.hero-shell { min-height: 100svh; }
 	.hero-shell.band { min-height: clamp(32rem, 68svh, 47rem); }
+	.hero-media { container-type: size; }
+	.hero-background-video {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: max(100%, 177.7778cqh);
+		height: max(100%, 56.25cqw);
+		transform: translate(-50%, -50%);
+		border: 0;
+		pointer-events: none;
+	}
 	@media (max-width: 767px) {
 		.strong-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 90%) 60%, rgb(6 101 214 / 50%)); }
 		.max-mobile-shade .hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 25%, rgb(4 13 31 / 92%) 60%, rgb(5 40 100 / 80%)); }
