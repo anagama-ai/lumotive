@@ -106,7 +106,7 @@
 				>
 				{#each quotes as quote, quoteIndex (quoteIndex)}
 					{@const avatar = resolveMedia(quote.avatar, media, 320)}
-					<div class="w-full shrink-0 snap-center px-4">
+					<div class="w-full shrink-0 snap-center px-0 md:px-4">
 						<figure class="mx-auto max-w-5xl text-center">
 						<blockquote class="text-quote text-ink">
 							<!-- The trailing space must live inside the expression: Svelte trims literal whitespace between elements, which welds the words together. -->
@@ -162,5 +162,13 @@
 	   settle into a comfortable measure. */
 	@media (min-width: 1024px) {
 		.quote-stage blockquote { font-size: clamp(2.5rem, 3.2vw, 3.25rem); line-height: 1.2; }
+	}
+	/* Phones: one centred column. The quote had the browser's 40px blockquote
+	   inset inside a 16px slide padding, leaving it 231px wide at 375px (11
+	   lines). It now runs the content width at the existing heading size, a
+	   step under the display quote. 768px and up are unchanged. */
+	@media (max-width: 767.98px) {
+		.quote-stage h2 { text-align: center; }
+		.quote-stage blockquote { margin-inline: 0; font-size: var(--text-heading); line-height: 1.25; }
 	}
 </style>
