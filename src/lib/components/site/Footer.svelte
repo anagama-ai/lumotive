@@ -14,8 +14,8 @@
 	const href = (link?: Link) => link?.url || '#';
 
 	// Only LinkedIn has an approved mark today. An entry with an unknown
-	// platform is skipped rather than rendered without an icon, and the list is
-	// empty until Lumotive supplies the verified company URL.
+	// platform is skipped rather than rendered without an icon. Entries come
+	// from `globals.footer.socialLinks` (Admin → Site settings → Footer).
 	const MARKS: Record<string, string> = {
 		linkedin:
 			'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.71h.05A4.17 4.17 0 0 1 17.6 8.7c3.2 0 4.4 2.02 4.4 5.06V21h-4v-6.41c0-1.53-.03-3.5-2.13-3.5-2.14 0-2.47 1.67-2.47 3.39V21h-3.4V9Z'
@@ -46,7 +46,7 @@
 				<nav class="footer-social" aria-label="Lumotive on social media">
 					{#each socials as social (social.url)}
 						<a href={social.url} target="_blank" rel="noreferrer noopener">
-							<span class="sr-only">{social.label}</span>
+							<span class="sr-only">{social.label} (opens in a new tab)</span>
 							<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
 								<path d={social.path} />
 							</svg>
@@ -110,6 +110,10 @@
 		transition: color 160ms ease;
 	}
 	.footer-social a:hover { color: #fff; }
+	/* The icon is pulled 0.75rem left to align its glyph with the logo, so the
+	   site's 4px focus offset would push the ring past a phone's left edge. The
+	   ring sits on the 44px target's own edge instead. */
+	.footer-social a:focus-visible { outline-offset: 0; }
 	@media (prefers-reduced-motion: reduce) {
 		.footer-social a { transition: none; }
 	}
