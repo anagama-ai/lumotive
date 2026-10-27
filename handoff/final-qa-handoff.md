@@ -45,6 +45,68 @@ Click the footer policy link, open/close mobile navigation, inspect portraits/lo
 play the existing embeds, and check local media and page-width overflow.
 Do not submit the contact form until its one agreed staging test is authorized.
 
+## PeelScene removal, remaining pages (2026-10-27)
+
+**Inventory.** Live `PeelScene` consumers, read from local PocketBase across
+all 17 pages:
+
+| Route | Section (id) | Type | Status |
+|---|---|---|---|
+| `/culture` | "In Their Words" (`b4a91c73`) | `testimonialsPeelScene` | **Converted** to flow |
+| `/platform` | "Groundbreaking Physics Meets Mature Manufacturing" (`ace8d391`) | `cardsPeelSwap` | Held: ambiguous |
+| `/platform` | "Light Control Metasurface™ Optical Beamforming Technology" (`fbe8b045`) | `splitPeelBleed` | Held: ambiguous |
+| `/` | "One Chip. Boundless Applications." (`a20efeab`) | `cardsPeelScene` | Held: ambiguous; Home is protected |
+
+`statsPeelScene` exists in code but no page uses it.
+
+**Culture "In Their Words".** The section is now in normal document flow.
+- **Removed:** the sticky panel, the JS-sized 90dvh runway, the scrubbed
+  word-by-word tint of the quote and the scrubbed avatar/caption rise.
+- **Reveals:** two one-time shared `Reveal`s, as on "Latest From Lumotive":
+  the heading, then the carousel. There is no intro or action, and slides sit
+  side by side, so there is no stagger.
+- **Unchanged:** the arrows (outside the reveal), the phone height fit and the
+  48dvh centring stage, which is part of the approved composition.
+- **Spacing:** the record's own `md`/`md` already supplies the section
+  spacing, so no migration is needed. Inside the section everything measures
+  the same at all seven viewports: section top to heading 108–130px,
+  heading to quote and caption to "Open Roles" ±1px, and section height
+  identical. The earlier 2026-10-26 `stage={false}` correction is kept by
+  construction, since there is no panel any more.
+- **Page height:** the page is 700–1050px shorter at 768px and up, because the
+  runway is gone. Phones are unchanged.
+
+`Sections.svelte` now gives a following scene band only to the types still
+inside `PeelScene` (an explicit list), rather than to any type ending in
+`PeelScene`.
+
+**Held, needs a decision.**
+- **Platform swap:** its four cards share one grid cell and crossfade as the
+  panel scrolls. There is no single approved static frame. The options are:
+  - the reduced-motion stack (all cards in one column, then the media);
+  - the last card beside the media;
+  - a new layout.
+- **Platform bleed:** it is uncovered from beneath the swap, which is its
+  cover. Its compact 80svh band is still listed above under "Needs visual
+  approval". In flow it would show at 80svh, not the full viewport.
+- **Home "One Chip":** it rides the hero's moving edge, the hero being its
+  peel cover. It was excluded from the earlier Home work, and this brief lists
+  it as a regression check.
+
+**Verified.**
+- **Culture, at 1920×1080, 1907×985, 1440×900, 1366×768, 1024×768, 768×1024
+  and 390×844:** no `[data-peel-scene]`, pin spacer or sticky element, and no
+  horizontal overflow. Reload restores the position. The arrows keep a
+  visible 3px focus ring and the carousel still slides. The logo link and
+  back work. Under reduced motion everything shows at once.
+- **Home and Platform:** Home sections measure identical to `84ca1ad`
+  ("One Chip" wrapper unchanged). Platform's two scenes are untouched.
+- **Builds and detector:** `npm run check` and `npm run build` pass. The
+  Impeccable detector's only finding is an advisory on the existing,
+  unchanged quote `font-size` clamp.
+
+Screenshots are in `%TEMP%\lumotive-review\peel-removal\`.
+
 ## Home "When Light Becomes Programmable": flow section like the News (2026-10-27)
 
 The Home bento (`cardsPeelBento`, id `677cf547`, the only record of that type)
@@ -161,11 +223,11 @@ a CSS `position: sticky` panel plus a JS-sized wrapper
 (`height = panel + cover lift + runway`). Scrubbed ScrollTrigger timelines run
 the beats. Scenes with a beat runway map cleanly to
 `pin: panel, pinSpacing: true, end: '+=90%'`, which would replace the sticky
-rule and height arithmetic. Examples are `CardsPeelSwap`, `StatsPeelScene`,
-`TestimonialsPeelScene` and `SplitPeelBleed`. The Home bento has since left
-`PeelScene` for plain document flow (2026-10-27 section above).
+rule and height arithmetic. Examples are `CardsPeelSwap` and `StatsPeelScene`.
+The Home bento and Culture testimonials have since left `PeelScene` for plain
+document flow (2026-10-27 sections above).
 
-Not converted: the five remaining section types share this component. The cover-follow
+Not converted: the four remaining section types share this component. The cover-follow
 choreography also couples three moving parts: the hero `coverTween`, the
 wrapper's negative margin and the panel `followTween`. It has no single
 unambiguous pin target. Convert only with a per-scene visual review.
