@@ -132,7 +132,7 @@
 		<div class="split-layout" class:has-bleed={variant === 'peelBleed'}>
 			{#if variant !== 'peelBleed' && (embedUrl || visual)}
 				<div class="art-column">
-					<Reveal x={mediaRight ? 24 : -24} y={12} duration={1.1}>
+					<Reveal x={mediaRight ? 24 : -24} y={12} duration={0.8}>
 						<!-- A "below" diagram scrolls sideways on phones; a scrollable region must be keyboard-focusable (WCAG 2.1.1), which is what the tabindex is for. -->
 						<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 						<div class="art-frame" class:panel-frame={panelFrame} class:media-capped={Boolean(mediaMaxHeight) && !embedUrl} style:--art-max-height={mediaMaxHeight || undefined} role={phoneScroll ? 'region' : undefined} aria-label={phoneScroll ? heading || undefined : undefined} tabindex={phoneScroll ? 0 : undefined}>

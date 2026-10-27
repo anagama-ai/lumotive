@@ -83,6 +83,8 @@ export function revealOnScroll(root: HTMLElement): () => void {
 				start: 'top 85%',
 				once: true,
 				onEnter: (batch) => {
+					// Suspend CSS transitions for the tween (see Reveal.svelte).
+					gsap.set(batch, { transition: 'none' });
 					tweens.push(
 						gsap.from(batch, {
 							y: 24,
@@ -90,7 +92,8 @@ export function revealOnScroll(root: HTMLElement): () => void {
 							duration: 0.6,
 							ease: 'power1.inOut',
 							stagger: 0.08,
-							overwrite: true
+							overwrite: true,
+							onComplete: () => gsap.set(batch, { clearProps: 'transition' })
 						})
 					);
 				}

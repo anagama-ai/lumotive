@@ -79,7 +79,7 @@
 					</ul>
 				</Reveal>
 			{:else if variant === 'statsDarkTraits'}
-				<Reveal y={36} scale={0.985} duration={1}>
+				<Reveal y={36} scale={0.985} duration={0.8}>
 					<div class="relative min-h-96 overflow-hidden rounded-panel bg-panel p-8 text-white md:p-14 lg:p-16">
 						{#if image}
 							<img
