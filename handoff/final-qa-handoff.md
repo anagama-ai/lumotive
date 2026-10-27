@@ -45,6 +45,64 @@ Click the footer policy link, open/close mobile navigation, inspect portraits/lo
 play the existing embeds, and check local media and page-width overflow.
 Do not submit the contact form until its one agreed staging test is authorized.
 
+## Footer LinkedIn and Privacy Policy heading gap (2026-10-27)
+
+**LinkedIn (S1, footer resolved).** The supplied URL is
+`https://www.linkedin.com/company/lumotive/home/`. Migration
+`1787718000_footer_linkedin` appends
+`{ platform: 'LinkedIn', url, label: 'Lumotive on LinkedIn' }` to
+`globals.footer.socialLinks`. That is the row editors see under Admin → Site
+settings → Footer → Social links.
+- **Migration safety:** forward skips if a LinkedIn row already exists.
+  Rollback removes only this row, and drops the key if the list empties.
+  Applied, rolled back and re-applied locally: the record returns to its
+  original shape.
+- **Footer component:** `Footer.svelte` already drew the approved icon. Its
+  accessible name now ends "(opens in a new tab)". Its focus ring sits on the
+  44px target's edge (offset 0); the 4px site offset clipped it at the left
+  edge on phones.
+- **Other social data:** `globals.seo.socialChannels` and the site-meta
+  "Social accounts" exist but no public component reads them (S30), so they
+  were left empty.
+- **Follow lines:** the "Follow Lumotive on LinkedIn" lines (About AB4,
+  Culture CU2, Contact CT3, News N6) are not in any page record, so nothing
+  else switched on.
+- **Verified:**
+  - the icon on all 19 routes, including a post: correct URL, `_blank`,
+    `rel="noreferrer noopener"`, 44×44 target, amber 3px ring;
+  - the icon glyph aligns with the logo, at 80px from the left at 1440 and
+    16px at 390;
+  - no horizontal overflow.
+
+  Adding the icon makes the footer brand column 68px taller where it is the
+  tallest column (below about 1100px).
+
+**Privacy Policy numbered headings.** The ten `h2`s carried "N." plus five
+no-break spaces (one for "10.") from the source document. That left a 58px
+gap at 1440 (41px on phones), and only 14–19px for 10.
+- **Change:** for `layout: legal` only, `Prose.svelte` now puts the number
+  (and any empty anchor targets) in a `.legal-num` span and the title in a
+  `.legal-title` span. The whitespace run becomes one space, so the text reads
+  "1. Introduction." The heading is a two-column grid:
+  - a 2.25ch number column, sized for "10." and right-aligned so every gap is
+    equal;
+  - a 1rem gap below 768px and 1.25rem from 768px up (spacing tokens 4 and 5).
+- **Kept:** the stored legal text is unchanged, as are the anchors
+  (`_toc*`, `Contact`, `_Non-US_Privacy_Notice`), the heading margins, the
+  gaps from heading to body (16px, or 32px before an `h3`), the font size and
+  the line height.
+- **Verified at 1920, 1440, 1024, 768, 430 and 390:** every gap measures
+  20/20/20/20/16/16px. Every title starts at the same x, with wrapped lines
+  aligned, and "10." fits. No horizontal overflow.
+- **Wrapping:** heading 2 wraps one line fewer at 1024 and one line more at
+  390, because the title column is narrower than the old inline run there.
+
+**Builds:** `npm run check` and `npm run build` pass.
+
+Screenshots are in `%TEMP%\lumotive-review\linkedin-policy-gap\`:
+- `before-|after-footer-{1440,390}`, plus `after-footer-*-focus`;
+- `before-|after-policy-h2-{1,2,10}-{1440,768,390}`.
+
 ## PeelScene removal, remaining pages (2026-10-27)
 
 **Inventory.** Live `PeelScene` consumers, read from local PocketBase across
@@ -404,7 +462,7 @@ Screenshots are in `%TEMP%\lumotive-review\spacing-audit\`:
 | Navigation | Phone menu closes on Escape and returns focus; desktop menus unchanged | S16 |
 | Server load | Site-wide settings cached for 60 s for signed-out visitors (one request a minute instead of four per page); editors always see live data; settings saves show immediately | S27 |
 | Migrations | All 102 new migrations apply to a copy of an `origin/main` database and roll back to the exact starting state | S23 |
-| Admin Site settings | Footer and Header forms now load and save what the site shows (copyright, link columns, legal and social links; menu, dropdowns with descriptions, third-level links, buttons). Saving unchanged kept the content and the public HTML identical; edits appeared for signed-out visitors on the next page load. When the LinkedIn URL arrives (S1), an editor can add it under Footer → Social links | S29 |
+| Admin Site settings | Footer and Header forms now load and save what the site shows (copyright, link columns, legal and social links; menu, dropdowns with descriptions, third-level links, buttons). Saving unchanged kept the content and the public HTML identical; edits appeared for signed-out visitors on the next page load. The LinkedIn URL (S1) is now set by migration `1787718000` and editable under Footer → Social links | S29 |
 | Press links | 21 checked: 12 work, 1 paywalled, 5 block automated checks, **3 dead** | N7 |
 
 These checks ran in Chromium and Edge on Windows only. The contrast figures are screenshot measurements, not an accessibility audit.
@@ -434,7 +492,7 @@ Nothing below blocks a staging deploy: missing items ship left out, not as place
 - **New from this QA, News (N7):** three "Read the original article" links are dead (Morningstar e-Photonics release, Yahoo Finance MD41 story, 2cm.com.tw AGV/AMR story). Replacement URLs, or approval to remove those links. The Invest Vancouver PDF works again.
 - **Privacy Policy (S2): resolved locally 2026-10-23.** Reuse of the published policy was explicitly approved. `/privacy-policy` now returns 200; legal text is verbatim. Not pushed or deployed; verification below.
 - **Site meta settings (S30), decision:** wire address, phone, social accounts and the light logo into the site, or remove them from the admin form.
-- **Blocking supplies:** LinkedIn company URL (S1), NM120 power figure, MIPI wording and internals photo (F2–F4), Leopard Imaging and onsemi logos (SE5, PA3), the final investor list (AB3), News post copy and press contact (N1, N2, N3).
+- **Blocking supplies:** NM120 power figure, MIPI wording and internals photo (F2–F4), Leopard Imaging and onsemi logos (SE5, PA3), the final investor list (AB3), News post copy and press contact (N1, N2, N3). The LinkedIn URL (S1) is resolved for the footer; the follow lines (AB4, CU2, CT3, N6) still need adding as approved content.
 - **Decisions:** status labels (S8), provider strip with 3 of 4 logos (SE6), the v4 readings (LCM Chips GIF labels, Automotive diagram, iToF scan modes; L2, AU2/AU3, I6), Explorer intro copy (S6 c), Google citation (C6), and the smaller confirmations listed in group 2.
 - **Reviews:** heading letter spacing (S18, Webvizio #138), hero framing (AB6, PA1, CU1). Do not close any Webvizio task until it is verified on staging.
 
