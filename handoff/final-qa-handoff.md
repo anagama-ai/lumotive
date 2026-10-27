@@ -45,6 +45,68 @@ Click the footer policy link, open/close mobile navigation, inspect portraits/lo
 play the existing embeds, and check local media and page-width overflow.
 Do not submit the contact form until its one agreed staging test is authorized.
 
+## Home hotfix: News spacing and One Chip in normal flow (2026-10-27)
+
+Branch `fix/home-flow-spacing-hotfix`, cut from `main` at `8a4b1eb` (PR #3).
+
+**Gap after "Latest From Lumotive".** The News section's 5rem bottom padding
+and the bento's 5rem top padding (from `1787717900`, already run on staging)
+stacked: "All news" → "When Light Becomes Programmable" heading measured
+233px at 1440. New migration `1787718100` sets the bento's `spacingTop`
+`md` → `none` only when the record is `md`/`md`; rollback sets `md` again only
+from `none`/`md`. The bottom stays `md`; `1787717900` is untouched.
+
+| Width | Before | After |
+|---|---:|---:|
+| 1920, 1907, 1440 | 233 | 153 |
+| 1366 | 230 | 150 |
+| 1024 | 213 | 133 |
+| 768 | 200 | 120 |
+| 430, 390 | 197 | 117 |
+
+The remaining gap above the heading's own top margin is the News padding
+alone, in line with the 160px from "See all applications" to the
+investor-band label (unchanged at every width).
+
+**"One Chip. Boundless Applications."** (`a20efeab`, `CardsPeelScene.svelte`)
+no longer uses `PeelScene`, so there is no sticky panel, negative margin,
+cover lift or scroll runway.
+- **Clipping:** the staging clipping did not reproduce in local Chromium.
+  Slow, fast and reverse wheel scrolling kept the heading a constant 130px
+  below the hero's edge at 1440. The fix removes the mechanism (the panel
+  riding under the z-50 hero) rather than tuning it.
+- **Reveal:** the section uses the shared `Reveal` like "Latest From
+  Lumotive": the heading first, then the two cards staggered. Each card sits
+  in a wrapper, so its 4px hover lift survives the reveal.
+- **Spacing:** migration `1787718200` sets `spacingTop` `none` →
+  `md-compact-phone` (guarded both ways). That is the 5rem the old panel
+  supplied from 768px up, and 2.5rem on phones. The bottom stays `none`.
+  - Hero edge → heading: 130px from 1366 up (same as before), 111 at 768
+    (was 110), 121 at 1024 (was 95 in the peel's settled frame), 40 on phones
+    (was 28).
+  - Card sizes, heading → cards (68px) and cards → News (92px) are unchanged
+    at all eight widths.
+- **Shared code:** `Sections.svelte` drops `cardsPeelScene` from the peel
+  types. `PeelScene` itself is unchanged; its `revealFollow` and `stage`
+  options now have no users. The two Platform scenes are untouched.
+
+**Verified** on a copy of the local database (PocketBase 8091, dev server
+5174) at 1920×1080, 1907×985, 1440×900, 1366×768, 1024×768, 768×1024, 430×932
+and 390×844:
+- **Migrations:** apply, roll back and re-apply all work. The rollback
+  restores the Home record exactly, and no other page changes.
+- **Layout:** no sticky element or peel scene left on Home, and no horizontal
+  overflow.
+- **Scrolling:** forward and reverse wheel scrolling keep the heading at a
+  fixed distance below the hero, apart from the reveal's own 28px rise.
+- **Interaction:** News, One Chip and bento reveals play. Tab reaches the
+  One Chip cards with a visible 3px ring.
+- **Reduced motion:** everything shows immediately.
+- **Builds:** `git diff --check`, `npm run check` (0/0) and `npm run build`
+  pass.
+
+Screenshots are in `%TEMP%\lumotive-review\home-flow-spacing-hotfix\`.
+
 ## Footer LinkedIn and Privacy Policy heading gap (2026-10-27)
 
 **LinkedIn (S1, footer resolved).** The supplied URL is
