@@ -126,12 +126,8 @@
 					</Reveal>
 				</div>
 			{/if}
-			<div class="copy-column" data-peel={variant === 'peelBleed' ? 'rise-each' : undefined}>
-				{#if variant === 'peelBleed'}
-					{@render copy()}
-				{:else}
-					<Reveal stagger delay={0.12}>{@render copy()}</Reveal>
-				{/if}
+			<div class="copy-column">
+				<Reveal stagger delay={0.12}>{@render copy()}</Reveal>
 			</div>
 		</div>
 	</div>
@@ -217,7 +213,9 @@
 	.stacked-card .split-layout { grid-template-columns: 1fr; gap: 2rem; background: var(--color-surface); box-shadow: var(--shadow-card); }
 	.stacked-card .art-column, .stacked-card .copy-column { order: initial; }
 	.stacked-card .art-frame img, .stacked-card .art-frame video { max-height: 31rem; object-fit: contain; }
-	.peel-bleed { min-height: 100svh; color: white; background: var(--color-panel); overflow: hidden; }
+	/* `relative`: the band is the containing block for its absolute bleed
+	   image and shade. A PeelScene panel used to supply one. */
+	.peel-bleed { position: relative; min-height: 100svh; color: white; background: var(--color-panel); overflow: hidden; }
 	.peel-bleed .lumo-inner { display: flex; min-height: 100svh; align-items: center; }
 	.peel-bleed .split-layout { display: block; width: 100%; }
 	.peel-bleed .copy-column { max-width: 48rem; }

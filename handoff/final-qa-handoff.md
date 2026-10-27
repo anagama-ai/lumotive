@@ -45,6 +45,105 @@ Click the footer policy link, open/close mobile navigation, inspect portraits/lo
 play the existing embeds, and check local media and page-width overflow.
 Do not submit the contact form until its one agreed staging test is authorized.
 
+## Mobile spacing follow-up: Sense gaps and Platform in normal flow (2026-10-27)
+
+Branch `fix/mobile-spacing-followup`, cut from `main` at `cb03234` (PR #4
+merged). Migration `1787718300_mobile_spacing_followup.js` changes only the
+fields listed below, each guarded on its prior value; down restores them.
+
+**/sense, phones only.** Two `md` paddings (80 + 80) stacked at three
+transitions. The two edges that meet there take `md-compact-phone` (2.5rem a
+side below 768px, outer margins dropped; `md` from 768px up):
+
+| Transition | Edges changed | 360–430 before → after | 768 / 1440 |
+|---|---|---:|---:|
+| Poor Adaptability card → "The Answer" | `9d8fe777` bottom, `bb989678` top | 172 → 80 | 172, unchanged |
+| "The result: …less downtime." → "Sensing for Robots and Vehicles" | `bb989678` bottom, `a1d7c40e` top | 189 → 80 | 189, unchanged |
+| Smart Infrastructure & Surveillance card (traffic and parking) → "Start Building" | `2a6b5ed9` bottom, `c83f1b77` top | 172 → 80 | 172, unchanged |
+
+Gaps are from the last painted card or line to the next eyebrow. The other
+Sense transitions are unchanged (108 / 156 / 148 / 90 at 390).
+
+**/platform, PeelScene removed** from "Groundbreaking Physics Meets Mature
+Manufacturing" (`ace8d391`, `CardsPeelSwap`) and "Light Control
+Metasurface™ Optical Beamforming Technology" (`fbe8b045`, `SplitPeelBleed`).
+- **Cause:** from 768px up the scenes pinned a `100dvh` sticky panel, lifted
+  the band over the swap by a negative margin equal to the measured panel
+  height, and tweened the swap's content down by that same height. Those px
+  values are measured once; on touch devices ScrollTrigger ignores
+  height-only resizes, so when the browser bars collapse the `dvh` panel
+  grows while the margin and tween keep the old height. Reproduced on
+  staging with iPad emulation (768 wide, 954 → 1024 tall): margin stayed
+  −954px against a 1024px panel, and the swap's headings sat at y = 4–47px,
+  under the header. Below 768px the scenes were not sticky, but each
+  pinned scene also left ~0.9 viewport of empty runway at 768px.
+- **Change:** both render in normal flow with the shared `Reveal`. The
+  heading reveals first, then the cards and the media staggered. The two
+  swap cards no longer share one cell, so both stay readable, beside the
+  video from 768px up. The band keeps its image, shade, copy, and `80svh`
+  (desktop) / `100svh` (phone) height; it now sets `position: relative`
+  itself, which the panel used to supply. `Sections.svelte` keeps only
+  `statsPeelScene` as a peel type. `PeelScene` itself is unchanged.
+- **Spacing:** both records go from `none`/`none` to `md-compact-phone` on
+  each side, which is the panel's 5rem from 768px up.
+  - Hero → heading: 130px at 1440, 111px at 768, 40px on phones (was 48).
+  - Media → band: 40px on phones (was 32), 80px from 768px up.
+  - The band's heading is now 40px from its top edge at 360 and 375 (was
+    flush, 0px).
+  - Card, media, heading and band sizes are identical at all six widths.
+
+**Home, phones only: "All news" → "When Light Becomes Programmable".**
+The 117px gap (123px to the heading's visible top) at 360–430 was the News
+section's 80px bottom padding plus the heading's own 36.5px top margin; the
+bento's top padding is already `none`, and the reveals add only their
+temporary 28px rise. Migration `1787718400` sets News (`e7b40d12`)
+`spacingBottom` `md` → `md-compact-phone`. It is guarded on News `md` and
+the bento's top `none`, and rollback goes back to `md`. The gap is now 77px
+(83px visible), and 768 and 1440 are identical to before (120 / 153px).
+`PostsFeatured.svelte` had whitelisted its spacing values and was silently
+turning `md-compact-phone` back into `md`; the token is now on its list.
+Second pass, migration `1787718500`: 77px still read as ~90px, because "All
+news" is a 44px touch target whose text sits 10px above its box. Both sides
+now take the existing phone-only `xs` override (1.5rem, outer margins
+dropped): News `phoneSpacingBottom` and bento `phoneSpacingTop`, each added
+only while absent and removed only while `xs`. The phone gap is 48px
+(54–55px to the heading's visible top). 768 and 1440 are identical to the
+original. `PostsFeatured.svelte` and `CardsPeelBento.svelte` now emit
+`data-phone-bottom` / `data-phone-top`, as the card sections already do.
+
+**/about, phones only** (migration `1787718600`, guarded and reversible;
+measured at 375 / 414 / 430):
+- **"Work With Us" CTA (`efd6f4b0`):** `lg` padding plus the heading's 28px
+  top margin put 140px above the content and 112px below it. The existing
+  CTA `compactMobile` is now on (4.5rem a side), and `CtaDefault` drops the
+  heading's outer top margin under it, so the content sits 72px from either
+  edge.
+  - The band goes from 557 / 493 / 493px to 449 / 385 / 385px.
+  - Copy and buttons are unchanged (48–50px tall).
+  - /sense/automotive's CTA, the only other `compactMobile` CTA, loses the
+    same 28px on phones.
+- **"GSA Startup to Watch" → "Leadership Team":** two `md` paddings
+  stacked, 172px. Recognition (`718e83f2`) bottom and Leadership
+  (`f9d1f9ab`) top take `md-compact-phone`, making it 80px.
+- 768 and 1440 measure identically to before.
+
+**Verified** on a copy of the local database at 360×800, 375×812, 390×844,
+430×932, 768×1024 and 1440×900:
+- **Migrations:** up, down and re-up all work. Down restores both pages
+  exactly, and only the ten listed fields change.
+- **Layout:** no sticky element or peel scene on either page, no horizontal
+  overflow, and section seams stay at 0px.
+- **Scrolling:** slow, fast and reverse wheel scrolling keep every heading
+  at a fixed offset apart from Reveal's 28px rise, and all headings end
+  revealed.
+- **Toolbar resize:** simulated on touch at 768, 390 and 430, it leaves the
+  seams at 0px and the bleed image fitted to its band.
+- **Reduced motion:** everything shows at full opacity with no transforms.
+- **Builds:** `git diff --check`, `npm run check` (0/0) and `npm run build`
+  pass.
+
+Screenshots are in `%TEMP%\lumotive-review\mobile-spacing-followup\`.
+
 ## Home hotfix: News spacing and One Chip in normal flow (2026-10-27)
 
 Branch `fix/home-flow-spacing-hotfix`, cut from `main` at `8a4b1eb` (PR #3).

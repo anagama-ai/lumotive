@@ -99,8 +99,8 @@
 	data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 	data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
 	data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
-	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'compact', 'md', 'lg', 'xl'], 'md')}
-	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'compact', 'md', 'lg', 'xl'], 'md')}
+	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'compact', 'md', 'md-compact-phone', 'lg', 'xl'], 'md')}
+	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'compact', 'md', 'md-compact-phone', 'lg', 'xl'], 'md')}
 	data-align={stacked || section.align === 'container' ? 'container' : undefined}
 	style:background-image={light ? undefined : `url("${backdrop.src}")`}
 	style:background-position={light ? undefined : backdrop.position}
@@ -195,8 +195,12 @@
 	/* Same small, quiet treatment as the lead-in note, set apart from the
 	   action row above it. */
 	.cta-caveat { margin-top: 2rem; max-width: 46rem; color: rgb(255 255 255 / 75%); font-size: var(--text-spec); line-height: 1.5; }
+	/* The heading's default top margin collapses through its wrapper and
+	   added 28px above the content only, so the padding is the whole gap,
+	   the same on both sides, as the other compact phone settings do. */
 	@media (max-width: 767px) {
 		.compact-mobile > .lumo-inner { padding-block: 4.5rem; }
+		.compact-mobile > .lumo-inner > :global(:first-child > :first-child) { margin-top: 0; }
 	}
 	.cta-button { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: #fff; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.cta-button:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }

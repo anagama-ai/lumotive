@@ -1,9 +1,9 @@
 <script lang="ts">
+	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 	import { resolveMedia, type MediaMap } from '$lib/media';
 	import { honorReducedMotion } from '$lib/motion';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
-	import PeelScene from '$lib/components/lumotive/peel/PeelScene.svelte';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
 	type Card = {
@@ -17,11 +17,7 @@
 		accent?: string;
 	};
 
-	let {
-		section,
-		media,
-		band
-	}: { section: Section; media: MediaMap; band?: Section } = $props();
+	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	let sharedImage = $derived(resolveMedia(cards.find((card) => card.media)?.media, media, 1024));
 	let sharedIsVideo = $derived(Boolean(sharedImage?.isVideo));
@@ -38,39 +34,41 @@
 	});
 </script>
 
-<PeelScene {band} {media} uncover={false}>
-	<section
-		class="lumo-section my-auto"
-		id={section.anchor ? String(section.anchor) : undefined}
-		data-background={String(section.background ?? 'none')}
-		data-width={String(section.width ?? 'contained')}
-		data-spacing-top={String(section.spacingTop ?? 'md')}
-		data-spacing-bottom={String(section.spacingBottom ?? 'md')}
-		data-align={section.align === 'container' ? 'container' : undefined}
-	>
-		<div class="lumo-inner swap-inner relative flex min-h-full flex-col justify-center">
-			{#if section.heading || section.intro}
+<!-- Normal flow. The cards used to trade places in one grid cell inside a
+     pinned `PeelScene`; its sticky panel and viewport-measured runway went
+     stale whenever the browser bars resized the viewport, so content slid
+     behind the header on touch devices. Every card now stays readable in
+     turn, beside the shared media from 768px up, and the heading and grid
+     reveal once with the shared `Reveal`. -->
+<section
+	class="lumo-section"
+	id={section.anchor ? String(section.anchor) : undefined}
+	data-background={String(section.background ?? 'none')}
+	data-width={String(section.width ?? 'contained')}
+	data-spacing-top={String(section.spacingTop ?? 'md')}
+	data-spacing-bottom={String(section.spacingBottom ?? 'md')}
+	data-align={section.align === 'container' ? 'container' : undefined}
+>
+	<div class="lumo-inner">
+		{#if section.heading || section.intro}
+			<Reveal>
 				<div class="text-center">
-					{#if section.heading}<h2 class="font-display text-statement text-ink mt-12 md:mt-0">{titleCase(String(section.heading))}</h2>{/if}
+					{#if section.heading}<h2 class="font-display text-statement text-ink">{titleCase(String(section.heading))}</h2>{/if}
 					<!-- Slate Text, not Muted Slate: at the lead size the muted token
 					     measures 3.34:1 on the page field, under the 4.5:1 floor. -->
 					{#if section.intro}<p class="text-lead mx-auto mt-4 max-w-4xl">{String(section.intro)}</p>{/if}
 				</div>
-			{/if}
+			</Reveal>
+		{/if}
 
-			<div class={`swap-grid relative mt-10 grid items-center gap-10 ${sharedImage ? 'md:grid-cols-2' : ''}`}>
+		<Reveal
+			stagger=":scope > .swap-cards > article, :scope > .swap-media"
+			class={`mt-10 grid items-center gap-10 ${sharedImage ? 'md:grid-cols-2' : ''}`}
+		>
+			<div class="swap-cards grid gap-10">
 				{#each cards as card, index (index)}
 					{@const link = linkFor(card)}
-					<!-- The swap is a wide-viewport choreography: the cards share one
-					     grid cell and trade places as the pinned panel scrolls.
-					     `data-peel-wide` keeps its beats off narrow viewports, where
-					     the cards stack and every one of them has to stay readable —
-					     without it the first card's fall left it permanently blank. -->
-					<article
-						data-peel-wide
-						data-peel={[index > 0 && 'rise', index < cards.length - 1 && 'fall'].filter(Boolean).join(' ') || undefined}
-						class={`swap-card md:col-start-1 md:row-start-1 ${index > 0 ? 'pointer-events-none md:motion-safe:opacity-0' : ''}`}
-					>
+					<article>
 						{#if card.eyebrow}<p class={`text-eyebrow uppercase ${tone(card.accent)}`}>{card.eyebrow}</p>{/if}
 						<h3 class="font-display text-heading text-ink mt-3">{titleCase(card.title ?? '')}</h3>
 						{#if card.body}<div class="mt-5 text-base leading-relaxed">{@html card.body}</div>{/if}
@@ -82,36 +80,19 @@
 						{/if}
 					</article>
 				{/each}
-
-				{#if sharedImage}
-					<div class="swap-media rounded-card relative aspect-video overflow-hidden md:col-start-2 md:row-start-1">
-						{#if sharedIsVideo}
-							<video {@attach honorReducedMotion} class="absolute inset-0 size-full object-cover" autoplay loop muted playsinline aria-hidden="true">
-								<source src={sharedImage.src} type="video/mp4" />
-							</video>
-						{:else}
-							<img class="absolute inset-0 size-full object-cover" src={sharedImage.src} srcset={sharedImage.srcset} alt={sharedImage.alt} width={sharedImage.width} height={sharedImage.height} loading="lazy" />
-						{/if}
-					</div>
-				{/if}
 			</div>
-		</div>
-	</section>
-</PeelScene>
 
-<style>
-	/* Under reduced motion PeelScene runs no beats and the `motion-safe`
-	   opacity utilities do not apply, so all four cards would sit in the same
-	   grid cell at full opacity and overlap. The swap stops being a swap: the
-	   cards and the image flow down one column, each legible in turn. */
-	@media (prefers-reduced-motion: reduce) {
-		.swap-grid { grid-template-columns: 1fr; }
-		.swap-card, .swap-media { grid-column: auto; grid-row: auto; }
-	}
-	/* Phones stack the panels without the peel, so the media's rounded bottom
-	   corners met the dark section below with no gap. 2rem of the light field
-	   keeps them visible. 768px and up keep the pinned layout as it was. */
-	@media (max-width: 767px) {
-		.lumo-section > .swap-inner { padding-bottom: 2rem; }
-	}
-</style>
+			{#if sharedImage}
+				<div class="swap-media rounded-card relative aspect-video overflow-hidden">
+					{#if sharedIsVideo}
+						<video {@attach honorReducedMotion} class="absolute inset-0 size-full object-cover" autoplay loop muted playsinline aria-hidden="true">
+							<source src={sharedImage.src} type="video/mp4" />
+						</video>
+					{:else}
+						<img class="absolute inset-0 size-full object-cover" src={sharedImage.src} srcset={sharedImage.srcset} alt={sharedImage.alt} width={sharedImage.width} height={sharedImage.height} loading="lazy" />
+					{/if}
+				</div>
+			{/if}
+		</Reveal>
+	</div>
+</section>

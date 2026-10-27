@@ -35,8 +35,9 @@
 		data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 		data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
 		data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
-		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
-		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'lg', 'xl'], 'md')}
+		data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'md', 'md-compact-phone', 'lg', 'xl'], 'md')}
+		data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'md', 'md-compact-phone', 'lg', 'xl'], 'md')}
+		data-phone-bottom={enumValue(section.phoneSpacingBottom, ['xs', 'sm', 'md'], '') || undefined}
 		data-align="container"
 	>
 		<div class="lumo-inner">
