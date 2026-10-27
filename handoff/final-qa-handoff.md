@@ -45,86 +45,71 @@ Click the footer policy link, open/close mobile navigation, inspect portraits/lo
 play the existing embeds, and check local media and page-width overflow.
 Do not submit the contact form until its one agreed staging test is authorized.
 
-## Home "When Light Becomes Programmable": dedicated GSAP pin (2026-10-27)
+## Home "When Light Becomes Programmable": flow section like the News (2026-10-27)
 
 The Home bento (`cardsPeelBento`, id `677cf547`, the only record of that type)
-no longer uses `PeelScene`. `CardsPeelBento.svelte` now pins its own panel
-with GSAP ScrollTrigger (`pin`, `pinSpacing: true`, `scrub: 0.4`).
-`PeelScene` and every other peel scene are unchanged; "One Chip" keeps
-z-index 40, its −1080px lift and its 1825px wrapper at 1920×1080.
+is now an ordinary flow section. It reveals the same way "Latest From
+Lumotive" (`PostsFeatured`, id `e7b40d12`) does. An earlier same-day revision
+used a dedicated GSAP ScrollTrigger pin. It still read too much like the peel
+progression it replaced, and has been removed in full: no pin, no scrub, no
+715px runway, no sticky panel or pin spacer, and no scroll-restoration hold.
 
-**Sequence (1024px and up).** The panel pins. The heading and intro never
-move. The four cards rise 40px, fade in and settle from 97% scale, 0.4s apart
-on a 0.9s `power2.out` curve. "See all applications" rises 16px and fades in
-last. A 0.3s hold follows, then the pin releases. The pin length is the
-timeline length × 260px (715px for four cards and the action) at every
-viewport. The old runway was 90dvh (972px at 1080).
+**Behaviour.** The section uses the shared `Reveal` component with the
+News section's values. Each element plays a one-time reveal at `top 85%`:
+28px rise, 0 → 1 opacity, 0.9s `power3.out`.
+- The heading block (heading and intro) reveals on its own.
+- The card grid reveals as one staggered list, 0.09s apart, so all four cards
+  arrive together in the four-column row on desktop.
+- "See all applications" follows with the 0.12s delay.
 
-The panel pins with its top at the viewport top whenever heading-to-action
-fits below the 73px header (1920×1080, 1907×985, 1440×900, 1024×768). If it
-does not fit, the pin shifts up just enough to keep the heading 24px clear of
-the header. At 1366×768 that is −53px: the cards are fully in view, while the
-action finishes its reveal just below the fold and is reached after release.
-The investor-logo band stays inside the pinned panel, as before.
+Reduced motion renders everything at once (`Reveal` sets the rest state).
 
-**Below 1024px and under reduced motion.** There is no pin. The grid stays in
-document flow. Below 1024px, each card and the action fade up 24px over 0.6s
-as they enter the viewport. Under reduced motion there are no tweens and no
-inline styles. 768×1024 loses its old pinned 90dvh runway.
+**Spacing.** Migration `1787717900_home_applications_flow_spacing` moves the
+section's spacing from `none`/`none` to the News section's `md`/`md`. That is
+the shared 5rem `.lumo-inner` padding, top and bottom, at every width. The
+none/none setting only made sense inside the peel panel, which supplied the
+5rem above the heading from 768px up. The migration is guarded both ways:
+forward only from none/none, back only from md/md.
 
-**Implementation notes.**
-- Cards and the action move through `--bento-y` / `--bento-scale`, not inline
-  `transform`. GSAP's inline `translate: none` had cancelled the cards' 4px
-  hover lift under the old scene; the lift works again.
-- Cards transition only `translate` and `box-shadow`, so a CSS transition no
-  longer lags the scrub. Hover still looks the same.
-- Setup and teardown use `gsap.matchMedia(scene)`. It is reverted on destroy,
-  route change and HMR, which removes the trigger and unwraps the spacer.
-- After font loading and late image loads, it calls `ScrollTrigger.refresh(true)`,
-  the scroll-safe version that waits for scrolling to stop.
-- Until the pin is first measured, `html` has `scroll-behavior: auto` and
-  `overflow-anchor: none` (`[data-measured]` rule). Otherwise SvelteKit's
-  smooth reload/back restore is cut short by the pin's scroll writes.
-- On reload, the hydrating `PeelScene` above clamps the restored position.
-  The pin puts it back once measured (initial `enter` navigation only, and
-  only if there was no user input).
-- Keyboard focus moving into the cards or the action from either direction
-  jumps the pin to its end state, then scrolls on if the action is below the
-  fold.
+**Seams.** The news link to the heading is 80 + 80px, then the h2's own
+margin. "See all applications" to the investor band's label is likewise
+80 + 80px. No `min-height` is involved anywhere, so `a8fcd60`'s
+content-height correction holds.
 
-**Verified** on the dev server, local PocketBase and Chromium:
+**Investor band.** `Sections.svelte` no longer treats `PeelBento` as a peel
+type. The investor logo band (`logosSceneBand`) after it therefore renders as
+its own section, through the same `LogosSceneBand` component. Its heading now
+reveals with its own `Reveal`, like any flow band.
+
+**Unchanged.** Card markup, images, overlays, copy, link and grid are
+unchanged. The heading-to-grid gap (166px at 1920), card sizes and positions
+match the approved frame. The cards' hover lift is cancelled by `Reveal`'s
+inline GSAP styles, exactly as on the News cards; the shadow still appears.
+
+**Untouched.** `PeelScene`, "One Chip" (z-index 40, −1080px lift, 1825px
+wrapper at 1920×1080) and the News section are untouched.
+
+**Verified** on the dev server, local PocketBase (migration applied) and
+Chromium:
 - **Viewports:** 1920×1080, 1907×985, 1440×900, 1366×768, 1024×768, 768×1024
   and 390×844.
-- **Settled layout:** card positions and sizes, section height and the
-  action-to-band gap match the old final frame at every width. Horizontal
-  overflow is 0.
-- **Pin boundaries:** the section position is continuous through start and
-  end, with 0px error at ±1px around each boundary. At pin end the band sits
-  directly under the action, and the CTA section follows the band with no
-  gap.
-- **Scrolling:** slow wheel, fast wheel (3×700px) and reverse showed 0px
-  layout error frame by frame. The cards finish at opacity 1 going down and
-  0 going back up.
-- **Resize while pinned:** 1920 → 1440 → 1366 → 1100 → 900 → 1907. There is
-  always one pin and at most one `.pin-spacer`; flow mode below 1024 has none.
-- **Reload mid-pin:** restores the exact position and progress at all five
-  pinned viewports.
-- **Route away and back:** the action link → `/applications` → back and
-  forward, plus the logo link, gave a constant trigger count, one spacer and
-  none on `/applications`. HMR left the trigger and spacer counts unchanged.
-- **Back/forward position:** lands 212px past the saved position at
-  1920×1080. The old scene was 311px off, so this is existing
-  SvelteKit/Lenis behavior. The state is consistent either way.
-- **Keyboard:** forward and reverse Tab reach "See all applications" with the
-  cards at opacity 1 and the link in view at all widths.
-- **Reduced motion:** no spacer, no inline styles, all content at opacity 1.
-- **Builds:** `npm run check` (595 files, 0 errors, 0 warnings) and
-  `npm run build` passed.
+- **Grid:** four cards in one row from 1024px, 2×2 at 768, stacked at 390.
+- **Layout:** padding 80/80. No pin spacer, and no sticky element other than
+  One Chip's own panel from 768px. Horizontal overflow is 0, and the band
+  follows with no gap.
+- **News section:** pixel-identical before and after at all seven widths
+  (element screenshots, header hidden, all reveals settled). Its position on
+  the page is identical.
+- **Reload:** returns to the same position.
+- **Navigation:** the action link → `/applications` → back, and the logo
+  link, both work. Back lands about 110px from the saved position; this is
+  the existing SvelteKit/Lenis behaviour noted in earlier QA.
+- **Reduced motion:** opacity 1, identity transforms.
+- **Builds:** `npm run check` and `npm run build` passed.
 
-No dependency change: `gsap` ^3.15.0 (3.15.0 installed) and ScrollTrigger were
-already in the client bundle through `PeelScene`, `Reveal` and `motion.ts`.
-Screenshots and metrics are in `%TEMP%\lumotive-review\home-bento-gsap-pin\`
-(`before-*` and `after-*`, plus `before-metrics.json` and `after-metrics.json`).
+Screenshots are in `%TEMP%\lumotive-review\home-bento-news-flow\`:
+- `before-|after-{1920x1080,1440x900,390x844}-{approach,settled}`;
+- `before-|after-news-*` for the News comparison.
 
 ## Home "One Chip. Boundless Applications." spacing (2026-10-26)
 
@@ -174,10 +159,10 @@ a CSS `position: sticky` panel plus a JS-sized wrapper
 the beats. Scenes with a beat runway map cleanly to
 `pin: panel, pinSpacing: true, end: '+=90%'`, which would replace the sticky
 rule and height arithmetic. Examples are `CardsPeelSwap`, `StatsPeelScene`,
-`TestimonialsPeelScene` and `SplitPeelBleed`. The Home bento has since moved
-to a dedicated pin (2026-10-27 section above).
+`TestimonialsPeelScene` and `SplitPeelBleed`. The Home bento has since left
+`PeelScene` for plain document flow (2026-10-27 section above).
 
-Not converted: all six section types share this component. The cover-follow
+Not converted: the five remaining section types share this component. The cover-follow
 choreography also couples three moving parts: the hero `coverTween`, the
 wrapper's negative margin and the panel `followTween`. It has no single
 unambiguous pin target. Convert only with a per-scene visual review.

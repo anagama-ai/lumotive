@@ -55,7 +55,7 @@
 	import TestimonialsPeelScene from './TestimonialsPeelScene.svelte';
 	import Timeline from './Timeline.svelte';
 
-	const PEEL_SUFFIXES = ['PeelScene', 'PeelBento', 'PeelSwap', 'PeelBleed'];
+	const PEEL_SUFFIXES = ['PeelScene', 'PeelSwap', 'PeelBleed'];
 	const isPeel = (section?: Section) =>
 		!!section && PEEL_SUFFIXES.some((suffix) => section.type.endsWith(suffix));
 	const isSceneBand = (section?: Section) =>
@@ -86,7 +86,7 @@
 	{:else if section.type === 'cardsPeelScene'}
 		<CardsPeelScene {section} {media} {band} />
 	{:else if section.type === 'cardsPeelBento'}
-		<CardsPeelBento {section} {media} {band} />
+		<CardsPeelBento {section} {media} />
 	{:else if section.type === 'cardsPeelSwap'}
 		<CardsPeelSwap {section} {media} {band} />
 	{:else if section.type === 'cardsFlowPanels'}
