@@ -2,7 +2,7 @@
 	import { resolveMedia, type MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
-	import PeelScene from '$lib/components/lumotive/peel/PeelScene.svelte';
+	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
 	type Card = {
@@ -16,11 +16,7 @@
 		accent?: string;
 	};
 
-	let {
-		section,
-		media,
-		band
-	}: { section: Section; media: MediaMap; band?: Section } = $props();
+	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	let heading = $derived(titleCase(String(section.heading ?? '')) ?? '');
 	let split = $derived(heading.indexOf('. '));
@@ -43,34 +39,40 @@
 	});
 </script>
 
-<!-- Homepage only: ride the hero's lower edge so this section fills the strip
-     the hero vacates instead of trailing an empty viewport behind it. -->
-<PeelScene {band} {media} revealFollow>
-	<section
-		class="lumo-section"
-		id={section.anchor ? String(section.anchor) : undefined}
-		data-background={String(section.background ?? 'none')}
-		data-width={String(section.width ?? 'contained')}
-		data-spacing-top={String(section.spacingTop ?? 'md')}
-		data-spacing-bottom={String(section.spacingBottom ?? 'md')}
-		data-align="container"
-	>
-		<div class="lumo-inner flex min-h-full flex-col justify-center py-10">
-			{#if heading}
+<!-- Homepage "One Chip. Boundless Applications." Normal document flow; it
+     reveals the way "Latest From Lumotive" does: the heading, then the card
+     grid with its cards staggered, each a one-time shared `Reveal`. -->
+<section
+	class="lumo-section"
+	id={section.anchor ? String(section.anchor) : undefined}
+	data-background={String(section.background ?? 'none')}
+	data-width={String(section.width ?? 'contained')}
+	data-spacing-top={String(section.spacingTop ?? 'md')}
+	data-spacing-bottom={String(section.spacingBottom ?? 'md')}
+	data-align="container"
+>
+	<div class="lumo-inner flex flex-col">
+		{#if heading}
+			<Reveal>
 				<h2 class="cards-heading font-display text-statement text-center">
-					<span data-peel="rise tint" class="text-ink block">
+					<span class="text-ink block">
 						{split >= 0 ? heading.slice(0, split + 1) : heading}
 					</span>
 					{#if split >= 0}
-						<span data-peel="rise" class="text-brand-blue block">{heading.slice(split + 2)}</span>
+						<span class="text-brand-blue block">{heading.slice(split + 2)}</span>
 					{/if}
 				</h2>
-			{/if}
+			</Reveal>
+		{/if}
 
-			<div data-peel="rise-each" class="cards-grid mt-10 grid gap-6 md:grid-cols-2">
-				{#each cards as card, index (index)}
-					{@const image = resolveMedia(card.media, media, 1024)}
-					{@const link = linkFor(card)}
+		<!-- Each card sits in a wrapper that is the grid item and takes the
+		     reveal's inline transform; the card inside fills it and keeps its own
+		     hover lift. -->
+		<Reveal stagger class="mt-7 grid gap-6 md:grid-cols-2">
+			{#each cards as card, index (index)}
+				{@const image = resolveMedia(card.media, media, 1024)}
+				{@const link = linkFor(card)}
+				<div class="grid">
 					<svelte:element
 						this={link.href ? 'a' : 'article'}
 						class={`rounded-card bg-surface hover:shadow-card group flex flex-col overflow-hidden transition duration-300 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
@@ -102,24 +104,24 @@
 								</span>
 							{/if}
 						</div>
-					</svelte:element>
-				{/each}
-			</div>
-		</div>
-	</section>
-</PeelScene>
+				</svelte:element>
+				</div>
+			{/each}
+		</Reveal>
+	</div>
+</section>
 
 <style>
 	/* Spacing pass. The heading-to-cards gap was 90px: the h2's own 50px bottom
 	   margin plus the grid's 40px top margin. The in-card gap between title and
 	   description was 36px: the h3's 24px bottom margin plus the body's 12px top
 	   margin. Both are tightened by roughly a quarter, set explicitly so the
-	   total no longer depends on the global heading margin.
+	   total no longer depends on the global heading margin (the grid's 1.75rem
+	   top margin is `mt-7` on the grid).
 
 	   Outer section padding, the 24px grid gap, the card padding, the equal
 	   card heights and the `mt-auto` link alignment are all untouched. */
 	.cards-heading { margin-bottom: 2.5rem; }
-	.cards-grid { margin-top: 1.75rem; }
 	.card-title { margin-bottom: 0; }
 	.card-body { margin-top: 1.6875rem; }
 	.card-link { padding-top: .9375rem; }
