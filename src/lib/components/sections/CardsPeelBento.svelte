@@ -20,6 +20,8 @@
 
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
 	const bar = (accent?: string) => accent === 'accent2' ? 'bg-brand-red' : accent === 'accent3' ? 'bg-brand-amber' : 'bg-surface';
+	// Phone-only spacing override (app.css): xs | sm | md, else unset.
+	const phoneSpacing = (value: unknown) => (['xs', 'sm', 'md'].includes(String(value)) ? String(value) : undefined);
 </script>
 
 <!-- Homepage "When light becomes programmable". An ordinary flow section that
@@ -33,6 +35,7 @@
 	data-width={String(section.width ?? 'contained')}
 	data-spacing-top={String(section.spacingTop ?? 'md')}
 	data-spacing-bottom={String(section.spacingBottom ?? 'md')}
+	data-phone-top={phoneSpacing(section.phoneSpacingTop)}
 	data-align="container"
 >
 	<div class="lumo-inner flex flex-col">

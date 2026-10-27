@@ -102,6 +102,14 @@ the bento's top `none`, and rollback goes back to `md`. The gap is now 77px
 (83px visible), and 768 and 1440 are identical to before (120 / 153px).
 `PostsFeatured.svelte` had whitelisted its spacing values and was silently
 turning `md-compact-phone` back into `md`; the token is now on its list.
+Second pass, migration `1787718500`: 77px still read as ~90px, because "All
+news" is a 44px touch target whose text sits 10px above its box. Both sides
+now take the existing phone-only `xs` override (1.5rem, outer margins
+dropped): News `phoneSpacingBottom` and bento `phoneSpacingTop`, each added
+only while absent and removed only while `xs`. The phone gap is 48px
+(54–55px to the heading's visible top). 768 and 1440 are identical to the
+original. `PostsFeatured.svelte` and `CardsPeelBento.svelte` now emit
+`data-phone-bottom` / `data-phone-top`, as the card sections already do.
 
 **Verified** on a copy of the local database at 360×800, 375×812, 390×844,
 430×932, 768×1024 and 1440×900:
