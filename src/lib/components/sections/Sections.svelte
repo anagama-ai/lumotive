@@ -57,7 +57,7 @@
 
 	// Section types still rendered inside `PeelScene`, which takes a following
 	// scene band into its panel. Every other section renders in plain flow.
-	const PEEL_TYPES = new Set(['cardsPeelSwap', 'splitPeelBleed', 'statsPeelScene']);
+	const PEEL_TYPES = new Set(['statsPeelScene']);
 	const isPeel = (section?: Section) => !!section && PEEL_TYPES.has(section.type);
 	const isSceneBand = (section?: Section) =>
 		section?.type === 'logosSceneBand' || section?.type === 'statsSceneBand';
@@ -89,7 +89,7 @@
 	{:else if section.type === 'cardsPeelBento'}
 		<CardsPeelBento {section} {media} />
 	{:else if section.type === 'cardsPeelSwap'}
-		<CardsPeelSwap {section} {media} {band} />
+		<CardsPeelSwap {section} {media} />
 	{:else if section.type === 'cardsFlowPanels'}
 		<CardsFlowPanels {section} {media} />
 	{:else if section.type === 'cardsFlowDiagram'}
@@ -123,7 +123,7 @@
 	{:else if section.type === 'splitDarkPanel'}
 		<SplitDarkPanel {section} {media} />
 	{:else if section.type === 'splitPeelBleed'}
-		<SplitPeelBleed {section} {media} {band} />
+		<SplitPeelBleed {section} {media} />
 	{:else if section.type === 'splitStackedCard'}
 		<SplitStackedCard {section} {media} />
 	{:else if section.type === 'logosMarquee'}

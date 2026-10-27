@@ -1,16 +1,13 @@
 <script lang="ts">
-	import PeelScene from '$lib/components/lumotive/peel/PeelScene.svelte';
 	import type { MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import SplitDefault from './SplitDefault.svelte';
 
-	let {
-		section,
-		media,
-		band
-	}: { section: Section; media: MediaMap; band?: Section } = $props();
+	// The full-bleed band in normal flow. It no longer rides in a `PeelScene`:
+	// the sticky panel, the lift over the scene above and their measured
+	// offsets went stale whenever the browser bars resized the viewport,
+	// leaving the band's content behind the header on touch devices.
+	let { section, media }: { section: Section; media: MediaMap } = $props();
 </script>
 
-<PeelScene {band} {media}>
-	<SplitDefault {section} {media} variant="peelBleed" />
-</PeelScene>
+<SplitDefault {section} {media} variant="peelBleed" />
