@@ -180,7 +180,7 @@
 			<div class="video-split">
 				<div class="min-w-0">{@render content()}</div>
 				<div class="video-split-media min-w-0">
-					<Reveal x={24} y={12} duration={1.1}>
+					<Reveal x={24} y={12} duration={0.8}>
 						<iframe src={embedUrl} title={titleCase(String(section.heading ?? '')) || 'Embedded video'} class="rounded-card block aspect-video w-full border-0" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 					</Reveal>
 				</div>

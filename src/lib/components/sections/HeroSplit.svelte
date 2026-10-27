@@ -62,7 +62,7 @@
 			</Reveal>
 
 			{#if embedUrl || visual}
-				<Reveal immediate delay={0.25} y={24} scale={0.985} duration={1.1} class="pb-12 lg:col-span-7 lg:py-16">
+				<Reveal immediate delay={0.25} y={24} scale={0.985} duration={0.8} class="pb-12 lg:col-span-7 lg:py-16">
 					<div class="hero-visual rounded-panel relative overflow-hidden" class:has-video={Boolean(embedUrl)}>
 						{#if embedUrl}
 							<iframe

@@ -16,7 +16,7 @@
 		y = 28,
 		scale = 1,
 		fade = true,
-		duration = 0.9
+		duration = 0.6
 	}: {
 		children: Snippet;
 		class?: string;
@@ -56,6 +56,11 @@
 					return;
 				}
 
+				// Cards and links carry CSS transitions on opacity/transform for
+				// hover; left on, they re-ease every frame GSAP writes, so the
+				// reveal stalls and then catches up. They are suspended for the
+				// tween and restored when it ends, so hover effects still work.
+				gsap.set(targets, { transition: 'none' });
 				// fromTo avoids inferring a stale inline state as the tween's end value.
 				gsap.fromTo(
 					targets,
@@ -65,7 +70,8 @@
 						duration,
 						delay,
 						ease: 'power1.inOut',
-						stagger: stagger ? 0.09 : 0,
+						stagger: stagger ? 0.06 : 0,
+						onComplete: () => gsap.set(targets, { clearProps: 'transition' }),
 						...(immediate
 							? {}
 							: {
