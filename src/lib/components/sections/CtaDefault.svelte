@@ -99,8 +99,8 @@
 	data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 	data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
 	data-width={enumValue(section.width, ['contained', 'wide', 'full'], 'contained')}
-	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'compact', 'md', 'lg', 'xl'], 'md')}
-	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'compact', 'md', 'lg', 'xl'], 'md')}
+	data-spacing-top={enumValue(section.spacingTop, ['none', 'sm', 'compact', 'md', 'md-compact-phone', 'lg', 'xl'], 'md')}
+	data-spacing-bottom={enumValue(section.spacingBottom, ['none', 'sm', 'compact', 'md', 'md-compact-phone', 'lg', 'xl'], 'md')}
 	data-align={stacked || section.align === 'container' ? 'container' : undefined}
 	style:background-image={light ? undefined : `url("${backdrop.src}")`}
 	style:background-position={light ? undefined : backdrop.position}
