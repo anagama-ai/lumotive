@@ -14,8 +14,8 @@
 	const href = (link?: Link) => link?.url || '#';
 
 	// Only LinkedIn has an approved mark today. An entry with an unknown
-	// platform is skipped rather than rendered without an icon, and the list is
-	// empty until Lumotive supplies the verified company URL.
+	// platform is skipped rather than rendered without an icon. Entries come
+	// from `globals.footer.socialLinks` (Admin → Site settings → Footer).
 	const MARKS: Record<string, string> = {
 		linkedin:
 			'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.71h.05A4.17 4.17 0 0 1 17.6 8.7c3.2 0 4.4 2.02 4.4 5.06V21h-4v-6.41c0-1.53-.03-3.5-2.13-3.5-2.14 0-2.47 1.67-2.47 3.39V21h-3.4V9Z'
@@ -42,18 +42,6 @@
 					height="176"
 				/>
 			</a>
-			{#if socials.length}
-				<nav class="footer-social" aria-label="Lumotive on social media">
-					{#each socials as social (social.url)}
-						<a href={social.url} target="_blank" rel="noreferrer noopener">
-							<span class="sr-only">{social.label}</span>
-							<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-								<path d={social.path} />
-							</svg>
-						</a>
-					{/each}
-				</nav>
-			{/if}
 		</div>
 
 		{#each data.navItems || [] as group, index (index)}
@@ -75,7 +63,18 @@
 	</div>
 
 	<div class="container footer-legal">
-		<p>© {new Date().getFullYear()} {data.copyright || 'Lumotive · Redmond, WA'}</p>
+		<!-- v4 PDF: the LinkedIn mark sits in the legal row, directly before the
+		     copyright line. The URL still comes from `globals.footer.socialLinks`. -->
+		<div class="footer-legal-start">
+			{#each socials as social (social.url)}
+				<a class="footer-social" href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+					<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+						<path d={social.path} />
+					</svg>
+				</a>
+			{/each}
+			<p>© {new Date().getFullYear()} {data.copyright || 'Lumotive · Redmond, WA'}</p>
+		</div>
 		{#if data.legalLinks?.length}
 			<nav aria-label="Legal">
 				{#each data.legalLinks as item, index (index)}
@@ -94,23 +93,27 @@
 </footer>
 
 <style>
-	/* Matches the footer link colour and the 44px target the rest of the footer
-	   uses on small screens. */
-	.footer-social { display: flex; gap: .5rem; margin-top: 1.5rem; }
-	.footer-social a {
+	/* A 16px mark, close to the legal row's .75rem type, inside a 44px target.
+	   Negative margins let the target overlap the row's padding so the row
+	   keeps its height, put the glyph on the container's left edge, and leave
+	   about .5rem between glyph and copyright. */
+	.footer-legal-start { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; }
+	.footer-social {
 		display: inline-flex;
-		min-width: 2.75rem;
-		min-height: 2.75rem;
+		width: 2.75rem;
+		height: 2.75rem;
+		flex: none;
 		align-items: center;
 		justify-content: center;
-		margin-left: -.75rem;
+		margin: -.8125rem -.375rem -.8125rem -.875rem;
 		border-radius: 999px;
-		color: rgb(255 255 255 / 62%);
-		text-decoration: none;
 		transition: color 160ms ease;
 	}
-	.footer-social a:hover { color: #fff; }
+	/* The target is pulled left so the glyph lines up with the container edge;
+	   the ring is drawn just inside the 44px target so it is never clipped at a
+	   phone's left edge. */
+	.footer-social:focus-visible { outline-offset: -3px; }
 	@media (prefers-reduced-motion: reduce) {
-		.footer-social a { transition: none; }
+		.footer-social { transition: none; }
 	}
 </style>

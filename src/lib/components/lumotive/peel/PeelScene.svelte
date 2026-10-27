@@ -15,7 +15,8 @@
 		band,
 		media = {},
 		uncover = true,
-		revealFollow = false
+		revealFollow = false,
+		stage = true
 	}: {
 		children?: Snippet;
 		band?: Section;
@@ -29,6 +30,14 @@
 		 * every other scene keeps waiting for a full viewport of scroll.
 		 */
 		revealFollow?: boolean;
+		/**
+		 * Hold the panel at least one viewport tall from 768px up. A scene that
+		 * centres its content in the pinned frame, fills it with media or is
+		 * uncovered from beneath a cover needs that full stage. A scene whose
+		 * content simply runs top-down does not: on a viewport taller than its
+		 * content, the extra height only trails as empty space after it.
+		 */
+		stage?: boolean;
 	} = $props();
 
 	setContext(IN_PEEL_SCENE, true);
@@ -41,6 +50,7 @@
 		const stickyPanel = panel;
 		const shouldUncover = uncover;
 		const followReveal = revealFollow;
+		const fullStage = stage;
 
 		gsap.registerPlugin(ScrollTrigger);
 
@@ -76,6 +86,21 @@
 			.trim();
 		const unlit = (el: HTMLElement) =>
 			el.closest('[data-peel-from="dim"]') ? 'rgb(255 255 255 / 25%)' : muted;
+		const cover = shouldUncover
+			? (() => {
+					const previous = root.previousElementSibling;
+					return (previous?.matches('[data-peel-cover]')
+						? previous
+						: previous?.querySelector('[data-peel-cover]')) as HTMLElement | null | undefined;
+				})()
+			: null;
+		// A scene that rides a cover's lower edge plays its beats during that
+		// reveal and has no runway of its own, so a viewport-tall panel only adds
+		// empty space after its content. A scene that opts out of the full stage
+		// (`stage={false}`) gets the same content-height panel; its beat runway
+		// is unchanged.
+		const fit = !fullStage || (followReveal && !!cover);
+		stickyPanel.classList.toggle('fit', fit);
 		const mm = gsap.matchMedia();
 
 		mm.add(
@@ -97,14 +122,6 @@
 				}
 
 				const wide = context.conditions?.wide;
-				const cover = shouldUncover
-					? (() => {
-							const previous = root.previousElementSibling;
-							return (previous?.matches('[data-peel-cover]')
-								? previous
-								: previous?.querySelector('[data-peel-cover]')) as HTMLElement | null | undefined;
-						})()
-					: null;
 
 				const size = () => {
 					if (!wide) return;
@@ -236,6 +253,7 @@
 		return () => {
 			mm.revert();
 			root.style.zIndex = '';
+			stickyPanel.classList.remove('fit');
 		};
 	});
 </script>
@@ -272,6 +290,15 @@
 			min-height: 100dvh;
 			overflow: hidden;
 			padding-top: 5rem;
+		}
+
+		/* Content-height panel (see `fit` above). A cover-riding scene's
+		   children start a cover's height below the panel and rise into place,
+		   so the panel must not clip them vertically during that reveal. */
+		.peel-panel:global(.fit) {
+			min-height: 0;
+			overflow-x: clip;
+			overflow-y: visible;
 		}
 	}
 

@@ -55,9 +55,10 @@
 	import TestimonialsPeelScene from './TestimonialsPeelScene.svelte';
 	import Timeline from './Timeline.svelte';
 
-	const PEEL_SUFFIXES = ['PeelScene', 'PeelBento', 'PeelSwap', 'PeelBleed'];
-	const isPeel = (section?: Section) =>
-		!!section && PEEL_SUFFIXES.some((suffix) => section.type.endsWith(suffix));
+	// Section types still rendered inside `PeelScene`, which takes a following
+	// scene band into its panel. Every other section renders in plain flow.
+	const PEEL_TYPES = new Set(['cardsPeelScene', 'cardsPeelSwap', 'splitPeelBleed', 'statsPeelScene']);
+	const isPeel = (section?: Section) => !!section && PEEL_TYPES.has(section.type);
 	const isSceneBand = (section?: Section) =>
 		section?.type === 'logosSceneBand' || section?.type === 'statsSceneBand';
 
@@ -86,7 +87,7 @@
 	{:else if section.type === 'cardsPeelScene'}
 		<CardsPeelScene {section} {media} {band} />
 	{:else if section.type === 'cardsPeelBento'}
-		<CardsPeelBento {section} {media} {band} />
+		<CardsPeelBento {section} {media} />
 	{:else if section.type === 'cardsPeelSwap'}
 		<CardsPeelSwap {section} {media} {band} />
 	{:else if section.type === 'cardsFlowPanels'}
@@ -148,7 +149,7 @@
 	{:else if section.type === 'statsSceneBand'}
 		<StatsSceneBand {section} {media} />
 	{:else if section.type === 'testimonialsPeelScene'}
-		<TestimonialsPeelScene {section} {media} {band} />
+		<TestimonialsPeelScene {section} {media} />
 	{:else if section.type === 'mediaVideoEmbed'}
 		<MediaVideoEmbed {section} {media} />
 	{:else if section.type === 'ctaDefault'}

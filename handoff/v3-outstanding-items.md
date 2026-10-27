@@ -36,7 +36,7 @@ The sitewide release cleanup is done: S11, S13–S17, plus S18 and S26 (both sti
 Each question appears once here. The package's "leave it out rather than publish a placeholder" rule applies: anything below may ship omitted.
 
 **Supply (assets and copy)**
-1. **LinkedIn company URL** (S1). One URL turns on the footer icon and the follow lines on About, Culture, News and Contact (AB4, CU2, CT3; N6 also needs N2 and N3).
+1. ~~**LinkedIn company URL** (S1).~~ **Resolved locally 2026-10-27:** `https://www.linkedin.com/company/lumotive/home/` supplied; the footer icon is live through migration `1787718000`. The follow lines on About, Culture, News and Contact (AB4, CU2, CT3; N6 also needs N2 and N3) are not in the page data, so the URL does not switch them on by itself: each is still a content addition to approve and add.
 2. **Privacy Policy (S2) — resolved locally 2026-10-23.** Reuse of the current published policy was explicitly approved; `/privacy-policy` now returns 200 with verbatim legal text. Not yet deployed. See `final-qa-handoff.md`, Privacy Policy.
 3. **Pipedrive web-form setup** (S3, done by Lumotive's Pipedrive admin and coordinated with Josh): three hidden fields reading `inquiry`, `source_page` and `campaign`.
 4. **Office address correction** (CT1, #137).
@@ -117,7 +117,7 @@ Each question appears once here. The package's "leave it out rather than publish
 3. **Proposals for Claudia:** a default social preview image (S12) and the Webvizio image-task mapping (S10).
 4. **`vite.config.ts`:** commit it on its own, or drop it (S25).
 5. **Wire inputs when they arrive:**
-   - the LinkedIn URL (S1) and the News follow block (N6, after S1, N2 and N3);
+   - the News follow block (N6, after N2 and N3; the LinkedIn URL is now known);
    - the held NM120 tiles and "Modular by Design" (F2–F4);
    - the provider strips (SE5/SE6/D4/PA2).
 6. **PocketBase rate limit (S27):** option (1), the public-globals cache, is built and tested locally (see S27). Options (2)/(3) still wait for Josh's network layout.
@@ -162,7 +162,7 @@ None of this has started. Nothing is marked done without evidence.
 
 | ID | Section / rule | Cat. | Status | What is needed | Owner | Blocks | Evidence |
 |---|---|---|---|---|---|---|---|
-| S1 | Footer LinkedIn icon + "Follow Lumotive on LinkedIn…" line (About, Culture, News, Contact) | Tech | Verify | Confirm the company URL. Candidate `https://www.linkedin.com/company/lumotive` answers 200 but is not confirmed. One URL unblocks five places. | Lumotive | Yes | `globals.footer.socialLinks` empty; `Footer.svelte` icon ready; PDF p01, p17, p18, p20, p21 |
+| S1 | Footer LinkedIn icon + "Follow Lumotive on LinkedIn…" line (About, Culture, News, Contact) | Tech | **Footer resolved locally 2026-10-27** | Supplied URL `https://www.linkedin.com/company/lumotive/home/`. Migration `1787718000` adds it to `globals.footer.socialLinks` (reversible; an editor manages it under Footer → Social links). The icon shows on every page in a new tab (`rel="noreferrer noopener"`, name "Lumotive on LinkedIn (opens in a new tab)", 44×44 target, visible amber focus ring). The follow lines (AB4, CU2, CT3, N6) do not exist in page data and are not switched on by this; adding them is a separate approved content change. `globals.seo.socialChannels` and site-meta "Social accounts" stay empty: no public component reads them (S30). | Us | Yes | `1787718000_footer_linkedin.js`; `Footer.svelte` |
 | S2 | `/privacy-policy` (footer legal link on every page) | Ours | **Resolved locally 2026-10-23** | User explicitly approved reuse of `https://lumotive.com/privacy-policy/`. Migration `1787717700` creates the published CMS page; “Last modified: March 26, 2026”, sections 1–10, all paragraphs/bullets/contact details and seven links are verbatim. Non-US and Contact navigation work with sticky-header offsets. Footer link returns 200. Verified at 360/390/430/768/1440, no overflow; check/build pass. No push/merge/deploy; staging unchanged. | Us | No (local); deploy pending | `final-qa-handoff.md`, Privacy Policy; `%TEMP%\lumotive-review\privacy-policy\` |
 | S3 | Contact-form hidden fields (inquiry, source page, campaign) | Tech | Missing | Pipedrive admin adds three Text custom fields and three **Hidden fields** on the web form, value source "JavaScript variable", names exactly `inquiry`, `source_page`, `campaign`, then publishes; also adds them to the notification email. No API keys needed. The site side is rebuilt (2026-10-21) and proven through Pipedrive's loader; until the form is configured, no submission carries the values. Then one consented staging test submission (S28). | Lumotive Pipedrive admin (via Josh) | Yes | `FormPipedrive.svelte`; `page-21-contact.md` v3 pass |
 | S4 | Preselect "I am interested in" from `?inquiry=` | Decision | Verify | Optional per page 02. Not possible from the page: JavaScript variables only fill hidden fields, and Pipedrive does not prefill visible fields from the URL. Drop it, or ask Pipedrive / use separate forms per inquiry? | Lumotive | No | `page-21-contact.md` v3 pass |
