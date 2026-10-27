@@ -83,8 +83,11 @@ reveals with its own `Reveal`, like any flow band.
 
 **Unchanged.** Card markup, images, overlays, copy, link and grid are
 unchanged. The heading-to-grid gap (166px at 1920), card sizes and positions
-match the approved frame. The cards' hover lift is cancelled by `Reveal`'s
-inline GSAP styles, exactly as on the News cards; the shadow still appears.
+match the approved frame. Each card sits in a wrapper div that is the grid
+item and takes `Reveal`'s inline GSAP styles. The card inside fills it and
+keeps its 4px hover lift and shadow, which the reveal used to cancel (the
+News cards still have that limitation). Verified at 1440, 1024, 768 and 390:
+identical card geometry, 4px lift on hover, no inline styles on the card.
 
 **Untouched.** `PeelScene`, "One Chip" (z-index 40, −1080px lift, 1825px
 wrapper at 1920×1080) and the News section are untouched.

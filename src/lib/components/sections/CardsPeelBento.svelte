@@ -53,9 +53,14 @@
 				{@const solid = !image}
 				{@const amber = solid && card.accent === 'accent3'}
 				{@const darkText = amber || (solid && card.accent !== 'accent2')}
+				<!-- `Reveal` animates the grid's direct children with inline GSAP
+				     transforms, which would cancel a hover translate on the same
+				     element. The wrapper is the grid item and takes the reveal; the card
+				     inside fills it (single-cell grid) and keeps the lift and shadow. -->
+				<div class={`grid ${bento && index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''} ${bento && index === 2 ? 'lg:row-span-2' : ''} ${bento && index === 4 ? 'lg:col-span-3' : ''}`}>
 				<svelte:element
 					this={link.href ? 'a' : 'article'}
-					class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${bento && index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''} ${bento && index === 2 ? 'lg:row-span-2' : ''} ${bento && index === 4 ? 'lg:col-span-3' : ''} ${solid ? bar(card.accent) : 'bg-surface'}${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
+					class={`rounded-card group relative flex min-h-72 flex-col overflow-hidden p-8 transition duration-300 hover:-translate-y-1 hover:shadow-card motion-reduce:transform-none motion-reduce:transition-none ${solid ? bar(card.accent) : 'bg-surface'}${link.href ? ' no-underline focus-visible:outline-2 focus-visible:outline-offset-4' : ''}`}
 					href={link.href || undefined}
 					target={link.href && link.newTab ? '_blank' : undefined}
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
@@ -78,6 +83,7 @@
 						{/if}
 					</div>
 				</svelte:element>
+				</div>
 			{/each}
 		</Reveal>
 		{#if sectionLink}
