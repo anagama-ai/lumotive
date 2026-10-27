@@ -4,11 +4,25 @@
 
 	let { section }: { section: Section } = $props();
 	let legal = $derived(section.layout === 'legal');
+
+	// Legal headings arrive from the source document as "1." followed by a run
+	// of non-breaking spaces standing in for a tab, which set a wide and uneven
+	// gap (five for 1–9, one for 10). For legal pages only, the number goes into
+	// its own span (with any empty anchor targets ahead of it, so in-page links
+	// still land) and the title into another; the whitespace run becomes one
+	// space, so the text reads "1. Introduction." The stored copy is unchanged.
+	const NUMBERED_HEADING = /(<h2\b[^>]*>)((?:<a\b[^>]*><\/a>)*)(\d+\.)[\s\u00a0]+([\s\S]*?)<\/h2>/g;
+	const numberHeadings = (html: string) =>
+		html.replace(NUMBERED_HEADING, '$1<span class="legal-num">$2$3</span> <span class="legal-title">$4</span></h2>');
+	let html = $derived.by(() => {
+		const source = rewriteRichTextImages(String(section.html ?? ''));
+		return legal ? numberHeadings(source) : source;
+	});
 </script>
 
 {#if section.html}
 	<section class="section" class:legal>
-		<div class="container prose">{@html rewriteRichTextImages(String(section.html))}</div>
+		<div class="container prose">{@html html}</div>
 	</section>
 {/if}
 
@@ -23,4 +37,17 @@
 	.legal :global(li + li) { margin-top: .5rem; }
 	.legal :global([id]) { scroll-margin-top: 6rem; }
 	.legal :global(a[href]) { color: var(--color-brand-blue-dark); }
+	/* A numbered heading sets its number in a column wide enough for "10.",
+	   right-aligned so the gap after every number is the same, and wrapped
+	   title lines stay aligned with the first. */
+	.legal :global(h2:has(> .legal-num)) {
+		display: grid;
+		grid-template-columns: 2.25ch minmax(0, 1fr);
+		column-gap: calc(var(--spacing) * 4);
+		align-items: baseline;
+	}
+	.legal :global(.legal-num) { justify-self: end; }
+	@media (min-width: 768px) {
+		.legal :global(h2:has(> .legal-num)) { column-gap: calc(var(--spacing) * 5); }
+	}
 </style>
