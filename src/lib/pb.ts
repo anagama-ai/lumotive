@@ -30,5 +30,6 @@ const pbUrl = () => {
 export const createPB = () => new PocketBase(pbUrl()).autoCancellation(false);
 
 /** Internal URL of a file stored on a PocketBase record. */
+// Encode each path segment so special characters stay within their segment.
 export const pbFileUrl = (collection: string, recordId: string, filename: string) =>
 	`${pbUrl()}/api/files/${encodeURIComponent(collection)}/${encodeURIComponent(recordId)}/${encodeURIComponent(filename)}`;
