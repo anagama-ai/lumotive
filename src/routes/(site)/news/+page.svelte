@@ -103,11 +103,6 @@
 			<div class="news-grid">
 				{#each data.posts as post (post.slug)}
 					<a class="news-card" href={`/posts/${post.slug}`}>
-						{#if post.image}
-							<div class="card-media">
-								<img src={post.image} alt="" width="800" height="450" loading="lazy" />
-							</div>
-						{/if}
 						<div class="card-copy">
 							<div class="meta">
 								{#if post.category}<span class="type">{typeLabel(post.category)}</span>{/if}
@@ -156,7 +151,7 @@
 	.featured:hover { transform: translateY(-.25rem); box-shadow: var(--shadow-card); }
 	@media (min-width: 768px) { .featured { grid-template-columns: 1.15fr 1fr; gap: 2.5rem; padding: 2rem; } }
 	.featured-media { overflow: hidden; border-radius: var(--radius-card); aspect-ratio: 16 / 9; background: var(--color-background); }
-	.featured-media img, .card-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+	.featured-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
 	.featured-copy p { color: var(--color-text); }
 	/* Matches the primary action elsewhere: a bare utility loses to the global
 	   anchor colour, so the pill is styled in scoped CSS. */
@@ -181,7 +176,6 @@
 	.news-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
 	.news-card { display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
 	.news-card:hover { transform: translateY(-.25rem); box-shadow: var(--shadow-card); }
-	.card-media { aspect-ratio: 16 / 9; background: var(--color-background); }
 	.card-copy { display: flex; flex: 1; flex-direction: column; padding: 1.75rem; }
 	.news-card h3 { text-wrap: balance; }
 	.news-card p { color: var(--color-text); }
