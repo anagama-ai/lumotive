@@ -44,7 +44,7 @@
 	>
 		<div class="lumo-inner">
 			<Reveal delay={0}>
-				{#if heading}<p class="text-eyebrow marquee-heading uppercase">{heading}</p>{/if}
+				{#if heading}<h2 class="text-eyebrow marquee-heading uppercase">{heading}</h2>{/if}
 			</Reveal>
 			<div class="marquee-window" aria-label={heading || 'Partner logos'}>
 				<div class="marquee-lane">

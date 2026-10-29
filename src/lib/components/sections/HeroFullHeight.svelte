@@ -216,7 +216,7 @@
 	}
 	.hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 20%, rgb(4 13 31 / 76%) 55%, rgb(6 101 214 / 40%)); }
 	.hero-copy { padding-block: clamp(4rem, 9vw, 7rem); }
-	.hero-copy h1 { max-width: 13ch; margin: 0; letter-spacing: -.055em; line-height: .9; text-transform: uppercase; text-wrap: balance; }
+	.hero-copy h1 { max-width: 13ch; margin: 0; letter-spacing: -.055em; line-height: 1.05; text-transform: uppercase; text-wrap: balance; }
 	/* Webvizio #138 / rule 15: at -.055em mixed-case Oswald glyphs touch
 	   ("ra", "gn", "ta", "rt"; measured by rendering each adjacent pair).
 	   -.03em clears every pair but "vy", which keeps a 2px² sliver at 88px.

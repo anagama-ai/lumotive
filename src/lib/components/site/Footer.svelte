@@ -42,6 +42,13 @@
 					height="176"
 				/>
 			</a>
+			{#each socials as social (social.url)}
+				<a class="footer-social footer-social--brand" href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+					<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+						<path d={social.path} />
+					</svg>
+				</a>
+			{/each}
 		</div>
 
 		{#each data.navItems || [] as group, index (index)}
@@ -63,16 +70,7 @@
 	</div>
 
 	<div class="container footer-legal">
-		<!-- v4 PDF: the LinkedIn mark sits in the legal row, directly before the
-		     copyright line. The URL still comes from `globals.footer.socialLinks`. -->
 		<div class="footer-legal-start">
-			{#each socials as social (social.url)}
-				<a class="footer-social" href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
-					<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-						<path d={social.path} />
-					</svg>
-				</a>
-			{/each}
 			<p>© {new Date().getFullYear()} {data.copyright || 'Lumotive · Redmond, WA'}</p>
 		</div>
 		{#if data.legalLinks?.length}
@@ -112,6 +110,8 @@
 	/* The target is pulled left so the glyph lines up with the container edge;
 	   the ring is drawn just inside the 44px target so it is never clipped at a
 	   phone's left edge. */
+	.footer-brand { display: flex; flex-direction: column; align-items: flex-start; }
+	.footer-social--brand { margin: .75rem 0 0 -.875rem; }
 	.footer-social:focus-visible { outline-offset: -3px; }
 	@media (prefers-reduced-motion: reduce) {
 		.footer-social { transition: none; }

@@ -156,7 +156,7 @@
 	   left column, held in view while the long form scrolls, and the form
 	   panel takes the right column. Phones and tablets keep the stack. */
 	@media (min-width: 1024px) {
-		.form-column.split { display: grid; max-width: none; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: clamp(2.5rem, 6vw, 5rem); }
+		.form-column.split { display: grid; max-width: none; grid-template-columns: minmax(0, 1fr) minmax(0, 42rem); align-items: start; gap: clamp(2.5rem, 6vw, 5rem); }
 		.split .form-head { margin-bottom: 0; }
 	}
 	.offices { display: grid; gap: 1.5rem; margin: 0 0 2.5rem; padding: 0; list-style: none; }
@@ -168,19 +168,15 @@
 		.split .form-head + .offices { margin: 2.5rem 0 0; }
 	}
 
-	/* Pipedrive renders the form itself at most 480px wide and centres it
-	   inside its iframe (`max-width: 480px; margin: 0 auto` in its own CSS,
-	   for every style option), so a wider panel only adds empty space inside
-	   the frame: 140px a side at 1440. The panel therefore hugs that width,
-	   and its own side padding is the whole gutter: 20px on phones, 36px from
-	   768px. On phones the iframe is narrower than 480px and the fields fill
-	   it. The panel keeps the section's left edge; vertical padding is
-	   unchanged.
+	/* Panel widened to 42rem per annotation request. Pipedrive still renders
+	   its fields at most 480px wide and centres them inside its iframe, so
+	   the extra panel width is breathing room around the form. Side padding
+	   is the gutter: 20px on phones, 36px from 768px.
 	   The min-height matches the live embed's measured height so the section
 	   does not collapse while Pipedrive loads and expands its iframe. */
 	.form-frame {
 		--form-gutter: 1.25rem;
-		max-width: calc(480px + 2 * var(--form-gutter));
+		max-width: 42rem;
 		border-radius: var(--radius-panel);
 		background: var(--color-surface);
 		padding: clamp(1rem, 3vw, 2.5rem) var(--form-gutter);
