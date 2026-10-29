@@ -41,6 +41,7 @@
 	// `columns: "1"`: one card per row at every width, so a single card spans
 	// the content width of a multi-card row below it (the /dev-kits TX10 card
 	// above the iToF row, as PDF page 12 prints it). Unset elsewhere.
+	let threeUp = $derived(String(section.columns ?? '') === '3');
 	let oneUp = $derived(String(section.columns ?? '') === '1');
 	// Desktop column count. Unset keeps the historic behaviour exactly: two-up,
 	// widening to three only for a three-card section. `columns: "4"` opts a
@@ -52,7 +53,7 @@
 			? 'grid gap-6 sm:grid-cols-2 lg:grid-cols-4'
 			: oneUp
 				? 'grid gap-6'
-				: `grid gap-6 md:grid-cols-2 ${cards.length === 3 ? 'lg:grid-cols-3' : ''}`
+				: `grid gap-6 md:grid-cols-2 ${threeUp || cards.length === 3 ? 'lg:grid-cols-3' : ''}`
 	);
 	// Phone-only spacing override (app.css): xs | sm | md, else unset.
 	const phoneSpacing = (value: unknown) => (['xs', 'sm', 'md'].includes(String(value)) ? String(value) : undefined);

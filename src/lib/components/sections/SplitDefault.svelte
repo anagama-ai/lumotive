@@ -65,17 +65,20 @@
 </script>
 
 {#snippet copy()}
-	{#if section.eyebrow}<p class="text-eyebrow split-eyebrow uppercase">{String(section.eyebrow)}</p>{/if}
-	{#if heading}<h2 class="font-display text-heading">{heading}</h2>{/if}
-	{#if section.body}<div class="text-lead split-body">{@html String(section.body)}</div>{/if}
-	{#if section.linkLabel && section.linkUrl}
-		<a
-			class="split-link"
-			href={String(section.linkUrl)}
-			target={linkNewTab ? '_blank' : undefined}
-			rel={linkNewTab ? 'noreferrer' : undefined}
-		>{String(section.linkLabel)} <span aria-hidden="true">→</span></a>
-	{/if}
+	<div class:compare-layout={mediaBelow && hasCompare}>
+	<div>
+			{#if section.eyebrow}<p class="text-eyebrow split-eyebrow uppercase">{String(section.eyebrow)}</p>{/if}
+			{#if heading}<h2 class="font-display text-heading">{heading}</h2>{/if}
+			{#if section.body}<div class="text-lead split-body">{@html String(section.body)}</div>{/if}
+			{#if section.linkLabel && section.linkUrl}
+				<a
+					class="split-link"
+					href={String(section.linkUrl)}
+					target={linkNewTab ? '_blank' : undefined}
+					rel={linkNewTab ? 'noreferrer' : undefined}
+				>{String(section.linkLabel)} <span aria-hidden="true">→</span></a>
+			{/if}
+	</div>
 	{#if hasCompare}
 		<div class="compare">
 			{#each [{ label: section.problemLabel, list: problemItems, mark: '✕', tone: 'problem' }, { label: section.solutionLabel, list: solutionItems, mark: '✓', tone: 'solution' }] as column (column.tone)}
@@ -98,6 +101,7 @@
 			{/each}
 		</div>
 	{/if}
+	</div>
 {/snippet}
 
 <section
@@ -110,6 +114,7 @@
 	class:no-media={variant === 'default' && !embedUrl && !visual}
 	class:media-below={mediaBelow}
 	class:phone-scroll={phoneScroll}
+	class:compare-beside={mediaBelow && hasCompare}
 	id={section.anchor ? String(section.anchor) : undefined}
 	data-background={section.background ?? 'none'}
 	data-width={section.width ?? 'contained'}
@@ -164,11 +169,16 @@
 </section>
 
 <style>
+	.compare-layout { display: grid; gap: 2.5rem; }
+	.compare-layout .compare { margin-top: 0; }
+	@media (min-width: 1024px) {
+		.compare-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
+	}
 	.compare { display: grid; gap: 2.5rem; margin-top: 2.5rem; }
 	@media (min-width: 768px) { .compare { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 5vw, 4rem); } }
 	.compare-label { margin: 0 0 .5rem; color: var(--color-ink); font-weight: 650; }
 	.compare ul { margin: 0; padding: 0; list-style: none; }
-	.compare li { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: .75rem; padding-block: 1.25rem; border-top: 1px solid var(--color-border); }
+	.compare li { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: .75rem; padding-block: 1.25rem; }
 	.compare-mark { display: grid; width: 1.5rem; height: 1.5rem; place-items: center; border-radius: .375rem; font-size: .8rem; font-weight: 700; }
 	.problem .compare-mark { color: var(--color-brand-red); background: color-mix(in srgb, var(--color-brand-red) 10%, var(--color-surface)); }
 	.solution .compare-mark { color: var(--color-brand-green); background: color-mix(in srgb, var(--color-brand-green) 12%, var(--color-surface)); }
@@ -228,6 +238,7 @@
 	.media-below .split-layout { grid-template-columns: 1fr; gap: 2.5rem; }
 	.media-below .art-column { order: 2; }
 	.media-below .copy-column { order: 1; max-width: 48rem; }
+	.media-below.compare-beside .copy-column { max-width: none; }
 	.media-below .art-frame:focus-visible { outline: 2px solid var(--color-brand-blue-dark); outline-offset: 3px; }
 	@media (min-width: 768px) {
 		.media-below .media-capped { width: fit-content; max-width: 100%; }
