@@ -175,7 +175,7 @@
 					<!-- The package prints a lead-in before the secondary action
 					     ("Designing at the chip level? Explore LCM chips →"), so the
 					     note sits with that link rather than under the pair. -->
-					{#if index === 1 && note}<span class="cta-note">{note}</span>{/if}
+					{#if index === 1 && note}<span class="cta-note" class:font-bold={note === 'Designing at the chip level?'}>{note}</span>{/if}
 					{#if index === 0}
 						<a class="cta-button" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
 					{:else}

@@ -28,10 +28,17 @@
 
 <Breadcrumbs breadcrumbs={data.breadcrumbs} />
 
-<Sections
-	sections={renderedPage.sections}
-	media={data.media}
-	forms={data.forms}
-	posts={data.posts}
-	result={form}
-/>
+<div class="page-sections" class:uniform-headings={route.url.pathname === '/dev-kits/itof'}>
+	<Sections
+		sections={renderedPage.sections}
+		media={data.media}
+		forms={data.forms}
+		posts={data.posts}
+		result={form}
+	/>
+</div>
+
+<style>
+	.page-sections { display: contents; }
+	.uniform-headings :global(h2) { font-size: var(--text-statement); line-height: var(--text-statement--line-height); }
+</style>

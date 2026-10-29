@@ -11,6 +11,7 @@
 		prefix?: unknown;
 		suffix?: unknown;
 		description?: unknown;
+		body?: unknown;
 	};
 
 	let { section, media }: { section: Section; media: MediaMap } = $props();
@@ -157,7 +158,7 @@
 						{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 					</div>
 					<Reveal stagger="dl > *" delay={0.1}>
-						<dl class={`${compactMobile ? 'mt-6 md:mt-12' : 'mt-12'} grid gap-6 sm:grid-cols-2 ${traitColumns}`}>
+						<dl class={`${compactMobile ? 'mt-6 md:mt-12' : 'mt-12'} mb-0 grid gap-6 sm:grid-cols-2 ${traitColumns}`}>
 							{#each stats as stat, index (index)}
 								<div class="rounded-card border-border bg-surface flex flex-col border p-6">
 									<!-- The accent cycle lives on the rule, which is decorative and
@@ -166,11 +167,16 @@
 									     the one number that matters below the floor; the value takes
 									     Optical Ink at 18:1 instead. -->
 									<span aria-hidden="true" class={`mb-5 block h-1 w-8 rounded-full ${accentBar(index)}`}></span>
+									{#if stat.body}
+										<dt class="font-display text-subheading text-ink">{String(stat.label ?? '')}</dt>
+										<dd class="mt-3 ml-0 text-base leading-relaxed [&_p]:m-0">{@html String(stat.body)}</dd>
+									{:else}
 									<dt class="text-eyebrow text-ink uppercase">{String(stat.label ?? '')}</dt>
 									<dd class="font-display text-heading text-ink mt-3 ml-0">
 										{String(stat.prefix ?? '')}{String(stat.value ?? '')}{String(stat.suffix ?? '')}
 									</dd>
 									{#if stat.description}<dd class="text-spec text-text mt-2 ml-0">{String(stat.description)}</dd>{/if}
+									{/if}
 								</div>
 							{/each}
 						</dl>
