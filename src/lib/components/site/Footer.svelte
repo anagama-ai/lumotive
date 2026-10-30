@@ -91,29 +91,11 @@
 </footer>
 
 <style>
-	/* A 16px mark, close to the legal row's .75rem type, inside a 44px target.
-	   Negative margins let the target overlap the row's padding so the row
-	   keeps its height, put the glyph on the container's left edge, and leave
-	   about .5rem between glyph and copyright. */
 	.footer-legal-start { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; }
-	.footer-social {
-		display: inline-flex;
-		width: 2.75rem;
-		height: 2.75rem;
-		flex: none;
-		align-items: center;
-		justify-content: center;
-		margin: -.8125rem -.375rem -.8125rem -.875rem;
-		border-radius: 999px;
-		transition: color 160ms ease;
-	}
-	/* The target is pulled left so the glyph lines up with the container edge;
-	   the ring is drawn just inside the 44px target so it is never clipped at a
-	   phone's left edge. */
-	.footer-brand { display: flex; flex-direction: column; align-items: flex-start; }
-	.footer-social--brand { margin: .75rem 0 0 -.875rem; }
-	.footer-social:focus-visible { outline-offset: -3px; }
-	@media (prefers-reduced-motion: reduce) {
-		.footer-social { transition: none; }
-	}
+ .footer-brand { display: flex; flex-direction: column; align-items: flex-start; }
+ .footer-brand .footer-social { display: inline-flex; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; margin-top: 1rem; border: 1px solid var(--color-footer-border); border-radius: 50%; background: var(--color-footer-button); color: var(--color-footer-mark); transition: background 160ms ease, border-color 160ms ease; }
+ .footer-social svg { width: 1.25rem; height: 1.25rem; }
+ .footer-brand .footer-social:hover, .footer-brand .footer-social:focus-visible { background: var(--color-primary); border-color: var(--color-primary); }
+ .footer-social:focus-visible { outline: 2px solid var(--color-footer-mark); outline-offset: 3px; }
+ @media (prefers-reduced-motion: reduce) { .footer-brand .footer-social { transition: none; } }
 </style>

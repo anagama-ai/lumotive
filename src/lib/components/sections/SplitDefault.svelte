@@ -68,7 +68,7 @@
 	<div class:compare-layout={mediaBelow && hasCompare}>
 	<div>
 			{#if section.eyebrow}<p class="text-eyebrow split-eyebrow uppercase">{String(section.eyebrow)}</p>{/if}
-			{#if heading}<h2 class="font-display text-heading">{heading}</h2>{/if}
+			{#if heading}<h2 class="font-display text-section-title">{heading}</h2>{/if}
 			{#if section.body}<div class="text-lead split-body">{@html String(section.body)}</div>{/if}
 			{#if section.linkLabel && section.linkUrl}
 				<a

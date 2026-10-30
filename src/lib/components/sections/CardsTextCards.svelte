@@ -197,7 +197,7 @@
 		{#snippet sectionHead()}
 			<Reveal><div class="section-head mb-12 max-w-4xl">
 				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-3 uppercase">{String(section.eyebrow)}</p>{/if}
-				{#if section.heading}<h2 class="font-display text-statement text-ink mt-0 whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
+				{#if section.heading}<h2 class="font-display text-section-title text-ink mt-0 whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 				{#if statement}<p class="text-lead text-ink mt-4 font-medium">{statement}</p>{/if}
 			</div></Reveal>
