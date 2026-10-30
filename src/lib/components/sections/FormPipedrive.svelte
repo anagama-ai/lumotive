@@ -161,17 +161,27 @@
 
 	.form-frame {
 		--form-gutter: 1.25rem;
+		--form-zoom: 1;
 		width: 100%;
+		max-width: 760px;
 		border-radius: var(--radius-panel);
 		background: var(--color-surface);
 		padding: clamp(1rem, 3vw, 2.5rem) var(--form-gutter);
 	}
-	.pipedriveWebForms { min-height: 1300px; }
-	/* Override the loader's 768px cap; leave its inline auto-height intact.
-	   Font size is configured in Pipedrive's Style editor (cross-origin iframe). */
-	.pipedriveWebForms :global(iframe) { display: block; width: 100%; max-width: none; min-height: 1300px; border: 0; }
+	/* Zoom participates in layout, preserving the loader's inline auto-height. */
+	.pipedriveWebForms { min-height: calc(1100px * var(--form-zoom)); }
+	.pipedriveWebForms :global(iframe) {
+		display: block;
+		zoom: var(--form-zoom);
+		width: calc(100% / var(--form-zoom));
+		max-width: none;
+		border: 0;
+	}
 
 	@media (min-width: 768px) {
-		.form-frame { --form-gutter: 2.25rem; }
+		.form-frame { --form-gutter: 2.25rem; --form-zoom: 1.15; }
+	}
+	@media (min-width: 1024px) {
+		.form-frame { --form-zoom: 1.4; }
 	}
 </style>
