@@ -173,7 +173,7 @@
 	.pipedriveWebForms :global(iframe) {
 		display: block;
 		zoom: var(--form-zoom);
-		width: calc(100% / var(--form-zoom));
+		width: 100%;
 		max-width: none;
 		border: 0;
 	}

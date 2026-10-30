@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { resolveMedia, type MediaMap } from '$lib/media';
 	import type { Section } from '$lib/sections';
 	import { titleCase } from '$lib/titlecase';
@@ -37,6 +38,7 @@
 	// full-bleed 16:9 crop. For transparent product cut-outs. Unset on every
 	// other section, which keeps the full-bleed photo.
 	let panel = $derived(String(section.mediaFrame ?? '') === 'panel');
+	let horizontalKits = $derived(panel && page.url.pathname.replace(/\/$/, '') === '/dev-kits');
 	let fourUp = $derived(String(section.columns ?? '') === '4');
 	// `columns: "1"`: one card per row at every width, so a single card spans
 	// the content width of a multi-card row below it (the /dev-kits TX10 card
@@ -49,7 +51,9 @@
 	// otherwise set as four ragged rows of two. Classes are written out in full
 	// so Tailwind emits them.
 	let gridClass = $derived(
-		fourUp
+		horizontalKits
+			? `grid gap-6 ${oneUp ? '' : 'md:grid-cols-2'} lg:grid-cols-1`
+			: fourUp
 			? 'grid gap-6 sm:grid-cols-2 lg:grid-cols-4'
 			: oneUp
 				? 'grid gap-6'
@@ -87,8 +91,9 @@
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
 				>
 					{#if image && !panel}<div class="relative aspect-video w-full overflow-hidden"><img class="absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
-					<div class="card-pad flex flex-1 flex-col p-8">
+					<div class="card-pad flex flex-1 flex-col p-8" class:horizontal-kit={horizontalKits}>
 						{#if image && panel}<div class="kit-panel bg-background mb-6 overflow-hidden rounded-lg"><img class="size-full object-contain p-5 motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" /></div>{/if}
+						<div class="card-copy">
 						<!-- Optical Ink, and Laser Blue on the action below: at these
 						     sizes Signal Green measures 3.19:1 and Optical Amber less
 						     still on the white card. The accent cycle stays on
@@ -104,6 +109,7 @@
 						{#if card.body}<div class="card-body mt-2 text-base leading-relaxed">{@html card.body}</div>{/if}
 						{#if card.badge}<span class="text-spec bg-background text-ink mt-4 self-start rounded-full px-3 py-1">{card.badge}</span>{/if}
 						{#if link.href && link.label}<span class="card-link text-brand-blue mt-7 inline-flex items-center gap-2 self-start text-base font-medium">{link.label}<svg aria-hidden="true" viewBox="0 0 16 16" class="size-4 transition-transform duration-200 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none" fill="none"><path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></span>{/if}
+						</div>
 					</div>
 				</svelte:element>
 			{/each}
@@ -163,6 +169,12 @@
 	.section-note { color: var(--color-text); font-size: var(--text-spec); line-height: 1.5; }
 	/* Kit panel: one height across every family row, so a single TX10 card,
 	   a row of three and a row of two all frame their products alike. */
+	.card-copy { display: contents; }
+	@media (min-width: 1024px) {
+		.horizontal-kit { display: grid; grid-template-columns: minmax(0, 58fr) minmax(0, 42fr); gap: 2rem; align-items: center; }
+		.horizontal-kit .card-copy { display: flex; flex-direction: column; grid-column: 1; grid-row: 1; min-width: 0; }
+		.horizontal-kit .kit-panel { grid-column: 2; grid-row: 1; margin-bottom: 0; }
+	}
 	.kit-panel { height: 12rem; }
 	@media (min-width: 768px) { .kit-panel { height: 14rem; } }
 </style>
