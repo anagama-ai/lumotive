@@ -42,13 +42,7 @@
 					height="176"
 				/>
 			</a>
-			{#each socials as social (social.url)}
-				<a class="footer-social footer-social--brand" href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
-					<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-						<path d={social.path} />
-					</svg>
-				</a>
-			{/each}
+
 		</div>
 
 		{#each data.navItems || [] as group, index (index)}
@@ -71,6 +65,13 @@
 
 	<div class="container footer-legal">
 		<div class="footer-legal-start">
+			{#each socials as social (social.url)}
+				<a class="footer-social" href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+					<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+						<path d={social.path} />
+					</svg>
+				</a>
+			{/each}
 			<p>© {new Date().getFullYear()} {data.copyright || 'Lumotive · Redmond, WA'}</p>
 		</div>
 		{#if data.legalLinks?.length}
@@ -91,11 +92,10 @@
 </footer>
 
 <style>
-	.footer-legal-start { display: flex; flex-wrap: wrap; align-items: center; min-width: 0; }
- .footer-brand { display: flex; flex-direction: column; align-items: flex-start; }
- .footer-brand .footer-social { display: inline-flex; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; margin-top: 1rem; border: 1px solid var(--color-footer-border); border-radius: 50%; background: var(--color-footer-button); color: var(--color-footer-mark); transition: background 160ms ease, border-color 160ms ease; }
- .footer-social svg { width: 1.25rem; height: 1.25rem; }
- .footer-brand .footer-social:hover, .footer-brand .footer-social:focus-visible { background: var(--color-primary); border-color: var(--color-primary); }
+	.footer-legal-start { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+ .footer-social { display: inline-flex; width: 2.25rem; height: 2.25rem; min-height: 2.25rem; flex-shrink: 0; align-items: center; justify-content: center; border: 1px solid var(--color-footer-border); border-radius: 50%; background: var(--color-footer-button); color: var(--color-footer-mark); transition: background 160ms ease, border-color 160ms ease; }
+ .footer-social svg { width: 1rem; height: 1rem; }
+ .footer-social:hover, .footer-social:focus-visible { background: var(--color-primary); border-color: var(--color-primary); }
  .footer-social:focus-visible { outline: 2px solid var(--color-footer-mark); outline-offset: 3px; }
- @media (prefers-reduced-motion: reduce) { .footer-brand .footer-social { transition: none; } }
+ @media (prefers-reduced-motion: reduce) { .footer-social { transition: none; } }
 </style>

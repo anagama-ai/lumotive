@@ -224,8 +224,8 @@ main:has(.hero-split) .lumo-section:not(.hero-split, .bg-panel, .bg-ink, .peel-b
 .footer-brand p { max-width: 28rem; margin: 1.5rem 0 0; color: rgb(255 255 255 / 55%); font-size: var(--text-spec); }
 .footer-group h2 { margin: 0 0 1rem; color: #fff; font-family: var(--font-body); font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .footer-group nav { display: grid; gap: .7rem; }
-.footer-group a, .footer-legal a, .footer-brand .footer-social { color: rgb(255 255 255 / 62%); font-size: .82rem; text-decoration: none; }
-.footer-group a:hover, .footer-legal a:hover, .footer-brand .footer-social:hover { color: #fff; }
+.footer-group a, .footer-legal a { color: rgb(255 255 255 / 62%); font-size: .82rem; text-decoration: none; }
+.footer-group a:hover, .footer-legal a:hover { color: #fff; }
 .footer-legal { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.35rem; border-top: 1px solid rgb(255 255 255 / 12%); }
 .footer-legal p { margin: 0; color: rgb(255 255 255 / 45%); font-size: .75rem; }
 .footer-legal nav { display: flex; gap: 1rem; }
