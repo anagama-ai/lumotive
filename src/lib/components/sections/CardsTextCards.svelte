@@ -269,6 +269,7 @@
 			{@render visualBlock()}
 		{/if}
 		{#snippet cardGrid()}
+		{#if cards.length}
 		<Reveal stagger class={gridClass}>
 			{#each cards as card, index (index)}
 				{@const link = linkFor(card)}
@@ -302,6 +303,7 @@
 				</svelte:element>
 			{/each}
 		</Reveal>
+		{/if}
 		{/snippet}
 		{#if steps && !visual}
 			<Reveal>{@render stepList()}</Reveal>
