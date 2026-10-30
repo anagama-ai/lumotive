@@ -175,7 +175,7 @@
 					<!-- The package prints a lead-in before the secondary action
 					     ("Designing at the chip level? Explore LCM chips →"), so the
 					     note sits with that link rather than under the pair. -->
-					{#if index === 1 && note}<span class="cta-note" class:font-bold={note === 'Designing at the chip level?'}>{note}</span>{/if}
+					{#if index === 1 && note}<span class="cta-note">{note}</span>{/if}
 					{#if index === 0}
 						<a class="cta-button" href={item.href} target={item.newTab ? '_blank' : undefined} rel={item.newTab ? 'noreferrer' : undefined}>{item.label}</a>
 					{:else}
@@ -191,9 +191,9 @@
 <style>
 	/* Matches the hero's primary button: a bare `text-ink` utility loses to the
 	   global anchor colour, so the pill is styled in scoped CSS. */
-	.cta-note { color: rgb(255 255 255 / 75%); font-size: var(--text-spec); line-height: 1.5; }
-	/* Same small, quiet treatment as the lead-in note, set apart from the
-	   action row above it. */
+	.cta-note, .cta-text-link { color: #fff; font-size: var(--text-base); font-weight: 650; }
+	.cta-note { line-height: 1.5; }
+	/* Small, quiet caveat set apart from the action row above it. */
 	.cta-caveat { margin-top: 2rem; max-width: 46rem; color: rgb(255 255 255 / 75%); font-size: var(--text-spec); line-height: 1.5; }
 	/* The heading's default top margin collapses through its wrapper and
 	   added 28px above the content only, so the padding is the whole gap,
@@ -213,7 +213,7 @@
 	   dark panel, matching the primary button's contrast. */
 	/* The 2.75rem minimum the other standalone actions carry: at the body
 	   line-height alone this was a 25px tap target. */
-	.cta-text-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; color: #fff; font-weight: 650; text-decoration: none; }
+	.cta-text-link { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .5rem; text-decoration: none; }
 	.cta-text-link span { transition: transform 200ms ease; }
 	.cta-text-link:hover span { transform: translateX(.25rem); }
 	@media (prefers-reduced-motion: reduce) {
