@@ -51,6 +51,7 @@
 {#if stats.length}
 	<section
 		class="lumo-section relative"
+		class:unruled-specs={section.anchor === 'nm120-specs'}
 		id={section.anchor ? String(section.anchor) : undefined}
 		data-design-version={section.designVersion ? String(section.designVersion) : undefined}
 		data-background={enumValue(section.background, ['none', 'subtle', 'strong', 'inverse'], 'none')}
@@ -237,3 +238,7 @@
 		</div>
 	</section>
 {/if}
+
+<style>
+	.unruled-specs :global(dl > div) { border: 0; }
+</style>

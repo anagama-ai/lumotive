@@ -113,7 +113,7 @@
 		<div class="lumo-inner">
 			<div class="form-column" class:split={section.layout === 'split'}>
 				{#if section.eyebrow || heading || section.intro}
-					<Reveal class={section.layout === 'split' ? 'lg:sticky lg:top-28' : ''}>
+					<Reveal>
 						<div class="form-head mb-10">
 							<!-- Deep Laser Blue: at the eyebrow's 12px the lighter blue
 							     measures 4.15:1 on the page field, under the 4.5:1 floor. -->
@@ -121,9 +121,14 @@
 							{#if heading}<h2 class="font-display text-statement text-ink">{heading}</h2>{/if}
 							{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 						</div>
+
+					</Reveal>
+				{/if}
+				<div class="form-frame">
+					<div bind:this={host} class="pipedriveWebForms" data-pd-webforms={formUrl}></div>
+				</div>
 						{#if offices.length}
-							<!-- Office list beside the form (/contact): label, city, and
-							     address per office, in the same column as the heading. -->
+							<!-- Office addresses follow the full-width form. -->
 							<ul class="offices">
 								{#each offices as office, index (index)}
 									<li>
@@ -134,11 +139,6 @@
 								{/each}
 							</ul>
 						{/if}
-					</Reveal>
-				{/if}
-				<div class="form-frame">
-					<div bind:this={host} class="pipedriveWebForms" data-pd-webforms={formUrl}></div>
-				</div>
 			</div>
 		</div>
 	</section>
@@ -152,31 +152,22 @@
 	   edge as every other section instead of floating in the middle of the
 	   page. */
 	.form-column { max-width: var(--container-narrow); }
-	/* `layout: "split"` (/contact): from 1024px the heading block sits in the
-	   left column, held in view while the long form scrolls, and the form
-	   panel takes the right column. Phones and tablets keep the stack. */
-	@media (min-width: 1024px) {
-		.form-column.split { display: grid; max-width: none; grid-template-columns: minmax(0, 1fr) minmax(0, 42rem); align-items: start; gap: clamp(2.5rem, 6vw, 5rem); }
-		.split .form-head { margin-bottom: 0; }
-	}
-	.offices { display: grid; gap: 1.5rem; margin: 0 0 2.5rem; padding: 0; list-style: none; }
+	.form-column.split { max-width: none; }
+
+	.offices { display: grid; gap: 1.5rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
 	@media (min-width: 640px) { .offices { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 	.offices li { padding-top: 1.25rem; border-top: 1px solid var(--color-border); }
-	.office-address { margin-top: .35rem; color: var(--color-text); font-size: var(--text-spec); line-height: 1.5; }
+	.office-address { margin-top: .35rem; color: var(--color-text); font-size: var(--text-lead); line-height: 1.65; }
 	.office-address :global(p) { margin: 0; }
 	@media (min-width: 1024px) {
-		.split .form-head + .offices { margin: 2.5rem 0 0; }
+		.split .offices { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 	}
 
-	/* Panel widened to 42rem per annotation request. Pipedrive still renders
-	   its fields at most 480px wide and centres them inside its iframe, so
-	   the extra panel width is breathing room around the form. Side padding
-	   is the gutter: 20px on phones, 36px from 768px.
-	   The min-height matches the live embed's measured height so the section
-	   does not collapse while Pipedrive loads and expands its iframe. */
+
 	.form-frame {
 		--form-gutter: 1.25rem;
-		max-width: 42rem;
+		width: 100%;
+		max-width: var(--container-content);
 		border-radius: var(--radius-panel);
 		background: var(--color-surface);
 		padding: clamp(1rem, 3vw, 2.5rem) var(--form-gutter);

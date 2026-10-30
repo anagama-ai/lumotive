@@ -87,6 +87,12 @@
 	--text-statement: clamp(2.1rem, 4.8vw, 3.75rem);
 	--text-statement--line-height: 1.08;
 	--text-statement--font-weight: 600;
+	--text-section-title: var(--text-statement);
+	--text-section-title--line-height: var(--text-statement--line-height);
+	--text-section-title--font-weight: 600;
+	--color-footer-mark: var(--color-surface);
+	--color-footer-border: color-mix(in srgb, var(--color-surface) 25%, transparent);
+	--color-footer-button: color-mix(in srgb, var(--color-surface) 8%, transparent);
 	--text-heading: clamp(1.7rem, 3vw, 2.4rem);
 	--text-heading--line-height: 1.15;
 	--text-heading--font-weight: 600;
