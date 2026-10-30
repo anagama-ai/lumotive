@@ -145,14 +145,9 @@
 {/if}
 
 <style>
-	/* The heading block keeps the narrow reading column; the panel below is
-	   sized to the form itself (see `.form-frame`). The cap sits on an inner
-	   column rather than on `.lumo-inner`, so the section can still opt into
-	   the header container and the heading and panel start on the same left
-	   edge as every other section instead of floating in the middle of the
-	   page. */
-	.form-column { max-width: var(--container-narrow); }
-	.form-column.split { max-width: none; }
+	/* Keep the heading readable while the form fills the section container. */
+	.form-column { width: 100%; min-width: 0; }
+	.form-head { max-width: var(--container-narrow); }
 
 	.offices { display: grid; gap: 1.5rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
 	@media (min-width: 640px) { .offices { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -167,16 +162,16 @@
 	.form-frame {
 		--form-gutter: 1.25rem;
 		width: 100%;
-		max-width: var(--container-content);
 		border-radius: var(--radius-panel);
 		background: var(--color-surface);
 		padding: clamp(1rem, 3vw, 2.5rem) var(--form-gutter);
 	}
-	.pipedriveWebForms { min-height: 1226px; }
-	.pipedriveWebForms :global(iframe) { display: block; width: 100%; border: 0; }
+	.pipedriveWebForms { min-height: 1300px; }
+	/* Override the loader's 768px cap; leave its inline auto-height intact.
+	   Font size is configured in Pipedrive's Style editor (cross-origin iframe). */
+	.pipedriveWebForms :global(iframe) { display: block; width: 100%; max-width: none; min-height: 1300px; border: 0; }
 
 	@media (min-width: 768px) {
 		.form-frame { --form-gutter: 2.25rem; }
-		.pipedriveWebForms { min-height: 1137px; }
 	}
 </style>
