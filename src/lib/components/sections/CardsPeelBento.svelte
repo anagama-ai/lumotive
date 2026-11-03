@@ -44,7 +44,7 @@
 			     item it has always been and its spacing to the grid is unchanged. -->
 			<Reveal class="mb-12 max-w-6xl">
 				{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
-				{#if section.heading}<h2 class="font-display text-display text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
+				{#if section.heading}<h2 class="font-display text-statement text-ink whitespace-pre-line">{titleCase(String(section.heading))}</h2>{/if}
 				{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 			</Reveal>
 		{/if}
