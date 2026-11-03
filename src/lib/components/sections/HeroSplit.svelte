@@ -94,7 +94,7 @@
 
 <style>
 	.hero-copy { padding-block: clamp(4.5rem, 10vw, 9rem); }
-	.hero-copy h1 { max-width: 16ch; margin: 0; letter-spacing: -.045em; line-height: 1.05; text-wrap: balance; }
+	.hero-copy h1 { max-width: 16ch; margin: 0; line-height: 1.05; text-wrap: balance; }
 	.hero-body { max-width: 34rem; }
 	.hero-body :global(p) { margin: 0; }
 	.hero-visual { aspect-ratio: 4 / 3; }
