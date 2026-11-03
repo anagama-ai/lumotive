@@ -154,7 +154,7 @@
 							{:else if visual?.isVideo}
 								<video {@attach honorReducedMotion} src={visual.src} autoplay loop muted playsinline aria-label={visual.alt || undefined}></video>
 							{:else if visual}
-								<img src={visual.src} srcset={visual.srcset} sizes={mediaBelow ? '(min-width: 1312px) 1280px, 100vw' : '(min-width: 768px) 50vw, 100vw'} alt={mediaAlt || visual.alt} width={visual.width ?? 960} height={visual.height ?? 720} />
+								<img src={visual.src} srcset={visual.srcset} sizes={mediaBelow ? '(min-width: 1312px) 1280px, 100vw' : '(min-width: 768px) 50vw, 100vw'} alt={mediaAlt || visual.alt} width={visual.width ?? Number(section.mediaWidth || 960)} height={visual.height ?? Number(section.mediaHeight || 720)} />
 							{/if}
 						</div>
 						{#if phoneScroll}<p class="swipe-hint">{mediaHint}</p>{/if}
