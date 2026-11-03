@@ -441,9 +441,9 @@
 	/* A card body may carry a bullet list where the package prints one. The
 	   global stylesheet only styles lists inside `.prose`, so the card supplies
 	   its own marker and indent rather than inheriting the browser's. */
-	.card-copy :global(ul) { margin: .75rem 0 0; padding-left: 1.1rem; list-style: disc; }
-	.card-copy :global(li) { margin-top: .35rem; }
-	.card-copy :global(li::marker) { color: var(--color-muted); }
+	.card-copy :global(ul) { margin: calc(var(--spacing) * 3) 0 0; padding-left: 1.25em; list-style: disc outside; }
+	.card-copy :global(ul > li + li) { margin-top: var(--spacing); }
+	.card-copy :global(ul > li::marker) { color: var(--color-muted); }
 	/* `titleLines: "row"`: each card spans as many grid rows as it has
 	   children and adopts them as a subgrid, so titles in one row share a
 	   height and every description starts on the same line. The card's own
