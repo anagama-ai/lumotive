@@ -42,12 +42,30 @@ test('updates only the story media, repeats safely, and rolls back exactly', () 
 });
 
 test('preserves changed images and CMS metadata', () => {
-	for (const edit of [{ mediaAlt: 'Custom alt' }, { media: { kind: 'url', value: 'custom.webp' } }, { type: 'heroSplit' }]) {
+	for (const edit of [{ mediaAlt: 'Custom alt' }, { mediaWidth: 1200 }, { mediaHeight: 800 }, { media: { kind: 'url', value: 'custom.webp' } }, { type: 'heroSplit' }]) {
 		const sections = structuredClone(original);
 		Object.assign(sections[1], edit);
 		const f = fixture(sections);
 		f.up();
 		assert.deepEqual(f.read(), sections);
 		assert.equal(f.saves(), 0);
+	}
+});
+
+
+test('accepts empty and whitespace-only alt text with unset dimensions', () => {
+	for (const mediaAlt of ['', '  \t ', null, undefined]) {
+		for (const dimension of ['', null, undefined]) {
+			const sections = structuredClone(original);
+			Object.assign(sections[1], { mediaAlt, mediaWidth: dimension, mediaHeight: dimension });
+			const f = fixture(sections);
+			f.up();
+			assert.equal(f.saves(), 1);
+			assert.equal(f.read()[1].mediaAlt, 'Lumotive LCM wafer');
+			assert.equal(f.read()[1].mediaWidth, 1600);
+			assert.equal(f.read()[1].mediaHeight, 900);
+			f.up();
+			assert.equal(f.saves(), 1);
+		}
 	}
 });

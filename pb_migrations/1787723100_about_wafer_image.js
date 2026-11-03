@@ -16,7 +16,8 @@ const apply = (app, forward) => {
 	if (section.media.value !== (forward ? OLD_IMAGE : NEW_IMAGE)) return
 	// Preserve any CMS edits to the image metadata rather than overwrite them.
 	if (forward) {
-		if (section.mediaAlt != null || section.mediaWidth != null || section.mediaHeight != null) return
+		if (String(section.mediaAlt ?? '').trim()) return
+		if ([section.mediaWidth, section.mediaHeight].some((value) => value != null && value !== '')) return
 		section.media.value = NEW_IMAGE
 		section.mediaAlt = ALT
 		section.mediaWidth = 1600
