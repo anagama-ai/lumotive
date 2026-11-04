@@ -44,6 +44,7 @@ const splitFields: FieldSpec[] = [
 	{ name: 'videoUrl', label: 'Video URL (Vimeo or YouTube; replaces media)', type: 'url' },
 	{ name: 'videoAspect', label: 'Video frame ratio (e.g. 21 / 9; default 16 / 9)', type: 'text' },
 	{ name: 'mediaPosition', label: 'Media position (left | right)', type: 'text' },
+	{ name: 'mediaSpan', label: 'Media column width from 768px (wide = 2/3 of the row; default 1/2)', type: 'text' },
 	// A transparent product cut-out on a white panel from 768px; phones show
 	// the product on the page field with no panel.
 	{ name: 'mediaFrame', label: 'Media frame (panel = product cut-out on a white panel from 768px)', type: 'text' },

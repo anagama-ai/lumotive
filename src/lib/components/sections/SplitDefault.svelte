@@ -15,6 +15,7 @@
 	let heading = $derived(titleCase(section.heading == null ? null : String(section.heading)));
 	let visual = $derived(resolveMedia(section.media, media, 1024));
 	let mediaRight = $derived(String(section.mediaPosition || 'left') === 'right');
+	let mediaWide = $derived(String(section.mediaSpan ?? '') === 'wide');
 	let linkNewTab = $derived(section.linkNewTab === true || section.linkNewTab === 'true');
 	// A `videoUrl` turns the art column into a real player: same frame, same
 	// radius, same column proportions as the image it replaces.
@@ -110,6 +111,7 @@
 	class:peel-bleed={variant === 'peelBleed'}
 	class:stacked-card={variant === 'stackedCard'}
 	class:media-right={mediaRight}
+	class:media-wide={mediaWide}
 	class:compact-mobile={compactMobile}
 	class:no-media={variant === 'default' && !embedUrl && !visual}
 	class:media-below={mediaBelow}
@@ -154,7 +156,7 @@
 							{:else if visual?.isVideo}
 								<video {@attach honorReducedMotion} src={visual.src} autoplay loop muted playsinline aria-label={visual.alt || undefined}></video>
 							{:else if visual}
-								<img src={visual.src} srcset={visual.srcset} sizes={mediaBelow ? '(min-width: 1312px) 1280px, 100vw' : '(min-width: 768px) 50vw, 100vw'} alt={mediaAlt || visual.alt} width={visual.width ?? Number(section.mediaWidth || 960)} height={visual.height ?? Number(section.mediaHeight || 720)} />
+								<img src={visual.src} srcset={visual.srcset} sizes={mediaBelow ? '(min-width: 1312px) 1280px, 100vw' : mediaWide ? '(min-width: 768px) 67vw, 100vw' : '(min-width: 768px) 50vw, 100vw'} alt={mediaAlt || visual.alt} width={visual.width ?? Number(section.mediaWidth || 960)} height={visual.height ?? Number(section.mediaHeight || 720)} />
 							{/if}
 						</div>
 						{#if phoneScroll}<p class="swipe-hint">{mediaHint}</p>{/if}
@@ -188,6 +190,10 @@
 	.art-column { min-width: 0; }
 	.media-right .art-column { order: 2; }
 	.media-right .copy-column { order: 1; }
+	@media (min-width: 768px) {
+		.media-wide .split-layout { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+		.media-wide.media-right .split-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+	}
 	.art-frame { overflow: hidden; border-radius: var(--radius-card); }
 	.art-frame img, .art-frame video { display: block; width: 100%; height: auto; }
 	.video-embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
