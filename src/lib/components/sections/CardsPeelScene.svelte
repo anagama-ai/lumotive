@@ -81,7 +81,7 @@
 						rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
 					>
 						{#if image}
-							<div class="relative aspect-4/1 w-full overflow-hidden">
+							<div class="relative aspect-video w-full overflow-hidden">
 								<img
 									class="absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105"
 									src={image.src}
