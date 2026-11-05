@@ -1,5 +1,6 @@
 // Short function words that stay lowercase inside a title; anything four
-// letters or longer is capitalised, as in AP style.
+// letters or longer is capitalised, as in AP style, except "with", which the
+// approved headings keep lowercase ("Start with the Team…").
 const MINOR: Record<string, true> = {
 	a: true,
 	an: true,
@@ -19,7 +20,8 @@ const MINOR: Record<string, true> = {
 	to: true,
 	up: true,
 	via: true,
-	vs: true
+	vs: true,
+	with: true
 };
 
 // Brand names the naming conventions fix in lower case. Page 01 of the approved

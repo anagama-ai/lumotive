@@ -5,7 +5,7 @@
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
-	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
+	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; imageZoom?: string; accent?: string };
 	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	// The bento spans assume a long, uneven set. A set of four or fewer is an
@@ -69,7 +69,7 @@
 					rel={link.href && link.newTab ? 'noopener noreferrer' : undefined}
 				>
 					{#if image}
-						<img class="absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
+						<img class={`absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 ${card.imageZoom === 'true' ? 'scale-125 motion-safe:group-hover:scale-130' : 'motion-safe:group-hover:scale-105'}`} src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
 						<!-- Ink to 80% at mid-card: at 50% the title measured 2.8:1 over
 						     the bright warehouse photo (white text needs 4.5:1). -->
 						<div aria-hidden="true" class="from-ink via-ink/80 to-ink/15 absolute inset-0 bg-linear-to-t"></div>

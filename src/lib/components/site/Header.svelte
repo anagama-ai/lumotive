@@ -1,13 +1,16 @@
 <script lang="ts">
+	import { page } from '$app/state';
+
 	type Link = { label?: string; url?: string; newTab?: boolean };
 	type LinkItem = { blockType: 'link'; id?: string; label?: string; link?: Link };
 	type SubItem = { id?: string; link?: Link; Description?: string; subitems?: SubItem[] };
 	type SubMenu = { blockType: 'sub'; id?: string; label?: string; link?: Link; subitems?: SubItem[] };
-	type HeaderData = { items?: Array<LinkItem | SubMenu>; buttons?: Array<{ id?: string; link?: Link }> };
+	type HeaderData = { items?: Array<LinkItem | SubMenu>; buttons?: Array<{ id?: string; link?: Link }>; banner?: Array<{ link?: Link }> };
 
 	let { data = {} }: { data?: HeaderData } = $props();
 
 	const href = (link?: Link) => link?.url || '#';
+	const banner = $derived(page.url.pathname === '/' ? data.banner?.[0]?.link : undefined);
 
 	let headerEl: HTMLElement | null = null;
 
@@ -59,6 +62,15 @@
 		return () => menu.removeEventListener('keydown', onKeydown);
 	}
 </script>
+
+{#if banner?.label}
+	<a
+		class="bg-border text-ink block px-4 py-2.5 text-center text-sm font-medium underline-offset-4 hover:underline"
+		href={href(banner)}
+		target={banner.newTab ? '_blank' : undefined}
+		rel={banner.newTab ? 'noreferrer' : undefined}>{banner.label}</a
+	>
+{/if}
 
 <header class="site-header" data-lumotive-header bind:this={headerEl}>
 	<div class="container header-inner">

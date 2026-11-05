@@ -19,8 +19,14 @@
 		const value = videoEmbedUrl(section.videoUrl);
 		if (!value) return null;
 		const url = new URL(value);
-		url.searchParams.set('background', '1');
-		url.searchParams.set('dnt', '1');
+		if (url.hostname.endsWith('youtube.com')) {
+			// YouTube's equivalent of Vimeo's background mode; loop needs the playlist.
+			const id = url.pathname.split('/').pop() ?? '';
+			for (const [key, val] of Object.entries({ autoplay: '1', mute: '1', loop: '1', playlist: id, controls: '0', playsinline: '1', rel: '0' })) url.searchParams.set(key, val);
+		} else {
+			url.searchParams.set('background', '1');
+			url.searchParams.set('dnt', '1');
+		}
 		return url.href;
 	});
 	onMount(() => {
@@ -30,6 +36,32 @@
 		query.addEventListener('change', sync);
 		return () => query.removeEventListener('change', sync);
 	});
+	let fullVideoUrl = $derived.by(() => {
+		const value = videoEmbedUrl(section.videoUrl);
+		if (!value || !section.videoButtonLabel) return null;
+		const url = new URL(value);
+		url.searchParams.set('autoplay', '1');
+		return url.href;
+	});
+	let videoDialog = $state<HTMLDialogElement>();
+	let videoOpen = $state(false);
+	let logos = $derived(
+		(Array.isArray(section.logos) ? section.logos : []).flatMap((row) => {
+			const image = resolveMedia((row as { media?: unknown })?.media, media, 640);
+			return image ? [{ image, name: String((row as { name?: unknown }).name ?? '') }] : [];
+		})
+	);
+	let menuLinks = $derived(
+		(Array.isArray(section.menuLinks) ? section.menuLinks : []).flatMap((row) => {
+			const { label, url } = (row ?? {}) as { label?: unknown; url?: unknown };
+			return label && url ? [{ label: String(label), url: String(url) }] : [];
+		})
+	);
+	let menuLabel = $derived(String(section.menuLabel ?? '').trim());
+	let menuOpen = $state(false);
+	// `contentAlign: "center"`: copy centred in the band both ways, not set at
+	// the foot-left. Unset on every other hero.
+	let centered = $derived(section.contentAlign === 'center');
 	let primaryNewTab = $derived(section.primaryLinkNewTab === true || section.primaryLinkNewTab === 'true');
 	let secondaryNewTab = $derived(section.secondaryLinkNewTab === true || section.secondaryLinkNewTab === 'true');
 	// Optional desktop-only framing of the hero's media layer, for a product
@@ -91,6 +123,7 @@
 <section
 	class="lumo-section hero-shell bg-panel relative isolate z-50 flex items-end overflow-hidden"
 	class:band
+	class:centered
 	class:strong-mobile-shade={mobileShade === 'strong'}
 	class:max-mobile-shade={mobileShade === 'max'}
 	class:strong-tablet-shade={strongTabletShade}
@@ -148,8 +181,33 @@
 				{/if}
 				{#if heading}<h1 class="font-display text-display text-white">{heading}</h1>{/if}
 				{#if section.body}<div class="text-lead hero-body mt-6 max-w-xl text-white/75">{@html String(section.body)}</div>{/if}
-				{#if (section.primaryLinkLabel && section.primaryLinkUrl) || (section.secondaryLinkLabel && section.secondaryLinkUrl)}
+				{#if (section.primaryLinkLabel && section.primaryLinkUrl) || (section.secondaryLinkLabel && section.secondaryLinkUrl) || fullVideoUrl || (menuLabel && menuLinks.length)}
 					<div class="hero-actions mt-9 flex flex-wrap items-center gap-8">
+						{#if menuLabel && menuLinks.length}
+							<!-- Opens upward on hover or keyboard focus; the button toggles it for touch. -->
+							<div
+								class="group relative"
+								role="presentation"
+								onmouseleave={() => (menuOpen = false)}
+								onfocusout={(event) => {
+									if (!(event.currentTarget as HTMLElement).contains(event.relatedTarget as Node | null)) menuOpen = false;
+								}}
+								onkeydown={(event) => event.key === 'Escape' && (menuOpen = false)}
+							>
+								<button type="button" class="primary-link items-center gap-2 border-0" aria-expanded={menuOpen} aria-haspopup="true" onclick={() => (menuOpen = !menuOpen)}>
+									{menuLabel}
+									<svg class="size-4 transition-transform duration-200 group-hover:rotate-180 motion-reduce:transition-none" class:rotate-180={menuOpen} viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 10 4-4 4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg>
+								</button>
+								<ul
+									class="rounded-card bg-surface shadow-card invisible absolute bottom-full left-1/2 z-20 -translate-x-1/2 m-0 min-w-full list-none p-2 pt-2 text-left opacity-0 transition duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 motion-reduce:transition-none"
+									class:menu-open={menuOpen}
+								>
+									{#each menuLinks as item (item.url)}
+										<li><a class="text-ink hover:bg-background block rounded-lg px-4 py-3 font-medium whitespace-nowrap no-underline" href={item.url} target="_blank" rel="noreferrer">{item.label}</a></li>
+									{/each}
+								</ul>
+							</div>
+						{/if}
 						{#if section.primaryLinkLabel && section.primaryLinkUrl}
 							<a
 								class="primary-link"
@@ -166,12 +224,64 @@
 								rel={secondaryNewTab ? 'noreferrer' : undefined}
 							>{String(section.secondaryLinkLabel)} <span aria-hidden="true">→</span></a>
 						{/if}
+						{#if fullVideoUrl}
+							<button
+								type="button"
+								class="secondary-link gap-3 border-0 bg-transparent p-0"
+								onclick={() => {
+									videoOpen = true;
+									videoDialog?.showModal();
+								}}
+							>
+								<svg class="size-10 shrink-0" viewBox="0 0 40 40" aria-hidden="true">
+									<circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5" />
+									<path d="M16.5 13.5v13l10-6.5z" fill="currentColor" />
+								</svg>
+								{String(section.videoButtonLabel)}
+							</button>
+						{/if}
 					</div>
+				{/if}
+				{#if logos.length}
+					<ul class="hero-logos mt-12 flex flex-wrap items-center gap-x-10 gap-y-6 p-0">
+						{#each logos as logo, index (index)}
+							<li class="list-none"><img class="h-14 w-auto md:h-16" src={logo.image.src} srcset={logo.image.srcset} sizes="12rem" alt={logo.name} width={logo.image.width ?? 200} height={logo.image.height ?? 100} /></li>
+						{/each}
+					</ul>
 				{/if}
 			</div>
 		</Reveal>
 	</div>
 </section>
+
+{#if fullVideoUrl}
+	<!-- The player only exists while open, so closing stops playback. -->
+	<dialog
+		bind:this={videoDialog}
+		class="backdrop:bg-ink/85 m-auto w-[min(92vw,80rem)] overflow-visible border-0 bg-transparent p-0"
+		aria-label={String(section.videoButtonLabel)}
+		onclose={() => (videoOpen = false)}
+		onclick={(event) => event.target === videoDialog && videoDialog.close()}
+	>
+		<button
+			type="button"
+			class="absolute -top-12 right-0 flex size-10 items-center justify-center rounded-full border-0 bg-transparent p-0 text-white"
+			aria-label="Close video"
+			onclick={() => videoDialog?.close()}
+		>
+			<svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+		</button>
+		{#if videoOpen}
+			<iframe
+				class="rounded-panel block aspect-video w-full border-0 bg-black"
+				src={fullVideoUrl}
+				title={heading || 'Video'}
+				allow="autoplay; fullscreen; picture-in-picture"
+				allowfullscreen
+			></iframe>
+		{/if}
+	</dialog>
+{/if}
 
 <style>
 	.hero-shell { min-height: 100svh; }
@@ -216,12 +326,11 @@
 	}
 	.hero-shade { background: linear-gradient(75deg, rgb(4 13 31 / 96%) 20%, rgb(4 13 31 / 76%) 55%, rgb(6 101 214 / 40%)); }
 	.hero-copy { padding-block: clamp(4rem, 9vw, 7rem); }
-	.hero-copy h1 { max-width: 13ch; margin: 0; letter-spacing: -.055em; line-height: 1.05; text-transform: uppercase; text-wrap: balance; }
-	/* Webvizio #138 / rule 15: at -.055em mixed-case Oswald glyphs touch
+	/* Webvizio #138 / rule 15: mixed-case Oswald glyphs touch below -.03em
 	   ("ra", "gn", "ta", "rt"; measured by rendering each adjacent pair).
-	   -.03em clears every pair but "vy", which keeps a 2px² sliver at 88px.
-	   The uppercase full-height heading above has no colliding pairs. */
-	.band .hero-copy h1 { max-width: 18ch; letter-spacing: -.03em; text-transform: none; }
+	   -.03em clears every pair but "vy", which keeps a 2px² sliver at 88px. */
+	.hero-copy h1 { max-width: 13ch; margin: 0; letter-spacing: -.03em; line-height: 1.05; text-wrap: balance; }
+	.band .hero-copy h1 { max-width: 18ch; }
 	/* 13ch is a two-line measure: it breaks "Programmable Optics" even where the
 	   column has room. From the tablet breakpoint up the heading gets a measure
 	   wide enough to set on one line; below it the original wrap is unchanged.
@@ -261,7 +370,18 @@
 	.hero-body :global(p) { margin: 0; }
 	.primary-link { display: inline-flex; padding: .75rem 1.75rem; border-radius: 999px; color: var(--color-ink); background: white; font-weight: 650; text-decoration: none; transition: transform 200ms ease, background 200ms ease; }
 	.primary-link:hover { transform: translateY(-2px); background: rgb(255 255 255 / 85%); }
-	.secondary-link { display: inline-flex; min-height: 2.75rem; align-items: center; color: white; font-weight: 650; text-decoration: none; }
+	.centered { align-items: center; }
+	.centered .hero-copy, .centered .hero-copy h1, .centered .hero-body { margin-inline: auto; text-align: center; }
+	.centered .hero-actions, .centered .hero-logos { justify-content: center; }
+	@media (min-width: 768px) {
+		/* Drop the foot-left lift so the block sits on the band's true centre. */
+		.hero-shell.centered .hero-copy { padding-bottom: clamp(4rem, 9vw, 7rem); }
+	}
+	/* Tapped open; hover and focus open it through the group utilities. The menu
+	   opens upward (hero copy sits at the foot of the band) flush against the
+	   button, so the pointer can cross into it without losing hover. */
+	.menu-open { visibility: visible; opacity: 1; }
+	.secondary-link { display: inline-flex; min-height: 2.75rem; align-items: center; color: white; font-weight: 650; text-decoration: none; cursor: pointer; }
 	.secondary-link span { display: inline-block; margin-left: .25rem; transition: transform 200ms ease; }
 	.secondary-link:hover span { transform: translateX(.25rem); }
 	@media (prefers-reduced-motion: reduce) {

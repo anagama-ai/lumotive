@@ -40,15 +40,8 @@
 	// type, buttons and width; unset elsewhere, where it stays centred.
 	let leftAligned = $derived(String(section.textAlign ?? '') === 'left');
 
-	const backdrops: Record<string, { src: string; position: string }> = {
-		ctaDefault: { src: '/lumotive/img/cta-glow.jpg', position: 'right center' },
-		ctaSplitLinks: { src: '/lumotive/img/cta-glow.jpg', position: 'center' },
-		ctaLattice: { src: '/lumotive/img/cta-lattice.jpg', position: 'right center' },
-		ctaFabric: { src: '/lumotive/img/cta-fabric.jpg', position: 'right bottom' },
-		ctaLightField: { src: '/lumotive/img/cta-lightfield.jpg', position: 'left center' },
-		ctaSpectrum: { src: '/lumotive/img/cta-spectrum.jpg', position: 'center bottom' }
-	};
-	let backdrop = $derived(backdrops[section.type] ?? backdrops.ctaDefault);
+	// Every dark CTA shares the /dev-kits glow backdrop; the split layout centres it.
+	let backdrop = $derived({ src: '/lumotive/img/cta-glow.jpg', position: split ? 'center' : 'right center' });
 
 	const truthy = (value: unknown) => value === true || String(value).toLowerCase() === 'true';
 	const link = (raw: unknown): Link | null => {

@@ -1,0 +1,6 @@
+Not AI-generated: composited with sharp from the real LS20 photo cutout, so product detail is untouched.
+Chip: static/lumotive/img/lcm-ls20-chip-crop.png (trimmed, 2x Lanczos + unsharp), 920px wide, centred at ~5/6 of the width (right third).
+Background: #f3f4f7 with a 28px dot grid in #dde1e9, a soft white radial glow behind the chip, and a blurred #0d1526 contact shadow.
+Source output: designs/assets/lcm-ls20-hero-wide.png (2880 x 1200)
+Web export: static/lumotive/img/lcm-ls20-hero.webp (2880 x 1200, quality 88)
+The /lcm-chips hero sets mediaAnchor 100% so narrower bands crop from the left.

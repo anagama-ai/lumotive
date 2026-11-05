@@ -11,6 +11,8 @@
 	let items = $state(structuredClone(data.header.items));
 	// svelte-ignore state_referenced_locally
 	let buttons = $state(structuredClone(data.header.buttons));
+	// svelte-ignore state_referenced_locally
+	let banner = $state(structuredClone(data.header.banner));
 	let saving = $state(false);
 </script>
 
@@ -54,6 +56,7 @@
 	<input type="hidden" name="headerId" value={data.header.id} />
 	<input type="hidden" name="headerItems" value={JSON.stringify(items)} />
 	<input type="hidden" name="headerButtons" value={JSON.stringify(buttons)} />
+	<input type="hidden" name="headerBanner" value={JSON.stringify(banner)} />
 
 	<section class="card">
 		<div class="card-head"><h2>Header</h2></div>
@@ -163,6 +166,14 @@
 				empty="No header buttons yet."
 				sampleLabel="Contact"
 				sampleHref="/contact"
+			/>
+
+			<NavRows
+				title="Home page banner"
+				rows={banner}
+				empty="No banner. Add one link to show a grey bar above the nav on the home page."
+				sampleLabel="The Lumotive team is growing!"
+				sampleHref="https://jobs.lever.co/lumotive"
 			/>
 		</div>
 	</section>

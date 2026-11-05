@@ -70,7 +70,7 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			...introFields,
 			...linkFields,
 			{ name: 'linkNewTab', label: 'Link opens a new tab (true | false)', type: 'text' },
-			cardsField(fullCardFields)
+			cardsField([...fullCardFields, { name: 'imageZoom', label: 'Zoom image 25% (true | false)', type: 'text' }])
 		]
 	},
 	cardsPeelSwap: {
