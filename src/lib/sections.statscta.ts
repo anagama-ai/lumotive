@@ -168,6 +168,7 @@ export const statsCtaSpecs: Record<string, SectionSpec> = {
 			{ name: 'heading', label: 'Heading', type: 'text' },
 			{ name: 'linkLabel', label: 'Link label', type: 'text' },
 			{ name: 'linkUrl', label: 'Link URL', type: 'url' },
+			{ name: 'hideImages', label: 'Hide card images (true)', type: 'text' },
 			...presentationFields
 		]
 	},
