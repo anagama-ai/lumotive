@@ -57,6 +57,7 @@ const ctaFields: FieldSpec[] = [
 	{ name: 'tone', label: 'Tone (light)', type: 'text' },
 	// Stacked split CTA only: an image beside the copy.
 	{ name: 'media', label: 'Image beside the copy (stacked only)', type: 'media' },
+	{ name: 'mediaAlt', label: 'Image description (alt text)', type: 'text' },
 	// Phones only: tighter padding above and below the content.
 	{ name: 'compactMobile', label: 'Compact CTA on phones (true | false)', type: 'text' },
 	{ name: 'textAlign', label: 'Left-align a centred CTA (left)', type: 'text' },

@@ -34,7 +34,7 @@
 />
 
 <article>
-	<section class="bg-background border-border relative isolate overflow-hidden border-b">
+	<section class="bg-background relative isolate overflow-hidden">
 		<!-- `container` is the header's own geometry, so the newsroom lines up
 		     with the logo at every width, as the CMS pages do. -->
 		<div class="container relative py-14 md:py-16">

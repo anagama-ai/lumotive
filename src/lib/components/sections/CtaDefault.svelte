@@ -128,7 +128,7 @@
 			{#if visual}
 				<div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
 					<Reveal x={24} y={12} duration={0.8} class="md:order-2">
-						<img class="rounded-card block h-auto w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={visual.alt} width={visual.width ?? 1600} height={visual.height ?? 900} loading="lazy" />
+						<img class="rounded-card block h-auto w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={String(section.mediaAlt ?? '').trim() || visual.alt} width={visual.width ?? 1600} height={visual.height ?? 900} loading="lazy" />
 					</Reveal>
 					{@render stackedCopy()}
 				</div>
