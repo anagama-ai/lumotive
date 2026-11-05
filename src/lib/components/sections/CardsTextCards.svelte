@@ -240,7 +240,7 @@
 						<img class="rounded-card block h-auto w-full" src={visual.src} srcset={visual.srcset} sizes="(min-width: 1064px) 1000px, calc(100vw - 2rem)" alt={visualAlt || visual.alt} width={visual.width ?? 1000} height={visual.height ?? 600} />
 					{/if}
 				</Reveal>
-				{#if steps}
+				{#if steps && (cards.length || note || outro)}
 					<Reveal>
 						<div class="visual-support">
 							<div>

@@ -19,6 +19,7 @@
 
 	let linkLabel = $derived(String(section.linkLabel ?? '').trim());
 	let linkUrl = $derived(String(section.linkUrl ?? '').trim());
+	let hideImages = $derived(section.hideImages === true || section.hideImages === 'true');
 
 	const enumValue = (value: unknown, values: string[], fallback: string) => {
 		const candidate = String(value ?? '');
@@ -63,7 +64,7 @@
 						class="rounded-card bg-surface hover:shadow-card group flex flex-col overflow-hidden no-underline transition duration-300 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transform-none motion-reduce:transition-none"
 						href={`/posts/${post.slug}`}
 					>
-						{#if image}
+						{#if image && !hideImages}
 							<div class="relative aspect-video w-full overflow-hidden">
 								<img
 									class="absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105"
