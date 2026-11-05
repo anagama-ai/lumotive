@@ -45,8 +45,10 @@
 	// `mediaLayout: "below"`: one column, the copy first and the visual under
 	// it at the full container width, for a wide diagram whose own labels
 	// would be unreadable in half a row (/sense/automotive's coverage
-	// diagram). Unset elsewhere.
-	let mediaBelow = $derived(String(section.mediaLayout ?? '') === 'below' && !embedUrl);
+	// diagram), or a video (/culture). `textAlign: "center"` centres the copy
+	// above it. Unset elsewhere.
+	let mediaBelow = $derived(String(section.mediaLayout ?? '') === 'below');
+	let centeredCopy = $derived(mediaBelow && section.textAlign === 'center');
 	// Alt text for a URL-referenced image, which carries none of its own.
 	let mediaAlt = $derived(String(section.mediaAlt ?? '').trim());
 	// Phones only: a short line under a "below" diagram that scrolls sideways.
@@ -115,6 +117,7 @@
 	class:compact-mobile={compactMobile}
 	class:no-media={variant === 'default' && !embedUrl && !visual}
 	class:media-below={mediaBelow}
+	class:centered-copy={centeredCopy}
 	class:phone-scroll={phoneScroll}
 	class:compare-beside={mediaBelow && hasCompare}
 	id={section.anchor ? String(section.anchor) : undefined}
@@ -244,6 +247,7 @@
 	.media-below .split-layout { grid-template-columns: 1fr; gap: 2.5rem; }
 	.media-below .art-column { order: 2; }
 	.media-below .copy-column { order: 1; max-width: 48rem; }
+	.centered-copy .copy-column { margin-inline: auto; text-align: center; }
 	.media-below.compare-beside .copy-column { max-width: none; }
 	.media-below .art-frame:focus-visible { outline: 2px solid var(--color-brand-blue-dark); outline-offset: 3px; }
 	@media (min-width: 768px) {
@@ -299,7 +303,7 @@
 	@media (max-width: 767px) {
 		.split-layout { grid-template-columns: 1fr; }
 		.art-frame img { width: auto; max-width: 75%; max-height: 50svh; margin-inline: auto; }
-		.media-right .art-column, .media-right .copy-column { order: initial; }
+		.media-right:not(.media-below) .art-column, .media-right:not(.media-below) .copy-column { order: initial; }
 		.peel-bleed.media-right .copy-column { margin-left: 0; }
 	}
 	@media (prefers-reduced-motion: reduce) {

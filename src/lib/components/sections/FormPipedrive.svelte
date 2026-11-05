@@ -111,24 +111,25 @@
 		data-align={section.align === 'container' ? 'container' : undefined}
 	>
 		<div class="lumo-inner">
-			<div class="form-column" class:split={section.layout === 'split'}>
+			<div class="form-column" class:split={section.layout === 'split'} class:centered={section.layout === 'centered'}>
 				{#if section.eyebrow || heading || section.intro}
 					<Reveal>
 						<div class="form-head mb-10">
 							<!-- Deep Laser Blue: at the eyebrow's 12px the lighter blue
 							     measures 4.15:1 on the page field, under the 4.5:1 floor. -->
 							{#if section.eyebrow}<p class="text-eyebrow text-brand-blue-dark mb-4 uppercase">{String(section.eyebrow)}</p>{/if}
-							{#if heading}<h2 class="font-display text-statement text-ink">{heading}</h2>{/if}
+							{#if heading}<h2 class="font-display text-statement text-ink mt-0">{heading}</h2>{/if}
 							{#if section.intro}<p class="text-lead mt-4">{String(section.intro)}</p>{/if}
 						</div>
 
 					</Reveal>
 				{/if}
-				<div class="form-frame">
+				<div class="form-frame" class:dark={section.formFrame === 'dark'}>
 					<div bind:this={host} class="pipedriveWebForms" data-pd-webforms={formUrl}></div>
 				</div>
 						{#if offices.length}
-							<!-- Office addresses follow the full-width form. -->
+							<!-- Phones: addresses follow the form. Split from 1024px: they sit
+							     under the heading in the left column, the form on the right. -->
 							<ul class="offices">
 								{#each offices as office, index (index)}
 									<li>
@@ -148,6 +149,8 @@
 	/* Keep the heading readable while the form fills the section container. */
 	.form-column { width: 100%; min-width: 0; }
 	.form-head { max-width: var(--container-narrow); }
+	.centered .form-head { margin-inline: auto; text-align: center; }
+	.centered .form-frame { margin-inline: auto; }
 
 	.offices { display: grid; gap: 1.5rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
 	@media (min-width: 640px) { .offices { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -155,7 +158,17 @@
 	.office-address { margin-top: .35rem; color: var(--color-text); font-size: var(--text-lead); line-height: 1.65; }
 	.office-address :global(p) { margin: 0; }
 	@media (min-width: 1024px) {
-		.split .offices { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+		.split {
+			display: grid;
+			grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+			grid-template-rows: auto 1fr;
+			grid-template-areas: 'head form' 'offices form';
+			column-gap: clamp(3rem, 5vw, 5rem);
+			align-items: start;
+		}
+		.split > :global(:first-child) { grid-area: head; }
+		.split .offices { grid-area: offices; grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+		.split .form-frame { grid-area: form; max-width: none; --form-zoom: 1.15; }
 	}
 
 
@@ -168,6 +181,9 @@
 		background: var(--color-surface);
 		padding: clamp(1rem, 3vw, 2.5rem) var(--form-gutter);
 	}
+	/* `formFrame: dark`: a Lab Navy card for a Pipedrive form styled
+	   light-on-dark (the CES meeting form), on an otherwise light section. */
+	.form-frame.dark { background: var(--color-panel); }
 	/* Zoom participates in layout, preserving the loader's inline auto-height. */
 	.pipedriveWebForms { min-height: calc(1100px * var(--form-zoom)); }
 	.pipedriveWebForms :global(iframe) {

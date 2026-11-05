@@ -20,6 +20,8 @@ const heroFields: FieldSpec[] = [
 	// Vimeo or YouTube URL. Full-height and band heroes play it muted and
 	// looping as the background; the split hero shows it as the right-hand player.
 	{ name: 'videoUrl', label: 'Video URL (Vimeo or YouTube; replaces media)', type: 'url' },
+	// Full-height and band heroes: a button that plays the video URL with sound in a modal.
+	{ name: 'videoButtonLabel', label: 'Watch-video button label (opens the video URL in a modal)', type: 'text' },
 	// Desktop-only horizontal shift of the media layer, e.g. "30%".
 	{ name: 'mediaShift', label: 'Media shift on desktop (CSS length, e.g. 30%)', type: 'text' },
 	{ name: 'mediaScale', label: 'Media scale on desktop (number, e.g. 1.16)', type: 'text' },
@@ -33,7 +35,20 @@ const heroFields: FieldSpec[] = [
 	{ name: 'primaryLinkNewTab', label: 'Primary link opens a new tab (true | false)', type: 'text' },
 	{ name: 'secondaryLinkLabel', label: 'Secondary link label', type: 'text' },
 	{ name: 'secondaryLinkUrl', label: 'Secondary link URL', type: 'url' },
-	{ name: 'secondaryLinkNewTab', label: 'Secondary link opens a new tab (true | false)', type: 'text' }
+	{ name: 'secondaryLinkNewTab', label: 'Secondary link opens a new tab (true | false)', type: 'text' },
+	{ name: 'contentAlign', label: 'Content alignment (center = centred horizontally and vertically)', type: 'text' },
+	// Full-height and band heroes: a button that opens a list of links on hover
+	// (or tap/focus), e.g. "Download flyers". Each opens in a new tab.
+	{ name: 'menuLabel', label: 'Dropdown button label', type: 'text' },
+	{ name: 'menuLinks', label: 'Dropdown links', type: 'list', fields: [
+		{ name: 'label', label: 'Label', type: 'text' },
+		{ name: 'url', label: 'URL', type: 'url' }
+	] },
+	// Full-height and band heroes: a row of logos or award badges under the actions.
+	{ name: 'logos', label: 'Logos under the actions', type: 'list', fields: [
+		{ name: 'media', label: 'Logo', type: 'media' },
+		{ name: 'name', label: 'Name (alt text)', type: 'text' }
+	] }
 ];
 
 const splitFields: FieldSpec[] = [
@@ -49,7 +64,8 @@ const splitFields: FieldSpec[] = [
 	// the product on the page field with no panel.
 	{ name: 'mediaFrame', label: 'Media frame (panel = product cut-out on a white panel from 768px)', type: 'text' },
 	{ name: 'mediaMaxHeight', label: 'Photo height cap from 768px (rem, e.g. 25rem; whole photo kept)', type: 'text' },
-	{ name: 'mediaLayout', label: 'Media layout (below = full-width visual under the copy)', type: 'text' },
+	{ name: 'mediaLayout', label: 'Media layout (below = full-width visual or video under the copy)', type: 'text' },
+	{ name: 'textAlign', label: 'Copy alignment with media below (center)', type: 'text' },
 	{ name: 'mediaAlt', label: 'Alt text for a URL image', type: 'text' },
 	{ name: 'mediaHint', label: 'Phone hint under a sideways-scrolling diagram (media layout below)', type: 'text' },
 	{ name: 'compactMobile', label: 'Less space above the section on phones (true | false)', type: 'text' },

@@ -80,7 +80,7 @@
 									{@const lead = emphasised(column.card)}
 									<th class={`border-border border-l px-6 py-5 align-bottom ${lead ? 'bg-brand-blue/6' : ''}`} scope="col">
 										{#if image}
-											<div class="bg-surface rounded-card relative mb-5 aspect-3/2 overflow-hidden">
+											<div class="rounded-card relative mb-5 aspect-3/2 overflow-hidden">
 												<img class="absolute inset-0 size-full object-contain p-3" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
 											</div>
 										{/if}
@@ -117,7 +117,7 @@
 						<article class="rounded-card border-border bg-surface overflow-hidden border">
 							<div class={`px-6 py-5 ${lead ? 'bg-brand-blue/6' : 'bg-background'}`}>
 								{#if image}
-									<div class="bg-surface rounded-card relative mb-5 aspect-3/2 overflow-hidden">
+									<div class="rounded-card relative mb-5 aspect-3/2 overflow-hidden">
 										<img class="absolute inset-0 size-full object-contain p-3" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
 									</div>
 								{/if}
