@@ -1,3 +1,6 @@
+import { collectMediaIds, loadMediaMap } from '$lib/media';
+import type { Section } from '$lib/sections';
+
 const PAGE_SIZE = 9;
 
 // The approved tab set on package page 20, in its order. The value is the
@@ -79,7 +82,21 @@ export async function load({ url, locals }: { url: URL; locals: App.Locals }) {
 		image: imageOf(post.coverImage)
 	});
 
+	// Editable blocks under the feed live on the CMS page at path "news"; this
+	// route outranks the catch-all, so that record only supplies sections.
+	const sections = await locals.pb
+		.collection('pages')
+		.getFirstListItem(locals.pb.filter('path = "news" && status = "published"'))
+		.then((record) => (Array.isArray(record.sections) ? (record.sections as Section[]) : []))
+		.catch((cause) => {
+			if (cause?.status === 404) return [] as Section[];
+			throw cause;
+		});
+	const media = await loadMediaMap(locals.pb, collectMediaIds(sections));
+
 	return {
+		sections,
+		media,
 		featured: featured ? shape(featured) : null,
 		posts: result.items.map(shape),
 		tabs: TABS,

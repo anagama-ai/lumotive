@@ -30,23 +30,16 @@
 		track.scrollTo({ left: next * width, behavior: 'smooth' });
 	};
 
-	// Phones: the carousel track is as tall as its tallest quote, and the
-	// slides were centred in it, so a shorter quote sat in a band of empty space
-	// above and below (about 250px each side at 360px). Below 768px the slides
-	// sit at the top and the track takes the height of the quote in view,
-	// blending between neighbours while it is swiped. From 768px the 48dvh
-	// stage keeps centring the quote as before. A changed height moves every
-	// section below, so their scroll reveals are re-measured once it settles.
-	function fitPhoneHeight(el: HTMLDivElement) {
-		const phone = matchMedia('(max-width: 767.98px)');
+	// The carousel track would be as tall as its tallest quote, leaving a
+	// shorter quote in a band of empty space. Slides sit at the top and the
+	// track takes the height of the quote in view, blending between neighbours
+	// while it scrolls. A changed height moves every section below, so their
+	// scroll reveals are re-measured once it settles.
+	function fitHeight(el: HTMLDivElement) {
 		let frame = 0;
 		let settle = 0;
 		const fit = () => {
 			frame = 0;
-			if (!phone.matches) {
-				el.style.height = '';
-				return;
-			}
 			const slides = Array.from(el.children) as HTMLElement[];
 			const position = el.clientWidth ? el.scrollLeft / el.clientWidth : 0;
 			const index = Math.min(Math.floor(position), slides.length - 1);
@@ -65,14 +58,12 @@
 		resize.observe(el);
 		for (const slide of el.children) resize.observe(slide);
 		el.addEventListener('scroll', schedule, { passive: true });
-		phone.addEventListener('change', schedule);
 		fit();
 		return () => {
 			cancelAnimationFrame(frame);
 			clearTimeout(settle);
 			resize.disconnect();
 			el.removeEventListener('scroll', schedule);
-			phone.removeEventListener('change', schedule);
 			el.style.height = '';
 		};
 	}
@@ -100,8 +91,8 @@
 			<Reveal>
 				<div
 					bind:this={track}
-					{@attach fitPhoneHeight}
-					class="flex snap-x snap-mandatory items-start overflow-x-auto [scrollbar-width:none] max-md:overflow-y-hidden md:items-center"
+					{@attach fitHeight}
+					class="flex snap-x snap-mandatory items-start overflow-x-auto overflow-y-hidden [scrollbar-width:none]"
 					aria-roledescription="carousel"
 				>
 				{#each quotes as quote, quoteIndex (quoteIndex)}
@@ -148,14 +139,6 @@
 {/if}
 
 <style>
-	/* The stage held 70dvh of minimum height around a quote that rarely needs
-	   half of it, which left the carousel floating in its own section. A little
-	   under half a viewport still centres the quote without pinning empty space
-	   above and below it. Phones do not pin the panel, so they take the
-	   content's own height. */
-	@media (min-width: 768px) {
-		.quote-stage { min-height: 48dvh; }
-	}
 	/* The display size the quote inherits is a page headline's. At the widest
 	   breakpoints that set it larger than the section heading above it; this
 	   keeps it the most prominent thing in the section while letting the lines
