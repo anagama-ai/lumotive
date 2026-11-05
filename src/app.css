@@ -177,6 +177,10 @@ main:has(.hero-split) .lumo-section:not(.hero-split, .bg-panel, .bg-ink, .peel-b
 .desktop-nav { display: flex; align-items: center; gap: .25rem; }
 .desktop-nav > a, .nav-label { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .65rem .8rem; color: var(--color-ink); font-size: .82rem; font-weight: 500; text-decoration: none; transition: color 160ms ease, background 160ms ease; }
 .desktop-nav > a:hover, a.nav-label:hover { color: var(--color-primary); }
+/* Active: `aria-current` marks the page (or, on a top-level item, the section
+   it belongs to); a group without its own page carries `.active`. */
+.desktop-nav > a[aria-current], .nav-label[aria-current], .nav-label.active { color: var(--color-primary); text-decoration: underline 2px; text-underline-offset: .5rem; }
+.nav-popover a[aria-current], .mobile-panel a[aria-current], .mobile-group-row > span.active { color: var(--color-primary); }
 /* A group is its label link plus a separate arrow button (page 02: the label
    goes to its page; the arrow, or hover, opens the dropdown). The two read as
    one item, with the arrow where the summary chevron used to sit. */

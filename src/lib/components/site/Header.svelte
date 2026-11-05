@@ -10,6 +10,18 @@
 	let { data = {} }: { data?: HeaderData } = $props();
 
 	const href = (link?: Link) => link?.url || '#';
+	// Internal links compare by path alone; a hash or query on the CMS URL
+	// still marks the page it points at.
+	const pathOf = (url = '') => (url.startsWith('/') ? url.split(/[?#]/)[0].replace(/(.)\/$/, '$1') : null);
+	const isCurrent = (link?: Link) => pathOf(link?.url) === page.url.pathname;
+	const current = (link?: Link) => (isCurrent(link) ? 'page' : undefined);
+	// A top-level item is active on its own page, any page in its menu, or
+	// anything nested under its path.
+	const inSection = (link?: Link, subitems: SubItem[] = []): boolean => {
+		const own = pathOf(link?.url);
+		if (own && own !== '/' && (page.url.pathname === own || page.url.pathname.startsWith(`${own}/`))) return true;
+		return subitems.some((sub) => isCurrent(sub.link) || inSection(undefined, sub.subitems));
+	};
 	const banner = $derived(page.url.pathname === '/' ? data.banner?.[0]?.link : undefined);
 
 	let headerEl: HTMLElement | null = null;
@@ -84,6 +96,7 @@
 					{#if item.blockType === 'link' && item.link?.label}
 						<a
 							href={href(item.link)}
+							aria-current={inSection(item.link) ? (isCurrent(item.link) ? 'page' : 'true') : undefined}
 							target={item.link.newTab ? '_blank' : undefined}
 							rel={item.link.newTab ? 'noreferrer' : undefined}
 							onclick={collapseMenus}>{item.link.label}</a
@@ -99,9 +112,9 @@
 							onkeydown={(event) => escapeGroup(event, index)}
 						>
 							{#if item.link?.url}
-								<a class="nav-label" href={item.link.url} onclick={collapseMenus}>{item.label}</a>
+								<a class="nav-label" href={item.link.url} aria-current={isCurrent(item.link) ? 'page' : inSection(item.link, item.subitems) ? 'true' : undefined} onclick={collapseMenus}>{item.label}</a>
 							{:else}
-								<span class="nav-label">{item.label}</span>
+								<span class="nav-label" class:active={inSection(undefined, item.subitems)}>{item.label}</span>
 							{/if}
 							<button
 								type="button"
@@ -116,6 +129,7 @@
 									{#if subitem.link?.label}
 										<a
 											href={href(subitem.link)}
+											aria-current={current(subitem.link)}
 											target={subitem.link.newTab ? '_blank' : undefined}
 											rel={subitem.link.newTab ? 'noreferrer' : undefined}
 											onclick={collapseMenus}
@@ -129,6 +143,7 @@
 													{#if child.link?.label}
 														<a
 															href={href(child.link)}
+											aria-current={current(child.link)}
 															target={child.link.newTab ? '_blank' : undefined}
 															rel={child.link.newTab ? 'noreferrer' : undefined}
 															onclick={collapseMenus}>{child.link.label}</a
@@ -170,6 +185,7 @@
 							<a
 								style={`--i:${index}`}
 								href={href(item.link)}
+								aria-current={inSection(item.link) ? (isCurrent(item.link) ? 'page' : 'true') : undefined}
 								target={item.link.newTab ? '_blank' : undefined}
 								rel={item.link.newTab ? 'noreferrer' : undefined}
 								onclick={collapseMenus}>{item.link.label}</a
@@ -178,9 +194,9 @@
 							<div class="mobile-group" style={`--i:${index}`}>
 								<div class="mobile-group-row">
 									{#if item.link?.url}
-										<a href={item.link.url} onclick={collapseMenus}>{item.label}</a>
+										<a href={item.link.url} aria-current={isCurrent(item.link) ? 'page' : inSection(item.link, item.subitems) ? 'true' : undefined} onclick={collapseMenus}>{item.label}</a>
 									{:else}
-										<span>{item.label}</span>
+										<span class:active={inSection(undefined, item.subitems)}>{item.label}</span>
 									{/if}
 									<button
 										type="button"
@@ -196,6 +212,7 @@
 										{#if subitem.link?.label}
 											<a
 												href={href(subitem.link)}
+											aria-current={current(subitem.link)}
 												target={subitem.link.newTab ? '_blank' : undefined}
 												rel={subitem.link.newTab ? 'noreferrer' : undefined}
 												onclick={collapseMenus}
@@ -209,6 +226,7 @@
 														{#if child.link?.label}
 															<a
 																href={href(child.link)}
+											aria-current={current(child.link)}
 																target={child.link.newTab ? '_blank' : undefined}
 																rel={child.link.newTab ? 'noreferrer' : undefined}
 																onclick={collapseMenus}>{child.link.label}</a
