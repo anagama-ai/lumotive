@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import Seo from '$lib/components/site/Seo.svelte';
+	import Sections from '$lib/components/sections/Sections.svelte';
 
 	let { data } = $props();
 	const dateFormat = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
@@ -138,6 +139,8 @@
 		{/if}
 	</section>
 </article>
+
+<Sections sections={data.sections} media={data.media} />
 
 <style>
 	/* Shared by the featured story and the grid cards: the type in Deep Laser
