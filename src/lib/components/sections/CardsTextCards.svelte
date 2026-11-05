@@ -5,6 +5,7 @@
 	import { isStaticFileLink } from '$lib/links';
 	import Reveal from '$lib/components/lumotive/Reveal.svelte';
 	import LoopVideo from '$lib/components/lumotive/LoopVideo.svelte';
+	import ScanModes from './ScanModes.svelte';
 	import { videoEmbedUrl } from '$lib/video';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
@@ -48,6 +49,8 @@
 	// every other section. `videoAspect` ("1000 / 604") reserves the frame
 	// before the video's metadata arrives, as on SplitDefault.
 	let visual = $derived(resolveMedia(section.media, media, 1440));
+	// A drawn scan-mode diagram (/dev-kits/itof) takes the visual's place.
+	let scanModes = $derived(Array.isArray(section.scanModes) ? (section.scanModes as Record<string, unknown>[]) : []);
 	let visualPoster = $derived(resolveMedia(section.mediaPoster, media, 1440));
 	let visualAlt = $derived(String(section.mediaAlt ?? '').trim());
 	let visualAspect = $derived.by(() => {
@@ -225,9 +228,11 @@
 			<!-- The visual and everything that explains it share one column, as
 			     wide as the supplied animation (never upscaled): the steps and
 			     their note on the left, the second caption on the right. -->
-			<div class="visual-block" class:visual-above-grid={!steps && !visualAfterGrid} class:visual-below-grid={visualAfterGrid} class:visual-wide={Boolean(visualMinWidth)} style:max-width={visualMaxWidth}>
+			<div class="visual-block" class:visual-above-grid={!steps && !visualAfterGrid} class:visual-below-grid={visualAfterGrid} class:visual-wide={Boolean(visualMinWidth) || scanModes.length > 0} style:max-width={visualMaxWidth}>
 				<Reveal>
-					{#if visual?.isVideo}
+					{#if scanModes.length}
+						<ScanModes modes={scanModes} fov={Number(section.scanFov) || 105} guide={Number(section.scanGuideRange) || 5} footnote={String(section.scanFootnote ?? '').trim()} />
+					{:else if visual?.isVideo}
 						<LoopVideo src={visual.src} poster={visualPoster?.src} label={visualAlt} aspect={visualAspect} center={centered} />
 					{:else if visual && visualMinWidth}
 						<!-- A scrollable region must be keyboard-focusable (WCAG 2.1.1). -->
@@ -265,7 +270,7 @@
 				{@render sectionHead()}
 				{@render visualBlock()}
 			</div>
-		{:else if visual && !visualAfterGrid && !visualCards}
+		{:else if (visual || scanModes.length) && !visualAfterGrid && !visualCards}
 			{@render visualBlock()}
 		{/if}
 		{#snippet cardGrid()}

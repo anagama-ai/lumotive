@@ -169,6 +169,37 @@ export const cardsSpecs: Record<string, SectionSpec> = {
 			{ name: 'mediaPlacement', label: 'Visual after the cards (afterGrid)', type: 'text' },
 			{ name: 'mediaPoster', label: 'Visual poster frame (video)', type: 'media' },
 			{ name: 'mediaAlt', label: 'Visual description (alt text)', type: 'text' },
+			// A drawn diagram of scan modes in place of the visual. Every mode
+			// shares one distance scale; a slice adds a narrow long-range beam.
+			{
+				name: 'scanModes',
+				label: 'Scan-mode diagram (replaces the visual)',
+				type: 'list',
+				fields: [
+					{ name: 'name', label: 'Mode name', type: 'text' },
+					{ name: 'kind', label: 'Subtitle', type: 'text' },
+					{ name: 'range', label: 'Wedge range (m)', type: 'text' },
+					{ name: 'rangeLabel', label: 'Wedge label', type: 'text' },
+					{ name: 'rangeNote', label: 'Note under the wedge label', type: 'text' },
+					{ name: 'sliceRange', label: 'Center slice range (m)', type: 'text' },
+					{ name: 'sliceAngle', label: 'Center slice width (degrees)', type: 'text' },
+					{ name: 'sliceLabel', label: 'Center slice label', type: 'text' },
+					{ name: 'sliceNote', label: 'Center slice note', type: 'text' },
+					{
+						name: 'specs',
+						label: 'Specs',
+						type: 'list',
+						fields: [
+							{ name: 'label', label: 'Label', type: 'text' },
+							{ name: 'value', label: 'Value', type: 'text' },
+							{ name: 'unit', label: 'Unit', type: 'text' }
+						]
+					}
+				]
+			},
+			{ name: 'scanFov', label: 'Scan-mode horizontal field of view (degrees, default 105)', type: 'text' },
+			{ name: 'scanGuideRange', label: 'Scan-mode dotted guide ring (m, default 5)', type: 'text' },
+			{ name: 'scanFootnote', label: 'Scan-mode footnote (one item per line)', type: 'textarea' },
 			{ name: 'textAlign', label: 'Centre the composition (center)', type: 'text' },
 			{ name: 'cardTint', label: 'Tint each card with its accent colour (accent)', type: 'text' },
 			{ name: 'accentBar', label: 'Accent bar above each card (none = hide)', type: 'text' },

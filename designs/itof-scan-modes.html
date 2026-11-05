@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iToF scan modes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+	/* Values mirror src/lib/styles/tokens.css. */
+	:root {
+		--color-ink: #0d1526;
+		--color-muted: #7c8698;
+		--color-border: #e2e5ec;
+		--color-brand-blue: #0078d0;
+		--color-brand-blue-dark: #0063ad;
+		--color-surface: #ffffff;
+		--font-body: 'Poppins', system-ui, sans-serif;
+	}
+	* { box-sizing: border-box; }
+	body { margin: 0; padding: 2.5rem 1rem; background: var(--color-surface); color: var(--color-ink); font-family: var(--font-body); }
+	.scan-modes { max-width: 80rem; margin: 0 auto; }
+	.modes { display: grid; grid-template-columns: repeat(5, minmax(15rem, 1fr)); grid-template-rows: repeat(4, auto); overflow-x: auto; scroll-snap-type: x mandatory; }
+	.mode { display: grid; grid-row: span 4; grid-template-rows: subgrid; align-content: start; padding: 0 1.25rem; border-left: 1px solid var(--color-border); scroll-snap-align: start; }
+	.mode:first-child { border-left: 0; }
+	.mode svg { display: block; width: 100%; height: 17rem; overflow: visible; }
+	.mode h3 { margin: 1.5rem 0 0; font-size: 1.35rem; font-weight: 600; letter-spacing: -.01em; }
+	.mode .kind { margin: .15rem 0 0; color: var(--color-muted); font-size: .95rem; }
+	.mode dl { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; align-self: end; gap: 0 1rem; margin: 1.25rem 0 0; }
+	.mode dt { grid-row: 1; color: var(--color-muted); font-size: .78rem; white-space: nowrap; }
+	.mode dd { grid-row: 2; margin: .15rem 0 0; font-size: 1.3rem; font-weight: 600; line-height: 1.2; white-space: nowrap; }
+	.mode dd small { margin-left: .1rem; font-size: .7rem; font-weight: 500; }
+	.footnote { display: flex; flex-wrap: wrap; gap: .5rem 3rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--color-border); color: var(--color-muted); font-size: .85rem; }
+	svg text { font-family: var(--font-body); }
+	.label { fill: var(--color-brand-blue-dark); font-size: 17px; font-weight: 600; }
+	.tick { fill: var(--color-muted); font-size: 12px; }
+	.guide { fill: none; stroke: var(--color-muted); stroke-opacity: .45; stroke-dasharray: 1 4; stroke-linecap: round; }
+</style>
+</head>
+<body>
+<section class="scan-modes" aria-label="iToF scan modes">
+	<div class="modes" id="modes"></div>
+	<p class="footnote"><span>All modes scan 105° horizontally (±52.5°). Diagrams share one distance scale.</span><span>*Preliminary</span></p>
+</section>
+
+<script>
+	// One distance scale for every diagram, so the wedges compare directly.
+	const PX_PER_M = 22;
+	const HALF_FOV = 52.5;
+	const SENSOR = { x: 18, y: 150 };
+	const MODES = [
+		{ name: 'Balanced', kind: 'Uniform scan', range: 4.5, label: '4.5 m', ticks: true, specs: [['Frame rate', '13', 'Hz'], ['Resolution', 'VGA'], ['Max range', '30', 'm']] },
+		{ name: 'High frame rate', kind: 'Uniform scan', range: 2.5, label: '2.5 m', specs: [['Frame rate', '47', 'Hz'], ['Resolution', 'VGA'], ['Max range', '30', 'm']] },
+		{ name: 'Max range', kind: 'Uniform scan', range: 7, label: '7 m', specs: [['Frame rate', '17', 'Hz'], ['Resolution', 'QVGA'], ['Max range', '30', 'm']] },
+		{ name: 'AMR mode', kind: 'Wide field plus long-range center', range: 3, label: '3 m', faint: true, slice: { range: 10, half: 3, label: '10 m*' }, specs: [['Frame rate', '30', 'Hz'], ['Resolution', 'QVGA'], ['Max range', '30', 'm']] },
+		{ name: 'Object interaction', kind: 'Uniform scan', range: 1, short: true, specs: [['Frame rate', '15', 'Hz'], ['Resolution', '1.2 MP'], ['Max range', '~5', 'm']] }
+	];
+
+	const point = (r, deg) => {
+		const rad = (deg * Math.PI) / 180;
+		return [SENSOR.x + r * Math.cos(rad), SENSOR.y - r * Math.sin(rad)];
+	};
+	const wedge = (m, half) => {
+		const r = m * PX_PER_M;
+		const [x1, y1] = point(r, half);
+		const [x2, y2] = point(r, -half);
+		return `M${SENSOR.x} ${SENSOR.y} L${x1} ${y1} A${r} ${r} 0 0 1 ${x2} ${y2} Z`;
+	};
+
+	const svgFor = (mode, i) => {
+		const r = mode.range * PX_PER_M;
+		const guide = 5 * PX_PER_M;
+		const [gx1, gy1] = point(guide, HALF_FOV + 10);
+		const [gx2, gy2] = point(guide, -HALF_FOV - 10);
+		let body = `<defs><radialGradient id="g${i}" cx="${SENSOR.x}" cy="${SENSOR.y}" r="${Math.max(r, 60)}" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0063ad" stop-opacity=".95"/><stop offset="1" stop-color="#0078d0" stop-opacity=".45"/></radialGradient></defs>`;
+		if (mode.range < 7) body += `<path class="guide" d="M${gx1} ${gy1} A${guide} ${guide} 0 0 1 ${gx2} ${gy2}"/>`;
+		body += `<path d="${wedge(mode.range, HALF_FOV)}" fill="${mode.faint ? 'rgba(0,120,208,.14)' : `url(#g${i})`}" ${mode.faint ? 'stroke="rgba(0,120,208,.45)"' : ''}/>`;
+		if (mode.slice) {
+			const s = mode.slice;
+			body += `<path d="${wedge(s.range, s.half / 2 + 0.6)}" fill="url(#g${i})"/>`;
+			const [sx] = point(s.range * PX_PER_M, 0);
+			body += `<text class="label" x="${sx}" y="${SENSOR.y - 16}" text-anchor="end">${s.label}</text>`;
+			body += `<text class="tick" x="${sx}" y="${SENSOR.y + 22}" text-anchor="end">6° center slice</text>`;
+			const [lx, ly] = point(r, -38);
+			body += `<text class="label" x="${lx}" y="${ly + 18}" text-anchor="middle">${mode.label}</text>`;
+		} else if (mode.short) {
+			body += `<text class="label" x="${SENSOR.x + 40}" y="${SENSOR.y - 2}">Very short range</text>`;
+			body += `<text class="tick" x="${SENSOR.x + 40}" y="${SENSOR.y + 14}" style="font-size:12px">Not yet measured</text>`;
+		} else {
+			body += `<text class="label" x="${SENSOR.x + r + 10}" y="${SENSOR.y + 5}">${mode.label}</text>`;
+		}
+		if (mode.ticks) {
+			const [tx1, ty1] = point(r * 0.62, HALF_FOV + 14);
+			const [tx2, ty2] = point(r * 0.62, -HALF_FOV - 14);
+			const [mx, my] = point(guide, HALF_FOV + 14);
+			body += `<text class="tick" x="${tx1}" y="${ty1}" text-anchor="middle">+52.5°</text><text class="tick" x="${tx2}" y="${ty2 + 6}" text-anchor="middle">−52.5°</text><text class="tick" x="${mx + 12}" y="${my - 4}">5 m</text>`;
+		}
+		body += `<rect x="${SENSOR.x - 11}" y="${SENSOR.y - 11}" width="22" height="22" rx="4" fill="#0d1526"/><rect x="${SENSOR.x - 6}" y="${SENSOR.y - 6}" width="12" height="12" rx="1.5" fill="#3aa0ff"/>`;
+		return `<svg viewBox="0 20 250 260" preserveAspectRatio="xMinYMid meet" role="img" aria-label="${mode.name}: ${mode.short ? 'very short range' : mode.label} scan, 105 degrees wide">${body}</svg>`;
+	};
+
+	document.getElementById('modes').innerHTML = MODES.map((mode, i) => `
+		<article class="mode">
+			${svgFor(mode, i)}
+			<h3>${mode.name}</h3>
+			<p class="kind">${mode.kind}</p>
+			<dl>${mode.specs.map(([k, v, u]) => `<dt>${k}</dt><dd>${v}${u ? `<small>${u}</small>` : ''}</dd>`).join('')}</dl>
+		</article>`).join('');
+</script>
+</body>
+</html>
