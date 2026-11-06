@@ -9,7 +9,7 @@
 	import { videoEmbedUrl } from '$lib/video';
 
 	type CardLink = { label?: string; url?: string; newTab?: boolean };
-	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string };
+	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; link?: CardLink; linkLabel?: string; linkUrl?: string; badge?: string; accent?: string; mediaScale?: unknown };
 	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	// Optional single action under the grid, for a section whose cards share one
@@ -160,6 +160,14 @@
 	};
 	const numeral = (accent?: string) => numerals[accent ?? ''] ?? numerals.accent1;
 	const linkFor = (card: Card) => ({ href: card.linkUrl || card.link?.url || '', label: card.linkLabel || card.link?.label || '', newTab: Boolean(card.link?.newTab) });
+	// `mediaScale` ("0.5"): shrinks a card's image inside its frame, for a
+	// photo whose subject fills the file edge to edge (the /platform LS20
+	// chip). Only a value between 0 and 1 counts; every other card keeps its
+	// full size.
+	const mediaScale = (card: Card) => {
+		const value = Number(String(card.mediaScale ?? '').trim());
+		return value > 0 && value < 1 ? String(value) : undefined;
+	};
 	// `videoUrl` (Vimeo/YouTube): the section becomes a split, header, cards
 	// and `body` on the left, the click-to-play player on the right, as
 	// /sense/robotics "One Sensor, Three Jobs" prints it. From 1280px only:
@@ -292,7 +300,7 @@
 				>
 					{#if image}
 						<div class="mb-6 aspect-video overflow-hidden rounded-lg">
-							<img class="size-full object-contain" src={image.src} srcset={image.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt="" width={image.width ?? 960} height={image.height ?? 540} loading="lazy" />
+							<img class="size-full object-contain" style:scale={mediaScale(card)} src={image.src} srcset={image.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt="" width={image.width ?? 960} height={image.height ?? 540} loading="lazy" />
 						</div>
 					{/if}
 					{#if numbered}
