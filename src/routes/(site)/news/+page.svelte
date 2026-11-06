@@ -46,7 +46,7 @@
 	<section class="container py-16 md:py-24">
 		{#if data.featured}
 			{@const post = data.featured}
-			<a class="featured" href={`/posts/${post.slug}`}>
+			<a class="featured" href={post.external || `/posts/${post.slug}`} target={post.external ? '_blank' : undefined} rel={post.external ? 'noopener noreferrer' : undefined}>
 				{#if post.image}
 					<div class="featured-media">
 						<img src={post.image} alt="" width="1200" height="675" loading="eager" />
@@ -59,7 +59,7 @@
 							<time datetime={post.publishedAt}>{published(post.publishedAt)}</time>
 						{/if}
 					</div>
-					<h2 class="font-display text-heading text-ink mt-4">{post.title}</h2>
+					<h2 class="font-display text-heading text-ink mt-4">{post.title}{#if post.external}<span class="sr-only"> (opens in a new tab)</span>{/if}</h2>
 					{#if post.excerpt}<p class="mt-4 leading-relaxed">{post.excerpt}</p>{/if}
 					<span class="featured-action">Read more</span>
 				</div>
@@ -103,7 +103,7 @@
 		{#if data.posts.length}
 			<div class="news-grid">
 				{#each data.posts as post (post.slug)}
-					<a class="news-card" href={`/posts/${post.slug}`}>
+					<a class="news-card" href={post.external || `/posts/${post.slug}`} target={post.external ? '_blank' : undefined} rel={post.external ? 'noopener noreferrer' : undefined}>
 						<div class="card-copy">
 							<div class="meta">
 								{#if post.category}<span class="type">{typeLabel(post.category)}</span>{/if}
@@ -111,7 +111,7 @@
 									<time datetime={post.publishedAt}>{published(post.publishedAt)}</time>
 								{/if}
 							</div>
-							<h3 class="font-display text-subheading text-ink mt-3">{post.title}</h3>
+							<h3 class="font-display text-subheading text-ink mt-3">{post.title}{#if post.external}<span class="sr-only"> (opens in a new tab)</span>{/if}</h3>
 							{#if post.excerpt}<p class="mt-3 line-clamp-3 leading-relaxed">{post.excerpt}</p>{/if}
 							<span class="card-action">Read more →</span>
 						</div>

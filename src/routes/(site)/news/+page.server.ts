@@ -41,7 +41,7 @@ export async function load({ url, locals }: { url: URL; locals: App.Locals }) {
 					// `id` is in the list because the grid filter below excludes this post;
 					// without it the lookup returns no id and the exclusion silently
 					// matches nothing.
-					fields: 'id,title,slug,excerpt,publishedAt,category,coverImage'
+					fields: 'id,title,slug,excerpt,publishedAt,category,coverImage,sourceUrl'
 				});
 				break;
 			} catch {
@@ -62,7 +62,7 @@ export async function load({ url, locals }: { url: URL; locals: App.Locals }) {
 			featuredId: featured?.id ?? ''
 		}),
 		sort: '-publishedAt',
-		fields: 'title,slug,excerpt,publishedAt,category,coverImage'
+		fields: 'title,slug,excerpt,publishedAt,category,coverImage,sourceUrl'
 	});
 
 	// `coverImage` is a JSON field the CMS fills as `{ kind, value }`, so the
@@ -73,13 +73,24 @@ export async function load({ url, locals }: { url: URL; locals: App.Locals }) {
 		return typeof cover.value === 'string' ? cover.value : '';
 	};
 
+	// Coverage from another site links straight to it; only an http(s) URL from
+	// the CMS becomes a public link.
+	const externalOf = (value: unknown) => {
+		try {
+			const url = new URL(String(value ?? ''));
+			return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : '';
+		} catch {
+			return '';
+		}
+	};
 	const shape = (post: Record<string, unknown>) => ({
 		title: String(post.title),
 		slug: String(post.slug),
 		excerpt: String(post.excerpt ?? ''),
 		category: String(post.category ?? ''),
 		publishedAt: String(post.publishedAt ?? ''),
-		image: imageOf(post.coverImage)
+		image: imageOf(post.coverImage),
+		external: externalOf(post.sourceUrl)
 	});
 
 	// Editable blocks under the feed live on the CMS page at path "news"; this
