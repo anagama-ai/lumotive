@@ -10,12 +10,19 @@
 	// `emphasis: "true"` marks the column the section argues for: it takes a
 	// Laser Blue wash and sets its values in the medium weight, so the
 	// comparison has a subject instead of two equal lists.
-	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; emphasis?: unknown };
+	type Card = { media?: unknown; eyebrow?: string; title?: string; body?: string; emphasis?: unknown; mediaScale?: unknown };
 	let { section, media }: { section: Section; media: MediaMap } = $props();
 	let cards = $derived(Array.isArray(section.cards) ? (section.cards as Card[]) : []);
 	let outro = $derived(String(section.outro ?? '').trim());
 
 	const emphasised = (card: Card) => card.emphasis === true || String(card.emphasis ?? '') === 'true';
+	// `mediaScale` ("0.5"): shrinks a card's image inside its frame, for a
+	// photo whose subject fills the file edge to edge (the LS20 chip). Only a
+	// value between 0 and 1 counts; every other card keeps its full size.
+	const mediaScale = (card: Card) => {
+		const value = Number(String(card.mediaScale ?? '').trim());
+		return value > 0 && value < 1 ? String(value) : undefined;
+	};
 
 	function plainText(html: string) {
 		return html.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
@@ -81,7 +88,7 @@
 									<th class={`border-border border-l px-6 py-5 align-bottom ${lead ? 'bg-brand-blue/6' : ''}`} scope="col">
 										{#if image}
 											<div class="rounded-card relative mb-5 aspect-3/2 overflow-hidden">
-												<img class="absolute inset-0 size-full object-contain p-3" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
+												<img class="absolute inset-0 size-full object-contain p-3" style:scale={mediaScale(column.card)} src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
 											</div>
 										{/if}
 										<!-- Optical Ink, not a spectral accent: at the eyebrow size
@@ -118,7 +125,7 @@
 							<div class={`px-6 py-5 ${lead ? 'bg-brand-blue/6' : 'bg-background'}`}>
 								{#if image}
 									<div class="rounded-card relative mb-5 aspect-3/2 overflow-hidden">
-										<img class="absolute inset-0 size-full object-contain p-3" src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
+										<img class="absolute inset-0 size-full object-contain p-3" style:scale={mediaScale(column.card)} src={image.src} srcset={image.srcset} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
 									</div>
 								{/if}
 								{#if column.card.eyebrow}<p class="text-eyebrow text-ink uppercase">{column.card.eyebrow}</p>{/if}
