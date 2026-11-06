@@ -171,7 +171,7 @@
 			<NavRows
 				title="Home page banner"
 				rows={banner}
-				empty="No banner. Add one link to show a grey bar above the nav on the home page."
+				empty="No banner. Add a first row for the message (it links on its own) and a second row for a button beside it."
 				sampleLabel="The Lumotive team is growing!"
 				sampleHref="https://jobs.lever.co/lumotive"
 			/>

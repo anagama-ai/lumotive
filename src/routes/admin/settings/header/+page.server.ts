@@ -12,7 +12,7 @@ import type { Actions, PageServerLoad } from './$types';
 
 // The fields `Header.svelte` renders: `items` (a plain link, or a menu with a
 // label, its own page link and `subitems`, each with an optional
-// `Description` and one more level of `subitems`), `buttons`, and `banner` (one link shown above the nav on the home page).
+// `Description` and one more level of `subitems`), `buttons`, and `banner` (shown above the nav on the home page: a message row, then an optional button row).
 
 type Json = Record<string, unknown>;
 type SubRow = LinkRow & { description: string; children: LinkRow[] };
@@ -81,7 +81,7 @@ export const actions: Actions = {
 			await putGlobal(locals.pb, 'header', String(form.get('headerId') ?? ''), {
 				items,
 				buttons: parseLinkRows(form.get('headerButtons')).map(fromLinkRow),
-				banner: parseLinkRows(form.get('headerBanner')).slice(0, 1).map(fromLinkRow),
+				banner: parseLinkRows(form.get('headerBanner')).slice(0, 2).map(fromLinkRow),
 				// Written by the old form, never rendered (the logo is fixed).
 				// Undefined drops the key from the saved JSON.
 				siteName: undefined,

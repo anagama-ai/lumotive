@@ -22,7 +22,9 @@
 		if (own && own !== '/' && (page.url.pathname === own || page.url.pathname.startsWith(`${own}/`))) return true;
 		return subitems.some((sub) => isCurrent(sub.link) || inSection(undefined, sub.subitems));
 	};
+	// Home page only. Row one is the message; an optional row two is its button.
 	const banner = $derived(page.url.pathname === '/' ? data.banner?.[0]?.link : undefined);
+	const bannerButton = $derived(page.url.pathname === '/' ? data.banner?.[1]?.link : undefined);
 
 	let headerEl: HTMLElement | null = null;
 
@@ -75,9 +77,19 @@
 	}
 </script>
 
-{#if banner?.label}
+{#if banner?.label && bannerButton?.label}
+	<div class="bg-border text-ink flex flex-wrap items-center justify-center gap-x-5 gap-y-2 px-4 py-2 text-center">
+		<p class="m-0 text-base font-semibold md:text-lg">{banner.label}</p>
+		<a
+			class="header-button"
+			href={href(bannerButton)}
+			target={bannerButton.newTab ? '_blank' : undefined}
+			rel={bannerButton.newTab ? 'noreferrer' : undefined}>{bannerButton.label}</a
+		>
+	</div>
+{:else if banner?.label}
 	<a
-		class="bg-border text-ink block px-4 py-2.5 text-center text-sm font-medium underline-offset-4 hover:underline"
+		class="bg-border text-ink block px-4 py-3 text-center text-base font-semibold underline-offset-4 hover:underline md:text-lg"
 		href={href(banner)}
 		target={banner.newTab ? '_blank' : undefined}
 		rel={banner.newTab ? 'noreferrer' : undefined}>{banner.label}</a
